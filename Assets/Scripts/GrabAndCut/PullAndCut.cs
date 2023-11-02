@@ -86,7 +86,7 @@ public class PullAndCut : MonoBehaviour
         middlePoint = (primaryAttachPose.position + secondaryAttachPose.position) / 2;
         
         // [FIX] 오브젝트가 중간에 위치함
-        Debug.Log(middlePoint - movementMiddle);
+        //Debug.Log(middlePoint - movementMiddle);
         this.gameObject.transform.position += (middlePoint - movementMiddle);
     }
     

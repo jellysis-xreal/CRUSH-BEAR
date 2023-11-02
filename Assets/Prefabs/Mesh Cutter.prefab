@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 6834939384755336567}
   m_Layer: 0
   m_Name: Mesh Cutter
-  m_TagString: Untagged
+  m_TagString: Cutter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -225,6 +225,9 @@ MonoBehaviour:
   _trailFrameLength: 15
   _colour: {r: 1, g: 0, b: 0, a: 1}
   _forceAppliedToCut: 5
+  LeftHand: {fileID: 0}
+  RightHand: {fileID: 0}
+  cuttedObjects: []
 --- !u!1 &8232887536761074528
 GameObject:
   m_ObjectHideFlags: 0

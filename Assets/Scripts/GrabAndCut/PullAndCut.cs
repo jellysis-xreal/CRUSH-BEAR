@@ -24,7 +24,7 @@ public class PullAndCut : MonoBehaviour
     private Pose originPose;
     private Vector3 middlePoint;
     private Vector3 movementMiddle;
-    private float distance;
+    [SerializeField] private float CurDistance;
     private float maxDefromation = 1.5f;
 
 
@@ -34,6 +34,10 @@ public class PullAndCut : MonoBehaviour
         MeshCutter = GameObject.FindWithTag("Cutter");
         grabInteractable = GetComponent<XRGrabInteractable>();
 
+        if (grabInteractable == null)
+        {
+            grabInteractable = transform.root.GetComponent<XRGrabInteractable>();
+        }
         // Deformable 특성이 있는 경우
         if (TryGetComponent(out Deformable deform))
         {
@@ -41,7 +45,7 @@ public class PullAndCut : MonoBehaviour
             deformer = deformable.GetComponent<SquashAndStretchDeformer>();
         }
         
-        maxPullDistance = 1.3f;
+        maxPullDistance = 1.1f;
     }
 
     void Initiate()
@@ -133,12 +137,9 @@ public class PullAndCut : MonoBehaviour
         {
             Initiate();
             SetObjectMiddle();
-            distance = Vector3.Distance(primaryAttachPose.position, secondaryAttachPose.position);
-            if (distance >= maxPullDistance)
-            {
-                activeCut = true;
-            }
-
+            CurDistance = Vector3.Distance(primaryAttachPose.position, secondaryAttachPose.position);
+            activeCut = CurDistance >= maxPullDistance;
+            
             // Mesh Cutter가 Player의 위쪽으로 Set
             if (!activeCut)
             {
@@ -147,8 +148,8 @@ public class PullAndCut : MonoBehaviour
                 {
                     Vector3 handsVector = (secondaryAttachPose.position - primaryAttachPose.position).normalized;
                     deformable.transform.rotation = Quaternion.LookRotation(handsVector);
-                    float weight = Mathf.Clamp(distance, 0, maxPullDistance) / maxPullDistance;
-                    deformer.Factor = distance * weight;
+                    float weight = Mathf.Clamp(CurDistance, 0, maxPullDistance) / maxPullDistance;
+                    deformer.Factor = CurDistance * weight;
                 }
                 
                 SetMeshCutter(primaryAttachPose, secondaryAttachPose);
@@ -158,6 +159,7 @@ public class PullAndCut : MonoBehaviour
             {
                 this.GetComponent<MeshRenderer>().enabled = true;
                 sliceObjcts();
+                //Debug.Log("Slice " + this.gameObject.name);
             }
             
             movementMiddle = middlePoint;

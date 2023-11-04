@@ -26,7 +26,7 @@ namespace Assets.Scripts
                 throw new NotSupportedException("Cannot slice non sliceable object, add the sliceable script to the object or inherit from sliceable to support slicing");
             }
             
-            Debug.Log("Slice component On");
+            //Debug.Log("Slice component On");
             //Create left and right slice of hollow object
             SlicesMetadata slicesMeta = new SlicesMetadata(plane, mesh, sliceable.IsSolid, sliceable.ReverseWireTriangles, sliceable.ShareVertices, sliceable.SmoothVertices);            
 

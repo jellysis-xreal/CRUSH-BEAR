@@ -993,6 +993,26 @@ PrefabInstance:
       propertyPath: RightHand
       value: 
       objectReference: {fileID: 281338195}
+    - target: {fileID: 6834939384755336567, guid: 37aecd7e4762ffa4f90f9bc6dce4c4e9,
+        type: 3}
+      propertyPath: VFX.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834939384755336567, guid: 37aecd7e4762ffa4f90f9bc6dce4c4e9,
+        type: 3}
+      propertyPath: VFX.Array.data[0]
+      value: 
+      objectReference: {fileID: 120410, guid: 6636b3078b0905e489f698a11b7a6b6b, type: 3}
+    - target: {fileID: 6834939384755336567, guid: 37aecd7e4762ffa4f90f9bc6dce4c4e9,
+        type: 3}
+      propertyPath: VFX.Array.data[1]
+      value: 
+      objectReference: {fileID: 100748, guid: cd4d7020429cde74db076ffa72495419, type: 3}
+    - target: {fileID: 6834939384755336567, guid: 37aecd7e4762ffa4f90f9bc6dce4c4e9,
+        type: 3}
+      propertyPath: VFX.Array.data[2]
+      value: 
+      objectReference: {fileID: 110790, guid: 0f75f6db4a318f54382e0c98b2226db8, type: 3}
     - target: {fileID: 7535756252030073545, guid: 37aecd7e4762ffa4f90f9bc6dce4c4e9,
         type: 3}
       propertyPath: m_Name
@@ -1056,7 +1076,7 @@ PrefabInstance:
     - target: {fileID: 8634887594054229327, guid: 37aecd7e4762ffa4f90f9bc6dce4c4e9,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2058,6 +2078,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Approach Bear
       objectReference: {fileID: 0}
+    - target: {fileID: 6134907495892272136, guid: a211f484b1eec5944966d2f1d343fbcd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6137178531635120426, guid: a211f484b1eec5944966d2f1d343fbcd,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2487,7 +2512,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8484838730362398247}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 7966d979d9982a743a30e3b75a402b94, type: 3}
   m_Controller: {fileID: 9100000, guid: 194881016128d5e4c9a816745cf9b0c3, type: 2}
   m_CullingMode: 1
@@ -3536,9 +3561,9 @@ Transform:
   m_GameObject: {fileID: 6623784000722017333}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: -6.48, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6477115319189100202}
   m_Father: {fileID: 9118631951338208413}
@@ -3744,7 +3769,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 3.21, z: 0}
-  m_LocalScale: {x: 0.000001, y: 0.000001, z: 0.000001}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5811817085575349903}

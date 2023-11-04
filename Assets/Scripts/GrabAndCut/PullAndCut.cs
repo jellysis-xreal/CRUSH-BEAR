@@ -127,7 +127,7 @@ public class PullAndCut : MonoBehaviour
         isSetPosition = false;
         activeCut = false;
         MeshCutter.GetComponent<MeshCutter>().enabled = false;
-        MeshCutter.transform.position = Vector3.zero;
+        MeshCutter.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
     }
 
     // Update is called once per frame

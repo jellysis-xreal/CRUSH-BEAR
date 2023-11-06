@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,7 +18,7 @@ public class NodeInstantiater : MonoBehaviour
     [SerializeField] private GameObject[] gameObjectsByStage;
     [SerializeField] private int[] ascendingOrder; // 생성 시간의 오름차순의 순서가 저장된 ascendingOrder
     private int _indexToBeAdded = 0;
-    private int _indexToActive = 0; // gameObjectsByStage[_indexToActive]로 접근하게 됨.
+    [SerializeField] private int _indexToActive = 0; // gameObjectsByStage[_indexToActive]로 접근하게 됨.
     private void Update()
     {
         if(isStageBegan) CheckGenerationTime();
@@ -67,45 +68,54 @@ public class NodeInstantiater : MonoBehaviour
         float[] timeAscendingOrder = (float[])generationTimesByStage.Clone();
         Array.Sort(timeAscendingOrder);
         // ascendingOrder 배열은 오름차순으로 정렬된 배열
-        // 오름차순 순서 출력
-        
-        // 동시 생성
-        // timeAscendingOrder은 오름차순 정렬  generationTimesByStage[i]가 어디에 위치했는지 결정
-        // generationTime이 동일한 경우 -> Array.IndexOf()는 같은 순위를 준다.
-        // 
 
-        int sortingIndex;
         for (int i = 0; i < timeAscendingOrder.Length; i++)
         {
-            // sortingIndex = Array.IndexOf(timeAscendingOrder, generationTimesByStage[i]);s
+            // generationTimesByStage의 값이 오름차순으로 몇 번째에 위치하는지 반환
             ascendingOrder[i] = Array.IndexOf(timeAscendingOrder, generationTimesByStage[i]);
-            // generationTimesByStage의 값들이 오름차순으로 몇 번째에 위치하는지 반환한다.
-            Debug.Log($"ascendingOrder{i}번 인덱스의 오름차순 순서는 {Array.IndexOf(timeAscendingOrder, generationTimesByStage[i])}입니다.");
         }
-        Debug.Log("깔끔하쥬?");
+        // ascendingOrder의 중복되는 값에 대해 오름차순 재설정.
+        ProcessingDuplicateValues();
     }
-    public void GetAscendingOrder1()
+
+    private void ProcessingDuplicateValues()
     {
-        float[] timeAscendingOrder = (float[])generationTimesByStage.Clone();
-        Array.Sort(timeAscendingOrder);
-        // ascendingOrder 배열은 오름차순으로 정렬된 배열
-        // 오름차순 순서 출력
+        // 오름차순 정렬 과정에서 발생하는 이슈 
+        // 0, 3, 6, 6, 6, 10, 1, 1, 11, 4, 9, 5와 같이 중복된 값엔 같은 순위가 부여된 상황이 있을 수 있다.
+        // 재정렬 결과는 아래와 같다.
+        // 0, 3, 6, 7, 8, 10, 1, 2, 11, 4, 9, 5
         
-        // 동시 생성
-        // timeAscendingOrder은 오름차순 정렬  generationTimesByStage[i]가 어디에 위치했는지 결정
-        // generationTime이 동일한 경우 -> Array.IndexOf()는 같은 순위를 준다.
-        // 
+        // 1. 중복된 값을 찾아서 가져오기
+        // 2. 중복된 값과 해당 값의 인덱스 가져오기  
+        // 3. 중복되는 값의 인덱스의 값 수정하기 
+        // 사실 중복된 generation times by stage 값을 조금만 변경시켜주면 문제가 해결될 일이다.
+        
+        // 중복된 값을 찾아서 가져오기
+        var duplicateValues = ascendingOrder
+            .GroupBy(value => value)
+            .Where(group => group.Count() > 1)
+            .Select(group => group.Key);
 
-        int sortingIndex;
-        for (int i = 0; i < timeAscendingOrder.Length; i++)
+        // 중복된 값과 해당 값의 인덱스 가져오기
+        foreach (int duplicateValue in duplicateValues)
         {
-            // sortingIndex = Array.IndexOf(timeAscendingOrder, generationTimesByStage[i]);s
-            ascendingOrder[i] = Array.IndexOf(timeAscendingOrder, generationTimesByStage[i]);
-            // generationTimesByStage의 값들이 오름차순으로 몇 번째에 위치하는지 반환한다.
-            Debug.Log($"ascendingOrder{i}번 인덱스의 오름차순 순서는 {Array.IndexOf(timeAscendingOrder, generationTimesByStage[i])}입니다.");
+            IEnumerable<int> indices = ascendingOrder
+                .Select((value, index) => new { Value = value, Index = index })
+                .Where(item => item.Value == duplicateValue)
+                .Select(item => item.Index);
+            
+            Debug.Log("Duplicate Value: " + duplicateValue);
+            int newValue = duplicateValue;
+            foreach (int index in indices)
+            {
+                // 중복되는 인덱스의 값 수정하기
+                ascendingOrder[index] = newValue;
+                newValue++;
+                Debug.Log("Index: " + index);
+            }
         }
-        Debug.Log("깔끔하쥬?");
     }
+
     private void CheckGenerationTime()
     {
         // Update에서 오브젝트 별 생성 시간 체크함.

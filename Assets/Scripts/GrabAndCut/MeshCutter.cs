@@ -34,6 +34,8 @@ public class MeshCutter : MonoBehaviour
     public XRDirectInteractor LeftHand;
     public XRDirectInteractor RightHand;
 
+    public List<GameObject> VFX;
+    
     private Mesh _mesh;
     private Vector3[] _vertices;
     private int[] _triangles;
@@ -154,6 +156,11 @@ public class MeshCutter : MonoBehaviour
         }
 
         GameObject[] slices = Slicer.Slice(plane, other.gameObject);
+        for (int i = 0; i < VFX.Count; i++)
+        {
+            GameObject tempVFX = Instantiate(VFX[i], other.gameObject.transform.position, Quaternion.identity);
+            Destroy(tempVFX, 4.0f);
+        }
         
         other.gameObject.GetComponent<PullAndCut>().FinishSlice();
         Destroy(other.gameObject);
@@ -167,6 +174,7 @@ public class MeshCutter : MonoBehaviour
         rigidbody.AddForce(newNormal, ForceMode.Impulse);
 
         
+
         /*[FIX] 잘린 조각들이 두 손에 Grab 되도록 작성할 예정  
         slices[0].GetComponent<XRGrabInteractable>().IsSelectableBy(LeftHand);
         slices[1].GetComponent<XRGrabInteractable>().IsSelectableBy(RightHand);

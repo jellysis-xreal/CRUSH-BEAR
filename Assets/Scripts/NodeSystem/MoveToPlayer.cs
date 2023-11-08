@@ -13,12 +13,16 @@ public class MoveToPlayer : MonoBehaviour
     public float maxMovingSpeed = 3.0f;
     public float speed;
     public bool isHit;
+
+    [SerializeField] private float playerAttachdistance;
+    [SerializeField] private float playerAttachTime;
+    private float _afterAttachTime;
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         speed = Random.Range(minMovingSpeed, maxMovingSpeed);
         isHit = false;
-        playerTransform = GameObject.FindWithTag("MainCamera").transform;
+        playerTransform = GameObject.FindWithTag("body").transform;
     }
 
     private void OnEnable()
@@ -26,7 +30,8 @@ public class MoveToPlayer : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         speed = Random.Range(minMovingSpeed, maxMovingSpeed);
         isHit = false;
-        playerTransform = GameObject.FindWithTag("MainCamera").transform;
+        playerTransform = GameObject.FindWithTag("body").transform;
+        GetComponent<AudioSource>().Play();
     }
 
     void Update()
@@ -39,13 +44,26 @@ public class MoveToPlayer : MonoBehaviour
         transform.LookAt(transform);
         Vector3 dir = playerTransform.position - transform.position;
         transform.position += dir * speed * Time.deltaTime;
-    }
 
+        /*if (dir.sqrMagnitude < playerAttachdistance)
+        {
+            playerAttachTime = Time.time;
+        }*/
+    }
+    
     public void ReflectionMove(Vector3 dir)
     {
         Debug.Log("Reflection Moving, dir : "+dir);
         isHit = true;
         _rigidbody.AddForce(dir,ForceMode.Impulse);
         //_rigidbody.AddForceAtPosition(dir, transform.position, ForceMode.Impulse);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("body"))
+        {
+            isHit = true;
+        }
     }
 }

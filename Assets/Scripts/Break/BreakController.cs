@@ -16,7 +16,7 @@ public class BreakController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         speed = Random.Range(minMovingSpeed, maxMovingSpeed);
         isHit = false;
-        playerTransform = GameObject.FindWithTag("MainCamera").transform;
+        playerTransform = GameObject.FindWithTag("body").transform;
     }
 
     private void OnEnable()
@@ -24,7 +24,7 @@ public class BreakController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         speed = Random.Range(minMovingSpeed, maxMovingSpeed);
         isHit = false;
-        playerTransform = GameObject.FindWithTag("MainCamera").transform;
+        playerTransform = GameObject.FindWithTag("body").transform;
     }
 
     void Update()

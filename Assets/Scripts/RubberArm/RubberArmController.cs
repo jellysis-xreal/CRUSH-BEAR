@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 public class RubberArmController : MonoBehaviour
 {
@@ -13,16 +15,29 @@ public class RubberArmController : MonoBehaviour
     [SerializeField] private float maximumDistanceToDetect = 0.3f; // body, hand의 거리가 30cm 보다 먼 지점에 위치하게 되면 발사.
     [SerializeField] private float detectPositionDelayTime = 0.05f;
     private WaitForSeconds _waitForDetectPositionDelayTime;
+    private InputAction inputAction;
     void Start()
     {
         _waitForDetectPositionDelayTime = new WaitForSeconds(detectPositionDelayTime);
-        //StartCoroutine(DetectHandPositionChange());
+       // StartCoroutine(DetectHandPositionChange());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            StopTrackingHandPosition();
+            transform.DOMoveX(1, 1).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InOutFlash);
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            transform.DOMoveX(1, 1).SetLoops(2, LoopType.Yoyo).SetEase(Ease.InOutFlash);
+        }if (Input.GetKeyDown(KeyCode.O))
+        {
+            StartTrackingHandPosition();
+        }
     }
 
     IEnumerator DetectHandPositionChange()
@@ -53,6 +68,8 @@ public class RubberArmController : MonoBehaviour
         }
 
     }
+    // 실제 세상에서 컨트롤러를 놓았다 잡으면 자연스레 actionBasedController.positionAction.action.Enable()가 호출되는 듯
+    // 
 
     IEnumerator StretchRubberArm(float chargingPower, Vector3 startPosition, Vector3 dir)
     {
@@ -61,9 +78,10 @@ public class RubberArmController : MonoBehaviour
         // 2. startTransform을 기준으로 팔 늘이고 다시 줄이기
 
         StopTrackingHandPosition();
+        yield return new WaitForSeconds(0.1f);
         float movingTime = chargingPower * 20f;
-        Debug.Log($"Strecth Charging Power {chargingPower}, Time");
-        transform.DOMove(startPosition + dir * 10f, movingTime).SetLoops(1);
+        Debug.Log($"Strecth Charging Power {chargingPower}, moving Time : {movingTime}");
+        transform.DOMove(startPosition + dir * 10f, movingTime).SetLoops(2, LoopType.Yoyo).SetEase(Ease.Flash);
         yield return new WaitForSeconds(movingTime);
         StartTrackingHandPosition();
     }
@@ -71,11 +89,16 @@ public class RubberArmController : MonoBehaviour
     void StopTrackingHandPosition()
     {
         actionBasedController.positionAction.action.Disable();
+        //actionBasedController.positionAction.DisableDirectAction();
+        //inputAction = actionBasedController.positionAction.action; //new InputAction(actionBasedController.positionAction.action)
+        //actionBasedController.positionAction.action.Dispose();
         Debug.Log("Stop Tracking Hand Position ");
     }
     void StartTrackingHandPosition()
     {
-        actionBasedController.positionAction.action.Enable();
+        //actionBasedController.positionAction.action.Enable();
+        //actionBasedController.positionAction.action.actionMap.AddAction();
         Debug.Log("Start Tracking Hand Position ");
+        StartCoroutine(DetectHandPositionChange());
     }
 }

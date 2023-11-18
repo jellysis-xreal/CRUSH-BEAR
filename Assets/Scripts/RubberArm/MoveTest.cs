@@ -25,7 +25,5 @@ public class MoveTest : MonoBehaviour
     {
         transform.DOMoveY(2f, 2f).SetLoops(2, LoopType.Yoyo);
         yield return new WaitForSeconds(2f);
-        
-        
     }
 }

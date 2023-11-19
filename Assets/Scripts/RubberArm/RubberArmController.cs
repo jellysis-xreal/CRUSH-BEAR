@@ -86,16 +86,21 @@ public class RubberArmController : MonoBehaviour
         Vector3 handTransformOrigin = handModelTransform.position;
         StopTrackingHandPosition();
         yield return new WaitForSeconds(0.1f);
-        float movingTime = chargingPower * 2f;
+        float movingTime = chargingPower * 1f;
         // Debug.Log($"Strecth Charging Power {chargingPower}, moving Time : {movingTime}");
         
         handModelTransform.position = handTransformOrigin;
-        handModelTransform.DOMove(handModelTransform.position + dir * 5f, movingTime).SetLoops(2, LoopType.Yoyo).SetEase(Ease.Flash);
+        handModelTransform.DOMove(handModelTransform.position + dir * 3f, movingTime).SetLoops(2, LoopType.Yoyo).SetEase(Ease.Flash);
         yield return new WaitForSeconds(movingTime * 2);
         StartTrackingHandPosition();
     }
-    
-    void StopTrackingHandPosition()
+
+    public void Test()
+    {
+        StopTrackingHandPosition();
+        StartTrackingHandPosition();
+    }
+    public void StopTrackingHandPosition()
     {
         actionBasedController.positionAction.action.Disable();
         //actionBasedController.positionAction.DisableDirectAction();
@@ -103,7 +108,7 @@ public class RubberArmController : MonoBehaviour
         // actionBasedController.positionAction.action.Dispose(); -> action 메모리 자체를 지워서 다른 입력도 안 받음.
         Debug.Log("Stop Tracking Hand Position ");
     }
-    void StartTrackingHandPosition()
+    public void StartTrackingHandPosition()
     {
         handModelTransform.localPosition =  new Vector3(0.000000f, 0.000000f, 0.000000f);//Vector3.zero;
         actionBasedController.positionAction.action.Enable();

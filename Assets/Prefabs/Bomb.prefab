@@ -148,10 +148,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  minMovingSpeed: 0.5
-  maxMovingSpeed: 2
+  minMovingSpeed: 0.01
+  maxMovingSpeed: 0.5
   speed: 0
   isHit: 0
+  warningSign: {fileID: 6167621370008875628, guid: 91a1bba53b76e4b848ae2969a3df46a4,
+    type: 3}
+  generatedWarningSign: {fileID: 0}
 --- !u!1001 &321490050554147667
 PrefabInstance:
   m_ObjectHideFlags: 0

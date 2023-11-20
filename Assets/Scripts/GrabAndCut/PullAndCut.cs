@@ -10,12 +10,12 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class PullAndCut : MonoBehaviour
 {
-    public GameObject MeshCutter;
-
     [SerializeField] private float maxPullDistance;
     [SerializeField] private bool isSetPosition = false;
     [SerializeField] private bool activeCut = false;
     
+    private GameObject MeshCutterPrefab;
+    private GameObject MeshCutter;
     private XRGrabInteractable grabInteractable;
     private Pose primaryAttachPose, secondaryAttachPose;
     private GameObject deformable;
@@ -31,7 +31,8 @@ public class PullAndCut : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MeshCutter = GameObject.FindWithTag("Cutter");
+        //MeshCutter = GameObject.FindWithTag("Cutter");
+        MeshCutterPrefab = Resources.Load("Prefabs/Mesh Cutter") as GameObject;
         grabInteractable = GetComponent<XRGrabInteractable>();
 
         if (grabInteractable == null)
@@ -53,6 +54,9 @@ public class PullAndCut : MonoBehaviour
         // object를 잡은 두 Hand
         primaryAttachPose = grabInteractable.interactorsSelecting[0].GetAttachTransform(grabInteractable).GetWorldPose();
         secondaryAttachPose = grabInteractable.interactorsSelecting[1].GetAttachTransform(grabInteractable).GetWorldPose();
+
+        if (MeshCutter == null)
+            MeshCutter = Instantiate(MeshCutterPrefab, Vector3.zero, Quaternion.identity);
         MeshCutter.GetComponent<MeshCutter>().enabled = true;
 
         if (!isSetPosition)
@@ -110,7 +114,6 @@ public class PullAndCut : MonoBehaviour
         Debug.DrawLine(MeshCutter.transform.position, targetPosition, Color.yellow);
         MeshCutter.transform.position =
             Vector3.MoveTowards(MeshCutter.transform.position, targetPosition, Time.deltaTime * 10.0f);
-
         // Cut이 완료된다면
         // if (MeshCutter.transform.position.y <= (middlePoint.y + Vector3.down.y * 0.5f))
         // {
@@ -128,6 +131,8 @@ public class PullAndCut : MonoBehaviour
         activeCut = false;
         MeshCutter.GetComponent<MeshCutter>().enabled = false;
         MeshCutter.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
+
+        Destroy(MeshCutter);
     }
 
     // Update is called once per frame
@@ -167,7 +172,11 @@ public class PullAndCut : MonoBehaviour
         else
         {
             isSetPosition = false;
-            MeshCutter.GetComponent<MeshCutter>().enabled = false;
+            if (MeshCutter != null)
+            {
+                MeshCutter.GetComponent<MeshCutter>().enabled = false;
+                Destroy(MeshCutter);
+            }
         }
     }
 }

@@ -67,52 +67,52 @@ public class MeshCutter : MonoBehaviour
         _previousBasePosition = _base.transform.position;
     }
     
-    // void LateUpdate()
-    // {
-    //     //Reset the frame count one we reach the frame length
-    //     if (_frameCount == (_trailFrameLength * NUM_VERTICES))
-    //     {
-    //         _frameCount = 0;
-    //     }
-    //
-    //     //Draw first triangle vertices for back and front
-    //     _vertices[_frameCount] = _base.transform.position;
-    //     _vertices[_frameCount + 1] = _tip.transform.position;
-    //     _vertices[_frameCount + 2] = _previousTipPosition;
-    //     _vertices[_frameCount + 3] = _base.transform.position;
-    //     _vertices[_frameCount + 4] = _previousTipPosition;
-    //     _vertices[_frameCount + 5] = _tip.transform.position;
-    //
-    //     //Draw fill in triangle vertices
-    //     _vertices[_frameCount + 6] = _previousTipPosition;
-    //     _vertices[_frameCount + 7] = _base.transform.position;
-    //     _vertices[_frameCount + 8] = _previousBasePosition;
-    //     _vertices[_frameCount + 9] = _previousTipPosition;
-    //     _vertices[_frameCount + 10] = _previousBasePosition;
-    //     _vertices[_frameCount + 11] = _base.transform.position;
-    //
-    //     //Set triangles
-    //     _triangles[_frameCount] = _frameCount;
-    //     _triangles[_frameCount + 1] = _frameCount + 1;
-    //     _triangles[_frameCount + 2] = _frameCount + 2;
-    //     _triangles[_frameCount + 3] = _frameCount + 3;
-    //     _triangles[_frameCount + 4] = _frameCount + 4;
-    //     _triangles[_frameCount + 5] = _frameCount + 5;
-    //     _triangles[_frameCount + 6] = _frameCount + 6;
-    //     _triangles[_frameCount + 7] = _frameCount + 7;
-    //     _triangles[_frameCount + 8] = _frameCount + 8;
-    //     _triangles[_frameCount + 9] = _frameCount + 9;
-    //     _triangles[_frameCount + 10] = _frameCount + 10;
-    //     _triangles[_frameCount + 11] = _frameCount + 11;
-    //
-    //     _mesh.vertices = _vertices;
-    //     _mesh.triangles = _triangles;
-    //
-    //     //Track the previous base and tip positions for the next frame
-    //     _previousTipPosition = _tip.transform.position;
-    //     _previousBasePosition = _base.transform.position;
-    //     _frameCount += NUM_VERTICES;
-    // }
+    void LateUpdate()
+    {
+        //Reset the frame count one we reach the frame length
+        if (_frameCount == (_trailFrameLength * NUM_VERTICES))
+        {
+            _frameCount = 0;
+        }
+    
+        //Draw first triangle vertices for back and front
+        _vertices[_frameCount] = _base.transform.position;
+        _vertices[_frameCount + 1] = _tip.transform.position;
+        _vertices[_frameCount + 2] = _previousTipPosition;
+        _vertices[_frameCount + 3] = _base.transform.position;
+        _vertices[_frameCount + 4] = _previousTipPosition;
+        _vertices[_frameCount + 5] = _tip.transform.position;
+    
+        //Draw fill in triangle vertices
+        _vertices[_frameCount + 6] = _previousTipPosition;
+        _vertices[_frameCount + 7] = _base.transform.position;
+        _vertices[_frameCount + 8] = _previousBasePosition;
+        _vertices[_frameCount + 9] = _previousTipPosition;
+        _vertices[_frameCount + 10] = _previousBasePosition;
+        _vertices[_frameCount + 11] = _base.transform.position;
+    
+        //Set triangles
+        _triangles[_frameCount] = _frameCount;
+        _triangles[_frameCount + 1] = _frameCount + 1;
+        _triangles[_frameCount + 2] = _frameCount + 2;
+        _triangles[_frameCount + 3] = _frameCount + 3;
+        _triangles[_frameCount + 4] = _frameCount + 4;
+        _triangles[_frameCount + 5] = _frameCount + 5;
+        _triangles[_frameCount + 6] = _frameCount + 6;
+        _triangles[_frameCount + 7] = _frameCount + 7;
+        _triangles[_frameCount + 8] = _frameCount + 8;
+        _triangles[_frameCount + 9] = _frameCount + 9;
+        _triangles[_frameCount + 10] = _frameCount + 10;
+        _triangles[_frameCount + 11] = _frameCount + 11;
+    
+        _mesh.vertices = _vertices;
+        _mesh.triangles = _triangles;
+    
+        //Track the previous base and tip positions for the next frame
+        _previousTipPosition = _tip.transform.position;
+        _previousBasePosition = _base.transform.position;
+        _frameCount += NUM_VERTICES;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -124,6 +124,10 @@ public class MeshCutter : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // layer: Sliceable이 아닌 경우 넘어간다
+        if (other.gameObject.layer != 10)
+            return;
+        
         _triggerExitTipPosition = _tip.transform.position;
 
         //Create a triangle between the tip and base so that we can get the normal
@@ -156,13 +160,19 @@ public class MeshCutter : MonoBehaviour
         }
 
         GameObject[] slices = Slicer.Slice(plane, other.gameObject);
+        
+        //Cut되는 순간 생성할 VFX
         for (int i = 0; i < VFX.Count; i++)
         {
             GameObject tempVFX = Instantiate(VFX[i], other.gameObject.transform.position, Quaternion.identity);
             Destroy(tempVFX, 4.0f);
         }
         
-        other.gameObject.GetComponent<PullAndCut>().FinishSlice();
+        //만약 Interact한 물체가 찢기 물체였다면
+        if (other.gameObject.TryGetComponent(out PullAndCut cut))
+        {
+            cut.FinishSlice();
+        }
         Destroy(other.gameObject);
         
         Rigidbody rigidbody = slices[0].GetComponent<Rigidbody>();

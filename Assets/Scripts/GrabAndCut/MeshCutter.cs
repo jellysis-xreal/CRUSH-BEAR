@@ -124,6 +124,10 @@ public class MeshCutter : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // layer: Sliceable이 아닌 경우 넘어간다
+        if (other.gameObject.layer != 10)
+            return;
+        
         _triggerExitTipPosition = _tip.transform.position;
 
         //Create a triangle between the tip and base so that we can get the normal
@@ -156,13 +160,19 @@ public class MeshCutter : MonoBehaviour
         }
 
         GameObject[] slices = Slicer.Slice(plane, other.gameObject);
+        
+        //Cut되는 순간 생성할 VFX
         for (int i = 0; i < VFX.Count; i++)
         {
             GameObject tempVFX = Instantiate(VFX[i], other.gameObject.transform.position, Quaternion.identity);
             Destroy(tempVFX, 4.0f);
         }
         
-        //other.gameObject.GetComponent<PullAndCut>().FinishSlice();
+        //만약 Interact한 물체가 찢기 물체였다면
+        if (other.gameObject.TryGetComponent(out PullAndCut cut))
+        {
+            cut.FinishSlice();
+        }
         Destroy(other.gameObject);
         
         Rigidbody rigidbody = slices[0].GetComponent<Rigidbody>();

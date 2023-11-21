@@ -373,8 +373,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  minMovingSpeed: 1
-  maxMovingSpeed: 3
+  minMovingSpeed: 3
+  maxMovingSpeed: 5
   speed: 0
   isHit: 0
   playerAttachdistance: 0
@@ -487,6 +487,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 917d3c03d40869240b6bdf5662957e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pullAndCutNoGrab: {fileID: 0}
+  attachTransform: {fileID: 0}
 --- !u!114 &7855821221051796288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,9 +504,21 @@ MonoBehaviour:
   maxPullDistance: 0
   isSetPosition: 0
   activeCut: 0
+  primaryAttachPose:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+  secondaryAttachPose:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
   CurDistance: 0
-  isLeftHandAttached: 0
-  isRightHandAttached: 0
+  _primaryInteractor: {fileID: 0}
+  _secondaryInteractor: {fileID: 0}
+  isPrimaryHandAttached: 0
+  isSecondaryHandAttached: 0
+  primaryAttachHandTransform: {fileID: 0}
+  secondaryAttachHandTransform: {fileID: 0}
+  handTransform: {fileID: 0}
+  leftHandPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &4885712078821736242
 GameObject:
   m_ObjectHideFlags: 0

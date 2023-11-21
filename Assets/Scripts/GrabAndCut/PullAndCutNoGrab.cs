@@ -156,7 +156,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         Vector3 targetPosition = new Vector3(originPose.position.x, 0f, originPose.position.z);
         // Vector3 targetPosition = new Vector3(originPose.position.x, originPose.position.y, originPose.position.z);
         Debug.DrawLine(MeshCutter.transform.position, targetPosition, Color.yellow);
-        MeshCutter.transform.DOMoveY(0f, 0.2f);
+        MeshCutter.transform.DOMoveY(-1f, 0.2f);
         this.transform.SetParent(null);
         
         

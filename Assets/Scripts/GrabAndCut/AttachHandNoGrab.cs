@@ -19,10 +19,13 @@ public class AttachHandNoGrab : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 10 && other.TryGetComponent(out PullAndCutNoGrab pullAndCutNoGrab))
+        if (other.gameObject.layer == 10 && other.TryGetComponent(out PullAndCutNoGrab pullAndCutNoGrab) && other.TryGetComponent(out MoveToPlayer moveToPlayer))
         {
             _pullAndCutNoGrab = pullAndCutNoGrab; //other.GetComponent<PullAndCutNoGrab>();// //// //v 
             _pullAndCutNoGrab.AttachHand(this.transform, other.ClosestPoint(transform.position));
+
+            moveToPlayer.enabled = false;
+            
             Debug.Log($"hand world Position {transform.position}");
         }
     }

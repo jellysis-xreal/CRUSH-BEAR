@@ -1,4 +1,5 @@
-﻿using Assets.Scripts;
+﻿using System;
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
@@ -116,6 +117,7 @@ public class MeshCutter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"{this.name} is trigger! Enter {other.name}");
         cuttedObjects.Clear();
         
         _triggerEnterTipPosition = _tip.transform.position;
@@ -159,6 +161,7 @@ public class MeshCutter : MonoBehaviour
             plane = plane.flipped;
         }
 
+        Debug.Log(other.name+" Mesh Cutter Slice");
         GameObject[] slices = Slicer.Slice(plane, other.gameObject);
         
         //Cut되는 순간 생성할 VFX
@@ -199,4 +202,9 @@ public class MeshCutter : MonoBehaviour
         
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position, Vector3.one * 0.2f);
+    }
 }

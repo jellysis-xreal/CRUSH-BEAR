@@ -6,6 +6,7 @@ using UnityEngine;
 public class AttachHandNoGrab : MonoBehaviour
 {
     public PullAndCutNoGrab _pullAndCutNoGrab;
+    public Transform attachTransform;
     void Start()
     {
         //_pullAndCutNoGrab = GetComponent<PullAndCutNoGrab>();
@@ -18,11 +19,11 @@ public class AttachHandNoGrab : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 10)
+        if (other.gameObject.layer == 10 && other.TryGetComponent(out PullAndCutNoGrab pullAndCutNoGrab))
         {
-            _pullAndCutNoGrab = other.GetComponent<PullAndCutNoGrab>();
+            _pullAndCutNoGrab = pullAndCutNoGrab; //other.GetComponent<PullAndCutNoGrab>();// //// //v 
             _pullAndCutNoGrab.AttachHand(this.transform, other.ClosestPoint(transform.position));
-            
+            Debug.Log($"hand world Position {transform.position}");
         }
     }
 
@@ -30,7 +31,7 @@ public class AttachHandNoGrab : MonoBehaviour
     {
         /*if (other.gameObject.layer == 10)
         {
-            _pullAndCutNoGrab.DetachHand(this.transform);
+            _pullAndCutNoGrab.DetachHand();
             _pullAndCutNoGrab = null;    
         }*/
     }

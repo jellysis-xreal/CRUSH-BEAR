@@ -107,8 +107,8 @@ namespace Assets.Scripts
             xrGrabInteractable.useDynamicAttach = true;
             
             // [ADD] 잡아당겨서 자르는 기능
-            gameObject.AddComponent<PullAndCut>();
-
+            // gameObject.AddComponent<PullAndCut>();
+            // gameObject.AddComponent<PullAndCutNoGrab>();
         }
     }
 }

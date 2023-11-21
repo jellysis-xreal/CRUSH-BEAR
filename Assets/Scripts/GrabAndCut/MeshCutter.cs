@@ -183,7 +183,10 @@ public class MeshCutter : MonoBehaviour
         newNormal = transformedNormal + Vector3.up * _forceAppliedToCut;
         rigidbody.AddForce(newNormal, ForceMode.Impulse);
 
-        
+        foreach (GameObject slice in slices)
+        {
+            Destroy(slice, 4.0f);
+        }
 
         /*[FIX] 잘린 조각들이 두 손에 Grab 되도록 작성할 예정  
         slices[0].GetComponent<XRGrabInteractable>().IsSelectableBy(LeftHand);

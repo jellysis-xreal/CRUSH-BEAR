@@ -468,17 +468,17 @@ PrefabInstance:
     - target: {fileID: 1063380073043624787, guid: c6cd3f8536df2714597bb325e412500d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.728
+      value: -0.629
       objectReference: {fileID: 0}
     - target: {fileID: 1063380073043624787, guid: c6cd3f8536df2714597bb325e412500d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.098
       objectReference: {fileID: 0}
     - target: {fileID: 1063380073043624787, guid: c6cd3f8536df2714597bb325e412500d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.733
+      value: 0.27
       objectReference: {fileID: 0}
     - target: {fileID: 1063380073043624787, guid: c6cd3f8536df2714597bb325e412500d,
         type: 3}
@@ -553,10 +553,11 @@ MonoBehaviour:
   isSetPosition: 0
   activeCut: 0
   CurDistance: 0
-  isLeftHandAttached: 0
-  isRightHandAttached: 0
-  leftHandTransform: {fileID: 0}
-  rightHandTransform: {fileID: 0}
+  isPrimaryHandAttached: 0
+  isSecondaryHandAttached: 0
+  primaryAttachHandTransform: {fileID: 0}
+  secondaryAttachHandTransform: {fileID: 0}
+  handTransform: {fileID: 0}
   leftHandPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &790519506
 PrefabInstance:
@@ -640,7 +641,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4025452073392322844, guid: c6cd3f8536df2714597bb325e412500d,
         type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 790519508}
   m_SourcePrefab: {fileID: 100100000, guid: c6cd3f8536df2714597bb325e412500d, type: 3}
 --- !u!1 &790519507 stripped
@@ -665,10 +666,11 @@ MonoBehaviour:
   isSetPosition: 0
   activeCut: 0
   CurDistance: 0
-  isLeftHandAttached: 0
-  isRightHandAttached: 0
-  leftHandTransform: {fileID: 0}
-  rightHandTransform: {fileID: 0}
+  isPrimaryHandAttached: 0
+  isSecondaryHandAttached: 0
+  primaryAttachHandTransform: {fileID: 0}
+  secondaryAttachHandTransform: {fileID: 0}
+  handTransform: {fileID: 0}
   leftHandPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &824637046
 PrefabInstance:
@@ -1886,6 +1888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 917d3c03d40869240b6bdf5662957e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pullAndCutNoGrab: {fileID: 0}
 --- !u!1 &7201048275805744279 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 540410488888059328, guid: 808a28e4818405e488736406e34d2072,
@@ -1937,6 +1940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 917d3c03d40869240b6bdf5662957e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pullAndCutNoGrab: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -179,11 +179,15 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             leftHandPosition = primaryAttachHandTransform.position;    
         }
 
-
+        if (isPrimaryHandAttached || isSecondaryHandAttached)
+        {
+            
+        }
 
         if ((grabInteractable.interactorsSelecting.Count == 2) || (isPrimaryHandAttached && isSecondaryHandAttached)) // 각 손이 접촉해있으면 실행
         {
-            Initiate();
+            // Initiate();
+            InitiateNoGrab();
             SetObjectMiddle();
             CurDistance = Vector3.Distance(primaryAttachPose.position, secondaryAttachPose.position);
             activeCut = CurDistance >= maxPullDistance;
@@ -223,18 +227,23 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         }
     }
     // 처음 붙은 손에 대해서만
-    public void AttachHand(Transform handTransform)
+    public void AttachHand(Transform handTransform, Vector3 attachPosition)
     {
         if (!isPrimaryHandAttached && !isSecondaryHandAttached)
         {
+            Debug.Log($"primary Attach Hand: {handTransform.name} ");
             primaryAttachHandTransform = handTransform;
             primaryAttachPose = handTransform.GetComponent<XRDirectInteractor>().GetAttachTransform(grabInteractable)
                 .GetWorldPose();
             isPrimaryHandAttached = true;
+            SetAttachTransform(attachPosition);
         }
         else if ((isPrimaryHandAttached && !isSecondaryHandAttached) || (!isPrimaryHandAttached && isSecondaryHandAttached))
         {
+            Debug.Log($"secondary Attach Hand: {handTransform.name} ");
             secondaryAttachHandTransform = handTransform;
+            secondaryAttachPose = handTransform.GetComponent<XRDirectInteractor>().GetAttachTransform(grabInteractable)
+                .GetWorldPose();
             isSecondaryHandAttached = true;
         }
         
@@ -271,5 +280,20 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
     {
         // 첫 번째 붙은 손의 Transform의 자식으로 할당
         // 한 손에 붙어있는 상태일 경우 자식으로 할당은 하지 않는다.
+    }
+
+    private void SetAttachTransform(Vector3 attachWorldPosition)
+    {
+        // Grab한 물체를 실제로 잡은(적절한 위치를 Grab하는) 듯한 모양으로 추적하기 위함.
+        // 일단 물체의 origin Transform을 추적하고 해당 코드 추가.
+    }
+    private void FollowPrimaryHand()
+    {
+        // 손을 쥔(Grab을 누르고 있는) 모양으로 첫 번째로 잡은 손의 위치를 추적해야 한다. 손의 Attach Transform은 물체의 origin이 아닌 Trigger된 순간(손에 착 달라붙은 순간)의 위치를 의미한다.
+        // Trigger된 순간의 Trigger된 world 좌표를 물체의 localposition으로 변경해서 저장해놓고 손의 이동, 회전을 따라오게 해야 함.
+        // 추적하기 위해 필요한 세팅
+        // Trigger된 순간의 Trigger된 world 좌표, 그때의 물체의 localposition
+        // 추적하는 코드
+        transform.position = primaryAttachHandTransform.position;
     }
 }

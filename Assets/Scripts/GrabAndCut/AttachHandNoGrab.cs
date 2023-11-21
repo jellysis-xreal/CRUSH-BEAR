@@ -21,16 +21,17 @@ public class AttachHandNoGrab : MonoBehaviour
         if (other.gameObject.layer == 10)
         {
             _pullAndCutNoGrab = other.GetComponent<PullAndCutNoGrab>();
-            _pullAndCutNoGrab.AttachHand(this.transform);
+            _pullAndCutNoGrab.AttachHand(this.transform, other.ClosestPoint(transform.position));
+            
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 10)
+        /*if (other.gameObject.layer == 10)
         {
             _pullAndCutNoGrab.DetachHand(this.transform);
             _pullAndCutNoGrab = null;    
-        }
+        }*/
     }
 }

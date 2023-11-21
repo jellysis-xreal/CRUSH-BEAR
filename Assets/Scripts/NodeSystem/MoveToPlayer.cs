@@ -42,7 +42,7 @@ public class MoveToPlayer : MonoBehaviour
     void Move()
     {
         transform.LookAt(transform);
-        Vector3 dir = playerTransform.position - transform.position;
+        Vector3 dir = (playerTransform.position - transform.position).normalized;
         transform.position += dir * speed * Time.deltaTime;
 
         /*if (dir.sqrMagnitude < playerAttachdistance)

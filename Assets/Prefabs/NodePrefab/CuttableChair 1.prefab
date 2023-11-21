@@ -317,7 +317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10c216c6ea0d8b248a59c5c1cabc65ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MeshCutter: {fileID: 0}
   maxPullDistance: 0
   isSetPosition: 0
   activeCut: 0
@@ -389,8 +388,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  minMovingSpeed: 1
-  maxMovingSpeed: 3
+  minMovingSpeed: 3
+  maxMovingSpeed: 5
   speed: 0
   isHit: 0
   playerAttachdistance: 0

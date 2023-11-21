@@ -15,13 +15,14 @@ GameObject:
   - component: {fileID: 5967457894445335348}
   - component: {fileID: 7124068858103760833}
   - component: {fileID: 9038447213761652000}
-  - component: {fileID: 7316040571912831965}
   - component: {fileID: 6827855825909832879}
   - component: {fileID: 7157056832971531737}
   - component: {fileID: -7346734992740641607}
   - component: {fileID: 7840685002804838665}
+  - component: {fileID: 6678009612303244459}
+  - component: {fileID: 7855821221051796288}
   m_Layer: 10
-  m_Name: CuttableChair 3
+  m_Name: CuttableChair 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -305,22 +306,6 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
---- !u!114 &7316040571912831965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4025452073392322844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c216c6ea0d8b248a59c5c1cabc65ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxPullDistance: 0
-  isSetPosition: 0
-  activeCut: 0
-  CurDistance: 0
 --- !u!64 &6827855825909832879
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -490,6 +475,50 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6678009612303244459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4025452073392322844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 917d3c03d40869240b6bdf5662957e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pullAndCutNoGrab: {fileID: 0}
+  attachTransform: {fileID: 0}
+--- !u!114 &7855821221051796288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4025452073392322844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252ac4d4abdea694aac99e5dbb03cdd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPullDistance: 0
+  isSetPosition: 0
+  activeCut: 0
+  primaryAttachPose:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+  secondaryAttachPose:
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+  CurDistance: 0
+  _primaryInteractor: {fileID: 0}
+  _secondaryInteractor: {fileID: 0}
+  isPrimaryHandAttached: 0
+  isSecondaryHandAttached: 0
+  primaryAttachHandTransform: {fileID: 0}
+  secondaryAttachHandTransform: {fileID: 0}
+  handTransform: {fileID: 0}
+  leftHandPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &4885712078821736242
 GameObject:
   m_ObjectHideFlags: 0

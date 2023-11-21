@@ -9,10 +9,12 @@ public class BombsGeneratorFreeFall : MonoBehaviour
     float totalTime = 0;
     float nextGenTime = 0;
     public GameObject bombs;
+    public GameObject player;
     public Transform playerTransform;
 
     void Start()
     {
+        player = GameObject.FindWithTag("MainCamera");
     }
 
     // Update is called once per frame
@@ -22,14 +24,15 @@ public class BombsGeneratorFreeFall : MonoBehaviour
 
         if (nextGenTime < totalTime){
             GenerateBombs();
-            ranInterval = Random.Range(1.0f, 3.0f);
+            ranInterval = Random.Range(5.0f, 7.0f);
             nextGenTime += ranInterval;
         }
     }
 
     private void GenerateBombs()
-    {
-        playerTransform = GameObject.FindWithTag("MainCamera").transform;
+    {    
+        // playerTransform = GameObject.FindWithTag("MainCamera").transform;
+        playerTransform = player.transform;
         // float randomX = Random.Range(-3f, 3f);
         // float randomY = Random.Range(0.9f, 1.5f);
         // float randomZ = 5f;

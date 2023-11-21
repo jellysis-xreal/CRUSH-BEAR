@@ -9,6 +9,14 @@ public class BombsGenerator : MonoBehaviour
     float totalTime = 0;
     float nextGenTime = 0;
     public GameObject bombs;
+    public GameObject player;
+    public Transform playerTransform;
+
+    void Start()
+    {
+        player = GameObject.FindWithTag("MainCamera");
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -17,18 +25,20 @@ public class BombsGenerator : MonoBehaviour
 
         if (nextGenTime < totalTime){
             GenerateBombs();
-            ranInterval = Random.Range(1.0f, 3.0f);
+            ranInterval = Random.Range(5.0f, 7.0f);
             nextGenTime += ranInterval;
         }
     }
 
     private void GenerateBombs()
     {
-        float randomX = Random.Range(-3f, 3f);
-        float randomY = Random.Range(0.9f, 1.5f);
-        float randomZ = 3f;
+        playerTransform = player.transform;
+        float randomX = Random.Range(-2f, 2f);
+        float randomZ = 5f;
+        float randomY = 3f;
 
         Vector3 randomPosition = new Vector3(randomX, randomY, randomZ);
+        randomPosition = playerTransform.position + randomPosition;
 
         Instantiate(bombs, randomPosition, Quaternion.identity);
     }

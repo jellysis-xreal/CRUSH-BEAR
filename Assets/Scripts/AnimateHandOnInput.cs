@@ -32,7 +32,7 @@ public class AnimateHandOnInput : MonoBehaviour
 
     private void HandDestroyerUpdate(bool isSelected)
     {
-        //f (isSelected) destroyer.SetActive(true); 
-        //else destroyer.SetActive(false);
+        if (isSelected) destroyer.SetActive(true); 
+        else destroyer.SetActive(false);
     }
 }

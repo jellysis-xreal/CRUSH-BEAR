@@ -1033,6 +1033,28 @@ PrefabInstance:
       propertyPath: m_Name
       value: fixed XR Origin (XR Rig)
       objectReference: {fileID: 0}
+    - target: {fileID: 4891498473151207917, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: selectAction.m_Reference
+      value: 
+      objectReference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 4891498473151207917, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: activateAction.m_Reference
+      value: 
+      objectReference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 4891498473151207917, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: selectAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891498473151207917, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: activateAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4929675333904657210, guid: 808a28e4818405e488736406e34d2072,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1082,6 +1104,38 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7297703358630808585, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: m_TagString
+      value: Destroyer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7903466483839893993, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: m_TagString
+      value: Destroyer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641871869426876958, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: selectAction.m_Reference
+      value: 
+      objectReference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 8641871869426876958, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: activateAction.m_Reference
+      value: 
+      objectReference: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 8641871869426876958, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: selectAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641871869426876958, guid: 808a28e4818405e488736406e34d2072,
+        type: 3}
+      propertyPath: activateAction.m_UseReference
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1596,10 +1650,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 88801587882156912, guid: cbe53ed88c3cac440877dbdca4b66ef7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.5519896
+      objectReference: {fileID: 0}
     - target: {fileID: 2840305036355365168, guid: cbe53ed88c3cac440877dbdca4b66ef7,
         type: 3}
       propertyPath: m_ProvidesContacts
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3359332742620625618, guid: cbe53ed88c3cac440877dbdca4b66ef7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.36
       objectReference: {fileID: 0}
     - target: {fileID: 3915634662606077630, guid: cbe53ed88c3cac440877dbdca4b66ef7,
         type: 3}
@@ -1620,6 +1684,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ProvidesContacts
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653244257928126368, guid: cbe53ed88c3cac440877dbdca4b66ef7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 7928474835400234651, guid: cbe53ed88c3cac440877dbdca4b66ef7,
         type: 3}

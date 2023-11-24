@@ -168,10 +168,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  minMovingSpeed: 0.5
-  maxMovingSpeed: 2
+  minMovingSpeed: 3
+  maxMovingSpeed: 5
   speed: 0
   isHit: 0
+  playerAttachdistance: 0
+  playerAttachTime: 0
 --- !u!82 &2213686536159354038
 AudioSource:
   m_ObjectHideFlags: 0
@@ -193,9 +195,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 30
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -228,7 +230,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.505
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -275,7 +277,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044474573068301505}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db361d7cef630bc4d95a4a8198c7f267, type: 3}
   m_Name: 

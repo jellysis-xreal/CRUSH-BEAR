@@ -7,20 +7,32 @@ public class AnimateHandOnInput : MonoBehaviour
 {
     public InputActionProperty pinchAnimationAction;
     public InputActionProperty grabAnimationAction;
-
     public Animator handAnimator;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    [Space] public InputActionProperty selectAction;
+    public InputActionProperty activateAction;
+
+    public bool isSelected = false;
+    public bool isActivated = false;
+    public GameObject destroyer;
+
+    private void Update()
     {
         float triggerValue = pinchAnimationAction.action.ReadValue<float>();
         handAnimator.SetFloat("Trigger", triggerValue);
-        float gripValue = grabAnimationAction.action.ReadValue<float>();
-        handAnimator.SetFloat("Grip", gripValue);
+
+        float grabValue = grabAnimationAction.action.ReadValue<float>();
+        handAnimator.SetFloat("Grip", grabValue);
+        
+        isSelected = selectAction.action.IsPressed();
+        isActivated = activateAction.action.IsPressed();
+        
+        HandDestroyerUpdate(isSelected);
+    }
+
+    private void HandDestroyerUpdate(bool isSelected)
+    {
+        if (isSelected) destroyer.SetActive(true); 
+        else destroyer.SetActive(false);
     }
 }

@@ -37,6 +37,7 @@ public class NodeInstantiater : MonoBehaviour
         if (objectType == "Rip")
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(ripObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
+            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;
             gameObjectsByStage[_indexToBeAdded].SetActive(false);
             _indexToBeAdded += 1;
@@ -44,12 +45,14 @@ public class NodeInstantiater : MonoBehaviour
         }else if (objectType == "Break")
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(breakObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
+            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;
             gameObjectsByStage[_indexToBeAdded].SetActive(false);
             _indexToBeAdded += 1;
         }else if (objectType == "Avoid")
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(avoidObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
+            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;
             gameObjectsByStage[_indexToBeAdded].SetActive(false);
             _indexToBeAdded += 1;

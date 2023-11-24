@@ -20,7 +20,7 @@ public class MoveToPlayer : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        speed = Random.Range(minMovingSpeed, maxMovingSpeed);
+        //speed = Random.Range(minMovingSpeed, maxMovingSpeed);
         isHit = false;
         playerTransform = GameObject.FindWithTag("body").transform;
     }
@@ -28,7 +28,7 @@ public class MoveToPlayer : MonoBehaviour
     private void OnEnable()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        speed = Random.Range(minMovingSpeed, maxMovingSpeed);
+        //speed = Random.Range(minMovingSpeed, maxMovingSpeed);
         isHit = false;
         playerTransform = GameObject.FindWithTag("body").transform;
         GetComponent<AudioSource>().Play();

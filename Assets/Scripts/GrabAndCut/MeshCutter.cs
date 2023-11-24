@@ -2,7 +2,6 @@
 using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -161,7 +160,7 @@ public class MeshCutter : MonoBehaviour
             plane = plane.flipped;
         }
 
-        Debug.Log(other.name+" Mesh Cutter Slice");
+        Debug.Log("Trigger Exit "+other.name+" Mesh Cutter Slice");
         GameObject[] slices = Slicer.Slice(plane, other.gameObject);
         
         //Cut되는 순간 생성할 VFX

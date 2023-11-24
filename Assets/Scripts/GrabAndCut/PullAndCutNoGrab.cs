@@ -118,7 +118,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
 
         //Debug.DrawRay(middlePoint, handsUpVector.normalized, Color.blue, 0.5f, false);
 
-        MeshCutter.transform.position = middlePoint + Vector3.up * 0.5f;
+        MeshCutter.transform.position = middlePoint + Vector3.up * 2f;
         MeshCutter.transform.rotation = Quaternion.LookRotation(handsUpVector);
 
         _isMeshCuuterReady = true;
@@ -152,7 +152,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
 
     void sliceObjcts()
     {
-        //Debug.Log("cut!");
+        Debug.Log("cut! Do Move Y");
         Vector3 targetPosition = new Vector3(originPose.position.x, 0f, originPose.position.z);
         // Vector3 targetPosition = new Vector3(originPose.position.x, originPose.position.y, originPose.position.z);
         Debug.DrawLine(MeshCutter.transform.position, targetPosition, Color.yellow);
@@ -162,7 +162,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         
         /*MeshCutter.transform.position =
             Vector3.MoveTowards(MeshCutter.transform.position, targetPosition, Time.deltaTime * 10.0f);*/
-        Debug.Log($"MeshCutter position : {MeshCutter.transform.position}");
+        // Debug.Log($"MeshCutter position : {MeshCutter.transform.position}");
         // MeshCutter.transform.position = new Vector3(targetPosition.x,0f,targetPosition.z);
         // Cut이 완료된다면
         // if (MeshCutter.transform.position.y <= (middlePoint.y + Vector3.down.y * 0.5f))
@@ -202,7 +202,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
 
         if ((grabInteractable.interactorsSelecting.Count == 2) || (isPrimaryHandAttached && isSecondaryHandAttached)) // 각 손이 접촉해있으면 실행
         {
-            // Initiate();
+            // Debug.Log("Initiate NoGrab & Set Object Middle");
             InitiateNoGrab();
             SetObjectMiddle();
             CurDistance = Vector3.Distance(primaryAttachPose.position, secondaryAttachPose.position);
@@ -219,13 +219,15 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
                     float weight = Mathf.Clamp(CurDistance, 0, maxPullDistance) / maxPullDistance;
                     deformer.Factor = CurDistance * weight;
                 }
-                
+
+                // Debug.Log("Set Mesh Cutter");
                 SetMeshCutter(primaryAttachPose, secondaryAttachPose);
                 //SetSlicePoint(primaryAttachPose, secondaryAttachPose);
             }
             else
             {
                 this.GetComponent<MeshRenderer>().enabled = true;
+                
                 if (activeCut)
                 {
                     sliceObjcts();
@@ -233,7 +235,6 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
                 }
                 Debug.Log("Slice " + this.gameObject.name);
             }
-            
             movementMiddle = middlePoint;
         }
         else

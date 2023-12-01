@@ -8,6 +8,7 @@ public class NodeInfo
     public string objectType;
     public string movingType;
     public int objectNum;
+    public int arrivalAreaIndex;
 
     public NodeInfo()
     {
@@ -18,6 +19,7 @@ public class NodeInfo
         objectType = "";
         movingType = "";
         objectNum = 0;
+        arrivalAreaIndex = 0;
     }
 }
 /*

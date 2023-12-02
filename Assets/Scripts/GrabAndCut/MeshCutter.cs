@@ -175,6 +175,10 @@ public class MeshCutter : MonoBehaviour
         {
             cut.FinishSlice();
         }
+        else if (other.gameObject.TryGetComponent(out PullAndCutNoGrab noGrabCut))
+        {
+            noGrabCut.FinishSlice();
+        }
         Destroy(other.gameObject);
         
         Rigidbody rigidbody = slices[0].GetComponent<Rigidbody>();

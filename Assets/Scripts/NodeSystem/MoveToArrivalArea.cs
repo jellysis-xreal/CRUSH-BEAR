@@ -12,7 +12,7 @@ public class MoveToArrivalArea : MonoBehaviour
     public float minMovingSpeed = 1.0f;
     public float maxMovingSpeed = 3.0f;
     public float speed;
-    public bool isHit;
+    public bool isArrivalAreaHit;
 
     [SerializeField] private float playerAttachdistance;
     [SerializeField] private float playerAttachTime;
@@ -20,26 +20,19 @@ public class MoveToArrivalArea : MonoBehaviour
 
     private ObjectArrivalAreaManager _objectArrivalAreaManager;
     private Transform targetTransform;
+    private AttackPlayer _attackPlayer;
     private void Start()
     {
-        /*_rigidbody = GetComponent<Rigidbody>();
-        //speed = Random.Range(minMovingSpeed, maxMovingSpeed);
-        isHit = false;
-        _objectArrivalAreaManager = GameObject.FindWithTag("ArrivalArea").GetComponent<ObjectArrivalAreaManager>();
-        Debug.Log("arrivalAreaIndex " + arrivalAreaIndex);
-        Debug.Log("_objectArrivalAreaManager" + _objectArrivalAreaManager != null);
-
-        targetTransform = _objectArrivalAreaManager.arrivalAreas[arrivalAreaIndex-1];
-        //playerTransform = GameObject.FindWithTag("body").transform;*/
     }
 
     private void OnEnable()
     {
         if(arrivalAreaIndex == 0) return;
         _rigidbody = GetComponent<Rigidbody>();
+        _attackPlayer = GetComponent<AttackPlayer>();
         //speed = Random.Range(minMovingSpeed, maxMovingSpeed);
-        isHit = false;
-        _objectArrivalAreaManager = GameObject.FindWithTag("ArrivalArea").GetComponent<ObjectArrivalAreaManager>();
+        isArrivalAreaHit = false;
+        _objectArrivalAreaManager = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
         Debug.Log("arrivalAreaIndex " + arrivalAreaIndex);
         Debug.Log("_objectArrivalAreaManager" + _objectArrivalAreaManager != null);
 
@@ -50,7 +43,7 @@ public class MoveToArrivalArea : MonoBehaviour
 
     void Update()
     {
-        if(!isHit) Move();
+        if(!isArrivalAreaHit) Move();
     }
 
     void Move()
@@ -58,26 +51,18 @@ public class MoveToArrivalArea : MonoBehaviour
         transform.LookAt(transform);
         Vector3 dir = (targetTransform.position - transform.position).normalized;
         transform.position += dir * speed * Time.deltaTime;
-
-        /*if (dir.sqrMagnitude < playerAttachdistance)
-        {
-            playerAttachTime = Time.time;
-        }*/
-    }
-    
-    public void ReflectionMove(Vector3 dir)
-    {
-        Debug.Log("Reflection Moving, dir : "+dir);
-        isHit = true;
-        _rigidbody.AddForce(dir,ForceMode.Impulse);
-        //_rigidbody.AddForceAtPosition(dir, transform.position, ForceMode.Impulse);
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("body"))
+        if (other.CompareTag("ArrivalArea"))
         {
-            isHit = true;
+            if(isArrivalAreaHit) return;
+            isArrivalAreaHit = true;
+            _attackPlayer.enabled = true;
+            _attackPlayer.DirectionAttack();
+            this.enabled = false;
         }
     }
 }

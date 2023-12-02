@@ -11,6 +11,6 @@ public class GameManagerr : Singleton<GameManagerr>
 
     void Init()
     {
-        PlayerManager.Instance.playerLifeValue = 3;
+        PlayerManager.Instance.playerLifeValue = 5;
     }
 }

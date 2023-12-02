@@ -23,7 +23,7 @@ public class SettingNodeInfo : MonoBehaviour
     public enum MovingType
     {
         Straight,
-        Cannon,
+        Jump,
         etc
     };
 

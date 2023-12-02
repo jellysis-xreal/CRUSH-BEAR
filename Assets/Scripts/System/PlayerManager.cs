@@ -18,7 +18,8 @@ public class PlayerManager : Singleton<PlayerManager>
             HeartGameObjects[i].activeSelf
         }*/
         // 3 - 1 = 2 2번 인덱스 꺼야댐
-        HeartGameObjects[playerLifeValue - 1].SetActive(false);
+        HeartGameObjects[playerLifeValue- 1].GetComponent<MeshRenderer>().material.color = Color.gray;
+        // HeartGameObjects[playerLifeValue - 1].SetActive(false);
         playerLifeValue--; 
         Debug.Log("Attack Success player HP -1");
     }

@@ -7,6 +7,7 @@ using UnityEngine;
 public class JumpMoving : MonoBehaviour
 {
     public float jumpPower = 1f;
+    public float eachJumpTime = 1f;
     private Transform _playerBodyTransform;
     private Tween jumpTween;
     private void OnEnable()
@@ -31,7 +32,7 @@ public class JumpMoving : MonoBehaviour
         
         // DoJump 애니메이션 실행
         jumpTween = transform.DOJump(transform.position + movePosition, 
-                jumpPower, 1, 1).
+                jumpPower, 1, eachJumpTime).
             SetEase(Ease.OutSine).OnComplete(() =>
         {
             // 재귀 호출

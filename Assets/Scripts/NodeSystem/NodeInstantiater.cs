@@ -38,6 +38,9 @@ public class NodeInstantiater : MonoBehaviour
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(ripObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
             gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
+            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().speed = nodeInfo.movingSpeed;
+            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+            Debug.Log("nodeInfo.arrivalAreaIndex " +nodeInfo.arrivalAreaIndex);
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;
             gameObjectsByStage[_indexToBeAdded].SetActive(false);
             _indexToBeAdded += 1;
@@ -46,6 +49,10 @@ public class NodeInstantiater : MonoBehaviour
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(breakObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
             gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
+            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().speed = nodeInfo.movingSpeed;
+            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+            Debug.Log("nodeInfo.arrivalAreaIndex " +gameObjectsByStage[_indexToBeAdded].TryGetComponent<MoveToArrivalArea>(out MoveToArrivalArea moveToArrivalArea));
+            Debug.Log($"Index {moveToArrivalArea.arrivalAreaIndex}");
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;
             gameObjectsByStage[_indexToBeAdded].SetActive(false);
             _indexToBeAdded += 1;

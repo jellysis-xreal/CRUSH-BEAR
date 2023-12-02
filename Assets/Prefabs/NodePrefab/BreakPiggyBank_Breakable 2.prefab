@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 4212478784847309581}
   - component: {fileID: 2213686536159354038}
   - component: {fileID: 7022646864395314339}
+  - component: {fileID: -7139194816933744902}
+  - component: {fileID: 837225152351144652}
   m_Layer: 0
   m_Name: BreakPiggyBank_Breakable 2
   m_TagString: Untagged
@@ -162,7 +164,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044474573068301505}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5154ca37db5c254685aeabb10686240, type: 3}
   m_Name: 
@@ -287,3 +289,35 @@ MonoBehaviour:
   maxMovingSpeed: 3
   speed: 0
   isHit: 0
+--- !u!114 &-7139194816933744902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044474573068301505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 177916ca5bfba9d4085e29c4a4a81e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrivalAreaIndex: 0
+  playerTransform: {fileID: 0}
+  minMovingSpeed: 1
+  maxMovingSpeed: 3
+  speed: 0
+  isHit: 0
+  playerAttachdistance: 0
+  playerAttachTime: 0
+--- !u!114 &837225152351144652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044474573068301505}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b93868b12e5f6e048823f9eb12d5b4a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

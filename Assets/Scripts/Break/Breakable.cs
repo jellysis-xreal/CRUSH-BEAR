@@ -43,6 +43,9 @@ namespace UnityEngine.XR.Content.Interaction
 
                 brokenVersion.GetComponent<BreakController>().IsHit();
                 m_OnBreak.Invoke(collision.gameObject, brokenVersion);
+                
+                GameManager.Score.Scoring(this.gameObject);
+                
                 Destroy(gameObject);
             }
         }

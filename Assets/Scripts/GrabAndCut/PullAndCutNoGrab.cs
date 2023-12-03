@@ -234,6 +234,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
                 {
                     sliceObjcts();
                     activeCut = false;
+                    
                 }
                 Debug.Log("Slice " + this.gameObject.name);
             }

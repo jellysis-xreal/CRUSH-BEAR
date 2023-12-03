@@ -7,6 +7,8 @@ public class AttachHandNoGrab : MonoBehaviour
 {
     public PullAndCutNoGrab _pullAndCutNoGrab;
     public Transform attachTransform;
+    public bool IsAttached = false;
+    
     void Start()
     {
         //_pullAndCutNoGrab = GetComponent<PullAndCutNoGrab>();
@@ -27,9 +29,14 @@ public class AttachHandNoGrab : MonoBehaviour
             moveToPlayer.enabled = false;
             
             Debug.Log($"hand world Position {transform.position}");
+            IsAttached = true;
+        }
+        else
+        {
+            IsAttached = false;
         }
     }
-
+    
     private void OnTriggerExit(Collider other)
     {
         /*if (other.gameObject.layer == 10)

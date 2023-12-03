@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveToArrivalArea : MonoBehaviour
+public class straightMovingToArrivalArea : MonoBehaviour
 {
     public int arrivalAreaIndex = 0;
     

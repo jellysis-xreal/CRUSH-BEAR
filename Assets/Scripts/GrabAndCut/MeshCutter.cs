@@ -129,6 +129,8 @@ public class MeshCutter : MonoBehaviour
         if (other.gameObject.layer != 10)
             return;
         
+        GameManager.Score.Scoring(other.gameObject);
+        
         _triggerExitTipPosition = _tip.transform.position;
 
         //Create a triangle between the tip and base so that we can get the normal
@@ -174,6 +176,10 @@ public class MeshCutter : MonoBehaviour
         if (other.gameObject.TryGetComponent(out PullAndCut cut))
         {
             cut.FinishSlice();
+        }
+        else if (other.gameObject.TryGetComponent(out PullAndCutNoGrab noGrabCut))
+        {
+            noGrabCut.FinishSlice();
         }
         Destroy(other.gameObject);
         

@@ -10,7 +10,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸기 손에 닿은 순간 Transform 할당
 {
-    [SerializeField] private float maxPullDistance;
+    [SerializeField] private float maxPullDistance = 1.0f;
     [SerializeField] private bool isSetPosition = false;
     [SerializeField] private bool activeCut = false;
     
@@ -33,7 +33,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
     public Transform primaryAttachHandTransform ,secondaryAttachHandTransform;
     public Transform handTransform; // 위치 추적용
     public Vector3 leftHandPosition;
-    private bool _isMeshCuuterReady = false;
+    private bool _isMeshCutterReady = false;
     // ========================================================================
     // Start is called before the first frame update
     void Start()
@@ -121,7 +121,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         MeshCutter.transform.position = middlePoint + Vector3.up * 2f;
         MeshCutter.transform.rotation = Quaternion.LookRotation(handsUpVector);
 
-        _isMeshCuuterReady = true;
+        _isMeshCutterReady = true;
     }
 
     void SetObjectMiddle()
@@ -156,9 +156,10 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         Vector3 targetPosition = new Vector3(originPose.position.x, 0f, originPose.position.z);
         // Vector3 targetPosition = new Vector3(originPose.position.x, originPose.position.y, originPose.position.z);
         Debug.DrawLine(MeshCutter.transform.position, targetPosition, Color.yellow);
-        MeshCutter.transform.DOMoveY(-1f, 0.2f);
-        this.transform.SetParent(null);
+        MeshCutter.transform.position =
+            Vector3.MoveTowards(MeshCutter.transform.position, targetPosition, Time.deltaTime * 10.0f);
         
+        this.transform.SetParent(null);
         
         /*MeshCutter.transform.position =
             Vector3.MoveTowards(MeshCutter.transform.position, targetPosition, Time.deltaTime * 10.0f);*/
@@ -182,6 +183,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         MeshCutter.GetComponent<MeshCutter>().enabled = false;
         MeshCutter.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
 
+        Destroy(deformable);
         Destroy(MeshCutter);
     }
 
@@ -232,6 +234,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
                 {
                     sliceObjcts();
                     activeCut = false;
+                    
                 }
                 Debug.Log("Slice " + this.gameObject.name);
             }

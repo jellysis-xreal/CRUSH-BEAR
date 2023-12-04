@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1197402364210891154}
   - component: {fileID: 1197402364210891155}
   - component: {fileID: 1197402364210891156}
-  - component: {fileID: 4212478784847309581}
   - component: {fileID: 2213686536159354038}
   - component: {fileID: -7480340275713054589}
   m_Layer: 0
@@ -155,25 +154,6 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4212478784847309581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2044474573068301505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5154ca37db5c254685aeabb10686240, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
-  minMovingSpeed: 3
-  maxMovingSpeed: 5
-  speed: 0
-  isHit: 0
-  playerAttachdistance: 0
-  playerAttachTime: 0
 --- !u!82 &2213686536159354038
 AudioSource:
   m_ObjectHideFlags: 0

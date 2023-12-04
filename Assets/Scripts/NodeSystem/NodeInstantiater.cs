@@ -37,7 +37,17 @@ public class NodeInstantiater : MonoBehaviour
         if (objectType == "Rip")
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(ripObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
-            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
+            if (nodeInfo.movingType == "Straight")
+            {
+                gameObjectsByStage[_indexToBeAdded].AddComponent<MoveToPlayer>();
+                gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
+            }else if (nodeInfo.movingType == "Jump") gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMoving>(); 
+                
+                
+            
+            // gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().speed = nodeInfo.movingSpeed;
+            // gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+            Debug.Log("nodeInfo.arrivalAreaIndex " +nodeInfo.arrivalAreaIndex);
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;
             gameObjectsByStage[_indexToBeAdded].SetActive(false);
             _indexToBeAdded += 1;
@@ -45,18 +55,29 @@ public class NodeInstantiater : MonoBehaviour
         }else if (objectType == "Break")
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(breakObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
-            gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
+            if (nodeInfo.movingType == "Straight")
+            {
+                gameObjectsByStage[_indexToBeAdded].AddComponent<MoveToPlayer>();
+                gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
+            }else if (nodeInfo.movingType == "Jump") gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMoving>();
+            
+            // gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().speed = nodeInfo.movingSpeed;
+            // gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+            /*Debug.Log("nodeInfo.arrivalAreaIndex " +gameObjectsByStage[_indexToBeAdded].TryGetComponent<MoveToArrivalArea>(out MoveToArrivalArea moveToArrivalArea));
+            Debug.Log($"Index {moveToArrivalArea.arrivalAreaIndex}");*/
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;
             gameObjectsByStage[_indexToBeAdded].SetActive(false);
             _indexToBeAdded += 1;
-        }else if (objectType == "Avoid")
+        }/*else if (objectType == "Avoid")
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(avoidObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
             gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;
             gameObjectsByStage[_indexToBeAdded].SetActive(false);
             _indexToBeAdded += 1;
-        }
+        }*/
+        
+        
     }
 
     public void StageStart()

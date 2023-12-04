@@ -8,6 +8,7 @@ public class SettingNodeInfo : MonoBehaviour
     public NodeInfo nodeInfo;
     [Header("Set Node Info! (It's up to the developer)")] 
     [SerializeField] private float generationTime;
+    [SerializeField] private int arrivalAreaIndex;
     [SerializeField] private float movingSpeed;
     [SerializeField] private ObjectType objectType;
     [SerializeField] private MovingType movingType;
@@ -22,7 +23,7 @@ public class SettingNodeInfo : MonoBehaviour
     public enum MovingType
     {
         Straight,
-        Cannon,
+        Jump,
         etc
     };
 
@@ -42,6 +43,7 @@ public class SettingNodeInfo : MonoBehaviour
         nodeInfo.posY = (float)Math.Round(transform.position.y,2);
         nodeInfo.posZ = (float)Math.Round(transform.position.z,2);
         nodeInfo.generationTime = generationTime;
+        nodeInfo.arrivalAreaIndex = arrivalAreaIndex;
         nodeInfo.movingSpeed = movingSpeed;
         nodeInfo.objectType = objectType.ToString();
         nodeInfo.movingType = movingType.ToString();

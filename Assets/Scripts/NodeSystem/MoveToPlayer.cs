@@ -61,9 +61,11 @@ public class MoveToPlayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("body"))
+        if (other.tag == "body")
         {
-            isHit = true;
+            // 공격 성공 처리
+            PlayerManager.Instance.MinusPlayerLifeValue();
+            gameObject.SetActive(false);
         }
     }
 }

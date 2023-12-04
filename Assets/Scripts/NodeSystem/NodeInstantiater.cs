@@ -41,7 +41,11 @@ public class NodeInstantiater : MonoBehaviour
             {
                 gameObjectsByStage[_indexToBeAdded].AddComponent<MoveToPlayer>();
                 gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
-            }else if (nodeInfo.movingType == "Jump") gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMoving>(); 
+            }else if (nodeInfo.movingType == "Jump")
+            {
+                JumpMovingToArrivalArea move = gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMovingToArrivalArea>();
+                move.arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+            } 
                 
                 
             
@@ -59,8 +63,11 @@ public class NodeInstantiater : MonoBehaviour
             {
                 gameObjectsByStage[_indexToBeAdded].AddComponent<MoveToPlayer>();
                 gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToPlayer>().speed = nodeInfo.movingSpeed;
-            }else if (nodeInfo.movingType == "Jump") gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMoving>();
-            
+            }else if (nodeInfo.movingType == "Jump")
+            {
+                JumpMovingToArrivalArea move = gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMovingToArrivalArea>();
+                move.arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+            } 
             // gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().speed = nodeInfo.movingSpeed;
             // gameObjectsByStage[_indexToBeAdded].GetComponent<MoveToArrivalArea>().arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
             /*Debug.Log("nodeInfo.arrivalAreaIndex " +gameObjectsByStage[_indexToBeAdded].TryGetComponent<MoveToArrivalArea>(out MoveToArrivalArea moveToArrivalArea));

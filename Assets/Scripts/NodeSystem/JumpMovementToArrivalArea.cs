@@ -1,18 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 // 정확한 위치와 박자에 노드 트리거 시키기 !!
-public class JumpMovingToArrivalArea : MonoBehaviour
+public class JumpMovementToArrivalArea : MonoBehaviour
 {
+    private Rigidbody _rigidbody;
+
+    #region JumpMovement Variablel
+    [Header("Variables Related to JumpMoving ")]
     public int arrivalAreaIndex = 0; // 목표로 하는 area의 인덱스
     public float timeToReachArea = 10f; // area까지 걸릴 시간
     public float totalJumpNumberOfTimes = 10; // area에 도달하기 까지 점프할 횟수
     private int jumpedNumberOfTimes = 0; // 생성된 이후로 점프한 횟수
     public float jumpHeight = 0; // ObjectArrivalArea[index].transform.position.y와 동기화
+    #endregion
 
+
+    #region AreaVariable
     private Transform _targetTransform; // 6.5 칸이 되어야 함. 
+    private ObjectArrivalAreaManager _objectArrivalAreaManager;
+    #endregion
     
     private Tween jumpTween;
 
@@ -22,9 +33,22 @@ public class JumpMovingToArrivalArea : MonoBehaviour
                  "Jump Height")]
     private void SetDefaultJumpingValues(float timeToReach)
     {
-        // 시작 위치와 1~9 area 위치 사이 거리, 도달할 시간 두 가지를 통해 임의로 변수 값 설정
+        // 시작 위치와 1~9 area 위치 사이 거리,
+        // 도달할 시간 두 가지를 통해 임의로 변수 값 설정
+        
     }
-    
+
+    private void AssignTargetTransform()
+    {
+        // 목표 박스 인데스 Transform 할당
+        if(arrivalAreaIndex == 0) return;
+        _rigidbody = GetComponent<Rigidbody>();
+        _objectArrivalAreaManager = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
+        Debug.Log("arrivalAreaIndex " + arrivalAreaIndex);
+        Debug.Log("_objectArrivalAreaManager" + _objectArrivalAreaManager != null);
+
+        _targetTransform = _objectArrivalAreaManager.arrivalAreas[arrivalAreaIndex-1];
+    }
     private void JumpMovingToTargetTransform()
     {
         // 플레이어 거리까지 점프 수 계산
@@ -41,6 +65,11 @@ public class JumpMovingToArrivalArea : MonoBehaviour
                 // 재귀 호출
                 JumpMovingToTargetTransform();
             });
+    }
+
+    private void CalculateNextStep()
+    {
+        
     }
 
     private Vector3 GetNextJumpPoint()
@@ -62,6 +91,11 @@ public class JumpMovingToArrivalArea : MonoBehaviour
             PlayerManager.Instance.MinusPlayerLifeValue();
             gameObject.SetActive(false);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        // 현재 위치, 다음 점프 최상단 위치, 다음 점프 바닥 접촉 위치 전체 계산
     }
 }
 
@@ -98,23 +132,6 @@ private void OnEnable()
 
 
 // Player => Box[index]
-private void JumpMovingToTargetTransform()
-{
-    // 플레이어 거리까지 점프 수 계산
-    // (플레이어, 오브젝트 간 거리)와 점프하는 폭으로 
-    transform.LookAt(targetTransform);
-    Vector3 movePosition = new Vector3((targetTransform.position.x - transform.position.x),
-        0, (targetTransform.position.z - transform.position.z)).normalized; 
-    
-    // DoJump 애니메이션 실행
-    jumpTween = transform.DOJump(transform.position + movePosition, 
-            jumpPower, 1, eachJumpTime).
-        SetEase(Ease.OutSine).OnComplete(() =>
-        {
-            // 재귀 호출
-            JumpMovingToTargetTransform();
-        });
-}
 
 private void OnTriggerEnter(Collider other)
 {

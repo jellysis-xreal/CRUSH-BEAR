@@ -22,7 +22,7 @@ public class NodeLoader : MonoBehaviour
         _nodeInstantiater = GetComponent<NodeInstantiater>();
         NamingJsonFileName();
         NodeInfoSend();
-        Debug.Log("OnEnable!");
+        Debug.Log("OnEnable! Noad Loader");
     }
 
     // 불러들일 json file name을 정함.

@@ -16,6 +16,13 @@ public class AnimateHandOnInput : MonoBehaviour
     public bool isActivated = false;
     public GameObject destroyer;
 
+    private HandData HandData;
+
+    private void Start()
+    {
+        HandData = GetComponent<HandData>();
+    }
+
     private void Update()
     {
         float triggerValue = pinchAnimationAction.action.ReadValue<float>();
@@ -23,16 +30,19 @@ public class AnimateHandOnInput : MonoBehaviour
 
         float grabValue = grabAnimationAction.action.ReadValue<float>();
         handAnimator.SetFloat("Grip", grabValue);
-        
+
         isSelected = selectAction.action.IsPressed();
         isActivated = activateAction.action.IsPressed();
-        
+
         HandDestroyerUpdate(isSelected);
     }
 
     private void HandDestroyerUpdate(bool isSelected)
     {
-        if (isSelected) destroyer.SetActive(true); 
-        else destroyer.SetActive(false);
+        // 일정 속도 이상 움직여야만 판정 시작
+        if (isSelected && HandData.IsMoveQuickly())
+            destroyer.SetActive(true); 
+        else 
+            destroyer.SetActive(false);
     }
 }

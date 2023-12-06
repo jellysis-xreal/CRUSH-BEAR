@@ -64,7 +64,7 @@ public class MoveToPlayer : MonoBehaviour
         if (other.tag == "body")
         {
             // 공격 성공 처리
-            PlayerManager.Instance.MinusPlayerLifeValue();
+            GameManager.Player.MinusPlayerLifeValue();
             gameObject.SetActive(false);
         }
     }

@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 7316040571912831965}
   - component: {fileID: 6827855825909832879}
   - component: {fileID: 7157056832971531737}
-  - component: {fileID: -7346734992740641607}
   - component: {fileID: 7840685002804838665}
   m_Layer: 10
   m_Name: CuttableChair 2
@@ -375,25 +374,6 @@ MonoBehaviour:
   customBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.25, y: 0.25, z: 0.25}
---- !u!114 &-7346734992740641607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4025452073392322844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5154ca37db5c254685aeabb10686240, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
-  minMovingSpeed: 3
-  maxMovingSpeed: 5
-  speed: 0
-  isHit: 0
-  playerAttachdistance: 0
-  playerAttachTime: 0
 --- !u!82 &7840685002804838665
 AudioSource:
   m_ObjectHideFlags: 0

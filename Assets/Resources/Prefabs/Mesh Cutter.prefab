@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 128816257956368130}
   - component: {fileID: 1672116300828064666}
   - component: {fileID: 6473863528949329011}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TrailMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 788997192505759739}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6153164681433387573}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,8 @@ GameObject:
   - component: {fileID: 8460734596232287705}
   - component: {fileID: 1766671783590339403}
   - component: {fileID: 6834939384755336567}
-  m_Layer: 0
+  - component: {fileID: 4583596432061277482}
+  m_Layer: 9
   m_Name: Mesh Cutter
   m_TagString: Cutter
   m_Icon: {fileID: 0}
@@ -232,6 +233,27 @@ MonoBehaviour:
   - {fileID: 175238, guid: 26d069e6f78e6f8478e4dc0152bd6939, type: 3}
   - {fileID: 120410, guid: 6636b3078b0905e489f698a11b7a6b6b, type: 3}
   cuttedObjects: []
+--- !u!65 &4583596432061277482
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7535756252030073545}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 2743
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.11, y: 0.11, z: 1.71}
+  m_Center: {x: -0.00006821449, y: 0.00017462733, z: 0.09039772}
 --- !u!1 &8232887536761074528
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +266,7 @@ GameObject:
   - component: {fileID: 3462276521257264692}
   - component: {fileID: 8634887594054229327}
   - component: {fileID: 3749535603390861616}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Blade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,11 +353,11 @@ BoxCollider:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 2743
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.0069224522, y: 0.0069224546, z: 0.3}
   m_Center: {x: -0.00006821449, y: 0.00017462733, z: 0.09039772}

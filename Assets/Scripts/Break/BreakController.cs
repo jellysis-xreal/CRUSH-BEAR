@@ -6,35 +6,42 @@ public class BreakController : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     
-    public Transform playerTransform;
     public float minMovingSpeed = 1.0f;
     public float maxMovingSpeed = 3.0f;
     public float speed;
     
-    public bool isHit;
-
-    private float breakTime = 0.0f;
+    public bool isHit = false;
+    public bool setBreakTime = false;
+    
+    [SerializeField] private float breakTime = 0.0f;
     private List<GameObject> shatteredObjects = new List<GameObject>();
 
     private void Start()
     {
-        speed = Random.Range(minMovingSpeed, maxMovingSpeed);
-        isHit = false;
+        //Initialize();
     }
 
     private void OnEnable()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        playerTransform = GameObject.FindWithTag("body").transform;
-        
+    }
+
+    private void Initialize()
+    {
+        speed = Random.Range(minMovingSpeed, maxMovingSpeed);
+        isHit = false;
+        setBreakTime = false;
+
         for (int i = 0; i < transform.childCount; i++)
             shatteredObjects.Add(transform.GetChild(i).gameObject);
     }
 
     public void IsHit()
     {
+        Initialize();
+        
         isHit = true;
-        Destroy(this.gameObject, 3.0f);
+        setBreakTime = true;
     }
 
     private void MoveShattered()
@@ -43,41 +50,28 @@ public class BreakController : MonoBehaviour
         foreach (var obj in shatteredObjects)
         {
             Rigidbody objRigidboby = obj.GetComponent<Rigidbody>();
-            
-            Vector3 moveDir = obj.transform.localPosition - Vector3.zero;
-            obj.transform.localPosition = moveDir * 30.0f * Time.deltaTime;
 
-            if (breakTime < 2.0f)
+            if (breakTime < 0.3f)
+            {
                 objRigidboby.AddForce(Vector3.up * 5.0f);
-            else
-                objRigidboby.AddForce(Vector3.down * 1.0f);
+                //Vector3 moveDir = obj.transform.localPosition - Vector3.zero;
+                //obj.transform.localPosition += moveDir * Time.deltaTime;
+            }
 
         }
     }
     
     void Update()
     {
-        if (!isHit)
-            Move();
-        else
+        if (isHit && setBreakTime)
         {
             breakTime += Time.deltaTime;
-            MoveShattered();
+            
+            // 조각을 자연스럽게 흩어지게 한뒤, 5s가 지나면 해당 오브젝트를 destory
+            if (breakTime < 3.0f)
+                MoveShattered();
+            else
+                Destroy(this.gameObject);
         }
-    }
-
-    void Move()
-    {
-        transform.LookAt(transform);
-        Vector3 dir = playerTransform.position - transform.position;
-        transform.position += dir * speed * Time.deltaTime;
-    }
-
-    public void ReflectionMove(Vector3 dir)
-    {
-        Debug.Log("Reflection Moving, dir : "+dir);
-        isHit = true;
-        _rigidbody.AddForce(dir,ForceMode.Impulse);
-        //_rigidbody.AddForceAtPosition(dir, transform.position, ForceMode.Impulse);
     }
 }

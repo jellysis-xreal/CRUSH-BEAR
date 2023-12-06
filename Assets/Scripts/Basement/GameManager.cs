@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ScoreManager _score;
     public static ScoreManager Score { get { return Instance._score; } }
 
+    [SerializeField] private PlayerManager _player;
+    public static PlayerManager Player { get { return Instance._player; }}
+
     void Start()
     { 
         Init();
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviour
 
             //+-------- Managers Init() +--------//
             _score.Init();
+            _player.Init();
             
         }
         else

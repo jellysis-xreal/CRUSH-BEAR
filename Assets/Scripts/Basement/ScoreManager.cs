@@ -25,7 +25,10 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private GameObject LeftController;
     [SerializeField] private HandData RHand;
     [SerializeField] private HandData LHand;
-
+    [SerializeField] private GameObject Perfect_VFX;
+    [SerializeField] private GameObject Good_VFX;
+    [SerializeField] private GameObject Bad_VFX;
+    
     private float standardSpeed;
     private Vector3 RbeforePos, LbeforePos;
     private AttachHandNoGrab RAttachNoGrab;
@@ -49,6 +52,8 @@ public class ScoreManager : MonoBehaviour
         LHand = LeftController.transform.GetChild(0).GetComponent<HandData>();
 
         standardSpeed = maxSpeed * 0.6f;
+
+        Perfect_VFX = Resources.Load("VFX/FireWorkCelebrationEffect02") as GameObject;
     }
 
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
@@ -148,6 +153,8 @@ public class ScoreManager : MonoBehaviour
         {
             effect = Resources.Load("Prefabs/Effects/Score_perfect") as GameObject;
             Instantiate(effect, position.position, Quaternion.identity);
+            GameObject obj = Instantiate(Perfect_VFX, position.position, Quaternion.identity);
+            Destroy(obj, 3.0f);
         }
         else if (score == scoreType.Good)
         {

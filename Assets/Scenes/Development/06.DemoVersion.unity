@@ -680,7 +680,7 @@ PrefabInstance:
     - target: {fileID: 7064904311140301579, guid: e4d3c508bd7d4f145acd823869941171,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7523611922827722267, guid: e4d3c508bd7d4f145acd823869941171,
         type: 3}
@@ -1999,7 +1999,7 @@ PrefabInstance:
     - target: {fileID: 1174662134631006823, guid: f02f45e45956d5e4ba82bcddd721bad3,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4035877396681837367, guid: f02f45e45956d5e4ba82bcddd721bad3,
         type: 3}
@@ -2296,6 +2296,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: blueberry
       objectReference: {fileID: 0}
+    - target: {fileID: 3216690746106268825, guid: 28752e5434c273c4283f8bac7fd8902c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3934058399899714609, guid: 28752e5434c273c4283f8bac7fd8902c,
         type: 3}
       propertyPath: m_TightenPosition
@@ -2461,7 +2466,7 @@ PrefabInstance:
     - target: {fileID: 4025452073392322844, guid: 18693dcb7a5a9c7438165244c39724a2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3205,7 +3210,7 @@ PrefabInstance:
     - target: {fileID: 4025452073392322844, guid: 18693dcb7a5a9c7438165244c39724a2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3264,7 +3269,7 @@ PrefabInstance:
     - target: {fileID: 5612125738974052612, guid: 8425262d415bac84d823dc84dc9c24f0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7326559752905246804, guid: 8425262d415bac84d823dc84dc9c24f0,
         type: 3}
@@ -3558,7 +3563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &698054109
 Transform:
   m_ObjectHideFlags: 0
@@ -4454,7 +4459,7 @@ PrefabInstance:
     - target: {fileID: 8431445210226289567, guid: 3ed1769ae752b1a47a76aa745006d135,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6483,13 +6488,13 @@ PrefabInstance:
         type: 3}
       propertyPath: ripObjects.Array.data[0]
       value: 
-      objectReference: {fileID: 4025452073392322844, guid: 18693dcb7a5a9c7438165244c39724a2,
+      objectReference: {fileID: 3216690746106268825, guid: 28752e5434c273c4283f8bac7fd8902c,
         type: 3}
     - target: {fileID: 4451352684839434240, guid: 5091c9370a9bc9249a82f31b37be2e38,
         type: 3}
       propertyPath: ripObjects.Array.data[1]
       value: 
-      objectReference: {fileID: 4025452073392322844, guid: 18693dcb7a5a9c7438165244c39724a2,
+      objectReference: {fileID: 3216690746106268825, guid: 28752e5434c273c4283f8bac7fd8902c,
         type: 3}
     - target: {fileID: 4451352684839434240, guid: 5091c9370a9bc9249a82f31b37be2e38,
         type: 3}

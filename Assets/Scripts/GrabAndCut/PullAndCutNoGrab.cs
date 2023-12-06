@@ -29,6 +29,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
 
     // 추가한 코드
     [SerializeField] private XRDirectInteractor _primaryInteractor, _secondaryInteractor;
+    private AttachHandNoGrab _primaryAttach, _secondaryAttach;
     public bool isPrimaryHandAttached, isSecondaryHandAttached = false;
     public Transform primaryAttachHandTransform ,secondaryAttachHandTransform;
     public Transform handTransform; // 위치 추적용
@@ -182,7 +183,11 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         activeCut = false;
         MeshCutter.GetComponent<MeshCutter>().enabled = false;
         MeshCutter.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
-
+        
+        // Hand의 Attach state 초기화
+        _primaryAttach.IsAttached = false;
+        _secondaryAttach.IsAttached = false;
+        
         Destroy(deformable);
         Destroy(MeshCutter);
     }
@@ -259,6 +264,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             Debug.Log($"primary Attach Hand: {handTransform.name} ");
             primaryAttachHandTransform = handTransform;
             _primaryInteractor = handTransform.GetComponent<XRDirectInteractor>();
+            _primaryAttach = handTransform.GetComponent<AttachHandNoGrab>();
             isPrimaryHandAttached = true;
             SetAttachTransform(handTransform);
         }
@@ -267,6 +273,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             Debug.Log($"secondary Attach Hand: {handTransform.name} ");
             secondaryAttachHandTransform = handTransform;
             _secondaryInteractor = handTransform.GetComponent<XRDirectInteractor>();
+            _secondaryAttach = handTransform.GetComponent<AttachHandNoGrab>();
             isSecondaryHandAttached = true;
         }
     }

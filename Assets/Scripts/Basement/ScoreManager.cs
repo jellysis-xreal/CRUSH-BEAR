@@ -15,22 +15,15 @@ using UnityEngine.InputSystem;
 public class ScoreManager : MonoBehaviour
 {
     [Header("setting value")]
-    public float score;
-    [SerializeField] private float maxSpeed = 3.5f;
+    public float TotalScore;
+    [SerializeField] private float maxSpeed = 3.0f;
 
     [Header("setting(auto)")] 
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject RightController;
     [SerializeField] private GameObject LeftController;
-    private InputActionProperty RControllerInput;
-    private InputActionProperty LControllerInput;
-
-    [Header("playing value")] 
-    [SerializeField] private float RControllerSpeed;
-    [SerializeField] private float LControllerSpeed;
-
-    [SerializeField] private InteractionType RControllerType;
-    [SerializeField] private InteractionType LControllerType;
+    [SerializeField] private HandData RHand;
+    [SerializeField] private HandData LHand;
 
     private float standardSpeed;
     private Vector3 RbeforePos, LbeforePos;
@@ -49,23 +42,11 @@ public class ScoreManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
-        
-        RbeforePos = RightController.transform.position;
-        LbeforePos = LeftController.transform.position;
 
-        RControllerInput = RightController.transform.GetChild(0).GetComponent<AnimateHandOnInput>().grabAnimationAction;
-        LControllerInput = LeftController.transform.GetChild(0).GetComponent<AnimateHandOnInput>().grabAnimationAction;
+        RHand = RightController.transform.GetChild(0).GetComponent<HandData>();
+        LHand = LeftController.transform.GetChild(0).GetComponent<HandData>();
 
-        RAttachNoGrab = RightController.GetComponent<AttachHandNoGrab>();
-        LAttachNoGrab = LeftController.GetComponent<AttachHandNoGrab>();
-        
-        standardSpeed = maxSpeed * 0.7f;
-    }
-
-    private void Update()
-    {
-        updateControllerSpeed();
-        updateControllerState();
+        standardSpeed = maxSpeed * 0.6f;
     }
 
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
@@ -73,66 +54,70 @@ public class ScoreManager : MonoBehaviour
     {
         InteractionType targetType = target.GetComponent<BaseObject>().InteractionType;
         scoreType score;
-        
-        if (targetType == RControllerType || targetType == LControllerType)
+
+        switch (targetType)
         {
-            if (RControllerSpeed > standardSpeed || LControllerSpeed > standardSpeed)
-                score = scoreType.Perfect;
-            else
-                score = scoreType.Good;
-        }
-        else
-        {
-            // 해당 target에 대한 점수는 Bad
-            score = scoreType.Bad;
+            case InteractionType.Break:
+                if (targetType == RHand.ControllerType)
+                {
+                    if (RHand.ControllerSpeed > standardSpeed)
+                        score = scoreType.Perfect;
+                    else
+                        score = scoreType.Good;
+                }
+                else if (targetType == LHand.ControllerType)
+                {
+                    if (LHand.ControllerSpeed > standardSpeed)
+                        score = scoreType.Perfect;
+                    else
+                        score = scoreType.Good;
+                }
+                else
+                    score = scoreType.Bad;
+                break;
+            
+            case InteractionType.Tear:
+                if (RHand.ControllerType == InteractionType.Tear && LHand.ControllerType == InteractionType.Tear)
+                {
+                    if (RHand.ControllerSpeed > standardSpeed || LHand.ControllerSpeed > standardSpeed)
+                        score = scoreType.Perfect;
+                    else
+                        score = scoreType.Good;
+                }
+                else
+                    score = scoreType.Bad;
+                break;
+
+            default:
+                score = scoreType.Bad;
+                break;
         }
 
-        Debug.Log(score);
+        AddScore(score);
         SetScoreEffect(score, target.transform);
+        Debug.Log(target.name + "의 점수는 " + score);
+    }
+
+    private void AddScore(scoreType score)
+    {
+        switch (score)
+        {
+            case scoreType.Perfect:
+                TotalScore += 100;
+                break;
+            
+            case scoreType.Good:
+                TotalScore += 50;
+                break;
+            
+            case scoreType.Bad:
+                TotalScore += 0;
+                break;
+        }
     }
 
     private void SetScoreEffect(scoreType score, Transform position)
     {
         
-    }
-
-    private void updateControllerSpeed()
-    {
-        Vector3 RcurrentPos = RightController.transform.position;
-        Vector3 LcurrentPos = LeftController.transform.position;
-
-        RControllerSpeed = (RbeforePos - RcurrentPos).magnitude / Time.deltaTime;
-        LControllerSpeed = (LbeforePos - LcurrentPos).magnitude / Time.deltaTime;
-        
-        RbeforePos = RcurrentPos;
-        LbeforePos = LcurrentPos;
-    }
-
-    private void updateControllerState()
-    {
-        float RgrabValue = RControllerInput.action.ReadValue<float>();
-        float LgrabValue = LControllerInput.action.ReadValue<float>();
-        
-        // 양 손이 normal이라면 Idle state
-        if (RgrabValue < 0.7f)
-            RControllerType = InteractionType.Idle;
-        if (LgrabValue < 0.7f)
-            LControllerType = InteractionType.Idle;
-        
-        //양 손을 펼치고 있고 GrabAttached일 경우 Tear state
-        if ((RgrabValue < 0.7f && RAttachNoGrab.IsAttached)
-            || (LgrabValue < 0.7f && LAttachNoGrab.IsAttached))
-        {
-            RControllerType = InteractionType.Tear;
-            LControllerType = InteractionType.Tear;
-            // TODO: 한 번 찢고나서 Idle 상태로 돌아가야 함
-        }
-
-        // 양 손이 Grab이라면 Break state
-        if (RgrabValue > 0.7f)
-            RControllerType = InteractionType.Break;
-        if (LgrabValue > 0.7f)
-            LControllerType = InteractionType.Break;
-
     }
 }

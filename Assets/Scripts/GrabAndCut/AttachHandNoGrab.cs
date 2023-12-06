@@ -34,8 +34,8 @@ public class AttachHandNoGrab : MonoBehaviour
             if (HandDestoryer.activeSelf == true && HandData.ControllerType == InteractionType.Break)
                 GameManager.Score.Scoring(other.gameObject);
             
-            
-            other.GetComponent<IMovement>().StopMoving();
+            if (other.TryGetComponent(out IMovement move))
+                move.StopMoving();
             
             _pullAndCutNoGrab = pullAndCutNoGrab; //other.GetComponent<PullAndCutNoGrab>();// //// //v 
             _pullAndCutNoGrab.AttachHand(this.transform, other.ClosestPoint(transform.position));

@@ -40,13 +40,12 @@ namespace UnityEngine.XR.Content.Interaction
             {
                 m_Destroyed = true;
                 var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
-
-                brokenVersion.GetComponent<BreakController>().IsHit();
-                m_OnBreak.Invoke(collision.gameObject, brokenVersion);
                 
+                m_OnBreak.Invoke(collision.gameObject, brokenVersion);
+                brokenVersion.GetComponent<BreakController>().IsHit();
                 GameManager.Score.Scoring(this.gameObject);
                 
-                Destroy(gameObject);
+                Destroy(gameObject, 0.1f);
             }
         }
     }

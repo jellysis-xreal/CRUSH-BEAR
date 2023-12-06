@@ -29,6 +29,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
 
     // 추가한 코드
     [SerializeField] private XRDirectInteractor _primaryInteractor, _secondaryInteractor;
+    private AttachHandNoGrab _primaryAttach, _secondaryAttach;
     public bool isPrimaryHandAttached, isSecondaryHandAttached = false;
     public Transform primaryAttachHandTransform ,secondaryAttachHandTransform;
     public Transform handTransform; // 위치 추적용
@@ -119,7 +120,8 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         //Debug.DrawRay(middlePoint, handsUpVector.normalized, Color.blue, 0.5f, false);
 
         MeshCutter.transform.position = middlePoint + Vector3.up * 2f;
-        MeshCutter.transform.rotation = Quaternion.LookRotation(handsUpVector);
+        if (handsUpVector.magnitude > 0)
+            MeshCutter.transform.rotation = Quaternion.LookRotation(handsUpVector);
 
         _isMeshCutterReady = true;
     }
@@ -152,7 +154,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
 
     void sliceObjcts()
     {
-        Debug.Log("cut! Do Move Y");
+        //Debug.Log("cut! Do Move Y");
         Vector3 targetPosition = new Vector3(originPose.position.x, 0f, originPose.position.z);
         // Vector3 targetPosition = new Vector3(originPose.position.x, originPose.position.y, originPose.position.z);
         Debug.DrawLine(MeshCutter.transform.position, targetPosition, Color.yellow);
@@ -182,7 +184,11 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         activeCut = false;
         MeshCutter.GetComponent<MeshCutter>().enabled = false;
         MeshCutter.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
-
+        
+        // Hand의 Attach state 초기화
+        _primaryAttach.IsAttached = false;
+        _secondaryAttach.IsAttached = false;
+        
         Destroy(deformable);
         Destroy(MeshCutter);
     }
@@ -236,7 +242,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
                     activeCut = false;
                     
                 }
-                Debug.Log("Slice " + this.gameObject.name);
+                //Debug.Log("Slice " + this.gameObject.name);
             }
             movementMiddle = middlePoint;
         }
@@ -245,7 +251,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             isSetPosition = false;
             if (MeshCutter != null)
             {
-                Debug.Log("Destroy MeshCutter!");
+                //Debug.Log("Destroy MeshCutter!");
                 MeshCutter.GetComponent<MeshCutter>().enabled = false;
                 Destroy(MeshCutter);
             }
@@ -259,6 +265,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             Debug.Log($"primary Attach Hand: {handTransform.name} ");
             primaryAttachHandTransform = handTransform;
             _primaryInteractor = handTransform.GetComponent<XRDirectInteractor>();
+            _primaryAttach = handTransform.GetComponent<AttachHandNoGrab>();
             isPrimaryHandAttached = true;
             SetAttachTransform(handTransform);
         }
@@ -267,6 +274,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             Debug.Log($"secondary Attach Hand: {handTransform.name} ");
             secondaryAttachHandTransform = handTransform;
             _secondaryInteractor = handTransform.GetComponent<XRDirectInteractor>();
+            _secondaryAttach = handTransform.GetComponent<AttachHandNoGrab>();
             isSecondaryHandAttached = true;
         }
     }

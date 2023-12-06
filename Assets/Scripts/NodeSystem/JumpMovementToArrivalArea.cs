@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 // 정확한 위치와 박자에 노드 트리거 시키기 !!
-public class JumpMovementToArrivalArea : MonoBehaviour
+public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
 {
     private Rigidbody _rigidbody;
 
@@ -41,17 +41,24 @@ public class JumpMovementToArrivalArea : MonoBehaviour
         
     }
 
-    private void Start()
-    {
-        Test();
-    }
-
     [ContextMenu("Jump Moving")]
     public void Test()
     {
         AssignTargetTransform();
         JumpMovingToTargetTransform();
     }
+
+    private void OnEnable()
+    {
+
+    }
+
+    public void Init()
+    {
+        AssignTargetTransform();
+        JumpMovingToTargetTransform();
+    }
+    
     private void AssignTargetTransform()
     {
         // 목표 박스 인데스 Transform 할당
@@ -144,23 +151,33 @@ public class JumpMovementToArrivalArea : MonoBehaviour
             Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
             other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
         }
-    
         if (other.tag == "body")
         {
-            // 공격 성공 처리
+            // 플레이어 공격 성공 처리
             jumpTween.Kill();
             PlayerManager.Instance.MinusPlayerLifeValue();
             gameObject.SetActive(false);
+        }
+        if (other.CompareTag("TriggerPad"))
+        {
+            // 뒤에 존재하는 곰돌이 공격 성공 처리
+            jumpTween.Kill();
+            PlayerManager.Instance.MinusPlayerLifeValue();
+            other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
+            this.enabled = false;
+            // gameObject.SetActive(false);
         }
     }
 
     private void OnDrawGizmos()
     {
         // 현재 위치, 다음 점프 최상단 위치, 다음 점프 바닥 접촉 위치 전체 계산
-        Gizmos.color = Color.red;
+        Color color = Color.red;
+        color.a = 0.2f;
+        Gizmos.color = color;
         for (int i = 0; i < _checkablePositionList.Count; i++)
         {
-            Gizmos.DrawCube(_checkablePositionList[i], transform.lossyScale);
+            Gizmos.DrawCube(_checkablePositionList[i], transform.lossyScale / 2);
         }
         Gizmos.color = Color.yellow;
         Gizmos.DrawCube(lastPositon, Vector3.one);

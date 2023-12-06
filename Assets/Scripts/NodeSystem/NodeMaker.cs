@@ -26,7 +26,7 @@ public class NodeMaker : MonoBehaviour
             Debug.Log($"Path : {Application.dataPath}, jsonData length : {jsonData.Length}  "+jsonData);    
         }
         
-        // 생성 완료 후 Node Load하기
+        // 생성 완료 후 Node Load 하기
         nodeLoaderGameObject.SetActive(true);
     }
     private void InitializeNode()

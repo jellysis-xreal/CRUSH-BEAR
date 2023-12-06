@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using EnumTypes;
+using TMPro;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.PlayerLoop;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -30,6 +31,7 @@ public class ScoreManager : MonoBehaviour
     private AttachHandNoGrab RAttachNoGrab;
     private AttachHandNoGrab LAttachNoGrab;
 
+    [Header("Score UI")] [SerializeField] private TextMeshProUGUI scoreText;
     private enum scoreType
     {
         Perfect,
@@ -123,14 +125,17 @@ public class ScoreManager : MonoBehaviour
         {
             case scoreType.Perfect:
                 TotalScore += 100;
+                scoreText.text = TotalScore.ToString();
                 break;
             
             case scoreType.Good:
                 TotalScore += 50;
+                scoreText.text = TotalScore.ToString();
                 break;
             
             case scoreType.Bad:
                 TotalScore += 0;
+                scoreText.text = TotalScore.ToString();
                 break;
         }
     }

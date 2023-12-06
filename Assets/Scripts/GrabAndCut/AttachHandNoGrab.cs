@@ -23,9 +23,7 @@ public class AttachHandNoGrab : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 11)
-        {
-            // 부술 물체와 인터렉션 했는데, Hand가 Grab되지 않은 경우
+        // 부술 물체와 인터렉션 했는데, Hand가 Grab되지 않은 경우
             if (HandDestoryer.activeSelf == false && other.GetComponent<BaseObject>().InteractionType == InteractionType.Break)
                 GameManager.Score.Scoring(other.gameObject);
         
@@ -46,8 +44,7 @@ public class AttachHandNoGrab : MonoBehaviour
             else
             {
                 IsAttached = false;
-            }    
-        }
+            }
     }
     
     private void OnTriggerExit(Collider other)

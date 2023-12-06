@@ -65,19 +65,20 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
         if (other.CompareTag("ArrivalArea"))
         {
             Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
-            other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
+            // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
             isArrivalAreaHit = true;
         }
         if (other.tag == "body")
         {
             // 플레이어 공격 성공 처리
-            PlayerManager.Instance.MinusPlayerLifeValue();
+            GameManager.Player.MinusPlayerLifeValue();
             gameObject.SetActive(false);
         }
         if (other.CompareTag("TriggerPad"))
         {
             // 뒤에 존재하는 곰돌이 공격 성공 처리
-            PlayerManager.Instance.MinusPlayerLifeValue();
+            Debug.Log($"{gameObject.name} Trigger Pad");
+            GameManager.Player.MinusPlayerLifeValue();
             other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
             this.enabled = false;
         }

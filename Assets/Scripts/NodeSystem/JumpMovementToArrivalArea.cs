@@ -149,20 +149,21 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         if (other.tag == "ArrivalArea")
         {
             Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
-            other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
+            // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
         }
         if (other.tag == "body")
         {
             // 플레이어 공격 성공 처리
             jumpTween.Kill();
-            PlayerManager.Instance.MinusPlayerLifeValue();
+            GameManager.Player.MinusPlayerLifeValue();
             gameObject.SetActive(false);
         }
         if (other.CompareTag("TriggerPad"))
         {
             // 뒤에 존재하는 곰돌이 공격 성공 처리
+            Debug.Log($"{gameObject.name} Trigger Pad");
             jumpTween.Kill();
-            PlayerManager.Instance.MinusPlayerLifeValue();
+            GameManager.Player.MinusPlayerLifeValue();
             other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
             this.enabled = false;
             // gameObject.SetActive(false);

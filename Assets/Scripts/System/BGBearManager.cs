@@ -24,6 +24,7 @@ public class BGBearManager : MonoBehaviour
     
     private void AttachDecoItemToBear(GameObject triggeredGameobject)
     {
+        triggeredGameobject.transform.localScale *= 0.3f;
         triggeredGameobject.transform.position = bearAnimators[_processedBearNumber].transform.position;
     }
 }

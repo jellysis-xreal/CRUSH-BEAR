@@ -58,6 +58,11 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         AssignTargetTransform();
         JumpMovingToTargetTransform();
     }
+
+    public void StopMoving()
+    {
+        jumpTween.Kill();
+    }
     
     private void AssignTargetTransform()
     {

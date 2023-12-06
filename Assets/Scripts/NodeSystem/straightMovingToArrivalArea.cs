@@ -14,7 +14,8 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
     public float maxMovingSpeed = 3.0f;
     public float speed;
     public bool isArrivalAreaHit;
-
+    public bool isHandAttached = false;
+    
     [SerializeField] private float playerAttachdistance;
     [SerializeField] private float playerAttachTime;
     private float _afterAttachTime;
@@ -36,16 +37,19 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
         
         isArrivalAreaHit = false;
         _objectArrivalAreaManager = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
-        /*Debug.Log("arrivalAreaIndex " + arrivalAreaIndex);
-        Debug.Log("_objectArrivalAreaManager" + _objectArrivalAreaManager != null);*/
 
         targetTransform = _objectArrivalAreaManager.arrivalAreas[arrivalAreaIndex-1];
     }
 
+    public void StopMoving()
+    {
+        isHandAttached = true;
+    }
+
     void Update()
     {
-        if(!isArrivalAreaHit) Move();
-        else TriggeredMove();
+        if(!isArrivalAreaHit && !isHandAttached) Move();
+        else if(isArrivalAreaHit && !isHandAttached) TriggeredMove();
     }
 
     void Move()
@@ -60,6 +64,7 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
         transform.position += dir * speed * Time.deltaTime;
     }
 
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ArrivalArea"))

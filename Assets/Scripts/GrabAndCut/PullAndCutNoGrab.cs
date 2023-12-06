@@ -154,7 +154,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
 
     void sliceObjcts()
     {
-        //Debug.Log("cut! Do Move Y");
+        Debug.Log("cut! Do Move Y");
         Vector3 targetPosition = new Vector3(originPose.position.x, 0f, originPose.position.z);
         // Vector3 targetPosition = new Vector3(originPose.position.x, originPose.position.y, originPose.position.z);
         Debug.DrawLine(MeshCutter.transform.position, targetPosition, Color.yellow);

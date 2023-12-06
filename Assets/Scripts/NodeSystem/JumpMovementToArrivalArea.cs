@@ -71,15 +71,15 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         if (dir > 60)
         {
             timeToReachPlayer *= 2f;
-            totalJumpNumberOfTimes *= 3;
+            totalJumpNumberOfTimes *= 2;
         }else if (dir > 40)
         {
             timeToReachPlayer *= 1.5f;
-            totalJumpNumberOfTimes *= 2;
+            totalJumpNumberOfTimes *= 1;
         }else if (dir > 20)
         {
             timeToReachPlayer *= 1.3f;
-            totalJumpNumberOfTimes *= 2;
+            totalJumpNumberOfTimes *= 1;
         }
         
           

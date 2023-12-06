@@ -56,6 +56,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     public void Init()
     {
         AssignTargetTransform();
+        SetTime(); // 테스트를 위해 임시로 timeToReachPlayer, totalJumpNumberOfTimes에 가중치를 곱함.
         JumpMovingToTargetTransform();
     }
 
@@ -63,7 +64,26 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     {
         jumpTween.Kill();
     }
-    
+
+    public void SetTime()
+    {
+        float dir = Vector3.Distance(transform.position, _areaTransform.position);
+        if (dir > 60)
+        {
+            timeToReachPlayer *= 2f;
+            totalJumpNumberOfTimes *= 3;
+        }else if (dir > 40)
+        {
+            timeToReachPlayer *= 1.5f;
+            totalJumpNumberOfTimes *= 2;
+        }else if (dir > 20)
+        {
+            timeToReachPlayer *= 1.3f;
+            totalJumpNumberOfTimes *= 2;
+        }
+        
+          
+    }
     private void AssignTargetTransform()
     {
         // 목표 박스 인데스 Transform 할당

@@ -46,6 +46,7 @@ public class NodeInstantiater : MonoBehaviour
             {
                 JumpMovementToArrivalArea move = gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMovementToArrivalArea>();
                 move.arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+                // 점프 횟수, 플레이어까지 도달하는 총 시간
             } 
             
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;

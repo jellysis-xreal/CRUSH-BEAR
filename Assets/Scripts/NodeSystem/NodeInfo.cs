@@ -4,11 +4,12 @@ public class NodeInfo
     public float posY;
     public float posZ;
     public float generationTime;
-    public float movingSpeed;
+    public float movingSpeed; // 직선 운동만 해당
     public string objectType;
     public string movingType;
     public int objectNum;
     public int arrivalAreaIndex;
+    // 직선 운동, 점프 운동
 
     public NodeInfo()
     {

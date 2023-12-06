@@ -1792,6 +1792,7 @@ GameObject:
   - component: {fileID: 333832615}
   - component: {fileID: 333832614}
   - component: {fileID: 333832613}
+  - component: {fileID: 333832619}
   m_Layer: 0
   m_Name: JumpKing (5)
   m_TagString: Untagged
@@ -1928,6 +1929,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1254999303}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &333832619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333832612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f907bb5ea69dd4db520375d1e79f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrivalAreaIndex: 0
+  timeToReachPlayer: 10
+  totalJumpNumberOfTimes: 10
+  lastPositon: {x: 0, y: 0, z: 0}
+  _jumpedNumberOfTimes: 0
+  jumpHeight: 0
+  _areaTransform: {fileID: 0}
 --- !u!1 &343641982
 GameObject:
   m_ObjectHideFlags: 0
@@ -2075,7 +2095,7 @@ Transform:
   m_GameObject: {fileID: 377498901}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.2328, y: -3.1059732, z: 38.370003}
+  m_LocalPosition: {x: 22.2328, y: -3.1059732, z: 21.439999}
   m_LocalScale: {x: 1.6364, y: 1.6364, z: 1.6364}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4503,11 +4523,11 @@ Transform:
   m_Children:
   - {fileID: 1191819947}
   - {fileID: 114117199}
-  - {fileID: 377498902}
   - {fileID: 686189494}
   - {fileID: 975319695}
   - {fileID: 186978317}
   - {fileID: 1605679220}
+  - {fileID: 377498902}
   m_Father: {fileID: 1169010071}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &975319694

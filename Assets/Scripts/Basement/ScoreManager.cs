@@ -52,6 +52,10 @@ public class ScoreManager : MonoBehaviour
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
     public void Scoring(GameObject target)
     {
+        
+        if (target.GetComponent<BaseObject>().IsItScored())
+            return; // Object의 중복 scoring을 방지한다.
+        
         InteractionType targetType = target.GetComponent<BaseObject>().InteractionType;
         scoreType score;
 
@@ -73,9 +77,14 @@ public class ScoreManager : MonoBehaviour
                         score = scoreType.Good;
                 }
                 else
+                {
                     score = scoreType.Bad;
+                    // TODO: player 몸에 붙게 처리 + 목숨 -1
+                    Destroy(target, 0.5f);
+                }
+
                 break;
-            
+
             case InteractionType.Tear:
                 if (RHand.ControllerType == InteractionType.Tear && LHand.ControllerType == InteractionType.Tear)
                 {
@@ -85,14 +94,24 @@ public class ScoreManager : MonoBehaviour
                         score = scoreType.Good;
                 }
                 else
+                {
                     score = scoreType.Bad;
+                    // TODO: player 몸에 붙게 처리 + 목숨 -1
+                    Destroy(target, 0.5f);
+                }
                 break;
 
             default:
+            {
                 score = scoreType.Bad;
+                // TODO: player 몸에 붙게 처리 + 목숨 -1
+                Destroy(target, 0.5f);
                 break;
+            }
+                
         }
 
+        target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
         SetScoreEffect(score, target.transform);
         Debug.Log(target.name + "의 점수는 " + score);
@@ -118,6 +137,22 @@ public class ScoreManager : MonoBehaviour
 
     private void SetScoreEffect(scoreType score, Transform position)
     {
-        
+        GameObject effect;
+
+        if (score == scoreType.Perfect)
+        {
+            effect = Resources.Load("Prefabs/Effects/Score_perfect") as GameObject;
+            Instantiate(effect, position.position, Quaternion.identity);
+        }
+        else if (score == scoreType.Good)
+        {
+            effect = Resources.Load("Prefabs/Effects/Score_good") as GameObject;
+            Instantiate(effect, position.position, Quaternion.identity);
+        }
+        else if (score == scoreType.Bad)
+        {
+            effect = Resources.Load("Prefabs/Effects/Score_bad") as GameObject;
+            Instantiate(effect, position.position, Quaternion.identity);
+        }
     }
 }

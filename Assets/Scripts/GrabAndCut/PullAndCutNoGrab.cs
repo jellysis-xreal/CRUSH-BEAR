@@ -54,7 +54,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             deformable = transform.GetChild(0).gameObject;
             deformer = deformable.GetComponent<SquashAndStretchDeformer>();
         }
-        maxPullDistance = 1.1f;
+        //maxPullDistance = 1.1f;
     }
 
     void Initiate()
@@ -154,12 +154,12 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
 
     void sliceObjcts()
     {
-        Debug.Log("cut! Do Move Y");
+        //Debug.Log("cut! Do Move Y");
         Vector3 targetPosition = new Vector3(originPose.position.x, 0f, originPose.position.z);
         // Vector3 targetPosition = new Vector3(originPose.position.x, originPose.position.y, originPose.position.z);
         Debug.DrawLine(MeshCutter.transform.position, targetPosition, Color.yellow);
         MeshCutter.transform.position =
-            Vector3.MoveTowards(MeshCutter.transform.position, targetPosition, Time.deltaTime * 10.0f);
+            Vector3.MoveTowards(MeshCutter.transform.position, targetPosition, Time.deltaTime * 20.0f);
         
         this.transform.SetParent(null);
         
@@ -214,6 +214,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             InitiateNoGrab();
             SetObjectMiddle();
             CurDistance = Vector3.Distance(primaryAttachPose.position, secondaryAttachPose.position);
+            Debug.Log(CurDistance);
             activeCut = CurDistance >= maxPullDistance;
             
             // Mesh Cutter가 Player의 위쪽으로 Set

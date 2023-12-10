@@ -17,8 +17,10 @@ public class ScoreManager : MonoBehaviour
 {
     [Header("setting value")]
     public float TotalScore;
+    public Transform effectSpawn;
     [SerializeField] private float maxSpeed = 3.0f;
 
+    
     [Header("setting(auto)")] 
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject RightController;
@@ -151,20 +153,23 @@ public class ScoreManager : MonoBehaviour
 
         if (score == scoreType.Perfect)
         {
+            // Perfect! 글자
             effect = Resources.Load("Prefabs/Effects/Score_perfect") as GameObject;
-            Instantiate(effect, position.position, Quaternion.identity);
+            Instantiate(effect, effectSpawn.position, Quaternion.identity);
+            
+            // 점수에 따른 효과
             GameObject obj = Instantiate(Perfect_VFX, position.position, Quaternion.identity);
             Destroy(obj, 3.0f);
         }
         else if (score == scoreType.Good)
         {
             effect = Resources.Load("Prefabs/Effects/Score_good") as GameObject;
-            Instantiate(effect, position.position, Quaternion.identity);
+            Instantiate(effect, effectSpawn.position, Quaternion.identity);
         }
         else if (score == scoreType.Bad)
         {
             effect = Resources.Load("Prefabs/Effects/Score_bad") as GameObject;
-            Instantiate(effect, position.position, Quaternion.identity);
+            Instantiate(effect, effectSpawn.position, Quaternion.identity);
         }
     }
 }

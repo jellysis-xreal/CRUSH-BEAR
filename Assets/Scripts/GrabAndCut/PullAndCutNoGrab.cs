@@ -214,7 +214,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
             InitiateNoGrab();
             SetObjectMiddle();
             CurDistance = Vector3.Distance(primaryAttachPose.position, secondaryAttachPose.position);
-            Debug.Log(CurDistance);
+            //Debug.Log(CurDistance);
             activeCut = CurDistance >= maxPullDistance;
             
             // Mesh Cutter가 Player의 위쪽으로 Set

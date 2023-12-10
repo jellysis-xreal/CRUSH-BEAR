@@ -32,6 +32,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     
     private Tween jumpTween;
 
+    public Transform planeTransform;
     [ContextMenu("Set Default Values")]
     public void SetDefaultJumpingValues(float timeToReach)
     {
@@ -44,20 +45,19 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     [ContextMenu("Jump Moving")]
     public void Test()
     {
-        AssignTargetTransform();
-        JumpMovingToTargetTransform();
-    }
-
-    private void OnEnable()
-    {
-
+        /*AssignTargetTransform();
+        JumpMovingToTargetTransform();*/
+        // FirstJumpLogic();
     }
 
     public void Init()
     {
         AssignTargetTransform();
-        SetTime(); // 테스트를 위해 임시로 timeToReachPlayer, totalJumpNumberOfTimes에 가중치를 곱함.
-        JumpMovingToTargetTransform();
+        if(arrivalAreaIndex > 0 && arrivalAreaIndex <= 6) StartCoroutine(JumpRoutineAreaIndex1to6());
+        else if (arrivalAreaIndex > 6 && arrivalAreaIndex <= 9) StartCoroutine(JumpRoutineAreaIndex7to9());
+        
+        // SetTime(); // 테스트를 위해 임시로 timeToReachPlayer, totalJumpNumberOfTimes에 가중치를 곱함.
+        // JumpMovingToTargetTransform();
     }
 
     public void StopMoving()
@@ -81,8 +81,44 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
             timeToReachPlayer *= 1.3f;
             totalJumpNumberOfTimes *= 1;
         }
+    }
+
+    IEnumerator JumpRoutineAreaIndex1to6()
+    {
+        float firstStepTime = 1f;
+        JumpStep1(firstStepTime);
+        yield return new WaitForSeconds(firstStepTime);
+        jumpHeight = _areaTransform.position.y - transform.position.y;
+        JumpToTarget1To6Transform();
+    }
+
+    IEnumerator JumpRoutineAreaIndex7to9()
+    {
+        Debug.Log("step 1 7 to 9");
+        float firstStepTime = 1f;
+        JumpStep1(firstStepTime);
+        yield return new WaitForSeconds(firstStepTime);
+        // step2 (7~9번 arrival area의 높이보다 일정량 높은 위치까지 점프)
+        jumpHeight = _areaTransform.position.y - transform.position.y;
+        JumpStep2ToTarget7To9Transform();
+    }
+    void JumpStep1(float firstStepTime)
+    {
+        Vector3 nextPos = new Vector3(transform.position.x, planeTransform.position.y, transform.position.z);
+        transform.DOJump(nextPos - Vector3.forward * 3f, 0, 1, firstStepTime);
+    }
+    private void DecideWhatKindOfMovement()
+    {
+        // 생성 위치 y값에 따라 점프 움직임 로직을 결정한다.
+        // arrival area index가 1~6일 경우 (박스의 위치가 바닥과 차이가 있다)
+        // arrival area index가 7~9일 경우 (박스의 위치가 바닥과 큰 차이가 없음)
         
-          
+        // 1. 생성 위치(날아오는 물체의 position)의 Y값이 arrival area의 Y값보다 높을 경우
+        // 2. 생성 위치(날아오는 물체의 position)의 Y값이 arrvial area의 Y값과 비슷할 경우
+        // 3. 생성 위치(날아오는 물체의 position)의 Y값이 arrvial area의 Y값보다 작을 경우
+        
+        
+        
     }
     private void AssignTargetTransform()
     {
@@ -90,6 +126,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         if(arrivalAreaIndex == 0) return;
         _rigidbody = GetComponent<Rigidbody>();
         _objectArrivalAreaManager = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
+        planeTransform = GameObject.FindWithTag("Plane").transform;
         Debug.Log("arrivalAreaIndex " + arrivalAreaIndex);
         Debug.Log("_objectArrivalAreaManager" + _objectArrivalAreaManager != null);
 
@@ -97,12 +134,13 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         jumpHeight = _areaTransform.position.y - transform.position.y;
     }
     
-    private void JumpMovingToTargetTransform()
+    private void JumpToTarget1To6Transform()
     {
+        Debug.Log("Jump Step 2 1 to 6 Start");
         // 플레이어 거리까지 점프 수 계산
         // (플레이어, 오브젝트 간 거리)와 점프하는 폭으로 
         transform.LookAt(_areaTransform);
-        Vector3 movePosition = GetNextJumpPoint();
+        Vector3 movePosition = GetNextJumpPoint1To6();
     
         // DoJump 애니메이션 실행
         // movePosition을 2칸(한 점프에 해당하도록 변경해야 함. 이 값은 매 점프마다 계산 결과가 바뀜)
@@ -116,16 +154,44 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
                 PredictCheckablePosition();
                 
                 // 재귀 호출
-                JumpMovingToTargetTransform();
+                JumpToTarget1To6Transform();
             });
     }
-
+    private void JumpStep2ToTarget7To9Transform()
+    {
+        Debug.Log("Jump Step 2 7 to 9 Start");
+        // 플레이어 거리까지 점프 수 계산
+        // (플레이어, 오브젝트 간 거리)와 점프하는 폭으로 
+        transform.LookAt(_areaTransform);
+        Vector3 movePosition = GetNextJumpPoint7To9();
+    
+        // DoJump 애니메이션 실행
+        // movePosition을 2칸(한 점프에 해당하도록 변경해야 함. 이 값은 매 점프마다 계산 결과가 바뀜)
+        // duration = 플레이어에 도달할 시간 / 총 점프의 수  
+        jumpTween = transform.DOJump(transform.position + movePosition, 
+                jumpHeight, 1, timeToReachPlayer / totalJumpNumberOfTimes).
+            SetEase(Ease.OutSine).OnComplete(() =>
+            {
+                // 점프 끝난 후 변수 업데이트, 다음 지점 예측
+                UpdateVariableWhenJumpDone();
+                bool jumpStepDone = PredictCheckablePosition();
+                if(!jumpStepDone) return;
+                // 재귀 호출
+                JumpStep2ToTarget7To9Transform();
+            });
+    }
+    
     // 점프를 시작할 때 호출됨. 호출되기 전 _checkablePositionList에 값이 존재하면 초기화 후 다시 position 값 생성
-    private void PredictCheckablePosition()
+    private bool PredictCheckablePosition()
     {
         int remainJumpNumberOfTimes = totalJumpNumberOfTimes - _jumpedNumberOfTimes; 
         Debug.Log($"remainJumpNumberOfTimes : {remainJumpNumberOfTimes}");
-        
+        if ((arrivalAreaIndex > 6 && arrivalAreaIndex <= 9) && remainJumpNumberOfTimes == 1)
+        {
+            jumpTween.Kill();
+            JumpStep3ToTarget7To9Transform();
+            return false;
+        }
         // box 까지의 거리
         Vector3 distanceObjectToArea = new Vector3((_areaTransform.position.x - transform.position.x),
             0, (_areaTransform.position.z - transform.position.z));
@@ -143,10 +209,24 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         }
         
         // 최종 도착 지점 (마지막 점프 후 착지하는 지점)
-        lastPositon = distanceObjectToArea + directionVectorCorrespondingToOne;
+        lastPositon = transform.position + distanceObjectToArea + directionVectorCorrespondingToOne; //+ directionVectorCorrespondingToOne * _jumpedNumberOfTimes;
+        return true;
     }
 
-    private Vector3 GetNextJumpPoint()
+    private Vector3 GetNextJumpPoint1To6()
+    {
+        // 계속 나눈다. 처음 시작할 때 거리가 아닌
+        int remainJumpNumberOfTimes = totalJumpNumberOfTimes - _jumpedNumberOfTimes; 
+        
+        // box 까지의 거리
+        Vector3 distanceObjectToArea = new Vector3((_areaTransform.position.x - transform.position.x),
+            0, (_areaTransform.position.z - transform.position.z));
+        // 한 칸에 해당하는 방향 벡터 (모든 점프에서 거의 동일한 간격이어야 함.)
+        Vector3 directionVectorCorrespondingToOne = distanceObjectToArea / (float)(2 * remainJumpNumberOfTimes -1);
+        
+        return directionVectorCorrespondingToOne * 2;
+    }
+    private Vector3 GetNextJumpPoint7To9()
     {
         // 계속 나눈다. 처음 시작할 때 거리가 아닌
         int remainJumpNumberOfTimes = totalJumpNumberOfTimes - _jumpedNumberOfTimes; 
@@ -160,9 +240,27 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         return directionVectorCorrespondingToOne * 2;
     }
 
+    private void JumpStep3ToTarget7To9Transform()
+    {
+        Debug.Log("Jump Step 3 7 to 9 Start");
+        transform.LookAt(_areaTransform);
+
+        Vector3 nextDir = new Vector3(_areaTransform.position.x - transform.position.x,
+            transform.position.y, _areaTransform.position.z - transform.position.z);
+        // movePosition을 2칸(한 점프에 해당하도록 변경해야 함. 이 값은 매 점프마다 계산 결과가 바뀜)
+        // duration = 플레이어에 도달할 시간 / 총 점프의 수  
+        jumpTween = transform.DOJump(_areaTransform.position, 
+            jumpHeight - 1f, 1, timeToReachPlayer / totalJumpNumberOfTimes).
+            SetEase(Ease.OutSine).OnComplete(() =>
+            {
+                transform.DOJump(transform.position + nextDir * 6f, jumpHeight, 3, 3);
+            });
+    }
     private void UpdateVariableWhenJumpDone()
     {
         jumpHeight = _areaTransform.position.y - transform.position.y;
+        if ((arrivalAreaIndex > 6 && arrivalAreaIndex <= 9)) jumpHeight += 0.5f;
+        
         _jumpedNumberOfTimes += 1;
         if(_checkablePositionList.Count > 0) _checkablePositionList.Clear();
 
@@ -210,3 +308,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     }
 }
 
+public enum YPosGap
+{
+    Big, Simillar, Small
+}

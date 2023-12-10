@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 9163233898772725825}
   - component: {fileID: 5969864368198620297}
   - component: {fileID: 8286439662568466030}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BLUEBERRY__OUTLINE_NEW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,14 +37,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44970969575302048}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0000000016513909, y: -0.99904275, z: -0.000000037713015,
-    w: -0.04374543}
-  m_LocalPosition: {x: 2.09, y: 0.55, z: 3.382}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 8018918731047131771}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -185.014, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4952192126830949140
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44970969575302048}
-  m_Mesh: {fileID: 7261950012332209861, guid: 2b8fe7026f2cf3d49835327cf2e0b955, type: 3}
+  m_Mesh: {fileID: 0}
 --- !u!23 &2388933167009710840
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -468,13 +468,14 @@ MonoBehaviour:
   colliderRecalculation: 0
   meshCollider: {fileID: 0}
   data:
-    OriginalMesh: {fileID: 0}
+    OriginalMesh: {fileID: 7261950012332209861, guid: 2b8fe7026f2cf3d49835327cf2e0b955,
+      type: 3}
     Target:
-      meshFilter: {fileID: 0}
+      meshFilter: {fileID: 4952192126830949140}
       skinnedMeshRenderer: {fileID: 0}
     initialized: 1
   deformerElements:
-  - component: {fileID: 0}
+  - component: {fileID: 6786991479266979219}
     active: 1
   customBounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -506,7 +507,7 @@ CapsuleCollider:
     m_Bits: 2560
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1207
+    m_Bits: 1463
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -535,3 +536,53 @@ MonoBehaviour:
   isHit: 0
   playerAttachdistance: 0
   playerAttachTime: 0
+--- !u!1 &5729692760338052275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8018918731047131771}
+  - component: {fileID: 6786991479266979219}
+  m_Layer: 0
+  m_Name: Squash and Stretch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8018918731047131771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729692760338052275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.4999995, y: 1.4999999, z: 1.4999995}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1344903019707107864}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6786991479266979219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5729692760338052275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78ed453254255cb409bad7ea6d0a427c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  update: 1
+  factor: 0
+  curvature: 1
+  top: 0.5
+  bottom: -0.5
+  axis: {fileID: 8018918731047131771}

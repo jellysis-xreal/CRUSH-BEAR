@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager _player;
     public static PlayerManager Player { get { return Instance._player; }}
 
+    [SerializeField] private SoundManager _sound;
+    public static SoundManager Sound { get { return Instance._sound; } }
+    
     void Start()
     { 
         Init();
@@ -60,6 +63,7 @@ public class GameManager : MonoBehaviour
             //+-------- Managers Init() +--------//
             _score.Init();
             _player.Init();
+            _sound.Init();
             
         }
         else

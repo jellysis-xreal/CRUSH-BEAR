@@ -805,8 +805,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 917d3c03d40869240b6bdf5662957e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pullAndCutNoGrab: {fileID: 0}
   attachTransform: {fileID: 8558665917670159795}
+  IsAttached: 0
+  HandDestoryer: {fileID: 0}
 --- !u!1 &610725364145790680
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,6 +909,22 @@ MonoBehaviour:
   - {fileID: 8663258567102227974}
   - {fileID: 542383252099069073}
   - {fileID: 8402270480585782914}
+  Controller: {fileID: 0}
+  ControllerInput:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 8486ee36-e1da-4d72-89f2-6c03fac3298b
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  AttachNoGrab: {fileID: 0}
+  ControllerType: 0
+  ControllerSpeed: 0
 --- !u!114 &3363789589592266832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1182,7 +1199,6 @@ Transform:
   - {fileID: 4642148255795287795}
   - {fileID: 1129237574910596753}
   - {fileID: 3224005333696590776}
-  - {fileID: 6410126388388729030}
   m_Father: {fileID: 1393434724145856470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1542330549624520890
@@ -1745,6 +1761,22 @@ MonoBehaviour:
   - {fileID: 7908365309787514140}
   - {fileID: 6312462306102493231}
   - {fileID: 5709284181514980166}
+  Controller: {fileID: 0}
+  ControllerInput:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Controller Input
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 69f2657d-7a12-4096-aa8f-daa666a137aa
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  AttachNoGrab: {fileID: 0}
+  ControllerType: 0
+  ControllerSpeed: 0
 --- !u!114 &1310102083071209931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2690,6 +2722,7 @@ Transform:
   m_Children:
   - {fileID: 2447273778993587348}
   - {fileID: 8344303085843592877}
+  - {fileID: 6410126388388729030}
   m_Father: {fileID: 5255477052767624942}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &3342318930725343599
@@ -4378,12 +4411,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6086630747941750496}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5255477052767624942}
+  m_Father: {fileID: 4642148255795287795}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6174422763163179191
 GameObject:
@@ -6070,8 +6103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 917d3c03d40869240b6bdf5662957e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pullAndCutNoGrab: {fileID: 0}
   attachTransform: {fileID: 5158834409597736312}
+  IsAttached: 0
+  HandDestoryer: {fileID: 0}
 --- !u!1 &8322557187460706737
 GameObject:
   m_ObjectHideFlags: 0

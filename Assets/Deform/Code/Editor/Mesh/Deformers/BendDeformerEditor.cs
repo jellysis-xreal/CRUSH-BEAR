@@ -127,6 +127,7 @@ namespace DeformEditor
 					{
 						Undo.RecordObject (bend, "Changed Angle");
 						bend.Angle = angleHandle.angle;
+						//bend.SetAngle(angleHandle.angle);
 					}
 				}
 			}

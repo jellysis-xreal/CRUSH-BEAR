@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Deform;
 using DG.Tweening;
 using UnityEngine;
 
@@ -10,13 +11,21 @@ public class RhythmController : MonoBehaviour
     public List<GameObject> scaleObjects;
     public List<GameObject> transformObjects;
 
-    private List<Vector3> originScales = new List<Vector3>();
+    [SerializeField] private List<Vector3> originScales = new List<Vector3>();
+    [SerializeField] private List<BendDeformer> originDeformers = new List<BendDeformer>();
     
-    [SerializeField] private double tickTime = 0.0d;
+    private double tickTime = 0.0d;
+    private GameObject deformBending;
+    
+    private void OnEnable()
+    {
+        deformBending = Resources.Load("Prefabs/Effects/Bend") as GameObject;
+    }
 
     void Start()
     {
-        Initialize();
+        InitializeScale();
+        InitializeTransform();
     }
     
     // Update is called once per frame
@@ -26,12 +35,14 @@ public class RhythmController : MonoBehaviour
 
         if (tickTime >= 60d / musicBPM)
         {
-            StartCoroutine(ObjectsRhythm(tickTime));
+            StartCoroutine(ObjectsScaleRhythm(tickTime));
+            StartCoroutine(ObjectTransfromRhythm(tickTime));
+            
             tickTime -= 60d / musicBPM;
         }
     }
 
-    void Initialize()
+    private void InitializeScale()
     {
         for (int i = 0; i < scaleObjects.Count; i++)
         {
@@ -45,8 +56,21 @@ public class RhythmController : MonoBehaviour
             }
         }
     }
-    
-    IEnumerator ObjectsRhythm(double tiKTime)
+
+    private void InitializeTransform()
+    {
+        for (int i = 0; i < transformObjects.Count; i++)
+        {            
+            GameObject defromTry = Instantiate(deformBending, transformObjects[i].transform); 
+            BendDeformer deformer = defromTry.GetComponent<BendDeformer>();
+            transformObjects[i].AddComponent<Deformable>();
+
+            transformObjects[i].GetComponent<Deformable>().AddDeformer(deformer);
+            originDeformers.Add(deformer);
+        }
+    }
+
+    IEnumerator ObjectsScaleRhythm(double tiKTime)
     {
         for(int i  = 0; i< scaleObjects.Count; i++)
         {
@@ -63,4 +87,39 @@ public class RhythmController : MonoBehaviour
 
         yield return new WaitForSeconds((float)tiKTime);
     }
+
+    IEnumerator ObjectTransfromRhythm(double tiKTime)
+    {
+        for (int i = 0; i < transformObjects.Count; i++)
+        {
+            float currAngle = originDeformers[i].GetAngle();
+            
+            bool HaveToMinus = (currAngle >= 0.0f);
+            if (HaveToMinus)
+                yield return StartCoroutine(AngleCoroutine(i, currAngle, -25.0f, (float)tiKTime));
+            else
+                yield return StartCoroutine(AngleCoroutine(i, currAngle, +25.0f, (float)tiKTime));
+
+        }
+        
+        yield return new WaitForSeconds((float)tiKTime);
+    }
+
+    IEnumerator AngleCoroutine(int i, float startValue, float endValue, double tiKTime)
+    {
+        float currentTime = 0f;
+
+        while (currentTime <= (float)tiKTime)
+        {
+            float t = currentTime / (float)tiKTime;
+            float newValue = Mathf.Lerp(startValue, endValue, t);
+            
+            // 값 변경에 대한 작업 수행
+            originDeformers[i].SetAngle(newValue);
+            yield return null;
+            
+            currentTime += Time.deltaTime;
+        }
+    }
+
 }

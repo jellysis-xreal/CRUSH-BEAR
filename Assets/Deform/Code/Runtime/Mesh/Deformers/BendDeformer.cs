@@ -10,8 +10,8 @@ namespace Deform
 	[Deformer (Name = "Bend", Description = "Bends a mesh", Type = typeof (BendDeformer))]
     [HelpURL("https://github.com/keenanwoodall/Deform/wiki/BendDeformer")]
     public class BendDeformer : Deformer, IFactor
-	{
-		public float Angle
+    {
+	    public float Angle
 		{
 			get => angle;
 			set => angle = value;
@@ -54,6 +54,16 @@ namespace Deform
 		[SerializeField, HideInInspector] private float bottom = 0f;
 		[SerializeField, HideInInspector] private Transform axis;
 
+		public void SetAngle(float x)
+		{
+			angle = x;
+		}
+
+		public float GetAngle()
+		{
+			return angle;
+		}
+		
 		public override DataFlags DataFlags => DataFlags.Vertices;
 
 		public override JobHandle Process (MeshData data, JobHandle dependency = default (JobHandle))

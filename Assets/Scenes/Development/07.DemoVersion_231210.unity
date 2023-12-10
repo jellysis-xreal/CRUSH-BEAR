@@ -243,6 +243,12 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: -5917839137984748408, guid: 018047824b5f5c94ba92d15f322b4abd,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2683211644715879670, guid: 018047824b5f5c94ba92d15f322b4abd,
+        type: 3}
     - target: {fileID: -5845014233833237878, guid: 018047824b5f5c94ba92d15f322b4abd,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -610,7 +616,11 @@ PrefabInstance:
         type: 3}
       insertIndex: 6
       addedObject: {fileID: 364376380}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -5662151558779906596, guid: 018047824b5f5c94ba92d15f322b4abd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 357008035}
   m_SourcePrefab: {fileID: 100100000, guid: 018047824b5f5c94ba92d15f322b4abd, type: 3}
 --- !u!4 &31417766 stripped
 Transform:
@@ -3138,6 +3148,42 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 31417765}
   m_PrefabAsset: {fileID: 0}
+--- !u!33 &357008034 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: -5917839137984748408, guid: 018047824b5f5c94ba92d15f322b4abd,
+    type: 3}
+  m_PrefabInstance: {fileID: 31417765}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &357008035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357008031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85212d1b13358614ca54e74ba56f93ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  assignOriginalMeshOnDisable: 1
+  updateMode: 0
+  cullingMode: 1
+  normalsRecalculation: 0
+  boundsRecalculation: 0
+  colliderRecalculation: 0
+  meshCollider: {fileID: 0}
+  data:
+    OriginalMesh: {fileID: 2683211644715879670, guid: 018047824b5f5c94ba92d15f322b4abd,
+      type: 3}
+    Target:
+      meshFilter: {fileID: 357008034}
+      skinnedMeshRenderer: {fileID: 0}
+    initialized: 1
+  deformerElements: []
+  customBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.25, y: 0.25, z: 0.25}
 --- !u!1 &364146287
 GameObject:
   m_ObjectHideFlags: 0
@@ -14515,11 +14561,12 @@ MonoBehaviour:
   - {fileID: 1671489713}
   - {fileID: 1224422058}
   - {fileID: 1160057376}
-  - {fileID: 3806972}
-  - {fileID: 357008031}
   - {fileID: 1599462292}
-  transformObjects: []
-  tickTime: 0
+  transformObjects:
+  - {fileID: 357008031}
+  - {fileID: 3806972}
+  originScales: []
+  originDeformers: []
 --- !u!4 &1929059073
 Transform:
   m_ObjectHideFlags: 0

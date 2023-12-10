@@ -39,12 +39,16 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
 
         targetTransform = _objectArrivalAreaManager.arrivalAreas[arrivalAreaIndex-1];
         CalculateConstantSpeed();
+        StartCoroutine(RotateMoving());
     }
     private void CalculateConstantSpeed()
     {
         // 속도 = 거리 / 시간
-        float time = timeToReachPlayer - generationTime;
+        float time = timeToReachPlayer; // - generationTime;
         constantSpeed = Vector3.Distance(targetTransform.position, transform.position) / time;
+        Debug.Log($"{this.gameObject.name} constant speed : {constantSpeed}");
+        Debug.Log($"{this.gameObject.name} time : {time}");
+        Debug.Log($"{this.gameObject.name} distance : {Vector3.Distance(targetTransform.position, transform.position)}");
     }
     public void StopMoving()
     {
@@ -59,7 +63,7 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
 
     void Move()
     {
-        transform.LookAt(transform);
+        //transform.LookAt(transform);
         dir = (targetTransform.position - transform.position).normalized;
         transform.position += dir * constantSpeed * Time.deltaTime;
     }
@@ -69,6 +73,13 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
         transform.position += dir * constantSpeed * Time.deltaTime;
     }
 
+    IEnumerator RotateMoving()
+    {
+        float time = timeToReachPlayer - 1f;
+        transform.DOShakeRotation(time, 150f, 20, 100, true, ShakeRandomnessMode.Harmonic);
+        yield return new WaitForSeconds(time);
+        transform.DORotate(new Vector3(90f, 0, 0), 1);
+    }
     
     private void OnTriggerEnter(Collider other)
     {

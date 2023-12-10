@@ -9,6 +9,6 @@ public class ObjectArrivalAreaManager : MonoBehaviour
     [SerializeField] private Transform playerTransform;
     private void Update()
     {
-        transform.position = playerTransform.position - Vector3.forward * 0.5f;
+        transform.position = playerTransform.position + Vector3.forward;
     }
 }

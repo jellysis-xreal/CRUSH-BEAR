@@ -41,11 +41,13 @@ public class NodeInstantiater : MonoBehaviour
             {
                 straightMovingToArrivalArea move =  gameObjectsByStage[_indexToBeAdded].AddComponent<straightMovingToArrivalArea>();
                 move.arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
-                move.speed = nodeInfo.movingSpeed;
+                move.timeToReachPlayer = nodeInfo.timeToReachPlayer;
             }else if (nodeInfo.movingType == "Jump")
             {
                 JumpMovementToArrivalArea move = gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMovementToArrivalArea>();
                 move.arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+                move.timeToReachPlayer = nodeInfo.timeToReachPlayer;
+                move.totalJumpNumberOfTimes = nodeInfo.totalJumpNumberOfTimes;
                 // 점프 횟수, 플레이어까지 도달하는 총 시간
             } 
             
@@ -60,11 +62,13 @@ public class NodeInstantiater : MonoBehaviour
             {
                 straightMovingToArrivalArea move = gameObjectsByStage[_indexToBeAdded].AddComponent<straightMovingToArrivalArea>();
                 move.arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
-                move.speed = nodeInfo.movingSpeed;
+                move.timeToReachPlayer = nodeInfo.timeToReachPlayer;
             }else if (nodeInfo.movingType == "Jump")
             {
                 JumpMovementToArrivalArea move = gameObjectsByStage[_indexToBeAdded].AddComponent<JumpMovementToArrivalArea>();
                 move.arrivalAreaIndex = nodeInfo.arrivalAreaIndex;
+                move.timeToReachPlayer = nodeInfo.timeToReachPlayer;
+                move.totalJumpNumberOfTimes = nodeInfo.totalJumpNumberOfTimes;
             } 
             
             generationTimesByStage[_indexToBeAdded] = nodeInfo.generationTime;

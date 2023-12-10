@@ -4,23 +4,29 @@ public class NodeInfo
     public float posY;
     public float posZ;
     public float generationTime;
-    public float movingSpeed; // 직선 운동만 해당
+    public float timeToReachPlayer;
+    public int arrivalAreaIndex;
     public string objectType;
     public string movingType;
     public int objectNum;
-    public int arrivalAreaIndex;
-    // 직선 운동, 점프 운동
+    
+    // 직선 운동, 속도는 자동으로 지정됨. 여기서 정할 수 있는 것은 등속도인가? 등가속도인가?
+    public float movingSpeed; 
+    // 점프 운동
+    public int totalJumpNumberOfTimes;
 
     public NodeInfo()
     {
         // 필드 초기화 코드
         posX = 0f; posY = 0f; posZ = 0f;
         generationTime = 0f;
+        timeToReachPlayer = 0f;
         movingSpeed = 0f;
         objectType = "";
         movingType = "";
         objectNum = 0;
         arrivalAreaIndex = 0;
+        totalJumpNumberOfTimes = 0;
     }
 }
 /*

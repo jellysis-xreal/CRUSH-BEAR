@@ -10,9 +10,6 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
     private Rigidbody _rigidbody;
     
     public Transform playerTransform;
-    public float minMovingSpeed = 1.0f;
-    public float maxMovingSpeed = 3.0f;
-    public float speed;
     public bool isArrivalAreaHit;
     public bool isHandAttached = false;
     
@@ -23,12 +20,14 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
     private ObjectArrivalAreaManager _objectArrivalAreaManager;
     private Transform targetTransform;
     private Vector3 dir = new Vector3();
+    
+    [Header("have to set")] 
+    public float timeToReachPlayer; // 생성 후 플레이어 까지 도달할 시간
+    public float generationTime; // 생성시간
 
-    private void OnEnable()
-    {
-
-        // GetComponent<AudioSource>().Play();
-    }
+    public float constantSpeed = 0f;
+    public float equivalentAccelerationSpeed;
+    
 
     public void Init()
     {
@@ -39,8 +38,14 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
         _objectArrivalAreaManager = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
 
         targetTransform = _objectArrivalAreaManager.arrivalAreas[arrivalAreaIndex-1];
+        CalculateConstantSpeed();
     }
-
+    private void CalculateConstantSpeed()
+    {
+        // 속도 = 거리 / 시간
+        float time = timeToReachPlayer - generationTime;
+        constantSpeed = Vector3.Distance(targetTransform.position, transform.position) / time;
+    }
     public void StopMoving()
     {
         isHandAttached = true;
@@ -56,12 +61,12 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
     {
         transform.LookAt(transform);
         dir = (targetTransform.position - transform.position).normalized;
-        transform.position += dir * speed * Time.deltaTime;
+        transform.position += dir * constantSpeed * Time.deltaTime;
     }
 
     void TriggeredMove()
     {
-        transform.position += dir * speed * Time.deltaTime;
+        transform.position += dir * constantSpeed * Time.deltaTime;
     }
 
     

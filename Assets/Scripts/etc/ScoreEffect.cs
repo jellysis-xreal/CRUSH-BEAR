@@ -7,7 +7,7 @@ using UnityEngine;
 public class ScoreEffect : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    public float duration = 0.8f;
+    public float duration = 1.5f;
     private Camera cameraToLookAt;
 
     private float firstY;
@@ -18,7 +18,7 @@ public class ScoreEffect : MonoBehaviour
         cameraToLookAt = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         firstY = this.transform.position.y;
         
-        Destroy(this.gameObject, 1.5f);
+        Destroy(this.gameObject, duration);
     }
 
     // Update is called once per frame
@@ -26,7 +26,7 @@ public class ScoreEffect : MonoBehaviour
     {
         transform.LookAt(cameraToLookAt.transform.position);
 
-        transform.DOMoveY(firstY + 0.8f, duration, false);
+        transform.DOMoveY(firstY + 5.0f, duration, false);
         text.material.DOFade(0.0f, duration).From().SetEase(Ease.OutQuad);
     }
 }

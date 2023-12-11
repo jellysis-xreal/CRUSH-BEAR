@@ -7,15 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 5Tone&Custom Shadow 4
+  m_Name: 5Tone&Custom Shadow 9
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
-  m_Parent: {fileID: 2100000, guid: ab39e7b8fd8aea748a022e9d0447e478, type: 2}
+  m_Parent: {fileID: 2100000, guid: 4254f85ce7c5be2469b56c4aa98a8ec6, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
-  - _OUTLINE
   - _RECEIVE_SHADOWS_OFF
-  - _RIMLIGHTING_ON
   - _TOON_SHADING_ON
   m_InvalidKeywords:
   - _STEPVIARAMPTEXTURE_ON
@@ -32,9 +30,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _DiffuseStep: 0.16
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.47122872, b: 0.45911944, a: 1}
-    - _RimColor: {r: 0.80893326, g: 1, b: 0, a: 1}
-    - _ShadowColor: {r: 0.5566037, g: 0.22929269, b: 0.5243024, a: 1}
+    - _BaseColor: {r: 0.3597068, g: 0.9150943, b: 0.4172925, a: 1}
+    - _OutlineDistancFade: {r: -25, g: 50, b: 0, a: 0}
+    - _ShadowColor: {r: 0.1134297, g: 0.083422296, b: 0.35849056, a: 1}
   m_BuildTextureStacks: []

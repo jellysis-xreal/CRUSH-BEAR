@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BB_MAT
+  m_Shader: {fileID: 4800000, guid: e88aeddd2ef1f934d805981244872e27, type: 3}
+  m_Parent: {fileID: 2100000, guid: 9e96832b37788b245ae7fea9c336984b, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _HALFTONESHAPE_DOT
+  - _OUTLINE
+  - _RIMLIGHTING_ON
+  - _SPECULAR_COLOR
+  - _TOON_SHADING_ON
+  m_InvalidKeywords:
+  - _OVERRIDESHADOWCOLOR_ON
+  - _SPECULARHIGHLIGHTS_OFF
+  - _STEPVIARAMPTEXTURE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - SRPDEFAULTUNLIT
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: d811f91c2dfca4c4e9264f15c435379d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d811f91c2dfca4c4e9264f15c435379d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _DiffuseStep: -0.019
+    - _FlattenGI: 0
+    - _OutlineEnabled: 1
+    - _OutlineWidth: 15
+    - _OverrideShadowColor: 1
+    - _RimEnabled: 1
+    - _RimLightAlign: 0.433
+    - _RimLightSmoothness: 0.406
+    - _RimPower: 0.7793865
+    - _SpecularFalloff: 0.152
+    - _SpecularHighlights: 0
+    - _SpecularSize: 0.143
+    - _UseRampColor: 1
+    m_Colors:
+    - _BaseColor: {r: 0.5424528, g: 0.68834984, b: 1, a: 1}
+    - _OutlineColor: {r: 0.21568628, g: 0.003921569, b: 0.8784314, a: 1}
+    - _OutlineDistancFade: {r: -23.319328, g: 11.34454, b: 0, a: 0}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0.033764742, g: 0, b: 0.509434, a: 0.78431374}
+    - _SpecColor: {r: 0.039215688, g: 0.039215688, b: 0.039215688, a: 0.592}
+  m_BuildTextureStacks: []

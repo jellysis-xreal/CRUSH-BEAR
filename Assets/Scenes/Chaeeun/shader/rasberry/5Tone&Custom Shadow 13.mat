@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
+  - _OUTLINE
   - _RECEIVE_SHADOWS_OFF
   - _TOON_SHADING_ON
   m_InvalidKeywords:
@@ -30,8 +31,12 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _OutlineEnabled: 1
+    - _OutlineWidth: 12
     m_Colors:
     - _BaseColor: {r: 0.62232757, g: 0.7830189, b: 0.20392157, a: 1}
-    - _ShadowColor: {r: 0.1134297, g: 0.083422296, b: 0.35849056, a: 1}
+    - _OutlineColor: {r: 0.2597058, g: 0.4716981, b: 0.12682448, a: 1}
+    - _OutlineDistancFade: {r: -100, g: 200, b: 0, a: 0}
+    - _ShadowColor: {r: 0.11342967, g: 0.083422266, b: 0.35849053, a: 1}
   m_BuildTextureStacks: []

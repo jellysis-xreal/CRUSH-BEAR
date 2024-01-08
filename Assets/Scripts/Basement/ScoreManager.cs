@@ -61,7 +61,6 @@ public class ScoreManager : MonoBehaviour
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
     public void Scoring(GameObject target)
     {
-        
         if (target.GetComponent<BaseObject>().IsItScored())
             return; // Object의 중복 scoring을 방지한다.
         

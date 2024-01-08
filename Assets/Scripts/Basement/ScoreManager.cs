@@ -36,7 +36,8 @@ public class ScoreManager : MonoBehaviour
     private AttachHandNoGrab RAttachNoGrab;
     private AttachHandNoGrab LAttachNoGrab;
 
-    [Header("Score UI")] [SerializeField] private TextMeshProUGUI scoreText;
+    [Header("Score UI")] 
+    [SerializeField] private TextMeshProUGUI scoreText;
     private enum scoreType
     {
         Perfect,

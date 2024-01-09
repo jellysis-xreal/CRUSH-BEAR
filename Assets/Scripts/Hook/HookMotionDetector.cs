@@ -114,8 +114,7 @@ public class HookMotionDetector : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 1. 컨트롤러의 움직임이 현재 Hook이냐
-        // 2. 타이밍이 일치하냐
-        // 3. 처음 Trigger된 포인트가 왼쪽(leftHook일 경우) 혹은 오른쪽(rightHook일 경우)
+        // 2. 처음 Trigger된 포인트가 왼쪽(leftHook일 경우) 혹은 오른쪽(rightHook일 경우)
     }
 }
 public enum Controller

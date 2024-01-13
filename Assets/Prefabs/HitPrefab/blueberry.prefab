@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4915446960104351279}
   - component: {fileID: 7145838616793225448}
   - component: {fileID: 8282000386847140407}
+  - component: {fileID: 8931269192100968682}
   m_Layer: 14
   m_Name: blueberry
   m_TagString: Untagged
@@ -288,6 +289,20 @@ MonoBehaviour:
   refrigerator: {fileID: 0}
   curState: 0
   _idleTime: 0
+--- !u!114 &8931269192100968682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3216690746106268825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e4930a5edc40e478570f5c905c2238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 10
+  maxRimPower: 1
 --- !u!1 &6912090583941057517
 GameObject:
   m_ObjectHideFlags: 0

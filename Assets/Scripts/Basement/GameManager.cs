@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using EnumTypes;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -35,13 +36,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager _player;
     public static PlayerManager Player { get { return Instance._player; }}
 
+    [SerializeField] private WaveManager _wave;
+    public static WaveManager Wave { get { return Instance._wave; }}
+    
     [SerializeField] private SoundManager _sound;
     public static SoundManager Sound { get { return Instance._sound; } }
     
     void Start()
     { 
         Init();
-        //Test();
+        Test();
     }
 
     void Init()
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
             //+-------- Managers Init() +--------//
             _score.Init();
             _player.Init();
+            _wave.Init();
             _sound.Init();
             
         }
@@ -77,8 +82,10 @@ public class GameManager : MonoBehaviour
     private void Test()
     {
         Debug.Log("<<-------TEST------->>");
+        
         // 이 밑으로 진행할 Test 코드를 입력한 후, Start 함수에 가서 Test의 주석 처리를 해제하면 됩니다.
-        //
+        // Toast 치기 개발으로 잠시 테스트 - 240108 minha
+        _wave.Test();
     }
 
 }

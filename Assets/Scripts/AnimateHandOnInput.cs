@@ -34,7 +34,7 @@ public class AnimateHandOnInput : MonoBehaviour
         isSelected = selectAction.action.IsPressed();
         isActivated = activateAction.action.IsPressed();
 
-        HandDestroyerUpdate(isSelected);
+        // HandDestroyerUpdate(isSelected);
     }
 
     private void HandDestroyerUpdate(bool isSelected)

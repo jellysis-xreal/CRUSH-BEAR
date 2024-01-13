@@ -30,6 +30,12 @@ public class GameManager : MonoBehaviour
     }
     
     //+-------- Managers +--------//
+    [SerializeField] private UIManager _ui;
+    public static UIManager UI { get { return Instance._ui; } }
+
+    [SerializeField] private ResourceManager _resource;
+    public static ResourceManager Resource { get { return Instance._resource; } }
+
     [SerializeField] private ScoreManager _score;
     public static ScoreManager Score { get { return Instance._score; } }
 
@@ -69,7 +75,8 @@ public class GameManager : MonoBehaviour
             _player.Init();
             _wave.Init();
             _sound.Init();
-            
+            _ui.Init();
+            _resource.Init();
         }
         else
         {

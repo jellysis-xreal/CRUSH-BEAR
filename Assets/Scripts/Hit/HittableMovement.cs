@@ -229,14 +229,9 @@ public class HittableMovement : MonoBehaviour
         // Player와의 거리가 distancePlayer만큼 다가오면 활성화되도록.
         _curDistance = (this.transform.position - GameManager.Player.player.transform.position).sqrMagnitude;
         if (_curDistance <= distancePlayer)
-        {
-            Debug.Log("[DEBUG] 충돌 가능합니다.");
             curState = toppingState.interacable;
-        }
         else
-        {
             curState = toppingState.uninteracable;
-        }
     }
 
     private void JumpOneTime(float time)

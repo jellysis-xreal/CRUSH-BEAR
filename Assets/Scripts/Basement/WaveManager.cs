@@ -1,21 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using EnumTypes;
+using Random = UnityEngine.Random;
 
-    public class WaveManager : MonoBehaviour
+public class WaveManager : MonoBehaviour
     {
         [Header("Wave Information")] 
         [SerializeField] private uint waveNum = 0;        // Wave number
         [SerializeField] private WaveType currentWave;    // 진행 중인 Wave Type
+        [SerializeField] public float waveTime = 0.0f;
+        [SerializeField] private bool IsPause = false;
 
         [Header("setting(auto)")] 
         [SerializeField] private GameObject RightInteraction;
         [SerializeField] private GameObject LeftInteraction;
         private uint waveTypeNum = 3;   // Wave Type 갯수
-        
+
         public void Init()
         {
             // Wave Num
             waveNum = 0;
+            waveTime = 0.0f;
             
             RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction").gameObject;
             LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction").gameObject;
@@ -49,7 +54,7 @@ using EnumTypes;
             waveNum++;
             
             // TODO: Wave 시작하기(240108)
-            // 시간 start
+            waveTime = 0.0f;
             // 음악 start
             // 노드 start
         }
@@ -80,6 +85,28 @@ using EnumTypes;
             RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
             LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
         }
-        
-        
+
+        private void Update()
+        {
+            waveTime += Time.deltaTime;
+            
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                //Wave 일시정지 활성화
+                if (IsPause == false)
+                {
+                    Time.timeScale = 0;
+                    IsPause = true;
+                    return;
+                }
+                
+                //Wave 일시정지 비활성화
+                if (IsPause == true)
+                {
+                    Time.timeScale = 1;
+                    IsPause = false;
+                    return;
+                }
+            }
+        }
     }

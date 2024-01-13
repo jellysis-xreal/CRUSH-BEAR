@@ -7,7 +7,7 @@ using XRController = UnityEngine.InputSystem.XR.XRController;
 public class PlayerManager : MonoBehaviour
 {
     [Header("setting(auto)")]
-    [SerializeField] private GameObject player;
+    [SerializeField] public GameObject player;
     public GameObject RightController;
     public GameObject LeftController;
     private XRBaseController R_XRController;

@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 4994512515050793551}
   - component: {fileID: 7933964612887034971}
   - component: {fileID: 5631226654663811927}
+  - component: {fileID: 658217533288390697}
   m_Layer: 5
   m_Name: Popup Background
   m_TagString: Untagged
@@ -199,6 +200,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &658217533288390697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3002585251739702188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &3555410951594159456
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +756,7 @@ GameObject:
   - component: {fileID: 5616227315904662306}
   - component: {fileID: 797402386440601854}
   - component: {fileID: -1079407394756339071}
+  - component: {fileID: 92191033162857308}
   m_Layer: 5
   m_Name: PopupLobby
   m_TagString: Untagged
@@ -853,3 +874,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e52298be81f6749be8a827a0da7b1c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &92191033162857308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7515728201681742645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1

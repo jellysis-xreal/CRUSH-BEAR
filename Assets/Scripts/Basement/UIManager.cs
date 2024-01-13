@@ -8,10 +8,15 @@ public class UIManager : MonoBehaviour
 
     Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
     UI_Scene _sceneUI = null;
+    GameObject player;
 
     public void Init()
     {
-        
+    }
+
+    public void Start()
+    {
+        player = GameObject.FindWithTag("MainCamera");
     }
 
     public GameObject Root
@@ -59,16 +64,20 @@ public class UIManager : MonoBehaviour
 
     public T ShowPopupUI<T> (string name = null) where T : UI_Popup
     {
+        // Debug.Log("[TEST] calibraet first");
+        // CalibrateCanvasLocation();
         if (string.IsNullOrEmpty (name))
             name = typeof (T).Name;
 
         GameObject go = GameManager.Resource.Instantiate($"UI/Popup/{name}");
-        print("[test]: " +go);
+        // print("[test]: " +go);
 
         T popup = Util.GetOrAddComponent<T>(go);
         _popupStack.Push(popup);
 
         go.transform.SetParent(Root.transform);
+        go.transform.localPosition = Vector3.zero;
+        go.transform.localRotation = Quaternion.identity;
 
         return popup;
     }
@@ -103,5 +112,21 @@ public class UIManager : MonoBehaviour
     {
         while (_popupStack.Count > 0)
             ClosePopupUI();
+    }
+
+    public void CalibrateCanvasLocation()
+    {
+        Vector3 cameraPosition = player.transform.position;
+        Vector3 cameraDirection = player.transform.forward;
+
+        // 카메라에서 떨어진 거리 조절
+        float distance = 1.0f;
+        Vector3 newPosition = cameraPosition + cameraDirection * distance;
+
+        // GameObject의 위치 이동
+        Root.transform.position = newPosition;
+
+        // GameObject의 회전 설정
+        Root.transform.rotation = player.transform.rotation;
     }
 }

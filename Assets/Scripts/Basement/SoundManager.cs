@@ -6,6 +6,7 @@ public class SoundManager : MonoBehaviour
 {
     public Dictionary<string,AudioClip> sounds = new Dictionary<string, AudioClip>();
     AudioSource[] audioSource = new AudioSource[2];
+    public float volume;
 
     public void Init()
     {
@@ -31,5 +32,18 @@ public class SoundManager : MonoBehaviour
     {
         audioSource[1].clip = sounds["Play_Song_1"];
         audioSource[1].Play();
+    }
+
+    public void SetVolume(float _vol)
+    {
+        this.volume = _vol;
+    }
+
+    public void Update()
+    {
+        foreach (var audio in audioSource)
+        {
+            audio.volume = this.volume;
+        }
     }
 }

@@ -11,7 +11,7 @@ public class UI_Popup : UI_Base
 
     public virtual void ClosePopupUI()
     {
-        Debug.Log("[TEST] Close Popup UI");
+        // Debug.Log("[TEST] Close Popup UI");
         GameManager.UI.ClosePopupUI(this);
     }
 }

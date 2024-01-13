@@ -36,7 +36,8 @@ public class ScoreManager : MonoBehaviour
     private AttachHandNoGrab RAttachNoGrab;
     private AttachHandNoGrab LAttachNoGrab;
 
-    [Header("Score UI")] [SerializeField] private TextMeshProUGUI scoreText;
+    [Header("Score UI")] 
+    [SerializeField] private TextMeshProUGUI scoreText;
     private enum scoreType
     {
         Perfect,
@@ -61,7 +62,6 @@ public class ScoreManager : MonoBehaviour
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
     public void Scoring(GameObject target)
     {
-        
         if (target.GetComponent<BaseObject>().IsItScored())
             return; // Object의 중복 scoring을 방지한다.
         
@@ -124,6 +124,29 @@ public class ScoreManager : MonoBehaviour
         AddScore(score);
         SetScoreEffect(score, target.transform);
         Debug.Log(target.name + "의 점수는 " + score);
+    }
+
+    public void ScoringHit(GameObject target, bool IsRightSide)
+    {
+        if (target.GetComponent<BaseObject>().IsItScored())
+            return; // Object의 중복 scoring을 방지한다.
+        
+        scoreType score;
+        
+        if (!IsRightSide)
+            score = scoreType.Bad;
+        else
+        {
+            if (RHand.ControllerSpeed > standardSpeed || LHand.ControllerSpeed > standardSpeed)
+                score = scoreType.Perfect;
+            else
+                score = scoreType.Good;
+        }
+        
+        target.GetComponent<BaseObject>().SetScoreBool();
+        AddScore(score);
+        SetScoreEffect(score, target.transform);
+        Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
     private void AddScore(scoreType score)

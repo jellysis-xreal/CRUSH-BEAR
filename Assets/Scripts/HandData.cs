@@ -24,6 +24,7 @@ public class HandData : MonoBehaviour
     [Header("playing value")] 
     public InteractionType ControllerType;
     public float ControllerSpeed;
+    public Vector3 ControllerVector;
     
     private Vector3 beforePos;
     
@@ -45,7 +46,7 @@ public class HandData : MonoBehaviour
     {
         Vector3 currentPos = Controller.transform.position;
         ControllerSpeed = (beforePos - currentPos).magnitude / Time.deltaTime;
-
+        ControllerVector = (beforePos - currentPos).normalized;
         beforePos = currentPos;
     }
     

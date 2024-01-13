@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2829319951994248336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3129454223721080544}
+  - component: {fileID: 3244795051371102350}
+  m_Layer: 0
+  m_Name: Wave Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3129454223721080544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2829319951994248336}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1855853688689065024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3244795051371102350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2829319951994248336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a36a882c9522497eb33e9c19abd556a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveNum: 0
+  currentWave: 0
+  RightInteraction: {fileID: 0}
+  LeftInteraction: {fileID: 0}
 --- !u!1 &3966972442666058156
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1abaf7b17d5b344a90f0b68a703e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  RightController: {fileID: 0}
+  LeftController: {fileID: 0}
   playerLifeValue: 0
   HeartGameObjects:
   - {fileID: 0}
@@ -139,6 +190,7 @@ Transform:
   m_Children:
   - {fileID: 5332413102420948033}
   - {fileID: 1611014066385962600}
+  - {fileID: 3129454223721080544}
   - {fileID: 1268324066803141234}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -156,6 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _score: {fileID: 3696487564703237342}
   _player: {fileID: 4488816144222749852}
+  _wave: {fileID: 3244795051371102350}
   _sound: {fileID: 4231970423466563964}
 --- !u!1 &8513906034590161139
 GameObject:

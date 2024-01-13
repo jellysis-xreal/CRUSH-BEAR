@@ -71,7 +71,7 @@ public class ObjectArrivalAreaManager : MonoBehaviour
         // if (transform.position.z <= 0) z = -IKplayerTransform.position.z;
         // else z = +IKplayerTransform.position.z;
         
-        transform.position = IKplayerTransform.forward * 1.3f + Vector3.up * 0.8f;
+        transform.position = IKplayerTransform.forward * 1.5f + Vector3.up * 0.8f;
     }
     
 }

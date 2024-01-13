@@ -10,12 +10,13 @@ public class WaveManager : MonoBehaviour
         [SerializeField] private WaveType currentWave;    // 진행 중인 Wave Type
         [SerializeField] public float waveTime = 0.0f;
         [SerializeField] private bool IsPause = false;
-
+        public GameObject node_forTest;
+        
         [Header("setting(auto)")] 
         [SerializeField] private GameObject RightInteraction;
         [SerializeField] private GameObject LeftInteraction;
         private uint waveTypeNum = 3;   // Wave Type 갯수
-
+        
         public void Init()
         {
             // Wave Num
@@ -24,6 +25,9 @@ public class WaveManager : MonoBehaviour
             
             RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction").gameObject;
             LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction").gameObject;
+            
+            // TODO: 임시로 노드 초기화좀 ...
+            node_forTest.gameObject.SetActive(true);
         }
         
         public void Test()

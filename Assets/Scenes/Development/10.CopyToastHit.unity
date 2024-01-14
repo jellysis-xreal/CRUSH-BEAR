@@ -10218,7 +10218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 763017801}
   m_Layer: 0
-  m_Name: nodes
+  m_Name: HittingNodes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14776,6 +14776,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1163511597}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1178167339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1178167340}
+  m_Layer: 0
+  m_Name: PunchNodes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1178167340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178167339}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1181673646
 GameObject:
   m_ObjectHideFlags: 0
@@ -38918,8 +38949,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3244795051371102350, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
+      propertyPath: waveNum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244795051371102350, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
       propertyPath: currentWave
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3244795051371102350, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
@@ -41677,3 +41713,4 @@ SceneRoots:
   - {fileID: 895212315}
   - {fileID: 680004739}
   - {fileID: 763017801}
+  - {fileID: 1178167340}

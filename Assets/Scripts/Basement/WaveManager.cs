@@ -32,7 +32,7 @@ public class WaveManager : MonoBehaviour
         
         public void Test()
         {
-            currentWave = WaveType.Hitting;
+            // currentWave = WaveType.Hitting;
             SetThisWave();
         }
 

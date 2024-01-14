@@ -86,6 +86,7 @@ public class WaveManager : MonoBehaviour
             LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
 
             int TypeNum = (int)currentWave;
+            Debug.Log($"TypeNum : {TypeNum}");
             RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
             LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
         }

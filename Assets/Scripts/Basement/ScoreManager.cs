@@ -180,6 +180,10 @@ public class ScoreManager : MonoBehaviour
             effect = Resources.Load("Prefabs/Effects/Score_perfect") as GameObject;
             Instantiate(effect, effectSpawn.position, Quaternion.identity);
             
+            // 햅틱 효과
+            GameManager.Player.ActiveRightHaptic(0.9f, 0.1f);
+            GameManager.Player.ActiveLeftHaptic(0.9f, 0.1f);
+            
             // 점수에 따른 효과
             GameObject obj = Instantiate(Perfect_VFX, position.position, Quaternion.identity);
             Destroy(obj, 3.0f);
@@ -188,11 +192,20 @@ public class ScoreManager : MonoBehaviour
         {
             effect = Resources.Load("Prefabs/Effects/Score_good") as GameObject;
             Instantiate(effect, effectSpawn.position, Quaternion.identity);
+            
+            // 햅틱 효과
+            GameManager.Player.ActiveRightHaptic(0.6f, 0.1f);
+            GameManager.Player.ActiveLeftHaptic(0.6f, 0.1f);
+            
         }
         else if (score == scoreType.Bad)
         {
             effect = Resources.Load("Prefabs/Effects/Score_bad") as GameObject;
             Instantiate(effect, effectSpawn.position, Quaternion.identity);
+            
+            // 햅틱 효과
+            GameManager.Player.ActiveRightHaptic(0.2f, 0.1f);
+            GameManager.Player.ActiveLeftHaptic(0.2f, 0.1f);
         }
     }
 }

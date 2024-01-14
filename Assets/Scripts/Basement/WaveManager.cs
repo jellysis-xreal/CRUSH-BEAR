@@ -114,4 +114,16 @@ public class WaveManager : MonoBehaviour
                 }
             }
         }
+
+        public void SetIsPause(bool _isPause)
+        {
+            IsPause = _isPause;
+            if (_isPause) {
+                // 소리 끄기
+            } else {
+                // 소리 3초 후 틀기
+                Debug.Log("Resume the game after 3 sec...");
+
+            }
+        }
     }

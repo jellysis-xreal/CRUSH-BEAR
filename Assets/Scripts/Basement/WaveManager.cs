@@ -32,7 +32,7 @@ public class WaveManager : MonoBehaviour
         
         public void Test()
         {
-            currentWave = WaveType.Hitting;
+            // currentWave = WaveType.Hitting;
             SetThisWave();
         }
 
@@ -86,6 +86,7 @@ public class WaveManager : MonoBehaviour
             LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
 
             int TypeNum = (int)currentWave;
+            Debug.Log($"TypeNum : {TypeNum}");
             RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
             LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
         }
@@ -111,6 +112,18 @@ public class WaveManager : MonoBehaviour
                     IsPause = false;
                     return;
                 }
+            }
+        }
+
+        public void SetIsPause(bool _isPause)
+        {
+            IsPause = _isPause;
+            if (_isPause) {
+                // 소리 끄기
+            } else {
+                // 소리 3초 후 틀기
+                Debug.Log("Resume the game after 3 sec...");
+
             }
         }
     }

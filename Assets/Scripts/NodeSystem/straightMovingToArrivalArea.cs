@@ -10,7 +10,7 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
     private Rigidbody _rigidbody;
     
     public Transform playerTransform;
-    public bool isArrivalAreaHit;
+    public bool isArrivalAreaHit = false;
     public bool isHandAttached = false;
     
     [SerializeField] private float playerAttachdistance;

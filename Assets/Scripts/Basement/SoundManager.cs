@@ -41,9 +41,10 @@ public class SoundManager : MonoBehaviour
 
     public void Update()
     {
+        /*
         foreach (var audio in audioSource)
         {
             audio.volume = this.volume;
-        }
+        }*/
     }
 }

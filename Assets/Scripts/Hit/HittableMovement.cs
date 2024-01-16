@@ -21,7 +21,7 @@ public class HittableMovement : MonoBehaviour
     [SerializeField] private ObjectArrivalAreaManager arrivalArea; // Scene내의 arrival area
     [SerializeField] private GameObject refrigerator;
     [SerializeField] private toppingState curState = toppingState.idle;
-    private float distancePlayer = 3.0f;
+    private float distancePlayer = 1.5f;
 
     //토핑이 움직이기 위한 변수
     [SerializeField] private float _idleTime;
@@ -68,9 +68,7 @@ public class HittableMovement : MonoBehaviour
 
     private void Start()
     {
-        // 생성된 이후, 가만히 있는 시간을 결정합니다.
-        // idle time 이후 튀어오르고, moveTime 동안 움직이게 됩니다.
-        _idleTime = arriveTime - (_popTime + moveTime + GameManager.Wave.waveTime);
+        InitiateVariable();
         
         // TODO: 원래는 생성해주면서 call 해줘야 함
         InitialTopping(arrivalBoxNum, arriveTime);
@@ -79,14 +77,34 @@ public class HittableMovement : MonoBehaviour
     private void Update()
     {
         _toppingTime += Time.deltaTime;
-        
 
-        if (GameManager.Wave.waveTime >= arriveTime + 2.0f)
+        // 현재 토핑 상태 Update
+        UpdateToppingState();
+
+        // 처리되지 못한 토핑들 자동 처리
+        if (GameManager.Wave.waveTime >= arriveTime + 2.0f && _isMoved)
         {
             curState = toppingState.refrigerator;
             _isNotHitted = true;
         }
-        UpdateToppingState();
+    }
+
+    private void InitiateVariable()
+    {
+        // 생성된 이후, 가만히 있는 시간을 결정합니다.
+        // idle time 이후 튀어오르고, moveTime 동안 움직이게 됩니다.
+        _idleTime = arriveTime - (_popTime + moveTime + GameManager.Wave.waveTime);
+        //Debug.Log(this.transform.name + "의 Idle time은 " + _idleTime);
+        //_waitTime = 2.0f;
+        //_inTime = 1.5f;
+
+        _isJumped = false;      // 1)토스트기 위로 점프했나요?
+        _isMoved = false;       // 2)Player를 향해 움직이고 있나요?
+        _isHitted = false;      // 3)막대에 의해 맞았나요?
+        _waitStartTime = 0.0f;  // 4)WaitForSeconds() 함수를 위한 초기 시간 변수
+        _isWaiting = false;     // 5)WaitForSeconds() 함수를 사용 중인가요?
+        _isNotHitted = false;   // 6)Player의 막대를 통해 처리되지 못한 경우
+        _goTo = false;          // 7)냉장고로 향하는 코드를 1번 실행하기 위한 변수
     }
 
     private void OnDestroy()
@@ -168,17 +186,18 @@ public class HittableMovement : MonoBehaviour
         Vector3 thirdPos = refrigerator.transform.position;
         Vector3 secondPos = firstPos + (thirdPos - firstPos) / 2;
 
+        float height = UnityEngine.Random.Range(1.0f, 3.0f);
+        
         transform.DOPath(new[]
             {
                 new Vector3(firstPos.x, firstPos.y, firstPos.z),
-                new Vector3(secondPos.x, secondPos.y + 1.0f, secondPos.z),
+                new Vector3(secondPos.x, secondPos.y + height, secondPos.z),
                 new Vector3(thirdPos.x, thirdPos.y, thirdPos.z),
             },
             _inTime,
             PathType.CatmullRom, PathMode.Full3D);
         this.GetComponent<Rigidbody>().useGravity = false;
-
-        Debug.Log(this.transform.name + "냉장고로!");
+        
         Destroy(this.gameObject, _inTime + 0.5f);
     }
 
@@ -191,44 +210,94 @@ public class HittableMovement : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other)
-    {
+    {          
+        // FOR DEBUG
+        //Debug.Log("[DEBUG]" + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
+        
         if (curState == toppingState.interacable)
         {
-            DOTween.KillAll();
+            // FOR DEBUG
+            Debug.Log("충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
             
-            Debug.Log("[DEBUG] 충돌 : " + other.transform.name);
+            DOTween.KillAll();
+
             bool IsRight = false;
 
+            //잘못 충돌한 예외 처리
             if (!other.transform.TryGetComponent(out Rigidbody body))
                 return;
-            
+
             // hitter의 side 색과 일치한 topping일 경우
-            if (body.name == sideType.ToString()) IsRight = true;
-            
+            InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
+            if (colSide == sideType)
+            {
+                IsRight = true;
+            }
+            else
+            {
+                // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
+                IsRight = UpOrDown(other, colSide); 
+                //if (IsRight) Debug.Log("예외 처리 성공");
+            }
+
             // Controller / Hand_R/L의 HandData에서
             // 속도 값 받아와서 Hit force로 사용함
             var parent = other.transform.parent.parent.parent;
             float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
             
             // 충돌 지점 기준으로 날아가게
-            //Vector3 dir = transform.position - other.gameObject.transform.position;
             Vector3 dir = other.contacts[0].normal.normalized;
-            //dir = dir.normalized;
             _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
 
+            // Set Score & State
             GameManager.Score.ScoringHit(this.gameObject, IsRight);
-            Debug.Log("[DEBUG] 충돌 감지, 시간은 " + GameManager.Wave.waveTime);
-            curState = toppingState.refrigerator;
+            curState = toppingState.refrigerator;            
+
         }
         else
             return;
     }
+    
+    private bool UpOrDown(Collision _col, InteractionSide type)
+    {
+        //오른면(초록색)에 존재하면, 위에 부딪혀야 정상적으로 감지 처리가 된 것
+        //왼면(빨간색)에 존재하면, 아래에 부딪혀야 정상적으로 감지 처리가 된것
+        
+        Vector3 distVec = transform.position - _col.transform.position;
+        
+        //오른손 법칙을 사용해보면 반시계 방향 >> 엄지의 방향이 양수 : 벽의 위에 부딪힘
+        //오른손 법칙을 사용해보면 시계 방향 >> 엄지의 방향이 음수 : 벽의 아래에 부딪힘
+        if (Vector3.Cross(_col.transform.right, distVec).z > 0)
+        {
+            //_col.transform.right는 충돌체의 오른쪽 방향벡터
+            //Debug.Log("Up : 벽의 위에 부딪힘");
+            switch (type)
+            {
+                case InteractionSide.Red: return true;      //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
+                case InteractionSide.Green: return false;   //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
+            }
+        }
+        else
+        {
+            switch (type)
+            {
+                case InteractionSide.Red:return false;      //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
+                case InteractionSide.Green:return true;     //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
+            }
+        }
+
+        return false;
+    }
 
     private void CanInteractTopping()
     {
+        // refrigerator로 향하는 것이 아니라면(아직 인터렉션을 하지 않았다면), 토핑과 상호작용할 수 있는 상황인지 체크한다.
+
         // Player와의 거리가 distancePlayer만큼 다가오면 활성화되도록.
         _curDistance = (this.transform.position - GameManager.Player.player.transform.position).sqrMagnitude;
         if (_curDistance <= distancePlayer)
+        {
+            //Debug.Log("[DEBUG] 충돌 가능합니다.");
             curState = toppingState.interacable;
         else
             curState = toppingState.uninteracable;
@@ -275,39 +344,31 @@ public class HittableMovement : MonoBehaviour
                     // popTime 동안 wait
                     WaitForSeconds(_popTime);
                 }
-                else
+                else if (_isWaiting && GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
                 {
                     // 해당 오브젝트가 플레이어를 향해 움직이기 위한 설정값 지정
-                    if (_isWaiting && GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
-                    {
-                        SetToppingMove();
-                        curState = toppingState.uninteracable;
-                        _isWaiting = false;
-                    }
+                    SetToppingMove();
+                    curState = toppingState.uninteracable;
+                    _isWaiting = false;
                 }
-
                 break;
-
+            
             case toppingState.uninteracable:
                 if (!_isMoved)
                 {
                     MoveToPlayer();
-                    _isMoved = true;
+                    WaitForSeconds(moveTime - 1.2f);
+                }
+                else if (_isWaiting && GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
+                {
                     curState = toppingState.interacable;
                 }
-
-                // refrigerator로 향하는 것이 아니라면(아직 인터렉션을 하지 않았다면), 토핑과 상호작용할 수 있는 상황인지 체크한다.
-                CanInteractTopping();
-
                 break;
 
             case toppingState.interacable:
                 // 중력의 영향을 받되, 천천히 떨어질 수 있도록 함
                 _rigidbody.useGravity = true;
                 _rigidbody.AddForce(0, 0, +3.0f);
-
-                //잠시 topping이 날아갈 시간 주기
-                WaitForSeconds(_inTime);
                 break;
 
             case toppingState.refrigerator:

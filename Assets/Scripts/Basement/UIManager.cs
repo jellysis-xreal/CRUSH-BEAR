@@ -1,0 +1,132 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UIManager : MonoBehaviour
+{
+    int _order = 10;
+
+    Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
+    UI_Scene _sceneUI = null;
+    GameObject player;
+
+    public void Init()
+    {
+    }
+
+    public void Start()
+    {
+        player = GameObject.FindWithTag("MainCamera");
+    }
+
+    public GameObject Root
+    {
+        get
+        {
+            GameObject root = GameObject.Find("@UI_Root");
+            if (root == null)
+                root = new GameObject { name = "@UI_Root" };
+            return root;
+        }
+    }
+    public void SetCanvas(GameObject go, bool sort = true)
+    {
+        Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
+        Debug.Log("[TEST] Canvas");
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.overrideSorting = true;
+
+        if (sort)
+        {
+            canvas.sortingOrder = _order;
+            _order++;
+        }
+        else
+        {
+            canvas.sortingOrder = 0;
+        }
+    }
+
+    public T ShowSceneUI<T>(string name = null) where T : UI_Scene
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject go = GameManager.Resource.Instantiate($"UI/Scene/{name}");
+
+        T SceneUI = Util.GetOrAddComponent<T>(go);
+        _sceneUI = SceneUI;
+
+        go.transform.SetParent(Root.transform);
+
+        return SceneUI;
+    }
+
+    public T ShowPopupUI<T> (string name = null) where T : UI_Popup
+    {
+        // Debug.Log("[TEST] calibraet first");
+        // CalibrateCanvasLocation();
+        if (string.IsNullOrEmpty (name))
+            name = typeof (T).Name;
+
+        GameObject go = GameManager.Resource.Instantiate($"UI/Popup/{name}");
+        // print("[test]: " +go);
+
+        T popup = Util.GetOrAddComponent<T>(go);
+        _popupStack.Push(popup);
+
+        go.transform.SetParent(Root.transform);
+        go.transform.localPosition = Vector3.zero;
+        go.transform.localRotation = Quaternion.identity;
+
+        return popup;
+    }
+
+    public void ClosePopupUI(UI_Popup popup)
+    {
+        if(_popupStack.Count == 0)
+            return;
+
+        if (_popupStack.Peek() != popup)
+        {
+            Debug.Log("Close Popup Failed");
+            return;
+        }
+
+        ClosePopupUI();
+    }
+
+    public void ClosePopupUI()
+    {
+        if (_popupStack.Count == 0)
+            return;
+
+        UI_Popup popup = _popupStack.Pop();
+        GameManager.Resource.Destroy(popup.gameObject);
+        popup = null;
+
+        _order--;
+    }
+
+    public void CloseAllPopupUI()
+    {
+        while (_popupStack.Count > 0)
+            ClosePopupUI();
+    }
+
+    public void CalibrateCanvasLocation()
+    {
+        Vector3 cameraPosition = player.transform.position;
+        Vector3 cameraDirection = player.transform.forward;
+
+        // 카메라에서 떨어진 거리 조절
+        float distance = 1.0f;
+        Vector3 newPosition = cameraPosition + cameraDirection * distance;
+
+        // GameObject의 위치 이동
+        Root.transform.position = newPosition;
+
+        // GameObject의 회전 설정
+        Root.transform.rotation = player.transform.rotation;
+    }
+}

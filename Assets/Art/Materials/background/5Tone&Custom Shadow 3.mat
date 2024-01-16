@@ -8,13 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 5Tone&Custom Shadow 3
-  m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
-  m_Parent: {fileID: 2100000, guid: 45f9af26e52852f408b2e962ae3bc53f, type: 2}
-  m_ModifiedSerializedProperties: 0
+  m_Shader: {fileID: 4800000, guid: e88aeddd2ef1f934d805981244872e27, type: 3}
+  m_Parent: {fileID: 2100000, guid: d1ebb61399d3dc645a2ebc80af2f2c4a, type: 2}
+  m_ModifiedSerializedProperties: 16
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
   - _OUTLINE
-  - _RECEIVE_SHADOWS_OFF
   - _RIMLIGHTING_ON
   - _TOON_SHADING_ON
   m_InvalidKeywords:
@@ -22,7 +21,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses:
@@ -33,13 +32,16 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _EnabledHairSpec: 0
     - _OutlineEnabled: 1
-    - _OutlineWidth: 12
+    - _OutlineWidth: 15
     - _RimEnabled: 1
     - _RimLightSmoothness: 0.758
+    - _StencilRef: 0
     m_Colors:
     - _BaseColor: {r: 0.9528302, g: 0.43897593, b: 0.4284739, a: 1}
-    - _OutlineDistancFade: {r: -25, g: 200, b: 0, a: 0}
+    - _OutlineColor: {r: 0.6226415, g: 0.07929868, b: 0.07929868, a: 1}
+    - _OutlineDistancFade: {r: -80, g: 150, b: 0, a: 0}
     - _RimColor: {r: 0.8985505, g: 0.9245283, b: 0.7893378, a: 1}
-    - _ShadowColor: {r: 0.20863344, g: 0.17295593, b: 0.5, a: 1}
+    - _ShadowColor: {r: 0.41509432, g: 0, b: 0.032286536, a: 1}
   m_BuildTextureStacks: []

@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3785248384118436622}
   - component: {fileID: 7860935692098322192}
   - component: {fileID: 7098570561205364557}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Break_jamCookie_OUTLINE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,9 +33,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3916203221849984202}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.16087218, y: -0, z: -0, w: 0.9869753}
+  m_LocalRotation: {x: -0.16087164, y: 0, z: 0, w: 0.9869754}
   m_LocalPosition: {x: -0.643, y: 0.645, z: 0.7957189}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25754, y: 0.25754, z: 0.25754}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -47,7 +47,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3916203221849984202}
-  m_Mesh: {fileID: 7882186380087703236, guid: 04899bc2ec0b1c54a8e0aed4685b8577, type: 3}
+  m_Mesh: {fileID: 7882186380087703236, guid: d89b810b53719b9488cb67e4254e2274, type: 3}
 --- !u!23 &6624814200792810544
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 56727fbd022496f4bb5085ef944faa2b, type: 2}
+  - {fileID: 2100000, guid: 7ac68a0dc2fb93f4b8b82b08c275b5ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -276,7 +276,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1280
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

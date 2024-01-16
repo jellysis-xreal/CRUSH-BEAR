@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-
+using EnumTypes;
 public class straightMovingToArrivalArea : MonoBehaviour, IMovement
 {
     public int arrivalAreaIndex = 0;
@@ -10,7 +10,7 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
     private Rigidbody _rigidbody;
     
     public Transform playerTransform;
-    public bool isArrivalAreaHit;
+    public bool isArrivalAreaHit = false;
     public bool isHandAttached = false;
     
     [SerializeField] private float playerAttachdistance;
@@ -39,7 +39,11 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
 
         targetTransform = _objectArrivalAreaManager.arrivalAreas[arrivalAreaIndex-1];
         CalculateConstantSpeed();
-        StartCoroutine(RotateMoving());
+        InteractionType type = GetComponent<BaseObject>().InteractionType;
+        if (type == InteractionType.Break) StartCoroutine(RotateMovingBreakObject());
+        else if (type == InteractionType.Tear) StartCoroutine(RotateMovingRipObject());
+        
+        
     }
     private void CalculateConstantSpeed()
     {
@@ -72,13 +76,22 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
     {
         transform.position += dir * constantSpeed * Time.deltaTime;
     }
-
-    IEnumerator RotateMoving()
+    
+    IEnumerator RotateMovingBreakObject()
     {
         float time = timeToReachPlayer - 1f;
         transform.DOShakeRotation(time, 150f, 20, 100, true, ShakeRandomnessMode.Harmonic);
         yield return new WaitForSeconds(time);
         transform.DORotate(new Vector3(90f, 0, 0), 1);
+    }
+    IEnumerator RotateMovingRipObject()
+    {
+        float time = timeToReachPlayer - 1f;
+        transform.LookAt(targetTransform);
+        //transform.DOShakePosition(time, 1f, 20);
+        transform.DOShakeRotation(time, 150f, 20, 100, true, ShakeRandomnessMode.Harmonic);
+        yield return new WaitForSeconds(time);
+        transform.DORotate(new Vector3(270f, 0, 0), 1, RotateMode.WorldAxisAdd); //.setter(Quaternion.AngleAxis(-90, Vector3.right));
     }
     
     private void OnTriggerEnter(Collider other)

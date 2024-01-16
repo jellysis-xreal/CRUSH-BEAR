@@ -299,6 +299,7 @@ public class HittableMovement : MonoBehaviour
         {
             //Debug.Log("[DEBUG] 충돌 가능합니다.");
             curState = toppingState.interacable;
+        }
         else
             curState = toppingState.uninteracable;
     }

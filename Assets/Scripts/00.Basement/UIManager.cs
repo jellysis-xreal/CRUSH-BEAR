@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
 
     public void SetCanvas(GameObject go, bool sort = true)
     {
-        Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
+        Canvas canvas = Utils.GetOrAddComponent<Canvas>(go);
         Debug.Log("[TEST] Canvas");
         canvas.renderMode = RenderMode.WorldSpace;
         canvas.overrideSorting = true;
@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
 
         GameObject go = GameManager.Resource.Instantiate($"UI/Scene/{name}");
 
-        T SceneUI = Util.GetOrAddComponent<T>(go);
+        T SceneUI = Utils.GetOrAddComponent<T>(go);
         _sceneUI = SceneUI;
 
         go.transform.SetParent(Root.transform);
@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour
         GameObject go = GameManager.Resource.Instantiate($"UI/Popup/{name}");
         // print("[test]: " +go);
 
-        T popup = Util.GetOrAddComponent<T>(go);
+        T popup = Utils.GetOrAddComponent<T>(go);
         _popupStack.Push(popup);
 
         go.transform.SetParent(Root.transform);

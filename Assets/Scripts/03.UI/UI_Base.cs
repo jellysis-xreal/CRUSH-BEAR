@@ -24,9 +24,9 @@ public class UI_Base : MonoBehaviour
         for (int i = 0; i < names.Length; i++)
         {
             if (typeof(T) == typeof(GameObject))
-                objects[i] = Util.FindChild(gameObject, names[i], true);
+                objects[i] = Utils.FindChild(gameObject, names[i], true);
             else
-                objects[i] = Util.FindChild<T>(gameObject, names[i], true);
+                objects[i] = Utils.FindChild<T>(gameObject, names[i], true);
         }
     }
 
@@ -46,7 +46,7 @@ public class UI_Base : MonoBehaviour
 
     public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
-        UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
+        UI_EventHandler evt = Utils.GetOrAddComponent<UI_EventHandler>(go);
 
         switch (type)
         {

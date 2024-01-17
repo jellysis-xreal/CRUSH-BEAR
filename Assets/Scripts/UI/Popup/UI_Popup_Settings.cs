@@ -9,8 +9,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class UI_Popup_Settings : UI_Popup
 {
-    public XRInteractorLineVisual ray;
-
     enum Buttons
     {
         ResumeButton,
@@ -34,10 +32,6 @@ public class UI_Popup_Settings : UI_Popup
     private void Start()
     {
         Init();
-        ray = GameObject.FindWithTag("RayInteractor").GetComponent<XRInteractorLineVisual>();
-        if (ray == null) {
-            Debug.Log("Ray Interactor is not found");
-        }
     }
 
     public override void Init()
@@ -56,7 +50,7 @@ public class UI_Popup_Settings : UI_Popup
     public void OnButtonClicked_Resume(PointerEventData data)
     {
         base.ClosePopupUI();
-        ray.enabled = false;
+        GameManager.UI.SetRayOn(false);
         GameManager.Wave.SetIsPause(false);
     }
 

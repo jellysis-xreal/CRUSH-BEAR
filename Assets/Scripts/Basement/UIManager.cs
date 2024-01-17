@@ -6,6 +6,8 @@ public class UIManager : MonoBehaviour
 {
     int _order = 10;
 
+    bool ray = false;
+    
     Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
     UI_Scene _sceneUI = null;
     GameObject player;
@@ -29,6 +31,7 @@ public class UIManager : MonoBehaviour
             return root;
         }
     }
+
     public void SetCanvas(GameObject go, bool sort = true)
     {
         Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
@@ -128,5 +131,16 @@ public class UIManager : MonoBehaviour
 
         // GameObject의 회전 설정
         Root.transform.rotation = player.transform.rotation;
+    }
+
+    public bool IsRayOn()
+    {
+        return ray;
+    }
+    
+    public bool SetRayOn(bool _ray)
+    {
+        ray = _ray;
+        return ray;
     }
 }

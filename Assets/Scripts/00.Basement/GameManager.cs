@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     public static event GameStateChangedHandler OnGameStateChanged;
     private bool LoadWave = false;
     
-    [SerializeField] private GameState currentGameState;
+    [SerializeField] public GameState currentGameState;
     
     void Start()
     {
@@ -198,8 +198,8 @@ public class GameManager : MonoBehaviour
         while (!Loading.isDone)
         {
              // [DEBUG]
-              Debug.Log("Async progress :" + (Loading.progress) + "%"
-                        + "\n async.allowSceneActivation = " + Loading.allowSceneActivation);
+             //Debug.Log("Async progress :" + (Loading.progress) + "%"
+             //+ "\n async.allowSceneActivation = " + Loading.allowSceneActivation);
 
             if (LoadWave && Loading.progress >= 0.9f)
             {

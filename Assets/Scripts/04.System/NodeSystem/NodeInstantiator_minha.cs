@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using EnumTypes;
+using UnityEngine.Serialization;
 
 public class NodeInstantiator_minha : MonoBehaviour
 {
     // Topping Prefabs
-    public List<GameObject> GunTopping;
+    public List<GameObject> ShootTopping;
     public List<GameObject> PunchTopping;
     public List<GameObject> HitTopping;
 
@@ -18,8 +19,12 @@ public class NodeInstantiator_minha : MonoBehaviour
     public GameObject HitSpawn;
     
     private int poolSize = 10;       // Object Pool Size
-    private GameObject[] toppingPool;
+    [SerializeField] private GameObject[] toppingPool = new GameObject[] { };
 
+    private void Start()
+    {
+        toppingPool = new GameObject[poolSize]; // 배열 생성
+    }
     // private void Start()
     // {
     //     // Resource에서 받아오기
@@ -48,33 +53,39 @@ public class NodeInstantiator_minha : MonoBehaviour
 
     public void Init(WaveType wave)
     {
-        List<GameObject> temp = null;
-
         // topping pool 교체
         switch (wave)
         {
             case WaveType.Shooting:
-                temp = GunTopping;
+                // for (int i = 0; i < poolSize; ++i)
+                // {
+                //     GameObject topping = ShootTopping[(i % ShootTopping.Count)];
+                //     toppingPool[i] = Instantiate(topping) as GameObject;
+                //     toppingPool[i].name = "Shoot_" + i;
+                //     toppingPool[i].SetActive(false); // `사용 안함` 상태
+                // }
                 break;
 
             case WaveType.Punching:
-                temp = PunchTopping;
+                for (int i = 0; i < poolSize; ++i)
+                {
+                    GameObject topping = PunchTopping[(i % PunchTopping.Count)];
+                    toppingPool[i] = Instantiate(topping) as GameObject;
+                    toppingPool[i].name = "Punch_" + i;
+                    toppingPool[i].SetActive(false); // `사용 안함` 상태
+                }
                 break;
 
             case WaveType.Hitting:
-                temp = HitTopping;
+                for (int i = 0; i < poolSize; ++i)
+                {
+                    GameObject topping = HitTopping[(i % HitTopping.Count)];
+                    toppingPool[i] = Instantiate(topping) as GameObject;
+                    toppingPool[i].name = "Hit_" + i;
+                    toppingPool[i].SetActive(false); // `사용 안함` 상태
+                }
                 break;
         }
-
-        toppingPool = new GameObject[poolSize]; // 배열 생성
-        for (int i = 0; i < poolSize; ++i)
-        {
-            GameObject topping = temp[(i % temp.Count)];
-            toppingPool[i] = Instantiate(topping) as GameObject;
-            toppingPool[i].name = "topping_" + i;
-            toppingPool[i].SetActive(false); // `사용 안함` 상태
-        }
-
         StartCoroutine(SpawnManager());
     }
 

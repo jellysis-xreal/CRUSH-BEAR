@@ -59,33 +59,53 @@ public class HittableMovement : MonoBehaviour
 
     private void Awake()
     {
-        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
         _rigidbody = GetComponent<Rigidbody>();
-        
-        // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
-        refrigerator = GameObject.FindWithTag("Refrigerator");
     }
 
     private void Start()
     {
-        InitiateVariable();
-        
-        // TODO: 원래는 생성해주면서 call 해줘야 함
-        InitialTopping(arrivalBoxNum, arriveTime);
+        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
+        // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
+        refrigerator = GameObject.FindWithTag("Refrigerator");
+
+        // TODO: 원래는 생성해주면서 call 해줘야 함 -> NodeInstantiator.cs에서 진행
+        //InitializeTopping(arrivalBoxNum, arriveTime);
     }
+
+    /// <summary>
+    /// 해당 토핑이 도착하고자하는 arrival area의 index,
+    /// 해당 토핑이 도착하고자하는 arrival time을 지정함
+    /// </summary>
+    /// <param name="arrivalBox">arrival area의 index</param>
+    /// <param name="arriveTime">arrival time</param>
+    public void InitializeTopping(int arrivalBox, float time, InteractionSide side)
+    {
+        InitiateVariable();
+        arrivalArea.setting();
+
+        arrivalBoxNum = arrivalBox;
+        arriveTime = time;
+        sideType = side;
+
+        _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
+    }
+
 
     private void Update()
     {
-        _toppingTime += Time.deltaTime;
-
-        // 현재 토핑 상태 Update
-        UpdateToppingState();
-
-        // 처리되지 못한 토핑들 자동 처리
-        if (GameManager.Wave.waveTime >= arriveTime + 2.0f && _isMoved)
+        if (GameManager.Instance.currentGameState == GameState.Waving)
         {
-            curState = toppingState.refrigerator;
-            _isNotHitted = true;
+            _toppingTime += Time.deltaTime;
+
+            // 현재 토핑 상태 Update
+            UpdateToppingState();
+
+            // 처리되지 못한 토핑들 자동 처리
+            if (GameManager.Wave.waveTime >= arriveTime + 2.0f && _isMoved)
+            {
+                curState = toppingState.refrigerator;
+                _isNotHitted = true;
+            }
         }
     }
 
@@ -109,25 +129,11 @@ public class HittableMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        //Debug.Log(this.name + "Destory 토핑 : " + _toppingTime);
+        Debug.Log(this.name + "Destory 토핑 : " + _toppingTime);
         //Debug.Log(this.name + "포물선으로 날아가는데 걸린 시간은 : " + _testTime);
     }
 
-    /// <summary>
-    /// 해당 토핑이 도착하고자하는 arrival area의 index,
-    /// 해당 토핑이 도착하고자하는 arrival time을 지정함
-    /// </summary>
-    /// <param name="arrivalBox">arrival area의 index</param>
-    /// <param name="arriveTime">arrival time</param>
-    public void InitialTopping(int arrivalBox, float time)
-    {
-        arrivalArea.setting();
-        
-        arrivalBoxNum = arrivalBox;
-        arriveTime = time;
-
-        _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
-    }
+    
     
     public void MoveToPlayer()
     {
@@ -198,7 +204,7 @@ public class HittableMovement : MonoBehaviour
             PathType.CatmullRom, PathMode.Full3D);
         this.GetComponent<Rigidbody>().useGravity = false;
         
-        Destroy(this.gameObject, _inTime + 0.5f);
+        //Destroy(this.gameObject, _inTime + 0.5f);
     }
 
     private void WaitForSeconds(float sec)

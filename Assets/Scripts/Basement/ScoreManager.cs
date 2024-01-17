@@ -47,6 +47,7 @@ public class ScoreManager : MonoBehaviour
     
     public void Init()
     {
+        Debug.Log("Initialize ScoreManager");
         player = GameObject.FindWithTag("Player");
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
@@ -170,7 +171,7 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    private void SetScoreEffect(scoreType score, Transform position)
+    private void SetScoreEffect(scoreType score, Transform transform)
     {
         GameObject effect;
 
@@ -178,20 +179,20 @@ public class ScoreManager : MonoBehaviour
         {
             // Perfect! 글자
             effect = Resources.Load("Prefabs/Effects/Score_perfect") as GameObject;
-            Instantiate(effect, effectSpawn.position, Quaternion.identity);
+            Instantiate(effect, transform.position, Quaternion.identity);
             
             // 햅틱 효과
             GameManager.Player.ActiveRightHaptic(0.9f, 0.1f);
             GameManager.Player.ActiveLeftHaptic(0.9f, 0.1f);
             
             // 점수에 따른 효과
-            GameObject obj = Instantiate(Perfect_VFX, position.position, Quaternion.identity);
+            GameObject obj = Instantiate(Perfect_VFX, transform.position, Quaternion.identity);
             Destroy(obj, 3.0f);
         }
         else if (score == scoreType.Good)
         {
             effect = Resources.Load("Prefabs/Effects/Score_good") as GameObject;
-            Instantiate(effect, effectSpawn.position, Quaternion.identity);
+            Instantiate(effect, transform.position, Quaternion.identity);
             
             // 햅틱 효과
             GameManager.Player.ActiveRightHaptic(0.6f, 0.1f);
@@ -201,7 +202,7 @@ public class ScoreManager : MonoBehaviour
         else if (score == scoreType.Bad)
         {
             effect = Resources.Load("Prefabs/Effects/Score_bad") as GameObject;
-            Instantiate(effect, effectSpawn.position, Quaternion.identity);
+            Instantiate(effect, transform.position, Quaternion.identity);
             
             // 햅틱 효과
             GameManager.Player.ActiveRightHaptic(0.2f, 0.1f);

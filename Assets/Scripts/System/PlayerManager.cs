@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("setting(auto)")]
     [SerializeField] public GameObject player;
+    [SerializeField] public GameObject IK_player;
     public GameObject RightController;
     public GameObject LeftController;
     private XRBaseController R_XRController;
@@ -19,8 +20,14 @@ public class PlayerManager : MonoBehaviour
 
     public void Init()
     {
+        Debug.Log("Initialize PlayerManager");
+        
         // Game object setting
         player = GameObject.FindWithTag("Player");
+        IK_player = GameObject.FindWithTag("IKPlayer");
+        
+        DontDestroyOnLoad(player);
+        DontDestroyOnLoad(IK_player);
         
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;

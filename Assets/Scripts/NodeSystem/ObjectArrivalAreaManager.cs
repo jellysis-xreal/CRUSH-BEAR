@@ -7,8 +7,14 @@ using UnityEngine;
 public class ObjectArrivalAreaManager : MonoBehaviour
 {
     public Transform[] arrivalAreas;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private Transform IKplayerTransform;
+    [SerializeField] private GameObject playerTransform;
+    [SerializeField] private GameObject IKplayerTransform;
+
+    private void Start()
+    {
+        playerTransform = GameManager.Player.player;
+        IKplayerTransform = GameManager.Player.IK_player;
+    }
 
     private void updateArea()
     {
@@ -23,12 +29,12 @@ public class ObjectArrivalAreaManager : MonoBehaviour
         {
             case WaveType.Shooting:
                 transform.rotation = Quaternion.Euler(0, -60.0f,0);
-                transform.position = playerTransform.position + Vector3.forward * 0.2f;
+                transform.position = playerTransform.transform.position + Vector3.forward * 0.2f;
                 break;
             
             case WaveType.Punching:
                 transform.rotation = Quaternion.Euler(0, 0.0f,0);
-                transform.position = playerTransform.position + Vector3.forward * 0.2f;
+                transform.position = playerTransform.transform.position + Vector3.forward * 0.2f;
                 break;
             
             case WaveType.Hitting:
@@ -44,12 +50,12 @@ public class ObjectArrivalAreaManager : MonoBehaviour
         {
             case WaveType.Shooting:
                 transform.rotation = Quaternion.Euler(0, -60.0f,0);
-                transform.position = playerTransform.position + Vector3.forward * 0.2f;
+                transform.position = playerTransform.transform.position + Vector3.forward * 0.2f;
                 break;
             
             case WaveType.Punching:
                 transform.rotation = Quaternion.Euler(0, 0.0f,0);
-                transform.position = playerTransform.position + Vector3.forward * 0.2f;
+                transform.position = playerTransform.transform.position + Vector3.forward * 0.2f;
                 break;
             
             case WaveType.Hitting:
@@ -61,7 +67,7 @@ public class ObjectArrivalAreaManager : MonoBehaviour
 
     private void HitWaveSet()
     {
-        transform.rotation = IKplayerTransform.rotation;
+        transform.rotation = IKplayerTransform.transform.rotation;
         
         // float x, y, z;
         // if (transform.position.x <= 0) x = -IKplayerTransform.position.x;
@@ -71,7 +77,7 @@ public class ObjectArrivalAreaManager : MonoBehaviour
         // if (transform.position.z <= 0) z = -IKplayerTransform.position.z;
         // else z = +IKplayerTransform.position.z;
         
-        transform.position = IKplayerTransform.forward * 1.5f + Vector3.up * 0.8f;
+        transform.position = IKplayerTransform.transform.forward * 1.5f + Vector3.up * 0.8f;
     }
     
 }

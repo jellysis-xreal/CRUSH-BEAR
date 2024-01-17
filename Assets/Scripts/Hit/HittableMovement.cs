@@ -45,7 +45,8 @@ public class HittableMovement : MonoBehaviour
     private float _waitStartTime = 0.0f;
     private float _waitTime = 2.0f;
     private bool _isWaiting = false;
-    
+    private bool _isNotHitted = false;
+    private bool _goTo = false;
 
     private enum toppingState
     {
@@ -79,9 +80,12 @@ public class HittableMovement : MonoBehaviour
     {
         _toppingTime += Time.deltaTime;
         
-        if (GameManager.Wave.waveTime >= arriveTime + 2.0f)
-            curState = toppingState.refrigerator;
 
+        if (GameManager.Wave.waveTime >= arriveTime + 2.0f)
+        {
+            curState = toppingState.refrigerator;
+            _isNotHitted = true;
+        }
         UpdateToppingState();
     }
 
@@ -160,8 +164,6 @@ public class HittableMovement : MonoBehaviour
 
     public void GoToRefrigerator()
     {
-        _isHitted = true;
-
         Vector3 firstPos = transform.position;
         Vector3 thirdPos = refrigerator.transform.position;
         Vector3 secondPos = firstPos + (thirdPos - firstPos) / 2;
@@ -169,14 +171,14 @@ public class HittableMovement : MonoBehaviour
         transform.DOPath(new[]
             {
                 new Vector3(firstPos.x, firstPos.y, firstPos.z),
-                new Vector3(secondPos.x, secondPos.y, secondPos.z),
+                new Vector3(secondPos.x, secondPos.y + 1.0f, secondPos.z),
                 new Vector3(thirdPos.x, thirdPos.y, thirdPos.z),
             },
             _inTime,
-            PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint);
-        this.GetComponent<Rigidbody>().useGravity = false; 
-        
-        Debug.Log("냉장고로!");
+            PathType.CatmullRom, PathMode.Full3D);
+        this.GetComponent<Rigidbody>().useGravity = false;
+
+        Debug.Log(this.transform.name + "냉장고로!");
         Destroy(this.gameObject, _inTime + 0.5f);
     }
 
@@ -314,13 +316,16 @@ public class HittableMovement : MonoBehaviour
                 break;
 
             case toppingState.refrigerator:
-                if (!_isHitted || GameManager.Wave.waveTime >= arriveTime + 2.0f)
+                if (!_isHitted)
                 {
-                    if (_isWaiting && GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
-                    {
-                        GoToRefrigerator();
-                        _isWaiting = false;
-                    }
+                    GoToRefrigerator();
+                    _isHitted = true;
+                }
+
+                if (_isNotHitted && !_goTo)
+                {
+                    GoToRefrigerator();
+                    _goTo = true;
                 }
                 break;
         }

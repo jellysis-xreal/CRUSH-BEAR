@@ -7,7 +7,7 @@ namespace EnumTypes
     {
         Lobby,
         Waving,
-        Pause
+        Ending
     }
     
     

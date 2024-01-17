@@ -197,7 +197,8 @@ public class GameManager : MonoBehaviour
 
         while (!Loading.isDone)
         {
-             Debug.Log("Async progress :" + (Loading.progress) + "%"
+             // [DEBUG]
+              Debug.Log("Async progress :" + (Loading.progress) + "%"
                         + "\n async.allowSceneActivation = " + Loading.allowSceneActivation);
 
             if (LoadWave && Loading.progress >= 0.9f)

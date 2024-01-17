@@ -9,17 +9,23 @@ public class WaveManager : MonoBehaviour
         [SerializeField] private uint waveNum = 0;        // Wave number
         [SerializeField] private WaveType currentWave;    // 진행 중인 Wave Type
         [SerializeField] public float waveTime = 0.0f;
-        [SerializeField] private bool IsPause = false;
+        public bool IsPause = false;
         //public GameObject node_forTest;
         
         [Header("setting(auto)")] 
         [SerializeField] private GameObject RightInteraction;
         [SerializeField] private GameObject LeftInteraction;
         private uint waveTypeNum = 3;   // Wave Type 갯수
+        [SerializeField] private NodeInstantiator_minha nodeInstantiator;
+
+        private bool IsWait = false;
+        private float timerDuration = 5f;
+        private float waitTimer;
         
         public void Init()
         {
             Debug.Log("Initialize WaveManager");
+            
             // Wave Num
             waveNum = 0;
             waveTime = 0.0f;
@@ -29,12 +35,15 @@ public class WaveManager : MonoBehaviour
             
             // TODO: 임시로 노드 초기화좀 ...
             //node_forTest.gameObject.SetActive(true);
+            
+            // Player가 플레이할 Wave 진행함
+            NextWave();
         }
         
         public void Test()
         {
             // currentWave = WaveType.Hitting;
-            SetThisWave();
+            // SetThisWave();
         }
 
         public WaveType GetWaveType()
@@ -49,19 +58,26 @@ public class WaveManager : MonoBehaviour
         public void NextWave()
         {
             // TODO: Wave를 지정하는 효과 ON(240108)
+            
             // ~초 대기
+            SetPauseWave();
             
             // Random으로 다음 wave를 지정
-            currentWave = GetRandomWave();
+            //currentWave = GetRandomWave();
+            // TODO: 임시 설정. For Test
+            currentWave = WaveType.Hitting;
             
-            // Wave 세팅 (Player, )
-            SetThisWave();
+            // Wave 세팅
+            SetWavePlayer();                     // Player의 Interact 세팅
+            nodeInstantiator.Init(currentWave);  // Node Loader 세팅
+            // TODO: Scene 내의 점수판 세팅
+            // TODO: Scene 내의 조명 세팅
             waveNum++;
             
             // TODO: Wave 시작하기(240108)
             waveTime = 0.0f;
             // 음악 start
-            // 노드 start
+            // 노드는 Time.timeScale == 1일 경우 자동으로 Update 됨.
         }
 
         private WaveType GetRandomWave()
@@ -76,7 +92,7 @@ public class WaveManager : MonoBehaviour
             return temp;
         }
 
-        private void SetThisWave()
+        private void SetWavePlayer()
         {
             RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
             RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
@@ -95,27 +111,53 @@ public class WaveManager : MonoBehaviour
         private void Update()
         {
             waveTime += Time.deltaTime;
-            
-            if (Input.GetKeyDown(KeyCode.F))
+
+            // 기다리는 중이라면,
+            if (IsPause && IsWait)
             {
-                //Wave 일시정지 활성화
-                if (IsPause == false)
+                if (waitTimer > 0f)
                 {
-                    Time.timeScale = 0;
-                    IsPause = true;
-                    return;
+                    waitTimer -= Time.unscaledDeltaTime;
+                    Debug.Log("Timer: " + waitTimer.ToString("F2"));
                 }
-                
-                //Wave 일시정지 비활성화
-                if (IsPause == true)
+                else
                 {
-                    Time.timeScale = 1;
-                    IsPause = false;
-                    return;
+                    Debug.Log("Timer finished!");
+                    
+                    // 타이머가 종료되었을 때 Wave Active
+                    SetContinueWave();
+                    IsWait = false;
                 }
             }
         }
 
+        public void SetPauseWave()
+        {
+            Debug.Log("[WAVE] Wave 일시중지");
+            Time.timeScale = 0f;
+            IsPause = true;
+            
+            if (IsWait == false)
+            {
+                IsWait = true;
+                waitTimer = timerDuration;
+                return;
+            }
+            
+            if (IsWait == true)
+            {
+                IsWait = false;
+                return;
+            }
+        }
+        
+        private void SetContinueWave()
+        {
+            Debug.Log("[WAVE] Wave 재개");
+            Time.timeScale = 1f;
+            IsPause = false;
+        }
+        
         public void SetIsPause(bool _isPause)
         {
             IsPause = _isPause;

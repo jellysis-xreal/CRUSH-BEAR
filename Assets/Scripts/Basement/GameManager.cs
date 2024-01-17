@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DataManager _data = new DataManager();
     public static DataManager Data { get { return Instance._data; } }
     
-    [SerializeField] private UIManager _ui;
+    [SerializeField] private UIManager _ui = new UIManager();
     public static UIManager UI { get { return Instance._ui; } }
 
     [SerializeField] private ResourceManager _resource = new ResourceManager();
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WaveManager _wave;
     public static WaveManager Wave { get { return Instance._wave; }}
     
-    [SerializeField] private SoundManager _sound;
+    [SerializeField] private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
     //+------------------------//
     

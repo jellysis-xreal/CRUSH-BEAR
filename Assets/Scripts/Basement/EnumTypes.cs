@@ -3,7 +3,14 @@
 */
 namespace EnumTypes
 {
-
+    public enum GameState
+    {
+        Lobby,
+        Waving,
+        Pause
+    }
+    
+    
     public enum InteractionType
     {
         Idle,

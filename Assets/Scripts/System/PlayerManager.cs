@@ -19,8 +19,11 @@ public class PlayerManager : MonoBehaviour
 
     public void Init()
     {
+        Debug.Log("Initialize PlayerManager");
         // Game object setting
         player = GameObject.FindWithTag("Player");
+
+        DontDestroyOnLoad(player);
         
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;

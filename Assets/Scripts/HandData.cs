@@ -19,7 +19,7 @@ public class HandData : MonoBehaviour
     [Header("setting(auto)")] 
     [SerializeField] private GameObject Controller;
     [SerializeField] private InputActionProperty ControllerInput;
-    [SerializeField] private AttachHandNoGrab AttachNoGrab;
+    //[SerializeField] private AttachHandNoGrab AttachNoGrab;
     
     [Header("playing value")] 
     public InteractionType ControllerType;
@@ -32,14 +32,14 @@ public class HandData : MonoBehaviour
     void Start()
     {
         Controller = transform.parent.gameObject;
-        AttachNoGrab = Controller.GetComponent<AttachHandNoGrab>();
+        //AttachNoGrab = Controller.GetComponent<AttachHandNoGrab>();
         ControllerInput = GetComponent<AnimateHandOnInput>().grabAnimationAction;
     }
 
     private void Update()
     {
         updateControllerSpeed();
-        updateControllerState();
+        //updateControllerState();
     }
 
     private void updateControllerSpeed()
@@ -50,24 +50,24 @@ public class HandData : MonoBehaviour
         beforePos = currentPos;
     }
     
-    private void updateControllerState()
-    {
-        float grabValue = ControllerInput.action.ReadValue<float>();
-        
-        // 손이 normal이라면 Idle state
-        if (grabValue < GrabValue)
-            ControllerType = InteractionType.Idle;
-
-        //양 손을 펼치고 있고 GrabAttached일 경우 Tear state
-        if (grabValue < GrabValue && AttachNoGrab.IsAttached)
-        {
-            ControllerType = InteractionType.Tear;
-        }
-
-        // 양 손이 Grab이라면 Break state
-        if (grabValue > GrabValue)
-            ControllerType = InteractionType.Break;
-    }
+    // private void updateControllerState()
+    // {
+    //     float grabValue = ControllerInput.action.ReadValue<float>();
+    //     
+    //     // 손이 normal이라면 Idle state
+    //     if (grabValue < GrabValue)
+    //         ControllerType = InteractionType.Idle;
+    //
+    //     //양 손을 펼치고 있고 GrabAttached일 경우 Tear state
+    //     if (grabValue < GrabValue && AttachNoGrab.IsAttached)
+    //     {
+    //         ControllerType = InteractionType.Tear;
+    //     }
+    //
+    //     // 양 손이 Grab이라면 Break state
+    //     if (grabValue > GrabValue)
+    //         ControllerType = InteractionType.Break;
+    // }
     public bool IsMoveQuickly()
     {
         return ControllerSpeed > SpeedValue;

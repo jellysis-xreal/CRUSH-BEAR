@@ -47,6 +47,7 @@ public class ScoreManager : MonoBehaviour
     
     public void Init()
     {
+        Debug.Log("Initialize ScoreManager");
         player = GameObject.FindWithTag("Player");
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;

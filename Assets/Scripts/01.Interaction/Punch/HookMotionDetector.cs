@@ -11,8 +11,11 @@ public class HookMotionDetector : MonoBehaviour
     [SerializeField] private float handVelocityMaximumThreshold = 5f;
     [SerializeField] private float handVelocity;
     private Coroutine _chekingHookCoroutine;
-    public bool coroutineExist = false;
+    private Coroutine _chekingUpperCutCoroutine;
+    public bool hookCoroutineExist = false;
+    public bool upperCutCoroutineExist = false;
     public bool isHooking = false;
+    public bool doingUpperCut = false;
     public InputActionProperty activateAction;
 
     void Update()
@@ -41,7 +44,7 @@ public class HookMotionDetector : MonoBehaviour
     // 현재 상황 : 속도 감지 O, Hooking motion 감지 X (주먹찌르기 동작에도 인식함.)
     private void CheckControllerSpeed()
     {
-        if(_chekingHookCoroutine != null) return;
+        if(_chekingHookCoroutine != null && _chekingUpperCutCoroutine != null) return;
         Debug.Log($"handSpeed : {handData.ControllerSpeed}");
         // _chekingHook 코루틴 존재하지 않음, 컨트롤러 속도 > 임계값, grab 버튼 활성화된 경우 회전 감지 시작.
         if(handData.ControllerSpeed < handVelocityMinimumThreshold 
@@ -51,29 +54,35 @@ public class HookMotionDetector : MonoBehaviour
         {   
             case Controller.leftController:
                 _chekingHookCoroutine = StartCoroutine(IsLeftHook());
+                _chekingUpperCutCoroutine = StartCoroutine(IsUpperCut());
                 Debug.Log("LHand Velocity Value reach a ceration threshold.");
                 break;
             case Controller.rightController:
                 _chekingHookCoroutine = StartCoroutine(IsRightHook());
+                _chekingUpperCutCoroutine = StartCoroutine(IsUpperCut());
                 Debug.Log("RHand Velocity Value reach a ceration threshold.");
                 break;
         }
     }
     // 코루틴으로 하자. 손의 속도가 일정 값 이상 올라갔을 때 hook 검사
-
+    // upperCut
+    // right controller eulerAnlge.x -90 부근, eulerAnlge.z -90 부근,
+    // left controller eulerAnlge.x -90 부근, eulerAnlge.z 90 부근
     private IEnumerator IsLeftHook()
     {
         isHooking = false;
         float startAngleY = transform.localEulerAngles.y; 
         while (true)
         {
+            /*if ((transform.localEulerAngles.x > -135 && transform.localEulerAngles.x < -45)
+                && (transform.localEulerAngles.z > -135 && transform.localEulerAngles.z < -45)) doingUpperCut = true;*/
             // 조건 : 주먹을 쥔 상태, 주먹이 바라보는 방향(hand의 local rotation z방향)의 회전 
             // rotation y 증가하는 형태, 90도 증가 -> 훅
             float currentAngleY = transform.localEulerAngles.y;
             if(currentAngleY < startAngleY)
             {
                 Debug.Log("Coroutine end");
-                CoroutineEndEvent();
+                HookCoroutineEndEvent();
                 break;
             }
             Debug.Log($"angleDifference per 1 Frame : {currentAngleY - startAngleY}");
@@ -88,13 +97,15 @@ public class HookMotionDetector : MonoBehaviour
         float startAngleY = transform.localEulerAngles.y;
         while (true)
         {
+            /*if ((transform.localEulerAngles.x > -135 && transform.localEulerAngles.x < -45)
+                && (transform.localEulerAngles.z > 45 && transform.localEulerAngles.z < 90)) doingUpperCut = true;*/
             // 조건 : 주먹을 쥔 상태, 주먹이 바라보는 방향(hand의 local rotation z방향)의 회전 
             // rotation y 감소하는 형태, 90도 감소 -> 훅
             float currentAngleY = transform.localEulerAngles.y;
             if(currentAngleY > startAngleY)
             {
                 Debug.Log("Coroutine end");
-                CoroutineEndEvent();
+                HookCoroutineEndEvent();
                 break;
             }
             Debug.Log($"angleDifference per 1 Frame : {currentAngleY - startAngleY}");
@@ -104,13 +115,45 @@ public class HookMotionDetector : MonoBehaviour
         }
     }
 
-    private void CoroutineEndEvent()
+    private IEnumerator IsUpperCut()
     {
+        doingUpperCut = false;
+        while (true)
+        {
+            switch (controller)
+            {
+                case Controller.rightController:
+                    // Debug.Log($"rightController Upper Check : {transform.localEulerAngles.x}, {transform.localEulerAngles.z}");
+                    if ((transform.localEulerAngles.x < 315 && transform.localEulerAngles.x > 225)
+                        && (transform.localEulerAngles.z < 315 && transform.localEulerAngles.z > 225)) doingUpperCut = true;
+                    break;
+                case Controller.leftController:
+                    // Debug.Log($"leftController Upper Check : {transform.localEulerAngles.x}, {transform.localEulerAngles.z}");
+                    if ((transform.localEulerAngles.x < 315 && transform.localEulerAngles.x > 225)
+                        && (transform.localEulerAngles.z > 45 && transform.localEulerAngles.z < 135)) doingUpperCut = true;
+                    break;
+            }
+
+            if (handData.ControllerSpeed < handVelocityMinimumThreshold * 0.5f
+                || handData.ControllerSpeed > handVelocityMaximumThreshold)
+            {
+                // Debug.Log("End UpperCut coroutine");
+                doingUpperCut = false;
+                yield break;
+            }
+            
+            yield return null;
+        }
+    }
+    private void HookCoroutineEndEvent()
+    {
+        Debug.Log("End Hook coroutine");
         StopCoroutine(_chekingHookCoroutine);
         _chekingHookCoroutine = null;
-        coroutineExist = false;
+        hookCoroutineExist = false;
         isHooking = false;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         // 1. 컨트롤러의 움직임이 현재 Hook이냐

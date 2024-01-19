@@ -36,6 +36,8 @@ namespace UnityEngine.XR.Content.Interaction
             if (m_Destroyed)
                 return;
             
+            // Motion Checker OnTriggerEnter와 연결해야 함.
+            
             if (collision.gameObject.tag.Equals(m_ColliderTag, System.StringComparison.InvariantCultureIgnoreCase))
             {
                 m_Destroyed = true;

@@ -1,3 +1,6 @@
+using UnityEngine;
+using EnumTypes;
+
 public class NodeInfo
 {
     public float posX;
@@ -9,7 +12,11 @@ public class NodeInfo
     public string objectType;
     public string movingType;
     public int objectNum;
-    
+
+    public uint beatNum;
+    public Vector3 spawnPosition;
+    public InteractionSide sideType;
+        
     // 직선 운동, 속도는 자동으로 지정됨. 여기서 정할 수 있는 것은 등속도인가? 등가속도인가?
     public float movingSpeed; 
     // 점프 운동
@@ -27,6 +34,14 @@ public class NodeInfo
         objectNum = 0;
         arrivalAreaIndex = 0;
         totalJumpNumberOfTimes = 0;
+        
+        // Hit
+        beatNum = 0;
+        spawnPosition = new Vector3(0, 0, 0);
+        sideType = InteractionSide.Red;
+        // arrivalAreaIndex
+        // timeToReachPlayer
+
     }
 }
 /*

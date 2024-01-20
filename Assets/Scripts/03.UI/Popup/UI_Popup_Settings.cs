@@ -44,7 +44,7 @@ public class UI_Popup_Settings : UI_Popup
         GetButton((int)Buttons.ResumeButton).gameObject.AddUIEvent(OnButtonClicked_Resume, Define.UIEvent.Click);
         GetButton((int)Buttons.LobbyButton).gameObject.AddUIEvent(OnButtonClicked_Lobby, Define.UIEvent.Click);
         GetSlider((int)Sliders.Slider_volume).onValueChanged.AddListener(OnSliderValueChanged); //AddUIEvent(OnButtonClicked_Resume, Define.UIEvent.Click);
-        GetSlider((int)Sliders.Slider_volume).value = GameManager.Sound.volume;
+        GetSlider((int)Sliders.Slider_volume).value = GameManager.Sound.MusicVolume;
     }
     
     public void OnButtonClicked_Resume(PointerEventData data)
@@ -62,6 +62,6 @@ public class UI_Popup_Settings : UI_Popup
 
     private void OnSliderValueChanged(float value)
     {
-        GameManager.Sound.SetVolume(value);
+        GameManager.Sound.SetMusicVolume(value);
     }
 }

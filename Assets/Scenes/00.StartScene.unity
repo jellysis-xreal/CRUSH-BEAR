@@ -292,6 +292,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1885669616}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &45604513 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8966530667072530257, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+    type: 3}
+  m_PrefabInstance: {fileID: 499714142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5deb041b9b949194791bc8a02412d4f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &46200065
 GameObject:
   m_ObjectHideFlags: 0
@@ -2406,6 +2418,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4231970423466563964, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: musicClips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231970423466563964, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: musicClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 03d80ff402fec614fa1ccaa78b6a7c1e, type: 3}
     - target: {fileID: 8181375358274818270, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
       propertyPath: m_Name
@@ -2421,6 +2443,11 @@ PrefabInstance:
       propertyPath: _resource
       value: 
       objectReference: {fileID: 499714143}
+    - target: {fileID: 8966530667072530257, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: currentGameState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6566,7 +6593,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1113266700}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 45604513}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LobbyToWave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1113266700
 MonoBehaviour:
   m_ObjectHideFlags: 0

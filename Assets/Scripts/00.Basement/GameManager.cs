@@ -142,9 +142,10 @@ public class GameManager : MonoBehaviour
             currentGameState = GameState.Lobby;
             
             //+-------- Managers Init() +--------//
-            //_data.Init();
+            
             //_score.Init();
             _player.Init();
+            _data.Init();
             //_wave.Init();
             _sound.Init();
             _ui.Init();
@@ -165,7 +166,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Init GameManager Wave Scene");
             //+-------- Managers Init() +--------//
-            _data.Init();
+            //_data.Init();
             _score.Init();
             //_player.Init();
             _wave.Init();

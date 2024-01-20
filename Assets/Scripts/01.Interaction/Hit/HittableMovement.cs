@@ -14,7 +14,7 @@ public class HittableMovement : MonoBehaviour
     public int arrivalBoxNum = 0; // 목표인 Box index number
     public float arriveTime;
     public InteractionSide sideType = InteractionSide.Red;
-    [SerializeField] private float moveTime = 2.0f; // 토핑의 이동 속도를 결정함
+    [SerializeField] private float moveTime = 3.5f; // 토핑의 이동 속도를 결정함
     [SerializeField] private float _popTime = 1.0f; // 토핑의 점프 시간을 결정함
     
     [Header("other Variable (AUTO)")] 
@@ -61,31 +61,28 @@ public class HittableMovement : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
+    
 
-    private void Start()
+    private IEnumerator ActiveTime(float coolTime)
     {
-        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
-        // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
-        refrigerator = GameObject.FindWithTag("Refrigerator");
-
-        // TODO: 원래는 생성해주면서 call 해줘야 함 -> NodeInstantiator.cs에서 진행
-        //InitializeTopping(arrivalBoxNum, arriveTime);
+        yield return new WaitForSeconds(coolTime); // coolTime만큼 활성화
+        gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
-
+    
     /// <summary>
     /// 해당 토핑이 도착하고자하는 arrival area의 index,
     /// 해당 토핑이 도착하고자하는 arrival time을 지정함
     /// </summary>
     /// <param name="arrivalBox">arrival area의 index</param>
     /// <param name="arriveTime">arrival time</param>
-    public void InitializeTopping(int arrivalBox, float time, InteractionSide side)
+    public void InitializeTopping(NodeInfo node)
     {
         InitiateVariable();
         arrivalArea.setting();
 
-        arrivalBoxNum = arrivalBox;
-        arriveTime = time;
-        sideType = side;
+        arrivalBoxNum = node.arrivalAreaIndex;
+        arriveTime = node.timeToReachPlayer;
+        sideType = node.sideType;
 
         _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
     }
@@ -111,6 +108,10 @@ public class HittableMovement : MonoBehaviour
 
     private void InitiateVariable()
     {
+        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
+        refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
+        curState = toppingState.idle;
+        
         // 생성된 이후, 가만히 있는 시간을 결정합니다.
         // idle time 이후 튀어오르고, moveTime 동안 움직이게 됩니다.
         _idleTime = arriveTime - (_popTime + moveTime + GameManager.Wave.waveTime);
@@ -129,7 +130,7 @@ public class HittableMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        Debug.Log(this.name + "Destory 토핑 : " + _toppingTime);
+        //Debug.Log(this.name + " Destory 토핑 : " + _toppingTime);
         //Debug.Log(this.name + "포물선으로 날아가는데 걸린 시간은 : " + _testTime);
     }
 
@@ -204,7 +205,7 @@ public class HittableMovement : MonoBehaviour
             PathType.CatmullRom, PathMode.Full3D);
         this.GetComponent<Rigidbody>().useGravity = false;
         
-        //Destroy(this.gameObject, _inTime + 0.5f);
+        StartCoroutine(ActiveTime(_inTime + 0.5f));
     }
 
     private void WaitForSeconds(float sec)

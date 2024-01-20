@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DataManager
 {
-    public Dictionary<uint, MusicData> WaveMusic = new Dictionary<uint, MusicData>();
+    public Dictionary<uint, MusicData> waveMusicData = new Dictionary<uint, MusicData>();
 
     [Serializable]
     public struct MusicData
@@ -14,6 +15,7 @@ public class DataManager
         public uint GUID; // Difficulty + WaveType + ID;
         public string MusicName;
         public uint BPM;
+        public uint BeatNum;
         public List<uint[]> NodeData;
     }
 
@@ -26,9 +28,13 @@ public class DataManager
     private void LoadInitialWaveData()
     {
         CSVImporter csvWave = new CSVImporter();
-        csvWave.OpenFile("Data/");
-        csvWave.ReadHeader();
+        if (!csvWave.OpenFile("Data/1_witchtea"))
+        {
+            Debug.Log("Read File Error");
+            return;
+        }
 
+        csvWave.ReadHeader();
         string line = csvWave.Readline();
 
         //노래 정보
@@ -51,21 +57,42 @@ public class DataManager
                 musicData.GUID = uint.Parse(elems[3]);
                 musicData.MusicName = elems[4];
                 musicData.BPM = uint.Parse(elems[5]);
+                musicData.BeatNum = uint.Parse(elems[6]);
 
+                line = csvWave.Readline();
                 continue;
             }
             else
             {
-                uint[] OneBeat = new uint[4];
-                OneBeat[0] = uint.Parse(elems[0]);
-                OneBeat[1] = uint.Parse(elems[1]);
-                OneBeat[2] = uint.Parse(elems[2]);
-                OneBeat[3] = uint.Parse(elems[3]);
+                uint[] OneBeat = new uint[5];
+                OneBeat[0] = uint.Parse(elems[0]);  // Beat
+                OneBeat[1] = uint.Parse(elems[1]);  // Box 1
+                OneBeat[2] = uint.Parse(elems[2]);  // Box 2
+                OneBeat[3] = uint.Parse(elems[3]);  // Box 3
+                OneBeat[4] = uint.Parse(elems[4]);  // Box 4
                 Node.Add(OneBeat);
             }
+            
+            line = csvWave.Readline();
         }
-        musicData.NodeData = Node;
-        WaveMusic.Add(musicData.GUID, musicData);
+        musicData.NodeData = Node.ToList();
+        // Debug
+        // foreach (var node in musicData.NodeData)
+        // {
+        //     Debug.Log(node[0] + " " + node[1] + " " + node[2] + " " + node[3]);
+        // }
+        waveMusicData.Add(musicData.GUID, musicData);
+    }
+
+    public MusicData GetMusicData(uint id)
+    {
+        Debug.Log("Load music data" + id);
+        return waveMusicData[id];
+    }
+
+    private void DebugNodeData()
+    {
+        
     }
 
 }

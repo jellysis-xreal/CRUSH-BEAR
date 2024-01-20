@@ -10506,13 +10506,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 728213045}
+  - component: {fileID: 728213046}
   m_Layer: 0
   m_Name: ObjectArrivalArea
   m_TagString: ArrivalAreaParent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &728213045
 Transform:
   m_ObjectHideFlags: 0
@@ -10532,6 +10533,25 @@ Transform:
   - {fileID: 277296851}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 65.57, z: 0}
+--- !u!114 &728213046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728213043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f19cf0bd8440c5428e3c74e3402ffc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrivalAreas:
+  - {fileID: 1658948399}
+  - {fileID: 1664045685}
+  - {fileID: 1986047817}
+  - {fileID: 277296851}
+  playerTransform: {fileID: 0}
+  IKplayerTransform: {fileID: 0}
 --- !u!1 &731462077
 GameObject:
   m_ObjectHideFlags: 0

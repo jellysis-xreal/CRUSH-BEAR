@@ -116,12 +116,15 @@ public class NodeInstantiator_minha : MonoBehaviour
         while (true)
         {
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(0.1f);
             
             // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
-            musicDataToNodeInfo(wave);
-            musicDataIndex++;
-            if (_nodeQueue.Count > 0)
+            if (_nodeQueue.Count <= 10)
+            {
+                musicDataToNodeInfo(wave);
+                musicDataIndex++;
+            }
+            else if (_nodeQueue.Count > 0)
             {
                 var tempNodeInfo = _nodeQueue.Dequeue();
                 for (int i = 0; i < poolSize; i++)
@@ -149,12 +152,10 @@ public class NodeInstantiator_minha : MonoBehaviour
         }
     }
 
-    private bool musicDataToNodeInfo(WaveType wave)
+    private void musicDataToNodeInfo(WaveType wave)
     {
         var data = GameManager.Wave.CurMusicData;
-        if (data.BeatNum <= musicDataIndex)
-            return false;
-        
+
         float oneBeat = 60.0f / data.BPM;
         var nodes = data.NodeData[(int)musicDataIndex];
         var beatNumber = nodes[0];
@@ -185,13 +186,12 @@ public class NodeInstantiator_minha : MonoBehaviour
                         temp.sideType = InteractionSide.Red;
                     else if (nodes[i] == 2) 
                         temp.sideType = InteractionSide.Green;
-
+                    
                     _nodeQueue.Enqueue(temp); // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
+                    //Debug.Log(beatNumber + "의 실행 시간은 " + temp.timeToReachPlayer);
                 }
 
                 break;
         }
-
-        return true;
     }
 }

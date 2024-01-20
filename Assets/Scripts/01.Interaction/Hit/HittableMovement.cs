@@ -25,7 +25,6 @@ public class HittableMovement : MonoBehaviour
 
     //토핑이 움직이기 위한 변수
     [SerializeField] private float _idleTime;
-    private float _moveToppingTime;
     private Rigidbody _rigidbody;
     private Vector3 _moveStartPos;
     private Vector3 _arrivalBoxPos;
@@ -41,7 +40,6 @@ public class HittableMovement : MonoBehaviour
     private bool _isMoved = false;
     private bool _isHitted = false;
     
-    private float _toppingTime = 0.0f;
     private float _waitStartTime = 0.0f;
     private float _waitTime = 2.0f;
     private bool _isWaiting = false;
@@ -68,7 +66,7 @@ public class HittableMovement : MonoBehaviour
         yield return new WaitForSeconds(coolTime); // coolTime만큼 활성화
         gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
-    
+
     /// <summary>
     /// 해당 토핑이 도착하고자하는 arrival area의 index,
     /// 해당 토핑이 도착하고자하는 arrival time을 지정함
@@ -77,13 +75,12 @@ public class HittableMovement : MonoBehaviour
     /// <param name="arriveTime">arrival time</param>
     public void InitializeTopping(NodeInfo node)
     {
-        InitiateVariable();
-        arrivalArea.setting();
-
         arrivalBoxNum = node.arrivalAreaIndex;
         arriveTime = node.timeToReachPlayer;
         sideType = node.sideType;
 
+        InitiateVariable();
+        arrivalArea.setting();        
         _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
     }
 
@@ -92,14 +89,13 @@ public class HittableMovement : MonoBehaviour
     {
         if (GameManager.Instance.currentGameState == GameState.Waving)
         {
-            _toppingTime += Time.deltaTime;
-
             // 현재 토핑 상태 Update
             UpdateToppingState();
 
             // 처리되지 못한 토핑들 자동 처리
-            if (GameManager.Wave.waveTime >= arriveTime + 2.0f && _isMoved)
+            if (GameManager.Wave.waveTime >= arriveTime + 1.0f && _isMoved)
             {
+                //Debug.Log("처리되지 못함");
                 curState = toppingState.refrigerator;
                 _isNotHitted = true;
             }
@@ -108,6 +104,7 @@ public class HittableMovement : MonoBehaviour
 
     private void InitiateVariable()
     {
+        _rigidbody.WakeUp();
         arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
         refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
         curState = toppingState.idle;
@@ -127,22 +124,12 @@ public class HittableMovement : MonoBehaviour
         _isNotHitted = false;   // 6)Player의 막대를 통해 처리되지 못한 경우
         _goTo = false;          // 7)냉장고로 향하는 코드를 1번 실행하기 위한 변수
     }
-
-    private void OnDestroy()
-    {
-        //Debug.Log(this.name + " Destory 토핑 : " + _toppingTime);
-        //Debug.Log(this.name + "포물선으로 날아가는데 걸린 시간은 : " + _testTime);
-    }
-
-    
     
     public void MoveToPlayer()
     {
-        _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
-        
         //float timeElapsed = arriveTime - _moveToppingTime;
         Vector3 firstPos = transform.position;
-        Vector3 secondPos = firstPos + new Vector3(0, 1.0f, 0);
+        Vector3 secondPos = firstPos + new Vector3(0, 0.5f, 0);
         Vector3 fourthPos = _arrivalBoxPos;
         
         //Debug.Log(timeElapsed);
@@ -160,32 +147,32 @@ public class HittableMovement : MonoBehaviour
         _isMoved = true;
     }
     
-    public void MoveToPlayer_()
-    {
-        _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
-
-        float timeElapsed = (GameManager.Wave.waveTime -_moveToppingTime) / moveTime;
-        //Debug.Log("움직이는 중 :" + timeElapsed);
-        //Vector3 posVector = CalculateBezierCurve(_startPos, _arrivalBoxPos, timeElapsed).normalized;
-        Vector3 posVector = CalculateBezierCurve(_moveStartPos, _arrivalBoxPos, timeElapsed);
-        this.transform.position = posVector;
-
-        //_rigidbody.AddForce(posVector);
-    }
-    
-    // 베지어 곡선을 이용한 포물선 운동 계산
-    private Vector3 CalculateBezierCurve(Vector3 start, Vector3 end, float t)
-    {
-        float u = 1 - t;
-        float tt = t * t;
-        float uu = u * u;
-
-        Vector3 point = uu * start; // (1-t)^2 * start
-        point += 2 * u * t * (start + (end - start) * 0.5f); // 2(1-t)t * midpoint
-        point += tt * end; // t^2 * end
-
-        return point;
-    }
+    // public void MoveToPlayer_()
+    // {
+    //     _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
+    //
+    //     float timeElapsed = (GameManager.Wave.waveTime -_moveToppingTime) / moveTime;
+    //     //Debug.Log("움직이는 중 :" + timeElapsed);
+    //     //Vector3 posVector = CalculateBezierCurve(_startPos, _arrivalBoxPos, timeElapsed).normalized;
+    //     Vector3 posVector = CalculateBezierCurve(_moveStartPos, _arrivalBoxPos, timeElapsed);
+    //     this.transform.position = posVector;
+    //
+    //     //_rigidbody.AddForce(posVector);
+    // }
+    //
+    // // 베지어 곡선을 이용한 포물선 운동 계산
+    // private Vector3 CalculateBezierCurve(Vector3 start, Vector3 end, float t)
+    // {
+    //     float u = 1 - t;
+    //     float tt = t * t;
+    //     float uu = u * u;
+    //
+    //     Vector3 point = uu * start; // (1-t)^2 * start
+    //     point += 2 * u * t * (start + (end - start) * 0.5f); // 2(1-t)t * midpoint
+    //     point += tt * end; // t^2 * end
+    //
+    //     return point;
+    // }
 
     public void GoToRefrigerator()
     {
@@ -204,6 +191,10 @@ public class HittableMovement : MonoBehaviour
             _inTime,
             PathType.CatmullRom, PathMode.Full3D);
         this.GetComponent<Rigidbody>().useGravity = false;
+        
+        _rigidbody.velocity=Vector3.zero;
+        _rigidbody.angularVelocity=Vector3.zero;
+        _rigidbody.Sleep();
         
         StartCoroutine(ActiveTime(_inTime + 0.5f));
     }
@@ -315,7 +306,7 @@ public class HittableMovement : MonoBehaviour
 
     private void JumpOneTime(float time)
     {
-        transform.DOJump(transform.position + new Vector3(0, 2.0f, 0),
+        transform.DOJump(transform.position + new Vector3(0, 1.0f, 0),
             2f, 1, time);
         _isJumped = true;
     }
@@ -323,7 +314,6 @@ public class HittableMovement : MonoBehaviour
     private void SetToppingMove()
     {
         _moveStartPos = transform.position;
-        _moveToppingTime = GameManager.Wave.waveTime;
         //float leftTime = arriveTime - _startTime;
         
         // A에서 B까지의 거리와 방향 계산

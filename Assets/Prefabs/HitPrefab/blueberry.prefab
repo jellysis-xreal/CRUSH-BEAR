@@ -99,7 +99,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3216690746106268825}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 16fba6d30ed741d4a9fdd6e79ee2f3ac, type: 3}
@@ -283,8 +283,8 @@ MonoBehaviour:
   arrivalBoxNum: 0
   arriveTime: 5
   sideType: 0
-  moveTime: 3.5
-  _popTime: 1
+  moveTime: 2
+  _popTime: 0.3
   arrivalArea: {fileID: 0}
   refrigerator: {fileID: 0}
   curState: 0

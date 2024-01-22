@@ -38,6 +38,9 @@ public class ScoreManager : MonoBehaviour
 
     [Header("Score UI")] 
     [SerializeField] private TextMeshProUGUI scoreText;
+
+    [SerializeField] private TextMesh scoreText_mesh;
+
     private enum scoreType
     {
         Perfect,
@@ -155,17 +158,17 @@ public class ScoreManager : MonoBehaviour
         {
             case scoreType.Perfect:
                 TotalScore += 100;
-                scoreText.text = TotalScore.ToString();
+                scoreText_mesh.text = TotalScore.ToString();
                 break;
             
             case scoreType.Good:
                 TotalScore += 50;
-                scoreText.text = TotalScore.ToString();
+                scoreText_mesh.text = TotalScore.ToString();
                 break;
             
             case scoreType.Bad:
                 TotalScore += 0;
-                scoreText.text = TotalScore.ToString();
+                scoreText_mesh.text = TotalScore.ToString();
                 break;
         }
     }

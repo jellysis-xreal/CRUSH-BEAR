@@ -2,6 +2,9 @@
 using UnityEngine;
 using EnumTypes;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using System.Collections;
+
 
 public class WaveManager : MonoBehaviour
     {
@@ -11,29 +14,42 @@ public class WaveManager : MonoBehaviour
         [SerializeField] public float waveTime = 0.0f;
         [SerializeField] private bool IsPause = false;
         public GameObject node_forTest;
+        [SerializeField] private GameObject[] GO_nodeLines;
         
         [Header("setting(auto)")] 
         [SerializeField] private GameObject RightInteraction;
-        [SerializeField] private GameObject LeftInteraction;
+        [SerializeField] private GameObject LeftInteraction;        
+        [SerializeField] private TextMesh countText_mesh;
         private uint waveTypeNum = 3;   // Wave Type 갯수
+        private int countdownTime = 3;
+        public GameObject timerCanvas;
         
         public void Init()
         {
             // Wave Num
             waveNum = 0;
             waveTime = 0.0f;
-            
-            RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction").gameObject;
-            LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction").gameObject;
-            
+                        
             // TODO: 임시로 노드 초기화좀 ...
-            node_forTest.gameObject.SetActive(true);
+            // node_forTest.gameObject.SetActive(true);
+
+            foreach (GameObject nodeline in GO_nodeLines) {
+                Debug.Log("[TEST] node set active false");
+                nodeline.SetActive(false);
+            }
+
+            // RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction").gameObject;
+            // LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction").gameObject;
+
         }
         
         public void Test()
         {
             currentWave = WaveType.Hitting;
-            SetThisWave();
+            // SetThisWave();
+            // SetThisWave 대신 countdown 한 번 해주기
+            Time.timeScale = 0;
+            CountDown(true);
         }
 
         public WaveType GetWaveType()
@@ -77,18 +93,20 @@ public class WaveManager : MonoBehaviour
 
         private void SetThisWave()
         {
-            RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
-            RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
-            RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
-            
-            LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
-            LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
-            LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
-
             int TypeNum = (int)currentWave;
             Debug.Log($"TypeNum : {TypeNum}");
-            RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
-            LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
+            GO_nodeLines[TypeNum].SetActive(true);
+
+            // RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
+            // RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
+            // RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
+            
+            // LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
+            // LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
+            // LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
+
+            // RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
+            // LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
         }
 
         private void Update()
@@ -100,16 +118,16 @@ public class WaveManager : MonoBehaviour
                 //Wave 일시정지 활성화
                 if (IsPause == false)
                 {
-                    Time.timeScale = 0;
-                    IsPause = true;
+                    SetIsPause(true);
+                    // IsPause = true;
                     return;
                 }
                 
                 //Wave 일시정지 비활성화
                 if (IsPause == true)
                 {
-                    Time.timeScale = 1;
-                    IsPause = false;
+                    SetIsPause(false);
+                    // IsPause = false;
                     return;
                 }
             }
@@ -117,13 +135,45 @@ public class WaveManager : MonoBehaviour
 
         public void SetIsPause(bool _isPause)
         {
-            IsPause = _isPause;
             if (_isPause) {
+                Time.timeScale = 0;
+                PauseAudio(true);
                 // 소리 끄기
             } else {
                 // 소리 3초 후 틀기
+                CountDown(false);
                 Debug.Log("Resume the game after 3 sec...");
-
             }
+        }
+
+        public void PauseAudio(bool _isPause = false)
+        {
+            IsPause = _isPause;
+            GameManager.Sound.PauseAudio(_isPause);
+        }
+
+        public void CountDown(bool Init)
+        {
+            StartCoroutine(CountdownToStart(Init));
+        }
+
+        IEnumerator CountdownToStart(bool Init)
+        {
+            timerCanvas.SetActive(true);
+
+            while(countdownTime > 0)
+            {
+                countText_mesh.text = countdownTime.ToString();
+                yield return new WaitForSecondsRealtime(1f);
+                countdownTime--;
+            }
+            Debug.Log("[TEST] Game Start");
+            if (Init) SetThisWave(); //{ timerCanvas.SetActive(false); PauseAudio(false); SetThisWave();}
+            // else { timerCanvas.SetActive(false);}
+
+            timerCanvas.SetActive(false);
+            PauseAudio(false);
+            Time.timeScale = 1;
+            countdownTime = 3;
         }
     }

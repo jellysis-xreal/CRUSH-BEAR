@@ -75,8 +75,8 @@ public class GameManager : MonoBehaviour
             _player.Init();
             _wave.Init();
             _sound.Init();
-            _ui.Init();
-            _resource.Init();
+            // _ui.Init();
+            // _resource.Init();
         }
         else
         {

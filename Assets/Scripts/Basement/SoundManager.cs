@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
     public Dictionary<string,AudioClip> sounds = new Dictionary<string, AudioClip>();
     AudioSource[] audioSource = new AudioSource[2];
     public float volume;
+    private int audioNum = 0;
 
     public void Init()
     {
@@ -25,6 +26,7 @@ public class SoundManager : MonoBehaviour
     {
         audioSource[0].clip = sounds["Play_Song_1"];
         audioSource[0].Play();
+        audioNum = 0;
     }
     
     [ContextMenu("PlayFunction/PlaySong2BGM")]
@@ -32,6 +34,7 @@ public class SoundManager : MonoBehaviour
     {
         audioSource[1].clip = sounds["Play_Song_1"];
         audioSource[1].Play();
+        audioNum = 1;
     }
 
     public void SetVolume(float _vol)
@@ -45,5 +48,10 @@ public class SoundManager : MonoBehaviour
         {
             audio.volume = this.volume;
         }
+    }
+    public void PauseAudio(bool IsPause)
+    {
+        if (IsPause) audioSource[audioNum].Pause();
+        else audioSource[audioNum].Play();
     }
 }

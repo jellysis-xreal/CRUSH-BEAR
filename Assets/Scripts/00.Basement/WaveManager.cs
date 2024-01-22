@@ -26,15 +26,15 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private NodeInstantiator_minha nodeInstantiator;
 
     // 기획에 따른 변수
-    private int waveTypeNum = 3; // Wave Type 갯수
+    [SerializeField] private int waveTypeNum = 3; // Wave Type 갯수
     [SerializeField] private List<GameObject> _toppingArea = new List<GameObject>();
 
     // wave 일시정지 기능을 구현하기 위한 변수
-    private bool IsWait = false;
-    private float timerDuration = 2f;
-    private float waitTimer;
-    private bool hasSetted = false;
-    private bool IsPause = false;
+    private bool _isWait = false;
+    private float _timerDuration = 2f;
+    private float _waitTimer;
+    private bool _hasSet = false;
+    private bool _isPause = false;
 
     // wave 전환을 위한 변수
     private enum WaveState
@@ -181,9 +181,9 @@ public class WaveManager : MonoBehaviour
     {
         Debug.Log("[WAVE] Wave Pause");
         // Wave 진행을 일시정지 시킵니다.
-        if (!IsPause)
+        if (!_isPause)
         {
-            IsPause = true;
+            _isPause = true;
             Time.timeScale = 0;
         }
     }
@@ -193,7 +193,7 @@ public class WaveManager : MonoBehaviour
     {
         Debug.Log("[WAVE] Wave Continue");
         // __초 뒤에 Wave 일시정지를 해제합니다.
-        if (IsPause)
+        if (_isPause)
         {
             if (beforeState == WaveState.Init)
                 StartCoroutine(InitWaitSeconds(5.0f));
@@ -221,13 +221,13 @@ public class WaveManager : MonoBehaviour
     private void CallContinueSetting()
     {
         Debug.Log("[WAVE] Wave 일시중지 해제함");
-        IsPause = false;
+        _isPause = false;
         Time.timeScale = 1;
     }
 
     public void SetIsPause(bool _isPause)
     {
-        IsPause = _isPause;
+        this._isPause = _isPause;
         if (_isPause)
         {
             // 소리 끄기

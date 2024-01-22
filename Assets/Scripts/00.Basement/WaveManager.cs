@@ -30,10 +30,11 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private List<GameObject> _toppingArea = new List<GameObject>();
 
     // wave 일시정지 기능을 구현하기 위한 변수
-    private bool _isWait = false;
+    // 일단 사용하지 않아서 주석처리
+    /*private bool _isWait = false;
     private float _timerDuration = 2f;
     private float _waitTimer;
-    private bool _hasSet = false;
+    private bool _hasSet = false;*/
     private bool _isPause = false;
 
     // wave 전환을 위한 변수

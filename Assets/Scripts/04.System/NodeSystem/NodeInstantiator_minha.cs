@@ -14,19 +14,19 @@ public class NodeInstantiator_minha : MonoBehaviour
     public List<GameObject> HitTopping;
 
     // Scene에서 Topping이 생성되는 위치
-    public GameObject GunSpawn;
-    public GameObject PunchSpawn;
-    public GameObject HitSpawn;
+    [FormerlySerializedAs("GunSpawn")] public GameObject GunSpawnTransform;
+    [FormerlySerializedAs("PunchSpawn")] public GameObject PunchSpawnTransform;
+    [FormerlySerializedAs("HitSpawn")] public GameObject HitSpawnTransform;
 
-    private int poolSize = 10; // Object Pool Size
+    private int _poolSize = 10; // Object Pool Size
     [SerializeField] private GameObject[] shootToppingPool;
     [SerializeField] private GameObject[] punchToppingPool;
     [SerializeField] private GameObject[] hitToppingPool;
     
-    private uint musicDataIndex = 0; //1~ NodeData
+    private uint _musicDataIndex = 0; //1~ NodeData
     private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>();
 
-    // private void Start()
+    /*// private void Start()
     // {
     //     // Resource에서 받아오기
     //     object[] GunObjects = Resources.LoadAll("Interaction/Gun");
@@ -50,7 +50,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     //         GameObject go = HitObjects[i] as GameObject;
     //         HitTopping.Add(go);
     //     }
-    // }
+    // }*/
 
     public void InitToppingPool(WaveType wave)
     {
@@ -61,7 +61,7 @@ public class NodeInstantiator_minha : MonoBehaviour
             case WaveType.Shooting:
                 if (shootToppingPool.Length == 0)
                 {
-                    shootToppingPool = new GameObject[poolSize]; // 배열 생성
+                    shootToppingPool = new GameObject[_poolSize]; // 배열 생성
                     // for (int i = 0; i < poolSize; ++i)
                     // {
                     //     GameObject topping = ShootTopping[(i % ShootTopping.Count)];
@@ -76,8 +76,8 @@ public class NodeInstantiator_minha : MonoBehaviour
             case WaveType.Punching:
                 if (punchToppingPool.Length == 0)
                 {
-                    punchToppingPool = new GameObject[poolSize]; // 배열 생성
-                    for (int i = 0; i < poolSize; ++i)
+                    punchToppingPool = new GameObject[_poolSize]; // 배열 생성
+                    for (int i = 0; i < _poolSize; ++i)
                     {
                         GameObject topping = PunchTopping[(i % PunchTopping.Count)];
                         GameObject node = Instantiate(topping);
@@ -93,8 +93,8 @@ public class NodeInstantiator_minha : MonoBehaviour
             case WaveType.Hitting:
                 if (hitToppingPool.Length == 0)
                 {
-                    hitToppingPool = new GameObject[poolSize];
-                    for (int i = 0; i < poolSize; ++i)
+                    hitToppingPool = new GameObject[_poolSize];
+                    for (int i = 0; i < _poolSize; ++i)
                     {
                         GameObject topping = HitTopping[(i % HitTopping.Count)];
                         GameObject node = Instantiate(topping);
@@ -121,13 +121,13 @@ public class NodeInstantiator_minha : MonoBehaviour
             // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
             if (_nodeQueue.Count <= 10)
             {
-                musicDataToNodeInfo(wave);
-                musicDataIndex++;
+                MusicDataToNodeInfo(wave);
+                _musicDataIndex++;
             }
             else if (_nodeQueue.Count > 0)
             {
                 var tempNodeInfo = _nodeQueue.Dequeue();
-                for (int i = 0; i < poolSize; i++)
+                for (int i = 0; i < _poolSize; i++)
                 {
                     if (wave == WaveType.Shooting)
                     {
@@ -152,12 +152,12 @@ public class NodeInstantiator_minha : MonoBehaviour
         }
     }
 
-    private void musicDataToNodeInfo(WaveType wave)
+    private void MusicDataToNodeInfo(WaveType wave)
     {
         var data = GameManager.Wave.CurMusicData;
 
         float oneBeat = 60.0f / data.BPM;
-        var nodes = data.NodeData[(int)musicDataIndex];
+        var nodes = data.NodeData[(int)_musicDataIndex];
         var beatNumber = nodes[0];
 
         switch (wave)

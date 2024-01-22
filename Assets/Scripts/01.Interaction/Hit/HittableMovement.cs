@@ -116,13 +116,13 @@ public class HittableMovement : MonoBehaviour
         //_waitTime = 2.0f;
         //_inTime = 1.5f;
 
-        _isJumped = false;      // 1)토스트기 위로 점프했나요?
-        _isMoved = false;       // 2)Player를 향해 움직이고 있나요?
-        _isHitted = false;      // 3)막대에 의해 맞았나요?
-        _waitStartTime = 0.0f;  // 4)WaitForSeconds() 함수를 위한 초기 시간 변수
-        _isWaiting = false;     // 5)WaitForSeconds() 함수를 사용 중인가요?
-        _isNotHitted = false;   // 6)Player의 막대를 통해 처리되지 못한 경우
-        _goTo = false;          // 7)냉장고로 향하는 코드를 1번 실행하기 위한 변수
+        _isJumped = false;      // 1) 토스트기 위로 점프했나요?
+        _isMoved = false;       // 2) Player를 향해 움직이고 있나요?
+        _isHitted = false;      // 3) 막대에 의해 맞았나요?
+        _waitStartTime = 0.0f;  // 4) WaitForSeconds() 함수를 위한 초기 시간 변수
+        _isWaiting = false;     // 5) WaitForSeconds() 함수를 사용 중인가요?
+        _isNotHitted = false;   // 6) Player의 막대를 통해 처리되지 못한 경우
+        _goTo = false;          // 7) 냉장고로 향하는 코드를 1번 실행하기 위한 변수
     }
     
     public void MoveToPlayer()

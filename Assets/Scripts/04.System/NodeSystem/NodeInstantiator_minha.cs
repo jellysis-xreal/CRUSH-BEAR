@@ -136,6 +136,12 @@ public class NodeInstantiator_minha : MonoBehaviour
                     else if (wave == WaveType.Punching)
                     {
                         //tempPool = punchToppingPool;
+                        if(punchToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
+
+                        punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
+                        punchToppingPool[i].GetComponent<PunchaleMovement>().InitializeTopping(tempNodeInfo);
+                        punchToppingPool[i].SetActive(true);
+                        break;
                     }
                     else if(wave == WaveType.Hitting)
                     {

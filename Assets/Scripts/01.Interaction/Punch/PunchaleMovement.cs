@@ -38,11 +38,28 @@ public class PunchaleMovement : MonoBehaviour
         else if (type == InteractionType.Tear) StartCoroutine(RotateMovingRipObject());*/
     }
     
-    void Start()
+    void Awake()
     {
         Init();
     }
-    
+
+    public void InitializeTopping(NodeInfo node)
+    {
+        arrivalBoxNum = node.arrivalAreaIndex;
+        arriveTime = node.timeToReachPlayer;
+
+        InitiateVariable();
+        arrivalArea.setting();
+    }
+
+    private void InitiateVariable()
+    {
+        _rigidbody.WakeUp();
+        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
+        targetTransform = arrivalArea.arrivalAreas[arrivalBoxNum-1];
+        
+        CalculateConstantSpeed();
+    }
     void FixedUpdate()
     {
         if(!_isArrivalAreaHit) Move();

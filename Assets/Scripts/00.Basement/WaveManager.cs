@@ -86,7 +86,9 @@ public class WaveManager : MonoBehaviour
     {
         // Random으로 다음 wave를 지정
         //currentWave = GetRandomWave();
-        currentWave = WaveType.Hitting; // TODO: 임시설정. For Test
+        // TODO: 임시설정. For Test
+        currentWave = WaveType.Punching;
+        // currentWave = WaveType.Hitting; // 
 
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅

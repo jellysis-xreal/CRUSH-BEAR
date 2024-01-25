@@ -136,6 +136,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     else if (wave == WaveType.Punching)
                     {
                         //tempPool = punchToppingPool;
+                        Debug.Log("Active Punch True");
                         if(punchToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
 
                         punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
@@ -173,6 +174,16 @@ public class NodeInstantiator_minha : MonoBehaviour
                 break;
 
             case WaveType.Punching:
+                for (int i = 1; i < 5; i++)
+                {
+                    if (nodes[i] == 0) continue;
+
+                    var temp = new NodeInfo();
+                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(i - 1);
+                    temp.arrivalAreaIndex = (i - 1);
+                    temp.timeToReachPlayer = beatNumber * oneBeat;
+                    temp.beatNum = beatNumber;
+                }
 
                 break;
 

@@ -15,7 +15,7 @@ public class HittableMovement : MonoBehaviour
     public float arriveTime;
     public InteractionSide sideType = InteractionSide.Red;
     [SerializeField] private float moveTime = 3.5f; // 토핑의 이동 속도를 결정함
-    [SerializeField] private float _popTime = 1.0f; // 토핑의 점프 시간을 결정함
+    [SerializeField] private float popTime = 1.0f; // 토핑의 점프 시간을 결정함
     
     [Header("other Variable (AUTO)")] 
     [SerializeField] private ObjectArrivalAreaManager arrivalArea; // Scene내의 arrival area
@@ -111,7 +111,7 @@ public class HittableMovement : MonoBehaviour
         
         // 생성된 이후, 가만히 있는 시간을 결정합니다.
         // idle time 이후 튀어오르고, moveTime 동안 움직이게 됩니다.
-        _idleTime = arriveTime - (_popTime + moveTime + GameManager.Wave.waveTime);
+        _idleTime = arriveTime - (popTime + moveTime + GameManager.Wave.waveTime);
         //Debug.Log(this.transform.name + "의 Idle time은 " + _idleTime);
         //_waitTime = 2.0f;
         //_inTime = 1.5f;
@@ -340,9 +340,9 @@ public class HittableMovement : MonoBehaviour
             case toppingState.jump:
                 if (!_isJumped)
                 {
-                    JumpOneTime(_popTime);
+                    JumpOneTime(popTime);
                     // popTime 동안 wait
-                    WaitForSeconds(_popTime);
+                    WaitForSeconds(popTime);
                 }
                 else if (_isWaiting && GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
                 {

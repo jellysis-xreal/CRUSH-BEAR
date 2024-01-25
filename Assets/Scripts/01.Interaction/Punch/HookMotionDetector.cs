@@ -28,6 +28,8 @@ public class HookMotionDetector : MonoBehaviour
 
     void Update()
     {
+        
+        // 로테이션을 미리 검사하고 손의 자세를 판단해 필요한 코루틴만 돌림.
         if(_chekingHookCoroutine == null && GetControllerActivateAction()) CheckHookMotionCondition(); 
         if(_chekingUpperCutCoroutine == null && GetControllerActivateAction()) CheckUpperCutMotionCondition(); 
         

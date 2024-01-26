@@ -77,6 +77,7 @@ public class DataManager
             line = csvWave.Readline();
         }
         musicData.NodeData = Node.ToList();
+        // Debug.Log("Data Count : "+ musicData.NodeData.Count);
         // Debug
         // foreach (var node in musicData.NodeData)
         // {

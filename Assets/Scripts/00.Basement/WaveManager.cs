@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour
 {
-    [Header("Wave Information")] [SerializeField]
-    private uint waveNum = 0; // Wave number
+    [FormerlySerializedAs("waveNum")]
+    [Header("Wave Information")] 
+    [SerializeField] private uint currenWaveNum = 0; // Wave number
+    [SerializeField] private uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
     [SerializeField] private WaveType currentWave; // 진행 중인 Wave Type
     [SerializeField] private WaveState currentState;
     public float waveTime = 0.0f; // 흘러간 Wave Time
@@ -42,7 +45,8 @@ public class WaveManager : MonoBehaviour
     {
         Init,       //새로운 Wave로 Enter 하는 중
         Waiting,    //잠시 대기 중
-        Playing     //Wave 진행 중
+        Playing,     //Wave 진행 중
+        End
     }
 
 
@@ -51,7 +55,7 @@ public class WaveManager : MonoBehaviour
         Debug.Log("Initialize WaveManager");
 
         // Wave Num
-        waveNum = 0;
+        currenWaveNum = 0;
         waveTime = 0.0f;
 
         RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction")
@@ -78,38 +82,7 @@ public class WaveManager : MonoBehaviour
         return currentWave;
     }
 
-    /// <summary>
-    /// Wave 전환 시 사용함.
-    /// Random으로 다음 wave를 지정하고, 세팅합니다.
-    /// </summary>
-    public void NextWaveSetting()
-    {
-        // Random으로 다음 wave를 지정
-        //currentWave = GetRandomWave();
-        // TODO: 임시설정. For Test
-        currentWave = WaveType.Punching;
-        // currentWave = WaveType.Hitting; // 
-
-        // Wave 세팅
-        SetWavePlayer(); // Player의 Interact 세팅
-        // TODO: Scene 내의 점수판 세팅
-        // TODO: Scene 내의 조명 세팅
-        waveMusicGUID = 0; // TODO: 임시로 GUID 0번으로 세팅
-        CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
-        _oneBeat = 60.0f / CurMusicData.BPM;
-        _beat = _oneBeat;
-        
-        nodeInstantiator.InitToppingPool(currentWave); //Topping Pool 세팅
-    }
-
-    public void NextWaveStart()
-    {
-        Debug.Log("[WAVE] Wave Start");
-        waveNum++;
-        waveTime = 0.0f;
-        GameManager.Sound.PlayWaveMusic(waveMusicGUID); //음악 start
-        // 노드는 Time.timeScale == 1일 경우 자동으로 Update 됨.
-    }
+    
 
     public Vector3 GetSpawnPosition(int index)
     {
@@ -156,6 +129,7 @@ public class WaveManager : MonoBehaviour
 
     private void UpdateWaveState()
     {
+        // Init -> Waiting -> Playing -> Waiting -> Init -> 반복하다 비트 끝나면 End
         switch (currentState)
         {
             case WaveState.Init:
@@ -169,15 +143,53 @@ public class WaveManager : MonoBehaviour
             case WaveState.Playing:
                 waveTime += Time.deltaTime;
                 beforeState = WaveState.Playing;
+                // current == WaveState.Playing -> Waiting 바꾸는 코드, UpdateBeat()에 구현
                 break;
 
             case WaveState.Waiting:
+                beforeState = WaveState.Waiting;
                 SetPauseWave();
                 ContinueWave();
                 break;
+            case WaveState.End:
+                
+                
+                break;
         }
     }
+    /// <summary>
+    /// Wave 전환 시 사용함.
+    /// Random으로 다음 wave를 지정하고, 세팅합니다.
+    /// </summary>
+    public void NextWaveSetting()
+    {
+        // Random으로 다음 wave를 지정
+        //currentWave = GetRandomWave();
+        // TODO: 임시설정. For Test
+        if (currenWaveNum % 2 == 0) currentWave = WaveType.Hitting;
+        else currentWave = WaveType.Punching;
+        // currentWave = WaveType.Hitting; // 
 
+        // Wave 세팅
+        SetWavePlayer(); // Player의 Interact 세팅
+        // TODO: Scene 내의 점수판 세팅
+        // TODO: Scene 내의 조명 세팅
+        waveMusicGUID = 0; // TODO: 임시로 GUID 0번으로 세팅
+        CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
+        _oneBeat = 60.0f / CurMusicData.BPM;
+        _beat = _oneBeat;
+        
+        nodeInstantiator.InitToppingPool(currentWave); //Topping Pool 세팅
+    }
+
+    public void NextWaveStart()
+    {
+        Debug.Log("[WAVE] Wave Start");
+        currenWaveNum++;
+        waveTime = 0.0f;
+        GameManager.Sound.PlayWaveMusic(waveMusicGUID); //음악 start
+        // 노드는 Time.timeScale == 1일 경우 자동으로 Update 됨.
+    }
     
     [ContextMenu("DEBUG/SetPauseWave()")] //TODO: For Test, 이후 제거하기
     public void SetPauseWave()
@@ -188,6 +200,7 @@ public class WaveManager : MonoBehaviour
         {
             _isPause = true;
             Time.timeScale = 0;
+            // timeScale 변경 필요
         }
     }
 
@@ -203,7 +216,7 @@ public class WaveManager : MonoBehaviour
             else if (beforeState == WaveState.Playing)
                 StartCoroutine(WaitSeconds(3.0f));
             
-            currentState = WaveState.Playing;
+            //currentState = WaveState.Playing;
         }
     }
 
@@ -226,8 +239,17 @@ public class WaveManager : MonoBehaviour
         Debug.Log("[WAVE] Wave 일시중지 해제함");
         _isPause = false;
         Time.timeScale = 1;
+        
+        // 진행된 wave가 최종 wave 수와 같아지면 게임 종료 
+        if(currenWaveNum == endWaveNum) EndGame(); 
     }
 
+    private void EndGame()
+    {
+        // 모든 웨이브가 종료되었을 때 호출.
+        currentState = WaveState.End;
+        Debug.Log("게임 종료!");
+    }
     public void SetIsPause(bool _isPause)
     {
         this._isPause = _isPause;
@@ -245,9 +267,14 @@ public class WaveManager : MonoBehaviour
 
     public void UpdateBeat()
     {
-        if (waveTime > _beat)
+        if (waveTime > _beat) // 조건문 작성, 이유가 뭐지? 
         {
             //Debug.Log("[WAVE BEAT] " + _beatNum + "beat");
+            if (CurMusicData.BeatNum == _beatNum)
+            {
+                currentState = WaveState.Waiting;
+            }
+            
             _beatNum++;
             _beat += _oneBeat;
         }

@@ -158,7 +158,8 @@ public class NodeInstantiator_minha : MonoBehaviour
             }
         }
     }
-
+    
+    // 각각의 노드에 세팅이 필요한 값들을 NodeInfo 타입으로 지정.
     private void MusicDataToNodeInfo(WaveType wave)
     {
         var data = GameManager.Wave.CurMusicData;
@@ -176,10 +177,12 @@ public class NodeInstantiator_minha : MonoBehaviour
             case WaveType.Punching:
                 for (int i = 1; i < 5; i++)
                 {
+                    // MusicData에 따른 속성 지정
+                    // 하나의 beat에 다수의 node가 생성되는 경우를 처리하기 위함
                     if (nodes[i] == 0) continue;
 
                     var temp = new NodeInfo();
-                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(i - 1);
+                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(2);
                     temp.arrivalAreaIndex = (i - 1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;
@@ -195,7 +198,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     if (nodes[i] == 0) continue;
                     
                     var temp = new NodeInfo();
-                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(i-1);
+                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(3);
                     temp.arrivalAreaIndex = (i-1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;

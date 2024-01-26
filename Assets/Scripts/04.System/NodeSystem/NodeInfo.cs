@@ -25,7 +25,7 @@ public class NodeInfo
     public NodeInfo()
     {
         // 필드 초기화 코드
-        posX = 0f; posY = 0f; posZ = 0f;
+        // posX = 0f; posY = 0f; posZ = 0f;
         generationTime = 0f;
         timeToReachPlayer = 0f;
         movingSpeed = 0f;

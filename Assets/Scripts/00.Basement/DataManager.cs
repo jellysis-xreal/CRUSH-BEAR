@@ -25,6 +25,7 @@ public class DataManager
         LoadInitialWaveData();
     }
 
+    // csv 파일의 값들을 읽어 MusicData 구조체 내에 값을 저장한다. 추후 GameManager.Data.GetMusicData(uint index)로 노래에 대한 값들을 읽어온다.
     private void LoadInitialWaveData()
     {
         CSVImporter csvWave = new CSVImporter();

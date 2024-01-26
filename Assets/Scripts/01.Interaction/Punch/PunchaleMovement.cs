@@ -45,7 +45,7 @@ public class PunchaleMovement : MonoBehaviour
 
     public void InitializeTopping(NodeInfo node)
     {
-        arrivalBoxNum = node.arrivalAreaIndex;
+        arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
 
         InitiateVariable();
@@ -89,7 +89,7 @@ public class PunchaleMovement : MonoBehaviour
     {
         if (other.CompareTag("ArrivalArea"))
         {
-            Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
+            // Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
             // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
             _isArrivalAreaHit = true;
         }

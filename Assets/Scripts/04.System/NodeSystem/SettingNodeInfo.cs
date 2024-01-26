@@ -51,7 +51,7 @@ public class SettingNodeInfo : MonoBehaviour
         nodeInfo.posZ = (float)Math.Round(transform.position.z,2);
         nodeInfo.generationTime = generationTime;
         nodeInfo.timeToReachPlayer = timeToReachPlayer;
-        nodeInfo.arrivalAreaIndex = arrivalAreaIndex;
+        nodeInfo.arrivalBoxNum = arrivalAreaIndex;
         nodeInfo.movingSpeed = movingSpeed;
         nodeInfo.objectType = objectType.ToString();
         nodeInfo.movingType = movingType.ToString();

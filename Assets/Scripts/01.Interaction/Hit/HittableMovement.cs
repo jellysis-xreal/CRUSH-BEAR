@@ -73,16 +73,6 @@ public class HittableMovement : MonoBehaviour
     /// </summary>
     /// <param name="arrivalBox">arrival area의 index</param>
     /// <param name="arriveTime">arrival time</param>
-    public void InitializeTopping(NodeInfo node)
-    {
-        arrivalBoxNum = node.arrivalAreaIndex;
-        arriveTime = node.timeToReachPlayer;
-        sideType = node.sideType;
-
-        InitiateVariable();
-        arrivalArea.setting();        
-        _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
-    }
 
 
     private void Update()
@@ -100,6 +90,16 @@ public class HittableMovement : MonoBehaviour
                 _isNotHitted = true;
             }
         }
+    }
+    public void InitializeTopping(NodeInfo node)
+    {
+        arrivalBoxNum = node.arrivalBoxNum;
+        arriveTime = node.timeToReachPlayer;
+        sideType = node.sideType;
+
+        InitiateVariable();
+        arrivalArea.setting();        
+        _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
     }
 
     private void InitiateVariable()

@@ -183,9 +183,13 @@ public class NodeInstantiator_minha : MonoBehaviour
 
                     var temp = new NodeInfo();
                     temp.spawnPosition = GameManager.Wave.GetSpawnPosition(2);
-                    temp.arrivalAreaIndex = (i - 1);
+                    temp.arrivalBoxNum = (i - 1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;
+                    temp.arrivalBoxNum = i;
+                    
+                    _nodeQueue.Enqueue(temp);
+                    // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
                 }
 
                 break;
@@ -199,7 +203,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     
                     var temp = new NodeInfo();
                     temp.spawnPosition = GameManager.Wave.GetSpawnPosition(3);
-                    temp.arrivalAreaIndex = (i-1);
+                    temp.arrivalBoxNum = (i-1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;
                     if (nodes[i] == 1) 

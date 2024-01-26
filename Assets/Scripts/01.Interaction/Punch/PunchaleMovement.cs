@@ -23,24 +23,9 @@ public class PunchaleMovement : MonoBehaviour
     private bool _isHit = false;
     private bool _isArrivalAreaHit = false; // 박스 트리거된 이후, 바로 직전의 움직임을 유지할 때 사용하는 변수 
 
-    public void Init()
-    {
-        if(arrivalBoxNum == 0) return;
-        _rigidbody = GetComponent<Rigidbody>();
-        
-        _isArrivalAreaHit = false;
-        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
-
-        targetTransform = arrivalArea.arrivalAreas[arrivalBoxNum-1];
-        CalculateConstantSpeed();
-        InteractionType type = GetComponent<BaseObject>().InteractionType;
-        /*if (type == InteractionType.Break) StartCoroutine(RotateMovingBreakObject());
-        else if (type == InteractionType.Tear) StartCoroutine(RotateMovingRipObject());*/
-    }
-    
     void Awake()
     {
-        Init();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     public void InitializeTopping(NodeInfo node)

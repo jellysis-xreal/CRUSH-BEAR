@@ -96,19 +96,23 @@ public class PunchaleMovement : MonoBehaviour
         {
             // Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
             // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
+
+            Debug.Log($"Trigger Arrival Area {other.name}");
             _isArrivalAreaHit = true;
             EndInteraction();
         }
         if (other.tag == "body")
         {
             // 플레이어 공격 성공 처리
-            GameManager.Player.MinusPlayerLifeValue();
+            Debug.Log("Trigger body");
+            // GameManager.Player.MinusPlayerLifeValue();
             EndInteraction();
         }
         if (other.CompareTag("TriggerPad"))
         {
             // 뒤에 존재하는 곰돌이 공격 성공 처리
-            Debug.Log($"{gameObject.name} Trigger Pad");
+            // Debug.Log($"{gameObject.name} Trigger Pad");
+            Debug.Log("Trigger Trigger Pad");
             EndInteraction();
             // GameManager.Player.MinusPlayerLifeValue();
             // other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);

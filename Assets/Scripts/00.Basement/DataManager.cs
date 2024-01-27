@@ -84,11 +84,12 @@ public class DataManager
         //     Debug.Log(node[0] + " " + node[1] + " " + node[2] + " " + node[3]);
         // }
         waveMusicData.Add(musicData.GUID, musicData);
+        Debug.Log($"DataManager : [Done] Load Wave Music Data {musicData.MusicName}");
     }
 
     public MusicData GetMusicData(uint id)
     {
-        Debug.Log("Load music data" + id);
+        Debug.Log("DataManager : [Done] Load music data " + "GUID : "+id+" Music Name :" +waveMusicData[id].MusicName);
         return waveMusicData[id];
     }
 

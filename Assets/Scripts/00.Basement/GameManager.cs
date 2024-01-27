@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
         
         // 이 밑으로 진행할 Test 코드를 입력한 후, Start 함수에 가서 Test의 주석 처리를 해제하면 됩니다.
         // Toast 치기 개발으로 잠시 테스트 - 240108 minha
-        _wave.Test();
+        // _wave.Test();
     }
 
     IEnumerator LoadWaveScene()

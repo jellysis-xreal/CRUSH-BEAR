@@ -8,7 +8,7 @@ public class NodeInfo
     public float posZ;
     public float generationTime;
     public float timeToReachPlayer;
-    public int arrivalAreaIndex;
+    public int arrivalBoxNum;
     public string objectType;
     public string movingType;
     public int objectNum;
@@ -25,22 +25,21 @@ public class NodeInfo
     public NodeInfo()
     {
         // 필드 초기화 코드
-        posX = 0f; posY = 0f; posZ = 0f;
+        // posX = 0f; posY = 0f; posZ = 0f;
         generationTime = 0f;
         timeToReachPlayer = 0f;
         movingSpeed = 0f;
         objectType = "";
         movingType = "";
         objectNum = 0;
-        arrivalAreaIndex = 0;
+        arrivalBoxNum = 0;
         totalJumpNumberOfTimes = 0;
         
         // Hit
         beatNum = 0;
         spawnPosition = new Vector3(0, 0, 0);
         sideType = InteractionSide.Red;
-        // arrivalAreaIndex
-        // timeToReachPlayer
+        
 
     }
 }

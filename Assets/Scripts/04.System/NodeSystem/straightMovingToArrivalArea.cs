@@ -98,7 +98,7 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
     {
         if (other.CompareTag("ArrivalArea"))
         {
-            Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
+            // Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
             // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
             isArrivalAreaHit = true;
         }

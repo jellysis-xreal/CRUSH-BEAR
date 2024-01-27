@@ -7,7 +7,7 @@ public class MotionChecker : MonoBehaviour
 {
     public enum Motion
     {
-        zap, leftHook, rightHook, upperCut
+        zap, leftHook, rightHook, upperCut, None
     }
     public Motion correctMotion;
     public LayerMask layerMask;
@@ -125,7 +125,7 @@ public class MotionChecker : MonoBehaviour
     
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
+        /*Gizmos.color = Color.blue;
         Gizmos.DrawSphere(triggeredPosition, 0.05f);
         
         // 왼쪽 부분
@@ -152,6 +152,6 @@ public class MotionChecker : MonoBehaviour
         Gizmos.DrawWireCube(transform.position - new Vector3(0, 0, transform.lossyScale.z * _boxCollider.size.z/2),
             new Vector3(transform.lossyScale.x * _boxCollider.size.x * 1.5f, 
                 transform.lossyScale.y * _boxCollider.size.y * 2f,
-                transform.lossyScale.z * _boxCollider.size.z * 2f));
+                transform.lossyScale.z * _boxCollider.size.z * 2f));*/
     }
 }

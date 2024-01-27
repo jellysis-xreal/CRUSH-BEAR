@@ -25,6 +25,7 @@ public class DataManager
         LoadInitialWaveData();
     }
 
+    // csv 파일의 값들을 읽어 MusicData 구조체 내에 값을 저장한다. 추후 GameManager.Data.GetMusicData(uint index)로 노래에 대한 값들을 읽어온다.
     private void LoadInitialWaveData()
     {
         CSVImporter csvWave = new CSVImporter();
@@ -76,17 +77,19 @@ public class DataManager
             line = csvWave.Readline();
         }
         musicData.NodeData = Node.ToList();
+        // Debug.Log("Data Count : "+ musicData.NodeData.Count);
         // Debug
         // foreach (var node in musicData.NodeData)
         // {
         //     Debug.Log(node[0] + " " + node[1] + " " + node[2] + " " + node[3]);
         // }
         waveMusicData.Add(musicData.GUID, musicData);
+        Debug.Log($"DataManager : [Done] Load Wave Music Data {musicData.MusicName}");
     }
 
     public MusicData GetMusicData(uint id)
     {
-        Debug.Log("Load music data" + id);
+        Debug.Log("DataManager : [Done] Load music data " + "GUID : "+id+" Music Name :" +waveMusicData[id].MusicName);
         return waveMusicData[id];
     }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ObjectArrivalArea : MonoBehaviour
 {
-    public int boxIndex;
+    // public int boxIndex;
     // 오브젝트에게 area 각각의 위치를 알려주기 위함.
     private void OnTriggerEnter(Collider other)
     {

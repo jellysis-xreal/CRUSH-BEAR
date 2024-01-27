@@ -8,19 +8,20 @@ namespace UnityEngine.XR.Content.Interaction
     /// </summary>
     public class Breakable : MonoBehaviour
     {
-        [Serializable] public class BreakEvent : UnityEvent<GameObject, GameObject> { }
+        [Serializable]
+        public class BreakEvent : UnityEvent<GameObject, GameObject>
+        {
+        }
 
-        [SerializeField]
-        [Tooltip("The 'broken' version of this object.")]
+        [SerializeField] [Tooltip("The 'broken' version of this object.")]
         GameObject m_BrokenVersion;
 
-        [SerializeField]
-        [Tooltip("The tag a collider must have to cause this object to break.")]
+        [SerializeField] [Tooltip("The tag a collider must have to cause this object to break.")]
         string m_ColliderTag = "Destroyer";
 
         [SerializeField]
         [Tooltip("Events to fire when a matching object collides and break this object. " +
-            "The first parameter is the colliding object, the second parameter is the 'broken' version.")]
+                 "The first parameter is the colliding object, the second parameter is the 'broken' version.")]
         BreakEvent m_OnBreak = new BreakEvent();
 
         bool m_Destroyed = false;
@@ -31,7 +32,21 @@ namespace UnityEngine.XR.Content.Interaction
         /// </summary>
         public BreakEvent onBreak => m_OnBreak;
 
-        void OnCollisionEnter(Collision collision)
+        private MotionChecker _motionChecker;
+        private PunchaleMovement _punchaleMovement;
+        private void Awake()
+        {
+            _motionChecker = GetComponent<MotionChecker>();
+            _punchaleMovement = GetComponent<PunchaleMovement>();
+        }
+
+        private void OnCollisionStay(Collision collisionInfo)
+        {
+
+        }
+        
+        // Collision -> Trigger 변경
+        /*void OnCollisionEnter(Collision collision)
         {
             if (m_Destroyed)
                 return;
@@ -40,6 +55,14 @@ namespace UnityEngine.XR.Content.Interaction
             
             if (collision.gameObject.tag.Equals(m_ColliderTag, System.StringComparison.InvariantCultureIgnoreCase))
             {
+                Debug.Log($"correct Motion is {_motionChecker.correctMotion}");
+                Debug.Log($"Hand Motion is : {collision.gameObject.GetComponent<HookMotionDetector>().motion}");
+                if (collision.gameObject.GetComponent<HookMotionDetector>().motion != _motionChecker.correctMotion)
+                {
+                    Debug.Log("you did Wrong Motion;");
+                    return;
+                }
+
                 m_Destroyed = true;
                 var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
                 
@@ -48,6 +71,37 @@ namespace UnityEngine.XR.Content.Interaction
                 GameManager.Score.Scoring(this.gameObject);
                 
                 Destroy(gameObject, 0.1f);
+            }
+        }*/
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (m_Destroyed)
+                return;
+
+            // Motion Checker OnTriggerEnter와 연결해야 함.
+
+            if (other.gameObject.tag.Equals(m_ColliderTag, System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                Debug.Log($"correct Motion is {_motionChecker.correctMotion}");
+                Debug.Log($"Hand Motion is : {other.gameObject.GetComponent<HookMotionDetector>().motion}");
+                HookMotionDetector detector = other.gameObject.GetComponent<HookMotionDetector>();
+                
+                if ((detector.motion != _motionChecker.correctMotion) || !detector.GetControllerActivateAction())
+                {
+                    Debug.Log("you did Wrong Motion;");
+                    return;
+                }
+
+                m_Destroyed = true;
+                var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+
+                m_OnBreak.Invoke(other.gameObject, brokenVersion);
+                brokenVersion.GetComponent<BreakController>().IsHit();
+                GameManager.Score.Scoring(this.gameObject);
+
+                _punchaleMovement.EndInteraction();
+                // Destroy(gameObject, 0.1f);
             }
         }
     }

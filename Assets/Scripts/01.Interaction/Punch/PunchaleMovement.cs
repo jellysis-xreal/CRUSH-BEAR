@@ -21,28 +21,33 @@ public class PunchaleMovement : MonoBehaviour
     
     // 토핑이 맞은, 맞지 않은 후에 활용할 변수
     private bool _isHit = false;
-    private bool _isArrivalAreaHit = false; // 박스 트리거된 이후, 바로 직전의 움직임을 유지할 때 사용하는 변수 
+    private bool _isArrivalAreaHit = false; // 박스 트리거된 이후, 바로 직전의 움직임을 유지할 때 사용하는 변수
+    private MeshRenderer _meshRenderer;
 
-    public void Init()
+    void Awake()
     {
-        if(arrivalBoxNum == 0) return;
         _rigidbody = GetComponent<Rigidbody>();
-        
-        _isArrivalAreaHit = false;
-        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
+        _meshRenderer = GetComponent<MeshRenderer>();
+    }
 
-        targetTransform = arrivalArea.arrivalAreas[arrivalBoxNum-1];
-        CalculateConstantSpeed();
-        InteractionType type = GetComponent<BaseObject>().InteractionType;
-        /*if (type == InteractionType.Break) StartCoroutine(RotateMovingBreakObject());
-        else if (type == InteractionType.Tear) StartCoroutine(RotateMovingRipObject());*/
-    }
-    
-    void Start()
+    public void InitializeTopping(NodeInfo node)
     {
-        Init();
+        arrivalBoxNum = node.arrivalBoxNum;
+        arriveTime = node.timeToReachPlayer;
+
+        InitiateVariable();
+        arrivalArea.setting();
     }
-    
+
+    private void InitiateVariable()
+    {
+        _meshRenderer.enabled = true;
+        _rigidbody.WakeUp();
+        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
+        targetTransform = arrivalArea.arrivalAreas[arrivalBoxNum-1];
+        
+        CalculateConstantSpeed();
+    }
     void FixedUpdate()
     {
         if(!_isArrivalAreaHit) Move();
@@ -67,28 +72,50 @@ public class PunchaleMovement : MonoBehaviour
     {
         transform.position += dir * _constantSpeed * Time.fixedDeltaTime;
     }
+
+    // 손에 맞거나 뒤 trigger pad에 닿았을 경우 setActive(false)
+    public void EndInteraction()
+    {
+        _meshRenderer.enabled = false;
+        
+        _rigidbody.velocity=Vector3.zero;
+        _rigidbody.angularVelocity=Vector3.zero;
+        _rigidbody.Sleep();
+
+        StartCoroutine(ActiveTime(1f));
+    }
     
+    private IEnumerator ActiveTime(float coolTime)
+    {
+        yield return new WaitForSeconds(coolTime); // coolTime만큼 활성화
+        gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ArrivalArea"))
         {
-            Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
+            // Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
             // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
+
+            Debug.Log($"Trigger Arrival Area {other.name}");
             _isArrivalAreaHit = true;
+            EndInteraction();
         }
         if (other.tag == "body")
         {
             // 플레이어 공격 성공 처리
-            GameManager.Player.MinusPlayerLifeValue();
-            gameObject.SetActive(false);
+            Debug.Log("Trigger body");
+            // GameManager.Player.MinusPlayerLifeValue();
+            EndInteraction();
         }
         if (other.CompareTag("TriggerPad"))
         {
             // 뒤에 존재하는 곰돌이 공격 성공 처리
-            Debug.Log($"{gameObject.name} Trigger Pad");
-            GameManager.Player.MinusPlayerLifeValue();
-            other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
-            this.enabled = false;
+            // Debug.Log($"{gameObject.name} Trigger Pad");
+            Debug.Log("Trigger Trigger Pad");
+            EndInteraction();
+            // GameManager.Player.MinusPlayerLifeValue();
+            // other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
         }
     }
 }

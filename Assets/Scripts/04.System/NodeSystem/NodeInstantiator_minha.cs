@@ -26,6 +26,8 @@ public class NodeInstantiator_minha : MonoBehaviour
     private uint _musicDataIndex = 0; //1~ NodeData
     private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>();
 
+    private Coroutine _curWaveCoroutine;
+
     /*// private void Start()
     // {
     //     // Resource에서 받아오기
@@ -57,6 +59,8 @@ public class NodeInstantiator_minha : MonoBehaviour
         // topping pool 생성해줌.
         // Wave가 처음 실행될 때, 한번 초기화 진행하는 것임
         Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]");
+        _musicDataIndex = 0;
+        
         switch (wave)
         {
             case WaveType.Shooting:
@@ -111,13 +115,16 @@ public class NodeInstantiator_minha : MonoBehaviour
                 break;
         }
 
-        StartCoroutine(SpawnManager(wave));
+        _curWaveCoroutine = StartCoroutine(SpawnManager(wave));
     }
 
     IEnumerator SpawnManager(WaveType wave)
     {
+        // while (!isWaveFinished)
+        // break
         while (true) // 지금은 10개 생성, 대기 Queue 10개까지 됨.
         {
+            // Debug.Log($"coroutine~ this wave is {wave}");
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
             yield return new WaitForSecondsRealtime(0.1f);
             
@@ -167,6 +174,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 // Debug.Log($"Node Info Dequeue");*/
             }
         }
+        
     }
     
     // 각각의 노드에 세팅이 필요한 값들을 NodeInfo 타입으로 지정.
@@ -174,8 +182,27 @@ public class NodeInstantiator_minha : MonoBehaviour
     {
         var data = GameManager.Wave.CurMusicData;
 
+        uint[] nodes;
         float oneBeat = 60.0f / data.BPM;
-        var nodes = data.NodeData[(int)_musicDataIndex];
+        
+        // Dequeue할 노드가 poolsize 만큼 남았지만
+        // if (_nodeQueue.Count < 10) else if (_nodeQueue.Count > 0)
+        // _nodeQueue.Count가 10을 안 넘는 순간(더이상 EnQueue할 MusicData가 없는 순간) index error 발생
+        // 해당 index error를 처리하기 위한 try catch문. 다른 방법은 없을까..?
+        try
+        {
+            nodes = data.NodeData[(int)_musicDataIndex];
+        }
+        catch (Exception e)
+        {
+            // NodeInfoToMusicData(wave); 
+            // isWaveFinished = true;
+            StopCoroutine(_curWaveCoroutine);
+            return;
+            throw;
+        }
+        // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
+        // var nodes = data.NodeData[(int)_musicDataIndex];
         var beatNumber = nodes[0];
 
         switch (wave)
@@ -235,9 +262,9 @@ public class NodeInstantiator_minha : MonoBehaviour
 
     private void NodeInfoToMusicData(WaveType wave)
     {
+        if(_nodeQueue.Count == 0) return;
         // Dequeue하고 토핑 풀에 값 하나 넣고, 존재하는 것에 다 넣었으면(Dequeue) 반복문 종료.
-        // poolsize를 체크하다가 10개 미만일 경우에 Queue에 대해 다시 넣을 준비해야 함.
-        
+
         for (int i = 0; i < _poolSize; i++)
         {
             if (wave == WaveType.Shooting)

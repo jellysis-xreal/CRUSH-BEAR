@@ -33,17 +33,19 @@ namespace UnityEngine.XR.Content.Interaction
         public BreakEvent onBreak => m_OnBreak;
 
         private MotionChecker _motionChecker;
-
+        private PunchaleMovement _punchaleMovement;
         private void Awake()
         {
             _motionChecker = GetComponent<MotionChecker>();
+            _punchaleMovement = GetComponent<PunchaleMovement>();
         }
 
         private void OnCollisionStay(Collision collisionInfo)
         {
 
         }
-
+        
+        // Collision -> Trigger 변경
         /*void OnCollisionEnter(Collision collision)
         {
             if (m_Destroyed)
@@ -98,7 +100,8 @@ namespace UnityEngine.XR.Content.Interaction
                 brokenVersion.GetComponent<BreakController>().IsHit();
                 GameManager.Score.Scoring(this.gameObject);
 
-                Destroy(gameObject, 0.1f);
+                _punchaleMovement.EndInteraction();
+                // Destroy(gameObject, 0.1f);
             }
         }
     }

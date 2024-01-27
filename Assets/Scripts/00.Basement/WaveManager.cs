@@ -165,7 +165,7 @@ public class WaveManager : MonoBehaviour
         waveTime = 0;
         _beatNum = 0;
         currenWaveNum++;
-        if (currenWaveNum % 2 == 1) currentWave = WaveType.Hitting;
+        if (currenWaveNum % 2 == 0) currentWave = WaveType.Hitting;
         else currentWave = WaveType.Punching;
         // currentWave = WaveType.Hitting; // 
 

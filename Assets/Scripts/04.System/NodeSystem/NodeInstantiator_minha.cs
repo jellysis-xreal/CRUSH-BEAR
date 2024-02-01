@@ -14,9 +14,9 @@ public class NodeInstantiator_minha : MonoBehaviour
     public List<GameObject> HitTopping;
 
     // Scene에서 Topping이 생성되는 위치
-    [FormerlySerializedAs("GunSpawn")] public GameObject GunSpawnTransform;
-    [FormerlySerializedAs("PunchSpawn")] public GameObject PunchSpawnTransform;
-    [FormerlySerializedAs("HitSpawn")] public GameObject HitSpawnTransform;
+    [FormerlySerializedAs("GunSpawn")] public static GameObject GunSpawnTransform;
+    [FormerlySerializedAs("PunchSpawn")] public static GameObject PunchSpawnTransform;
+    [FormerlySerializedAs("HitSpawn")] public static GameObject HitSpawnTransform;
 
     private int _poolSize = 10; // Object Pool Size
     [SerializeField] private GameObject[] shootToppingPool;
@@ -53,6 +53,13 @@ public class NodeInstantiator_minha : MonoBehaviour
     //         HitTopping.Add(go);
     //     }
     // }*/
+
+    private void Start()
+    {
+        GunSpawnTransform = transform.GetChild(0).gameObject;
+        PunchSpawnTransform = transform.GetChild(1).gameObject;
+        HitSpawnTransform = transform.GetChild(2).gameObject;
+    }
 
     public void InitToppingPool(WaveType wave)
     {

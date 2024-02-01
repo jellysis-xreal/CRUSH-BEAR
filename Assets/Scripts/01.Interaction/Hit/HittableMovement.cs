@@ -14,8 +14,8 @@ public class HittableMovement : MonoBehaviour
     public int arrivalBoxNum = 0; // 목표인 Box index number
     public float arriveTime;
     public InteractionSide sideType = InteractionSide.Red;
-    [SerializeField] private float moveTime = 3.5f; // 토핑의 이동 속도를 결정함
-    [SerializeField] private float popTime = 1.0f; // 토핑의 점프 시간을 결정함
+    private float moveTime = 3.0f; // 토핑의 이동 속도를 결정함
+    private float popTime = 0.5f; // 토핑의 점프 시간을 결정함
     
     [Header("other Variable (AUTO)")] 
     [SerializeField] private ObjectArrivalAreaManager arrivalArea; // Scene내의 arrival area
@@ -41,7 +41,7 @@ public class HittableMovement : MonoBehaviour
     private bool _isHitted = false;
     
     private float _waitStartTime = 0.0f;
-    private float _waitTime = 2.0f;
+    private float _waitTime = 1.0f;
     private bool _isWaiting = false;
     private bool _isNotHitted = false;
     private bool _goTo = false;
@@ -77,7 +77,7 @@ public class HittableMovement : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.currentGameState == GameState.Waving)
+        //if (GameManager.Instance.currentGameState == GameState.Waving)
         {
             // 현재 토핑 상태 Update
             UpdateToppingState();
@@ -133,6 +133,8 @@ public class HittableMovement : MonoBehaviour
         Vector3 fourthPos = _arrivalBoxPos;
         
         //Debug.Log(timeElapsed);
+        transform.DOJump(transform.position + new Vector3(0, 1.0f, 0),
+            2f, 1, popTime);
         
         transform.DOPath(new[]
             {
@@ -199,7 +201,7 @@ public class HittableMovement : MonoBehaviour
         StartCoroutine(ActiveTime(_inTime + 0.5f));
     }
 
-    private void WaitForSeconds(float sec)
+    private void SetWaitTime(float sec)
     {
         // sec초 동안 기다립니다.
         _isWaiting = true;
@@ -210,12 +212,13 @@ public class HittableMovement : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {          
         // FOR DEBUG
-        //Debug.Log("[DEBUG]" + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
+        Debug.Log("[DEBUG]" + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
         
         if (curState == toppingState.interacable)
         {
             // FOR DEBUG
-            Debug.Log("충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
+            Debug.Log("[FOR DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
+            Debug.Log("[FOR DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
             
             DOTween.KillAll();
 
@@ -308,7 +311,6 @@ public class HittableMovement : MonoBehaviour
     {
         transform.DOJump(transform.position + new Vector3(0, 1.0f, 0),
             2f, 1, time);
-        _isJumped = true;
     }
 
     private void SetToppingMove()
@@ -332,7 +334,7 @@ public class HittableMovement : MonoBehaviour
         {
             case toppingState.idle:
                 if (_idleTime <= 0.0f)
-                    curState = toppingState.jump;
+                    curState = toppingState.uninteracable;
                 else
                     _idleTime -= Time.deltaTime;
                 break;
@@ -342,14 +344,14 @@ public class HittableMovement : MonoBehaviour
                 {
                     JumpOneTime(popTime);
                     // popTime 동안 wait
-                    WaitForSeconds(popTime);
+                    //SetWaitTime(popTime);
+                    _isJumped = true;
                 }
-                else if (_isWaiting && GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
+                else //if (GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
                 {
                     // 해당 오브젝트가 플레이어를 향해 움직이기 위한 설정값 지정
                     SetToppingMove();
                     curState = toppingState.uninteracable;
-                    _isWaiting = false;
                 }
                 break;
             
@@ -357,11 +359,10 @@ public class HittableMovement : MonoBehaviour
                 if (!_isMoved)
                 {
                     MoveToPlayer();
-                    WaitForSeconds(moveTime - 1.2f);
                 }
-                else if (_isWaiting && GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
+                else
                 {
-                    curState = toppingState.interacable;
+                    CanInteractTopping();
                 }
                 break;
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using EnumTypes;
 using UnityEngine;
 
 public class Outline : MonoBehaviour
@@ -7,39 +8,56 @@ public class Outline : MonoBehaviour
     private List<Material> materials = new List<Material>();
     private Transform player;  
     public float maxDistance = 10f;  
-    public float maxRimPower = 1f;  
+    public float maxRimPower = 1f;
+
+    private HittableMovement _hittable;
 
     void Start()
     {
-        // ¿ÀºêÁ§Æ®¿¡ Àû¿ëµÈ ¸ðµç Renderer¿¡¼­ MaterialÀ» °¡Á®¿À±â
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Rendererï¿½ï¿½ï¿½ï¿½ Materialï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)
         {
             materials.AddRange(renderer.materials);
         }
 
-        player = GameObject.FindGameObjectWithTag("Player").transform;  
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        //_hittable = transform.GetComponent<HittableMovement>();
+        
+    }
+
+    private Color GetUpdateSide()
+    {
+        Color sideColor = Color.white;
+        if (_hittable.sideType == InteractionSide.Red)
+            sideColor = Color.red;
+        else
+            sideColor = Color.blue;
+
+        return sideColor;
     }
 
     void Update()
     {
         if (player == null || materials.Count == 0)
         {
-            Debug.LogError("Player ¶Ç´Â MaterialÀÌ ÁöÁ¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("Player ï¿½Ç´ï¿½ Materialï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 
-        // ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸® °è»ê
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½
         float distance = Vector3.Distance(transform.position, player.position);
 
-        // Rim Power °è»ê (°Å¸®¿¡ µû¶ó °¨¼Ò)
+        // Rim Power ï¿½ï¿½ï¿½ (ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         float normalizedDistance = Mathf.Clamp01(distance / maxDistance);
         float rimPower = Mathf.Lerp(0f, maxRimPower, 1f - normalizedDistance);
 
-        // ¸ðµç Material¿¡ Rim Power °ªÀ» ¼³Á¤
+        // ï¿½ï¿½ï¿½ Materialï¿½ï¿½ Rim Power ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         foreach (Material mat in materials)
         {
             mat.SetFloat("_RimPower", rimPower);
+            //mat.color = GetUpdateSide();
         }
     }
 }

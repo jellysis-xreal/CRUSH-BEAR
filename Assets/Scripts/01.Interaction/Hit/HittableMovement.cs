@@ -21,7 +21,8 @@ public class HittableMovement : MonoBehaviour
     [SerializeField] private ObjectArrivalAreaManager arrivalArea; // Scene내의 arrival area
     [SerializeField] private GameObject refrigerator;
     [SerializeField] private toppingState curState = toppingState.idle;
-    private float distancePlayer = 1.5f;
+    private float distancePlayer = 3.5f;
+    private GameObject _player;
 
     //토핑이 움직이기 위한 변수
     [SerializeField] private float _idleTime;
@@ -58,6 +59,7 @@ public class HittableMovement : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _player = GameObject.FindWithTag("Player");
     }
     
 
@@ -132,6 +134,8 @@ public class HittableMovement : MonoBehaviour
         Vector3 secondPos = firstPos + new Vector3(0, 0.5f, 0);
         Vector3 fourthPos = _arrivalBoxPos;
         
+        this.transform.LookAt(_player.transform);
+        
         //Debug.Log(timeElapsed);
         transform.DOJump(transform.position + new Vector3(0, 1.0f, 0),
             2f, 1, popTime);
@@ -148,33 +152,6 @@ public class HittableMovement : MonoBehaviour
 
         _isMoved = true;
     }
-    
-    // public void MoveToPlayer_()
-    // {
-    //     _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
-    //
-    //     float timeElapsed = (GameManager.Wave.waveTime -_moveToppingTime) / moveTime;
-    //     //Debug.Log("움직이는 중 :" + timeElapsed);
-    //     //Vector3 posVector = CalculateBezierCurve(_startPos, _arrivalBoxPos, timeElapsed).normalized;
-    //     Vector3 posVector = CalculateBezierCurve(_moveStartPos, _arrivalBoxPos, timeElapsed);
-    //     this.transform.position = posVector;
-    //
-    //     //_rigidbody.AddForce(posVector);
-    // }
-    //
-    // // 베지어 곡선을 이용한 포물선 운동 계산
-    // private Vector3 CalculateBezierCurve(Vector3 start, Vector3 end, float t)
-    // {
-    //     float u = 1 - t;
-    //     float tt = t * t;
-    //     float uu = u * u;
-    //
-    //     Vector3 point = uu * start; // (1-t)^2 * start
-    //     point += 2 * u * t * (start + (end - start) * 0.5f); // 2(1-t)t * midpoint
-    //     point += tt * end; // t^2 * end
-    //
-    //     return point;
-    // }
 
     public void GoToRefrigerator()
     {
@@ -217,8 +194,8 @@ public class HittableMovement : MonoBehaviour
         if (curState == toppingState.interacable)
         {
             // FOR DEBUG
-            Debug.Log("[FOR DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
-            Debug.Log("[FOR DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
+            Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
+            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
             
             DOTween.KillAll();
 
@@ -297,7 +274,8 @@ public class HittableMovement : MonoBehaviour
         // refrigerator로 향하는 것이 아니라면(아직 인터렉션을 하지 않았다면), 토핑과 상호작용할 수 있는 상황인지 체크한다.
 
         // Player와의 거리가 distancePlayer만큼 다가오면 활성화되도록.
-        _curDistance = (this.transform.position - GameManager.Player.player.transform.position).sqrMagnitude;
+        _curDistance = (this.transform.position - _player.transform.position).sqrMagnitude;
+        //Debug.Log(_curDistance);
         if (_curDistance <= distancePlayer)
         {
             //Debug.Log("[DEBUG] 충돌 가능합니다.");
@@ -341,21 +319,21 @@ public class HittableMovement : MonoBehaviour
                     _idleTime -= Time.deltaTime;
                 break;
 
-            case toppingState.jump:
-                if (!_isJumped)
-                {
-                    JumpOneTime(popTime);
-                    // popTime 동안 wait
-                    //SetWaitTime(popTime);
-                    _isJumped = true;
-                }
-                else //if (GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
-                {
-                    // 해당 오브젝트가 플레이어를 향해 움직이기 위한 설정값 지정
-                    SetToppingMove();
-                    curState = toppingState.uninteracable;
-                }
-                break;
+            // case toppingState.jump:
+            //     if (!_isJumped)
+            //     {
+            //         JumpOneTime(popTime);
+            //         // popTime 동안 wait
+            //         //SetWaitTime(popTime);
+            //         _isJumped = true;
+            //     }
+            //     else //if (GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
+            //     {
+            //         // 해당 오브젝트가 플레이어를 향해 움직이기 위한 설정값 지정
+            //         SetToppingMove();
+            //         curState = toppingState.uninteracable;
+            //     }
+            //     break;
             
             case toppingState.uninteracable:
                 if (!_isMoved)
@@ -371,7 +349,7 @@ public class HittableMovement : MonoBehaviour
             case toppingState.interacable:
                 // 중력의 영향을 받되, 천천히 떨어질 수 있도록 함
                 _rigidbody.useGravity = true;
-                _rigidbody.AddForce(0, 0, +1.0f);
+                //_rigidbody.AddForce(0, 0, +1.0f);
                 break;
 
             case toppingState.refrigerator:

@@ -72,7 +72,7 @@ public class ObjectArrivalAreaManager : MonoBehaviour
 
         //Vector3 posVector = (_spawnTransform.position - IKplayerTransform.transform.position).normalized;
 
-        transform.position = new Vector3(0.68f, 1.638f, 0.2f);
+        transform.position = new Vector3(0.68f, 1.638f, 0.398f);
         transform.rotation = Quaternion.Euler(0, 46.0f, 0);
     }
     

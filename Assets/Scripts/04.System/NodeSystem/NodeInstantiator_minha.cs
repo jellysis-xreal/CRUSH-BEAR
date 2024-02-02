@@ -215,7 +215,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         switch (wave)
         {
             case WaveType.Shooting:
-
+                
                 break;
 
             case WaveType.Punching:
@@ -227,7 +227,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     if (nodes[i] == 0) continue;
 
                     var temp = new NodeInfo();
-                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(2);
+                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(1);
                     temp.arrivalBoxNum = (i - 1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;
@@ -248,7 +248,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     if (nodes[i] == 0) continue;
                     
                     var temp = new NodeInfo();
-                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(3);
+                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(2);
                     temp.arrivalBoxNum = (i-1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;

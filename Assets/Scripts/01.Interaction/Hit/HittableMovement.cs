@@ -227,7 +227,7 @@ public class HittableMovement : MonoBehaviour
             //잘못 충돌한 예외 처리
             if (!other.transform.TryGetComponent(out Rigidbody body))
                 return;
-
+            
             // hitter의 side 색과 일치한 topping일 경우
             InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
             if (colSide == sideType)
@@ -247,9 +247,11 @@ public class HittableMovement : MonoBehaviour
             float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
             
             // 충돌 지점 기준으로 날아가게
+            
             Vector3 dir = other.contacts[0].normal.normalized;
             _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
-
+            _rigidbody.useGravity = true;
+            
             // Set Score & State
             GameManager.Score.ScoringHit(this.gameObject, IsRight);
             curState = toppingState.refrigerator;            
@@ -369,7 +371,7 @@ public class HittableMovement : MonoBehaviour
             case toppingState.interacable:
                 // 중력의 영향을 받되, 천천히 떨어질 수 있도록 함
                 _rigidbody.useGravity = true;
-                _rigidbody.AddForce(0, 0, +3.0f);
+                _rigidbody.AddForce(0, 0, +1.0f);
                 break;
 
             case toppingState.refrigerator:

@@ -67,12 +67,13 @@ public class ObjectArrivalAreaManager : MonoBehaviour
 
     private void HitWaveSet()
     {
-        Transform _spawnTransform = NodeInstantiator_minha.HitSpawnTransform.transform;  
-        this.transform.LookAt(_spawnTransform);
+        //Transform _spawnTransform = NodeInstantiator_minha.HitSpawnTransform.transform;  
+        //this.transform.LookAt(_spawnTransform);
 
-        Vector3 posVector = (_spawnTransform.position - IKplayerTransform.transform.position).normalized;
+        //Vector3 posVector = (_spawnTransform.position - IKplayerTransform.transform.position).normalized;
 
-        transform.position = IKplayerTransform.transform.position + posVector * 1.5f + Vector3.up * 0.8f;
+        transform.position = new Vector3(0.68f, 1.638f, 0.2f);
+        transform.rotation = Quaternion.Euler(0, 46.0f, 0);
     }
     
 }

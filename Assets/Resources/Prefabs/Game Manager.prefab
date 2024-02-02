@@ -118,7 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &1057453900287801196
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &1214386755101877053
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &1894511907933407323
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &2780066972561660429
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &2829319951994248336
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,13 +635,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36a882c9522497eb33e9c19abd556a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveNum: 0
+  currenWaveNum: 0
+  endWaveNum: 0
   currentWave: 0
+  currentState: 0
   waveTime: 0
-  IsPause: 0
+  waveBeat: 0
+  waveMusicGUID: 0
+  CurMusicData:
+    Difficulty: 0
+    WaveType: 0
+    GUID: 0
+    MusicName: 
+    BPM: 0
+    BeatNum: 0
   RightInteraction: {fileID: 0}
   LeftInteraction: {fileID: 0}
   nodeInstantiator: {fileID: 5657751443267841844}
+  waveTypeNum: 3
+  _toppingArea: []
 --- !u!1 &2847489701484841919
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &2871842601557578715
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,8 +796,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2871842601557578715}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.50985545, z: -0, w: 0.8602601}
-  m_LocalPosition: {x: 6.311022, y: -16.719719, z: -18.228193}
+  m_LocalRotation: {x: -0, y: 0.38660276, z: -0, w: 0.9222464}
+  m_LocalPosition: {x: 1.811, y: 0.198, z: 1.927}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -800,7 +806,7 @@ Transform:
   - {fileID: 8798274104587834358}
   - {fileID: 9030675983444231692}
   m_Father: {fileID: 8530356668075174065}
-  m_LocalEulerAnglesHint: {x: 0, y: 61.308, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45.487, z: 0}
 --- !u!1 &3966972442666058156
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,7 +981,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &4376313657848488195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,7 +1143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &4814319241631992252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,7 +1360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &5919902592481629727
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,8 +1384,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5919902592481629727}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -44.2, y: -25.4, z: 44.371807}
+  m_LocalRotation: {x: -0, y: -0.3950325, z: -0, w: 0.9186672}
+  m_LocalPosition: {x: -11.86, y: -1.63, z: 11.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1391,7 +1394,7 @@ Transform:
   - {fileID: 2128936197692771179}
   - {fileID: 3058588862273517599}
   m_Father: {fileID: 8530356668075174065}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -46.536, z: 0}
 --- !u!1 &5991961850746638261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1439,7 +1442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71017aca1d84915947ac13088ee51c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GunTopping: []
+  ShootTopping: []
   PunchTopping:
   - {fileID: 2791773474089750075, guid: 4b0e31f7881d97647b899eb98f506162, type: 3}
   - {fileID: 3916203221849984202, guid: 56eef69e92aa0384abecea3afe9312ce, type: 3}
@@ -1449,9 +1452,9 @@ MonoBehaviour:
   - {fileID: 3216690746106268825, guid: fde18a599acf50648abd12c827977f40, type: 3}
   - {fileID: 3216690746106268825, guid: fde18a599acf50648abd12c827977f40, type: 3}
   - {fileID: 3216690746106268825, guid: fde18a599acf50648abd12c827977f40, type: 3}
-  GunSpawn: {fileID: 5919902592481629727}
-  PunchSpawn: {fileID: 6650634167224920599}
-  HitSpawn: {fileID: 2871842601557578715}
+  shootToppingPool: []
+  punchToppingPool: []
+  hitToppingPool: []
 --- !u!1 &6539899156967292479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,7 +1573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &6650634167224920599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,7 +1598,7 @@ Transform:
   m_GameObject: {fileID: 6650634167224920599}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.17102206, y: -16.06972, z: 44.371807}
+  m_LocalPosition: {x: 0, y: 7.34, z: 25.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1707,7 +1709,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 396d1a18e9cb19d4a93f982565247af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 0
+  EffectVolume: 50
+  MusicVolume: 50
+  musicClips: []
 --- !u!1 &8528614706715541673
 GameObject:
   m_ObjectHideFlags: 0
@@ -1826,7 +1830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0
 --- !u!1 &9200748804168233587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,4 +1948,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxIndex: 0

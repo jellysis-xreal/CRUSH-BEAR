@@ -18,7 +18,6 @@ public class HittableMovement : MonoBehaviour
     private float popTime = 0.5f; // 토핑의 점프 시간을 결정함
     
     [Header("other Variable (AUTO)")] 
-    [SerializeField] private ObjectArrivalAreaManager arrivalArea; // Scene내의 arrival area
     [SerializeField] private GameObject refrigerator;
     [SerializeField] private toppingState curState = toppingState.idle;
     private float distancePlayer = 3.5f;
@@ -100,14 +99,12 @@ public class HittableMovement : MonoBehaviour
         sideType = node.sideType;
 
         InitiateVariable();
-        arrivalArea.setting();        
-        _arrivalBoxPos = arrivalArea.arrivalAreas[arrivalBoxNum].position;
+        _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
     }
 
     private void InitiateVariable()
     {
         _rigidbody.WakeUp();
-        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
         refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
         curState = toppingState.idle;
         

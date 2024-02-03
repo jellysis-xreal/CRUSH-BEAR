@@ -31,6 +31,7 @@ public class WaveManager : MonoBehaviour
     [Header("setting")] [SerializeField] private GameObject RightInteraction;
     [SerializeField] private GameObject LeftInteraction;
     [SerializeField] private NodeInstantiator_minha nodeInstantiator;
+    [SerializeField] private GameObject nodeArrivalArea;
 
     // 기획에 따른 변수
     [SerializeField] private int waveTypeNum = 3; // Wave Type 갯수
@@ -72,6 +73,10 @@ public class WaveManager : MonoBehaviour
             //Debug.Log(this.transform.GetChild(0).GetChild(i).gameObject.name);
             _toppingArea.Add(this.transform.GetChild(0).GetChild(i).gameObject);
         }
+        
+        // Topping이 도착할 위치 초기화. **Hierarchy 주의**
+        nodeArrivalArea = transform.GetChild(1).gameObject;
+
     }
     
     public WaveType GetWaveType()
@@ -81,7 +86,15 @@ public class WaveManager : MonoBehaviour
 
     public Vector3 GetSpawnPosition(int index)
     {
-        return _toppingArea[(int)currentWave].transform.GetChild(index).transform.position;
+        int TypeNum = (int)currentWave;
+        return _toppingArea[TypeNum].transform.GetChild(index).transform.position;
+    }
+
+    public Vector3 GetArrivalPosition(int index)
+    {
+        int TypeNum = (int)currentWave;
+        Transform CurArrive = nodeArrivalArea.transform.GetChild(TypeNum);
+        return CurArrive.GetChild(index).transform.position;
     }
 
     private WaveType GetRandomWave()
@@ -110,6 +123,20 @@ public class WaveManager : MonoBehaviour
         Debug.Log($"TypeNum : {TypeNum}");
         RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
         LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
+    }
+
+    private void SetWavePlay()
+    {
+        // Node 도착 지점 설정
+        nodeArrivalArea.transform.GetChild(0).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild(1).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild(2).gameObject.SetActive(false);
+        
+        int TypeNum = (int)currentWave;
+        nodeArrivalArea.transform.GetChild(TypeNum).gameObject.SetActive(true);
+        
+        // TODO: else?
+        
     }
 
     private void Update()
@@ -172,8 +199,11 @@ public class WaveManager : MonoBehaviour
 
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅
-        // TODO: Scene 내의 점수판 세팅
-        // TODO: Scene 내의 조명 세팅
+        
+        // TODO: Scene 내의 점수판, 조명, 노드 도착지점 세팅
+        SetWavePlay();
+
+        // 음악 세팅
         waveMusicGUID = 0; // TODO: 임시로 GUID 0번으로 세팅
         CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
         Debug.Log($"[Wave] : received Music Data. Music GUID {CurMusicData.GUID}");

@@ -11,8 +11,7 @@ public class PunchaleMovement : MonoBehaviour
     public float arriveTime; // Node Instantiate
 
     [Header("other Variable (AUTO)")] 
-    [SerializeField] private ObjectArrivalAreaManager arrivalArea;
-    private Transform targetTransform;
+    private Vector3 targetPosition;
     
     // 토핑이 움직이기 위한 변수 
     private Rigidbody _rigidbody;
@@ -36,15 +35,13 @@ public class PunchaleMovement : MonoBehaviour
         arriveTime = node.timeToReachPlayer;
 
         InitiateVariable();
-        arrivalArea.setting();
     }
 
     private void InitiateVariable()
     {
         _meshRenderer.enabled = true;
         _rigidbody.WakeUp();
-        arrivalArea = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
-        targetTransform = arrivalArea.arrivalAreas[arrivalBoxNum-1];
+        targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum-1);
         
         CalculateConstantSpeed();
     }
@@ -57,15 +54,15 @@ public class PunchaleMovement : MonoBehaviour
     {
         // 속도 = 거리 / 시간
         float time = arriveTime;
-        _constantSpeed = Vector3.Distance(targetTransform.position, transform.position) / time;
+        _constantSpeed = Vector3.Distance(targetPosition, transform.position) / time;
         Debug.Log($"{this.gameObject.name} constant speed : {_constantSpeed}");
         Debug.Log($"{this.gameObject.name} time : {time}");
-        Debug.Log($"{this.gameObject.name} distance : {Vector3.Distance(targetTransform.position, transform.position)}");
+        Debug.Log($"{this.gameObject.name} distance : {Vector3.Distance(targetPosition, transform.position)}");
     }
 
     private void Move()
     {
-        dir = (targetTransform.position - transform.position).normalized;
+        dir = (targetPosition - transform.position).normalized;
         transform.position += dir * _constantSpeed * Time.fixedDeltaTime;
     }
     private void TriggeredMove()

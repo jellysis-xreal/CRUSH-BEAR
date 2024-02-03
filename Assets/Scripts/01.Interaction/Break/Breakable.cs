@@ -24,7 +24,7 @@ namespace UnityEngine.XR.Content.Interaction
                  "The first parameter is the colliding object, the second parameter is the 'broken' version.")]
         BreakEvent m_OnBreak = new BreakEvent();
 
-        bool m_Destroyed = false;
+        public bool m_Destroyed = false;
 
         /// <summary>
         /// Events to fire when a matching object collides and break this object.
@@ -40,6 +40,11 @@ namespace UnityEngine.XR.Content.Interaction
             _punchaleMovement = GetComponent<PunchaleMovement>();
         }
 
+        // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
+        public void InitBreakable()
+        {
+            m_Destroyed = true;
+        }
         private void OnCollisionStay(Collision collisionInfo)
         {
 
@@ -73,7 +78,45 @@ namespace UnityEngine.XR.Content.Interaction
                 Destroy(gameObject, 0.1f);
             }
         }*/
+        
+        
+        // Trigger는 MotionChecker에서만 진행, MotionChecker에서 DidCorrectMotion, Wrong 호출
+        // 메서드 이름을 역할에 맞춰 이후에 수정하기
+        public void MotionSucceed()
+        {
+            if (m_Destroyed)
+                return;
+            
+            m_Destroyed = true;
+            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
 
+            // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
+            brokenVersion.GetComponent<BreakController>().IsHit();
+            GameManager.Score.Scoring(this.gameObject);
+
+            _punchaleMovement.EndInteraction();
+        }
+        public void MotionFailed()
+        {
+            // 인터랙션했지만 MotionChecker.correctMotion과 일치하지 않을 때 Fail 처리
+            if (m_Destroyed)
+                return;
+            
+            m_Destroyed = true;
+            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+
+            // m_OnBreak.Invoke(other.gameObject, brokenVersion);
+            brokenVersion.GetComponent<BreakController>().IsHit();
+            GameManager.Score.Scoring(this.gameObject);
+
+            _punchaleMovement.EndInteraction();
+        }
+
+        public void MotionMissed()
+        {
+            // 못 치고 지나가면 Miss
+        }
+        
         private void OnTriggerEnter(Collider other)
         {
             if (m_Destroyed)
@@ -83,8 +126,8 @@ namespace UnityEngine.XR.Content.Interaction
 
             if (other.gameObject.tag.Equals(m_ColliderTag, System.StringComparison.InvariantCultureIgnoreCase))
             {
-                Debug.Log($"correct Motion is {_motionChecker.correctMotion}");
-                Debug.Log($"Hand Motion is : {other.gameObject.GetComponent<HookMotionDetector>().motion}");
+                // Debug.Log($"correct Motion is {_motionChecker.correctMotion}");
+                // Debug.Log($"Hand Motion is : {other.gameObject.GetComponent<HookMotionDetector>().motion}");
                 HookMotionDetector detector = other.gameObject.GetComponent<HookMotionDetector>();
                 
                 if ((detector.motion != _motionChecker.correctMotion) || !detector.GetControllerActivateAction())

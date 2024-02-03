@@ -1,98 +1,149 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using EnumTypes;
 using UnityEngine;
+using UnityEngine.XR.Content.Interaction;
+using Motion = EnumTypes.Motion;
 
 public class MotionChecker : MonoBehaviour
 {
-    public enum Motion
-    {
-        zap, leftHook, rightHook, upperCut, None
-    }
     public Motion correctMotion;
+
+    [Space]
+    public Breakable breakable;
     public LayerMask layerMask;
     private Collider _collider;
     public BoxCollider _boxCollider;
     public Vector3 triggeredPosition;
+    private bool _isTriggered = false; // 트리거 1회만 허용하도록 함. 풀링에 넣고 다시 false로 초기화하기!
+
+    
+    private void Awake()
+    {
+        Init();
+    }
+    private void Init()
+    {
+        breakable = GetComponent<Breakable>();
+    }
     
     private void OnTriggerEnter(Collider other)
     {
-        
         // 1. detector.isHooking = true
         // 2. left일 경우 콜라이더의 왼쪽 면 근처에서 트리거 됐는가, (박스 콜라이더 기준 반으로 나눈 영역 트리거)
         // HookMotionDetector detector = other.GetComponent<HookMotionDetector>();
 
-        triggeredPosition = other.ClosestPoint(transform.position);
-        // Debug.Log($"correct Position : {triggeredPosition} {CheckHandPosition(triggeredPosition)}");
-        // HookMotionDetector detector = other.GetComponent<HookMotionDetector>();
-        if(!other.TryGetComponent(out HookMotionDetector detector)) return;
+        if(!other.TryGetComponent(out HookMotionDetector detector) || _isTriggered) return;
         
-        Debug.Log($"detector exist : {detector}, triggeredPosition : {triggeredPosition} ");
+        triggeredPosition = other.ClosestPoint(transform.position);
+        _isTriggered = true;
+        // Debug.Log($"detector exist : {detector}, triggeredPosition : {triggeredPosition} ");
+        
         switch (correctMotion)
         {
-            case Motion.leftHook:
-                if(detector.isHooking && CheckHandPosition(triggeredPosition, detector)) Debug.Log("Hook Behaviour!");        
+            case Motion.LeftHook:
+                if (CheckHandPosition(detector))
+                {
+                    breakable.MotionSucceed();
+                    Debug.Log("LeftHook Succeed!");
+                }
+                else
+                {
+                    breakable.MotionFailed();
+                    Debug.Log("LeftHook Failed!");   
+                }
                 break;
-            case Motion.rightHook:
-                if(detector.isHooking && CheckHandPosition(triggeredPosition, detector)) Debug.Log("Hook Behaviour!");        
+            case Motion.RightHook:
+                if (CheckHandPosition(detector))
+                {
+                    breakable.MotionSucceed();
+                    Debug.Log("RightHook Succeed!");
+                }
+                else
+                {
+                    breakable.MotionFailed();
+                    Debug.Log("RightHook Failed!");
+                }
                 break;
-            case Motion.upperCut:
-                if(detector.doingUpperCut && CheckHandPosition(triggeredPosition, detector)) Debug.Log("UpperCut Behaviour!");
+            case Motion.LeftUpperCut:
+                if (CheckHandPosition(detector))
+                {
+                    breakable.MotionSucceed();
+                    Debug.Log("UpperCut Succeed!");
+                }
+                else
+                {
+                    breakable.MotionFailed();
+                    Debug.Log("UpperCut Failed!");
+                }
                 break;
-            case Motion.zap:
-                if(CheckHandPosition(triggeredPosition, detector)) Debug.Log("Zap Behaviour!");
+            case Motion.RightUpperCut:
+                if (CheckHandPosition(detector))
+                {
+                    breakable.MotionSucceed();
+                    Debug.Log("UpperCut Succeed!");
+                }
+                else
+                {
+                    breakable.MotionFailed();
+                    Debug.Log("UpperCut Failed!");
+                }
+                break;
+            case Motion.LeftZap:
+                if (CheckHandPosition(detector))
+                {
+                    breakable.MotionSucceed();
+                    Debug.Log("Zap Succeed!");
+                }
+                else
+                {
+                    breakable.MotionFailed();
+                    Debug.Log("Zap Failed!");
+                }
+                break;
+            case Motion.RightZap:
+                if (CheckHandPosition(detector))
+                {
+                    breakable.MotionSucceed();
+                    Debug.Log("Zap Succeed!");
+                }
+                else
+                {
+                    breakable.MotionFailed();
+                    Debug.Log("Zap Failed!");
+                }
                 break;
             default:
                 Debug.LogError("Motion Detect Error!");
                 break;
         }
-        // Debug.Log($"Is correct Hooking Motion : isHooking {detector.isHooking}, CheckHandPosition : {CheckHandPosition(triggeredPosition, detector)} => {detector.isHooking && CheckHandPosition(triggeredPosition, detector)}");
+        // Debug.Log($"Is correct Hooking Motion : CheckHandPosition : {CheckHandPosition(detector)}");
     }
 
-    private bool CheckHandPosition(Vector3 triggerPosition, HookMotionDetector detector)
+    // 손과 트리거된 순간의 위치를 판단해 올바른 동작인지 체크함.
+    private bool CheckHandPosition(HookMotionDetector detector)
     {
-        Debug.Log("handTransform");
-        bool isInTheCorrectPosition = false;
-        // 트리거된 순간, 실제 transform.scale * boxCollider.size.x@@ 
-        // _boxCollider.size.
-
-        Transform handTransform = DetectHand();
-        Debug.Log($"handTransform exist : {handTransform}");
-        if (handTransform == null) return false;
-        // Debug.Log($"handTransform.localEulerAngles.y {handTransform.localEulerAngles.y}");
+        Transform handTransform = DoesHandExistWithinTheRange();
+        if (handTransform == null) return false; // null로 안 해도 될 듯? 그냥 범위 내 있는지만 조사하고 return?
         
-        // 추후 점수 측정 방식 -> handTransform.localEulerAngles.y로 각도 측정, 
-        // 0~20, 160~180  => 실패
-        // 20~40, 140~160 => 0.7
-        // 40~60, 120~140 => 0.8
-        // 60~80, 100~120 => 0.9
-        // 80~100         => 1
-        if (correctMotion == Motion.upperCut && detector.doingUpperCut) return true;
-            
-        switch (detector.controller)
-        {
-            case Controller.leftController: // upper cut 코드 추가하기
-                if (correctMotion != Motion.leftHook) isInTheCorrectPosition = false; //return false;
-                if ((handTransform.localEulerAngles.y < 20 && handTransform.localEulerAngles.y >= 0) ||
-                    (handTransform.localEulerAngles.y < 180 && handTransform.localEulerAngles.y >= 160))
-                    isInTheCorrectPosition = false;
-                else
-                    isInTheCorrectPosition = true;
-                break;
-            case Controller.rightController:
-                if (correctMotion != Motion.rightHook) isInTheCorrectPosition = false;
-                if ((handTransform.localEulerAngles.y > -20 && handTransform.localEulerAngles.y <= 0) ||
-                    (handTransform.localEulerAngles.y > -180 && handTransform.localEulerAngles.y <= 160))
-                    isInTheCorrectPosition = false;
-                else
-                    isInTheCorrectPosition = true;
-                break;
-        }
-
-        return isInTheCorrectPosition;
+        // Hand의 위치까지 검사 완료
+        // 오브젝트의 correct Motion과 Motion Detector의 Motion과 일치하면 true 반환 -> Breakable.MotionSucceed() 호출
+        
+        // 훅 -> 훅모션
+        // 어퍼 -> 어퍼컷모션
+        // 잽은 위치만 판단하고 넘김
+        if((correctMotion == Motion.LeftHook || correctMotion == Motion.RightHook)
+           && correctMotion == detector.hookMotion) return true;
+        if((correctMotion == Motion.LeftUpperCut || correctMotion == Motion.RightUpperCut)
+           && correctMotion == detector.upperCutMotion) return true;
+        if((correctMotion == Motion.LeftZap || correctMotion == Motion.RightZap)) return true;
+        
+        return false;
     }
 
-    private Transform DetectHand()
+    // 범위 내 손이 존재하는가?
+    private Transform DoesHandExistWithinTheRange()
     {
         Vector3 boxCenter = new Vector3();
         Vector3 boxSize = new Vector3(transform.lossyScale.x * _boxCollider.size.x * 1.5f, 
@@ -100,17 +151,26 @@ public class MotionChecker : MonoBehaviour
             transform.lossyScale.z * _boxCollider.size.z * 2f);
         switch (correctMotion)
         {
-            case Motion.leftHook:
+            case Motion.LeftHook:
                 boxCenter = transform.position - new Vector3(transform.lossyScale.x * _boxCollider.size.x / 2, 0, 0);
                 break;
-            case Motion.rightHook:
+            case Motion.RightHook:
                 boxCenter = transform.position + new Vector3(transform.lossyScale.x * _boxCollider.size.x / 2, 0, 0);
                 break;
-            case Motion.upperCut:
+            case Motion.LeftUpperCut:
                 boxCenter = transform.position - new Vector3(0, transform.lossyScale.y * _boxCollider.size.y / 2, 0);
                 break;
-            case Motion.zap:
-                boxCenter = transform.position - new Vector3(0, 0, transform.lossyScale.z * _boxCollider.size.z / 2);
+            case Motion.RightUpperCut:
+                boxCenter = transform.position - new Vector3(0, transform.lossyScale.y * _boxCollider.size.y / 2, 0);
+                break;
+            case Motion.LeftZap: 
+                boxCenter = transform.position - new Vector3(0, 0,transform.lossyScale.z * _boxCollider.size.z / 2);
+                break;
+            case Motion.RightZap: 
+                boxCenter = transform.position - new Vector3(0, 0,transform.lossyScale.z * _boxCollider.size.z / 2);
+                break;
+            default:
+                Debug.Log("correct Motion need to set");
                 break;
         }
         

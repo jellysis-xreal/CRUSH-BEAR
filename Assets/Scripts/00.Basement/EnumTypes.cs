@@ -43,5 +43,13 @@ namespace EnumTypes
         Red, 
         Green
     }
-    
+    public enum Controller
+    {
+        LeftController,
+        RightController
+    }
+    public enum Motion
+    {
+        LeftZap, RightZap, LeftHook, RightHook, LeftUpperCut, RightUpperCut, None
+    }
 }

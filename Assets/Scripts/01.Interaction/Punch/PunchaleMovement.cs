@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using EnumTypes;
 using UnityEngine;
+using UnityEngine.XR.Content.Interaction;
 
 public class PunchaleMovement : MonoBehaviour
 {
@@ -22,10 +23,12 @@ public class PunchaleMovement : MonoBehaviour
     private bool _isHit = false;
     private bool _isArrivalAreaHit = false; // 박스 트리거된 이후, 바로 직전의 움직임을 유지할 때 사용하는 변수
     private MeshRenderer _meshRenderer;
+    private Breakable _breakable;
 
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _breakable = GetComponent<Breakable>();
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
@@ -79,6 +82,8 @@ public class PunchaleMovement : MonoBehaviour
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
 
+        _breakable.m_Destroyed = false;
+        
         StartCoroutine(ActiveTime(1f));
     }
     

@@ -192,7 +192,7 @@ public class HookMotionDetector : MonoBehaviour
                     }
                     break;
                 case Controller.LeftController:
-                    Debug.Log($"leftController Upper Check : {handTransform.localEulerAngles.x}, {handTransform.localEulerAngles.z}");
+                    // Debug.Log($"leftController Upper Check : {handTransform.localEulerAngles.x}, {handTransform.localEulerAngles.z}");
                     if ((handTransform.localEulerAngles.x < 315 && handTransform.localEulerAngles.x > 225)
                         && (handTransform.localEulerAngles.z > 45 && handTransform.localEulerAngles.z < 135))
                     {

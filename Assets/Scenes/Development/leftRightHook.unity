@@ -575,6 +575,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &69895836
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -615,11 +616,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 69895838}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &69895838
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -939,11 +942,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 1
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 106180519}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!54 &106180518
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1213,11 +1218,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 118524508}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &118524508
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1482,6 +1489,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!114 &141169682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1495,11 +1503,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 1
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 141169684}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!54 &141169683
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1891,6 +1901,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &176516657
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1931,11 +1942,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 176516659}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &176516659
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2033,8 +2046,6 @@ MonoBehaviour:
   handVelocity: 0
   hookCoroutineExist: 0
   upperCutCoroutineExist: 0
-  isHooking: 0
-  doingUpperCut: 0
   activateAction:
     m_UseReference: 1
     m_Action:
@@ -2049,6 +2060,8 @@ MonoBehaviour:
     m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   motion: 0
+  hookMotion: 0
+  upperCutMotion: 0
 --- !u!1 &183242959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2506,6 +2519,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!114 &216098581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2519,11 +2533,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 1
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 216098583}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!54 &216098582
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2662,6 +2678,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &219241606
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2702,11 +2719,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 219241608}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &219241608
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2882,6 +2901,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &242136165
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2922,11 +2942,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 242136167}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &242136167
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3800,11 +3822,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 360485522}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &360485522
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3910,6 +3934,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!1 &382933001
 GameObject:
   m_ObjectHideFlags: 0
@@ -4569,6 +4594,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Break_flowerCookie_OUTLINE
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791773474089750075, guid: 4b0e31f7881d97647b899eb98f506162,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5296,6 +5326,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!114 &520438394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5309,11 +5340,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 1
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 520438396}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!54 &520438395
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5969,8 +6002,6 @@ MonoBehaviour:
   handVelocity: 0
   hookCoroutineExist: 0
   upperCutCoroutineExist: 0
-  isHooking: 0
-  doingUpperCut: 0
   activateAction:
     m_UseReference: 1
     m_Action:
@@ -5985,6 +6016,8 @@ MonoBehaviour:
     m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   motion: 0
+  hookMotion: 0
+  upperCutMotion: 0
 --- !u!1 &627247251
 GameObject:
   m_ObjectHideFlags: 0
@@ -6254,8 +6287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eddab27025949748974fd34ab0f62bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPressed: 0
-  isChecked: 0
 --- !u!1 &662207249
 GameObject:
   m_ObjectHideFlags: 0
@@ -6296,6 +6327,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &662207251
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6336,11 +6368,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 662207253}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &662207253
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7628,6 +7662,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!114 &788430089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7641,11 +7676,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 1
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 788430091}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!54 &788430090
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8024,6 +8061,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &842239639
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8064,11 +8102,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 842239641}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &842239641
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8788,11 +8828,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 0
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 960122763}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &960122763
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9038,6 +9080,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &990616492
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9078,11 +9121,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 990616494}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &990616494
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9521,8 +9566,6 @@ MonoBehaviour:
   handVelocity: 0
   hookCoroutineExist: 0
   upperCutCoroutineExist: 0
-  isHooking: 0
-  doingUpperCut: 0
   activateAction:
     m_UseReference: 1
     m_Action:
@@ -9537,6 +9580,8 @@ MonoBehaviour:
     m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   motion: 0
+  hookMotion: 0
+  upperCutMotion: 0
 --- !u!135 &1091757356
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9974,6 +10019,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &1147698543
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10014,11 +10060,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1147698545}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &1147698545
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10146,6 +10194,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!114 &1150839811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10159,11 +10208,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 1
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1150839813}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!54 &1150839812
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10452,6 +10503,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &1198827076
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10492,11 +10544,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1198827078}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &1198827078
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12529,11 +12583,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1363233881}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &1363233881
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12639,6 +12695,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!1 &1367578194
 GameObject:
   m_ObjectHideFlags: 0
@@ -12728,6 +12785,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &1370134629
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12768,11 +12826,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1370134631}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &1370134631
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13280,6 +13340,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &1432943613
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13320,11 +13381,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1432943615}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &1432943615
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15151,6 +15214,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &1539719471
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15191,11 +15255,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1539719473}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &1539719473
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17336,6 +17402,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &1778541555
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17376,11 +17443,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1778541557}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &1778541557
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18196,6 +18265,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!114 &1984712915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18209,11 +18279,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 1
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 1984712917}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!54 &1984712916
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19059,6 +19131,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &2059899000
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19099,11 +19172,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 2059899002}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &2059899002
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19733,6 +19808,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &2107358018
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19773,11 +19849,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 2107358020}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &2107358020
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19911,11 +19989,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 3
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 2109173147}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &2109173147
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20021,6 +20101,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!1 &2112237493
 GameObject:
   m_ObjectHideFlags: 0
@@ -20137,8 +20218,6 @@ MonoBehaviour:
   handVelocity: 0
   hookCoroutineExist: 0
   upperCutCoroutineExist: 0
-  isHooking: 0
-  doingUpperCut: 0
   activateAction:
     m_UseReference: 1
     m_Action:
@@ -20153,6 +20232,8 @@ MonoBehaviour:
     m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   motion: 0
+  hookMotion: 0
+  upperCutMotion: 0
 --- !u!135 &2118668456
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -20230,6 +20311,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!54 &2128975637
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -20270,11 +20352,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 2128975639}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!65 &2128975639
 BoxCollider:
   m_ObjectHideFlags: 0

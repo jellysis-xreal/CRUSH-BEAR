@@ -86,6 +86,8 @@ namespace UnityEngine.XR.Content.Interaction
         {
             if (m_Destroyed)
                 return;
+
+            Debug.Log("Motion Succeed!");
             
             m_Destroyed = true;
             var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
@@ -102,6 +104,8 @@ namespace UnityEngine.XR.Content.Interaction
             if (m_Destroyed)
                 return;
             
+            Debug.Log("Motion Failed!");
+            
             m_Destroyed = true;
             var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
 
@@ -117,7 +121,7 @@ namespace UnityEngine.XR.Content.Interaction
             // 못 치고 지나가면 Miss
         }
         
-        private void OnTriggerEnter(Collider other)
+        /*private void OnTriggerEnter(Collider other)
         {
             if (m_Destroyed)
                 return;
@@ -146,6 +150,6 @@ namespace UnityEngine.XR.Content.Interaction
                 _punchaleMovement.EndInteraction();
                 // Destroy(gameObject, 0.1f);
             }
-        }
+        }*/
     }
 }

@@ -291,7 +291,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 
                 punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
                 punchToppingPool[i].GetComponent<PunchaleMovement>().InitializeTopping(tempNodeInfo);
-                punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                // punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
                 punchToppingPool[i].SetActive(true);
                 break;
             }

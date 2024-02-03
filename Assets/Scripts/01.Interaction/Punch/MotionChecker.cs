@@ -16,7 +16,7 @@ public class MotionChecker : MonoBehaviour
     private Collider _collider;
     public BoxCollider _boxCollider;
     public Vector3 triggeredPosition;
-    private bool _isTriggered = false; // 트리거 1회만 허용하도록 함. 풀링에 넣고 다시 false로 초기화하기!
+    public bool _isTriggered = false; // 트리거 1회만 허용하도록 함. 풀링에 넣고 다시 false로 초기화하기!
 
     
     private void Awake()
@@ -38,7 +38,7 @@ public class MotionChecker : MonoBehaviour
         
         triggeredPosition = other.ClosestPoint(transform.position);
         _isTriggered = true;
-        // Debug.Log($"detector exist : {detector}, triggeredPosition : {triggeredPosition} ");
+        Debug.Log($"detector exist : {detector}, triggeredPosition : {triggeredPosition} ");
         
         switch (correctMotion)
         {

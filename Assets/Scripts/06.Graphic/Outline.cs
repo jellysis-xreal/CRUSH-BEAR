@@ -46,14 +46,13 @@ public class Outline : MonoBehaviour
             return;
         }
 
-        // �÷��̾���� �Ÿ� ���
+        // 플레이어 거리 계산
         float distance = Vector3.Distance(transform.position, player.position);
 
-        // Rim Power ��� (�Ÿ��� ���� ����)
+        // Rim Power 계산
         float normalizedDistance = Mathf.Clamp01(distance / maxDistance);
         float rimPower = Mathf.Lerp(0f, maxRimPower, 1f - normalizedDistance);
 
-        // ��� Material�� Rim Power ���� ����
         foreach (Material mat in materials)
         {
             mat.SetFloat("_RimPower", rimPower);

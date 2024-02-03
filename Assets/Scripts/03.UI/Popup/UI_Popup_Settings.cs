@@ -23,10 +23,10 @@ public class UI_Popup_Settings : UI_Popup
     enum Texts
     {
         TXT_volume,
-        TXT_mode,
+        // TXT_mode,
         TXT_resume,
         TXT_lobby,
-        TXT_popup_settings,
+        // TXT_popup_settings,
     }
     
     private void Start()

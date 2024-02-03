@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using EnumTypes;
 using UnityEngine.Serialization;
+using UnityEngine.XR.Content.Interaction;
 
 public class NodeInstantiator_minha : MonoBehaviour
 {
@@ -290,6 +291,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 
                 punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
                 punchToppingPool[i].GetComponent<PunchaleMovement>().InitializeTopping(tempNodeInfo);
+                punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
                 punchToppingPool[i].SetActive(true);
                 break;
             }

@@ -77,4 +77,14 @@ public class SoundManager : MonoBehaviour
     //         audio.volume = this.volume;
     //     }
     // }
+
+    public void PauseMusic(uint id, bool IsPause)
+    {
+        if (IsPause) musicSource[id].Pause();
+        else {
+            musicSource[id].clip = musicClips[(int)id];
+            musicSource[id].volume = MusicVolume / 100.0f;
+            musicSource[id].Play();
+        }
+    }
 }

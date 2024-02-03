@@ -33,6 +33,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private NodeInstantiator_minha nodeInstantiator;
     [SerializeField] private GameObject nodeArrivalArea;
     [SerializeField] private GameObject nodeArrivalUI;
+    [SerializeField] public GameObject[] timerCanvas;
+    private int countdownTime = 3;
 
     // 기획에 따른 변수
     [SerializeField] private int waveTypeNum = 3; // Wave Type 갯수
@@ -52,6 +54,7 @@ public class WaveManager : MonoBehaviour
         Init,       //새로운 Wave로 Enter 하는 중
         Waiting,    //잠시 대기 중
         Playing,     //Wave 진행 중
+        Pause,
         End
     }
 
@@ -67,6 +70,7 @@ public class WaveManager : MonoBehaviour
             .gameObject;
         LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction")
             .gameObject;
+
 
         // Topping이 생성될 위치 초기화. **Hierarchy 주의**
         for (int i = 0; _toppingArea.Count < waveTypeNum && i < waveTypeNum; i++)
@@ -181,6 +185,11 @@ public class WaveManager : MonoBehaviour
                 ContinueWave(beforeState);
                 beforeState = WaveState.Waiting;
                 break;
+
+            case WaveState.Pause:
+                beforeState = WaveState.Pause;
+                break;
+
             case WaveState.End:
                 
                 
@@ -228,9 +237,9 @@ public class WaveManager : MonoBehaviour
         {
             Debug.Log("[WAVE] Wave Pause");
             // Wave 진행을 일시정지 시킵니다.
-            
-            _isPause = true;
-            Time.timeScale = 0;
+            SetIsPause(true);
+            // _isPause = true;
+            // Time.timeScale = 0;
             // timeScale 변경 필요
         }
     }
@@ -244,11 +253,10 @@ public class WaveManager : MonoBehaviour
             // __초 뒤에 Wave 일시정지를 해제합니다.
             
             if (beforeState == WaveState.Init && _waitBeforePlayingCoroutine == null)
-                _waitBeforePlayingCoroutine = StartCoroutine(WaitBeforePlaying(5.0f, waveState));
+                _waitBeforePlayingCoroutine = StartCoroutine(WaitBeforePlaying(5, waveState));
                 
             else if (beforeState == WaveState.Playing && _waitAfterPlayingCoroutine == null)
-                _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3.0f, waveState));
-            
+                _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3, waveState));
             //currentState = WaveState.Playing; 
             // Waiting -> Playing state 관리 
         }
@@ -256,22 +264,49 @@ public class WaveManager : MonoBehaviour
     
     // Init -> Waiting -> Playing(노래(wave) 재생 중..) -> Waiting(노래(wave) 종료) -> Init -> 반복하다 비트 끝나면 End
     // Waiting -> Playing
-    IEnumerator WaitBeforePlaying(float sec, WaveState waveState)
+    IEnumerator WaitBeforePlaying(int sec, WaveState waveState)
     {
         Debug.Log($"[Wave] State : Waiting -> Playing Wait {sec}s. (이제 Wave 시작한다? 세팅 후에 게임 시작 전 대기 시간을 가짐. 플레이어 준비 시간.) ");
-        yield return new WaitForSecondsRealtime(sec);
+
+        // CMS: Count down starts
+        // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여
+        int idx = (int)currentWave;
+        timerCanvas[idx].SetActive(true);
+
+        while(countdownTime > 0)
+        {
+            timerCanvas[idx].transform.GetChild(0).GetComponent<TextMesh>().text = countdownTime.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+            countdownTime--;
+        }
+        timerCanvas[idx].SetActive(false);
+        // CMS: Count down ends
+
         CallContinueSetting(waveState);
         _waitBeforePlayingCoroutine = null;
     }
     // Waiting -> Init -> Playing 
-    IEnumerator WaitAfterPlaying(float sec, WaveState waveState)
+    IEnumerator WaitAfterPlaying(int sec, WaveState waveState)
     {
         Debug.Log($"[Wave] State : Playing -> Waiting Wait {sec}s. (이제 Wave 끝났다? 다음 Wave 시작 전 혹은 게임 종료 전 대기 시간) ");
-        yield return new WaitForSecondsRealtime(sec);
+
+        // CMS: Count down starts
+        // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여2
+        int idx = (int)currentWave;
+        timerCanvas[idx].SetActive(true);
+
+        while(countdownTime > 0)
+        {
+            timerCanvas[idx].transform.GetChild(0).GetComponent<TextMesh>().text = countdownTime.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+            countdownTime--;
+        }
+        timerCanvas[idx].SetActive(false);
+        // CMS: Count down ends
+
         CallContinueSetting(waveState);
-        _waitBeforePlayingCoroutine = null;
+        _waitAfterPlayingCoroutine = null;
     }
-    
 
     private void CallContinueSetting(WaveState waveState)
     {
@@ -305,19 +340,43 @@ public class WaveManager : MonoBehaviour
         currentState = WaveState.End;
         Debug.Log("게임 종료!");
     }
+    
     public void SetIsPause(bool _isPause)
     {
-        this._isPause = _isPause;
-        if (_isPause)
-        {
+        if (_isPause) {
+            Time.timeScale = 0;
+            PauseMusic(true);
             // 소리 끄기
-        }
-        else
-        {
+        } else {
             // 소리 3초 후 틀기
+            StartCoroutine(CountdownToStart());
             Debug.Log("Resume the game after 3 sec...");
-
         }
+    }
+
+    IEnumerator CountdownToStart()
+    {
+        int idx = (int)currentWave;
+        timerCanvas[idx].SetActive(true);
+
+        while(countdownTime > 0)
+        {
+            timerCanvas[idx].transform.GetChild(0).GetComponent<TextMesh>().text = countdownTime.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+            countdownTime--;
+        }
+        timerCanvas[idx].SetActive(false);
+        
+        PauseMusic(false);
+        Time.timeScale = 1;
+        countdownTime = 3;
+        currentState = WaveState.Playing;
+    }
+
+    public void PauseMusic(bool _isPause = false)
+    {
+        this._isPause = _isPause;
+        GameManager.Sound.PauseMusic(waveMusicGUID, _isPause);
     }
     
     // Update에서 반복, 비트가 남았을 경우 계속 진행(beatNum, beat값 수정), 모든 비트가 마무리된 경우 currentState -> Waiting으로 전환 

@@ -38,7 +38,7 @@ public class UI_Lobby : UI_Base
     
     public void OnButtonClicked_Play(PointerEventData data)
     {
-        SceneManager.LoadScene("PlayScene");
+        SceneManager.LoadScene("01.WaveScene");
     }
 
     public void OnButtonClicked_Exit(PointerEventData data)

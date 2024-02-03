@@ -194,7 +194,7 @@ public class HittableMovement : MonoBehaviour
             Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
             Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
             
-            DOTween.KillAll();
+            //DOTween.KillAll();
 
             bool IsRight = false;
 

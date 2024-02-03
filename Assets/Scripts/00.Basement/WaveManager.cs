@@ -32,6 +32,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject LeftInteraction;
     [SerializeField] private NodeInstantiator_minha nodeInstantiator;
     [SerializeField] private GameObject nodeArrivalArea;
+    [SerializeField] private GameObject nodeArrivalUI;
 
     // 기획에 따른 변수
     [SerializeField] private int waveTypeNum = 3; // Wave Type 갯수
@@ -76,6 +77,9 @@ public class WaveManager : MonoBehaviour
         
         // Topping이 도착할 위치 초기화. **Hierarchy 주의**
         nodeArrivalArea = transform.GetChild(1).gameObject;
+        
+        // Topping이 이동하는 Arrival UI 초기화. **Hierarchy 주의**
+        nodeArrivalUI = transform.GetChild(2).gameObject;
 
     }
     
@@ -127,16 +131,19 @@ public class WaveManager : MonoBehaviour
 
     private void SetWavePlay()
     {
+        int TypeNum = (int)currentWave;
+        
         // Node 도착 지점 설정
         nodeArrivalArea.transform.GetChild(0).gameObject.SetActive(false);
         nodeArrivalArea.transform.GetChild(1).gameObject.SetActive(false);
         nodeArrivalArea.transform.GetChild(2).gameObject.SetActive(false);
-        
-        int TypeNum = (int)currentWave;
         nodeArrivalArea.transform.GetChild(TypeNum).gameObject.SetActive(true);
         
-        // TODO: else?
-        
+        // Node Line UI 설정
+        nodeArrivalUI.transform.GetChild(0).gameObject.SetActive(false);
+        nodeArrivalUI.transform.GetChild(1).gameObject.SetActive(false);
+        nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);
+        nodeArrivalUI.transform.GetChild(TypeNum).gameObject.SetActive(true);
     }
 
     private void Update()
@@ -318,7 +325,7 @@ public class WaveManager : MonoBehaviour
     {
         if (waveTime > _beat) // 조건 : 1beat 시간이 흘렀을 경우 한 번 호출
         {
-            Debug.Log("[WAVE BEAT] " + _beatNum + "beat");
+            //Debug.Log("[WAVE BEAT] " + _beatNum + "beat");
             
             // 존재 비트 모두 플레이 했을 때 State : Playing -> Waiting으로 전환
             if (CurMusicData.BeatNum == _beatNum)

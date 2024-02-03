@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using EnumTypes;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class Outline : MonoBehaviour
 {
     private List<Material> materials = new List<Material>();
     private Transform player;  
-    public float maxDistance = 10f;  
-    public float maxRimPower = 1f;
+    public float maxDistance = 8f;  
+    public float maxRimPower = 2f;
 
     private HittableMovement _hittable;
 
     void Start()
     {
+        _hittable = GetComponent<HittableMovement>();
+
         // ������Ʈ�� ����� ��� Renderer���� Material�� ��������
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)
@@ -53,10 +56,12 @@ public class Outline : MonoBehaviour
         float normalizedDistance = Mathf.Clamp01(distance / maxDistance);
         float rimPower = Mathf.Lerp(0f, maxRimPower, 1f - normalizedDistance);
 
+        Color rimColor = GetUpdateSide();
+
         foreach (Material mat in materials)
         {
             mat.SetFloat("_RimPower", rimPower);
-            //mat.color = GetUpdateSide();
+            mat.SetColor ("_RimColor", rimColor);
         }
     }
 }

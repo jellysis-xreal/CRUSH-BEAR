@@ -12085,6 +12085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 895212315}
   - component: {fileID: 895212314}
+  - component: {fileID: 895212316}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Plane
@@ -12108,13 +12109,34 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895212313}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.21, z: 0.27}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2040177844}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &895212316
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895212313}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.4965305, y: 0.04047966, z: 6.5650063}
+  m_Center: {x: 0.040067554, y: 0, z: -0.35715532}
 --- !u!1 &910831944
 GameObject:
   m_ObjectHideFlags: 0
@@ -27168,6 +27190,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1878170653}
+  - {fileID: 895212315}
   - {fileID: 390735308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -37419,6 +37442,5 @@ SceneRoots:
   - {fileID: 1533652343}
   - {fileID: 1213631782}
   - {fileID: 1076073135}
-  - {fileID: 895212315}
   - {fileID: 2040177844}
   - {fileID: 763017801}

@@ -133,7 +133,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         {
             // Debug.Log($"coroutine~ this wave is {wave}");
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSecondsRealtime(0.2f);
             
             // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
             if (_nodeQueue.Count < 10)
@@ -248,7 +248,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     if (nodes[i] == 0) continue;
                     
                     var temp = new NodeInfo();
-                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(2);
+                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition((i-1));
                     temp.arrivalBoxNum = (i-1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;
@@ -258,7 +258,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                         temp.sideType = InteractionSide.Green;
                     
                     _nodeQueue.Enqueue(temp);
-                    Debug.Log($"[Node Maker] Enqueue! {wave} Beat {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
+                    //Debug.Log($"[Node Maker] Enqueue! {wave} Beat {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
                     // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
                     //Debug.Log(beatNumber + "의 실행 시간은 " + temp.timeToReachPlayer);
                 }
@@ -278,7 +278,7 @@ public class NodeInstantiator_minha : MonoBehaviour
             {
                 //tempPool = shootToppingPool;
                 var tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
-                Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                //Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
             }
             else if (wave == WaveType.Punching)
             {

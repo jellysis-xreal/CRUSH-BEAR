@@ -6,6 +6,7 @@ using EnumTypes;
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
 using UnityEngine.Serialization;
+using Sequence = DG.Tweening.Sequence;
 
 public class HittableMovement : MonoBehaviour
 {
@@ -28,13 +29,15 @@ public class HittableMovement : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector3 _moveStartPos;
     private Vector3 _arrivalBoxPos;
+    private Vector3 _startBoxPos;
     private Vector3 _initVelocity;
+    private Transform _firstTransform;
 
     //토핑이 맞은 후에 활용할 변수
     private Vector3 _moveVector;
     private float _moveSpeed;
     float _inTime = 1.5f;
-
+    
     private float _curDistance;
     private bool _isJumped = false;
     private bool _isMoved = false;
@@ -59,13 +62,7 @@ public class HittableMovement : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _player = GameObject.FindWithTag("Player");
-    }
-    
-
-    private IEnumerator ActiveTime(float coolTime)
-    {
-        yield return new WaitForSeconds(coolTime); // coolTime만큼 활성화
-        gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
+        _firstTransform = this.transform;
     }
 
     /// <summary>
@@ -100,11 +97,15 @@ public class HittableMovement : MonoBehaviour
 
         InitiateVariable();
         _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+        _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        this.transform.position = _startBoxPos;
     }
 
     private void InitiateVariable()
     {
-        _rigidbody.WakeUp();
+        _rigidbody.velocity = new Vector3(0f, 0f, 0f);
+        _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+        
         refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
         curState = toppingState.idle;
         
@@ -128,26 +129,26 @@ public class HittableMovement : MonoBehaviour
     {
         //float timeElapsed = arriveTime - _moveToppingTime;
         Vector3 firstPos = transform.position;
-        Vector3 secondPos = firstPos + new Vector3(0, 0.5f, 0);
-        Vector3 fourthPos = _arrivalBoxPos;
-        
+
         this.transform.LookAt(_player.transform);
+
+        Sequence sequence = DOTween.Sequence();
         
         //Debug.Log(timeElapsed);
-        transform.DOJump(transform.position + new Vector3(0, 1.0f, 0),
+        Tween tweenJump = transform.DOJump(firstPos + new Vector3(0, 1.0f, 0),
             2f, 1, popTime);
-        
-        transform.DOPath(new[]
+
+        Tween tweenMove = transform.DOPath(new[]
             {
                 new Vector3(firstPos.x, firstPos.y, firstPos.z),
-                new Vector3(secondPos.x, secondPos.y, secondPos.z),
-                //new Vector3(thirdPos.x, thirdPos.y, thirdPos.z),
-                new Vector3(fourthPos.x, fourthPos.y, fourthPos.z)
+                new Vector3(firstPos.x, firstPos.y + 1.0f, firstPos.z),
+                new Vector3(_arrivalBoxPos.x, _arrivalBoxPos.y, _arrivalBoxPos.z)
             },
             moveTime,
             PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint);
 
-        _isMoved = true;
+        sequence.Append(tweenJump).Append(tweenMove);
+        sequence.Play();
     }
 
     public void GoToRefrigerator()
@@ -157,30 +158,22 @@ public class HittableMovement : MonoBehaviour
         Vector3 secondPos = firstPos + (thirdPos - firstPos) / 2;
 
         float height = UnityEngine.Random.Range(1.0f, 3.0f);
-        
-        transform.DOPath(new[]
-            {
-                new Vector3(firstPos.x, firstPos.y, firstPos.z),
-                new Vector3(secondPos.x, secondPos.y + height, secondPos.z),
-                new Vector3(thirdPos.x, thirdPos.y, thirdPos.z),
-            },
-            _inTime,
-            PathType.CatmullRom, PathMode.Full3D);
-        this.GetComponent<Rigidbody>().useGravity = false;
-        
-        _rigidbody.velocity=Vector3.zero;
-        _rigidbody.angularVelocity=Vector3.zero;
-        _rigidbody.Sleep();
-        
-        StartCoroutine(ActiveTime(_inTime + 0.5f));
-    }
 
-    private void SetWaitTime(float sec)
-    {
-        // sec초 동안 기다립니다.
-        _isWaiting = true;
-        _waitStartTime = GameManager.Wave.waveTime;
-        _waitTime = sec;
+        Tween tween = transform.DOPath(new[]
+        {
+            new Vector3(firstPos.x, firstPos.y, firstPos.z),
+            new Vector3(secondPos.x, secondPos.y + height, secondPos.z),
+            new Vector3(thirdPos.x, thirdPos.y, thirdPos.z),
+        }, _inTime, PathType.CatmullRom, PathMode.Full3D);
+
+        gameObject.SetActive(false);
+        
+        tween.onComplete = () =>
+        {
+            _rigidbody.useGravity = false;
+            _rigidbody.velocity = new Vector3(0f, 0f, 0f);
+            _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+        };
     }
 
     private void OnCollisionEnter(Collision other)
@@ -188,7 +181,7 @@ public class HittableMovement : MonoBehaviour
         // FOR DEBUG
         Debug.Log("[DEBUG]" + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
         
-        if (curState == toppingState.interacable)
+        if (curState == toppingState.interacable && !other.gameObject.CompareTag("Plane"))
         {
             // FOR DEBUG
             Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
@@ -226,10 +219,13 @@ public class HittableMovement : MonoBehaviour
             _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
             _rigidbody.useGravity = true;
             
+            // For Debug
+            Debug.Log("[SCORE] " + this.transform.name + "의 Side는 " + sideType + 
+                      "\n, " + other.transform.name + "와 충돌함. 따라서 " + IsRight);
+            
             // Set Score & State
             GameManager.Score.ScoringHit(this.gameObject, IsRight);
-            curState = toppingState.refrigerator;            
-
+            curState = toppingState.refrigerator;
         }
         else
             return;
@@ -316,31 +312,14 @@ public class HittableMovement : MonoBehaviour
                     _idleTime -= Time.deltaTime;
                 break;
 
-            // case toppingState.jump:
-            //     if (!_isJumped)
-            //     {
-            //         JumpOneTime(popTime);
-            //         // popTime 동안 wait
-            //         //SetWaitTime(popTime);
-            //         _isJumped = true;
-            //     }
-            //     else //if (GameManager.Wave.waveTime >= _waitStartTime + _waitTime)
-            //     {
-            //         // 해당 오브젝트가 플레이어를 향해 움직이기 위한 설정값 지정
-            //         SetToppingMove();
-            //         curState = toppingState.uninteracable;
-            //     }
-            //     break;
-            
             case toppingState.uninteracable:
                 if (!_isMoved)
                 {
                     MoveToPlayer();
+                    _isMoved = true;
                 }
                 else
-                {
                     CanInteractTopping();
-                }
                 break;
 
             case toppingState.interacable:

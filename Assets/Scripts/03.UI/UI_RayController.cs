@@ -6,20 +6,15 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class UI_RayController : MonoBehaviour
 {
+    [SerializeField] private InputActionAsset m_ActionAsset;
     public InputActionProperty menuAction;
     public XRInteractorLineVisual ray_left;
     public XRInteractorLineVisual ray_right;
     
-    private bool GetControllerActivateAction()
-    {
-        // hand의 grab버튼 활성화 확인
-        // ########### 수정 필요 #############
-        return menuAction.action.IsInProgress();
-    }
-
     // Start is called before the first frame update
     void Start()
     {
+        m_ActionAsset.Enable();
         menuAction.action.performed += OnMyActionTriggered;
     }
 

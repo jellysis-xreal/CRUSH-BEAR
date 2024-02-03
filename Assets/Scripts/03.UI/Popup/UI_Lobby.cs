@@ -38,6 +38,7 @@ public class UI_Lobby : UI_Base
     
     public void OnButtonClicked_Play(PointerEventData data)
     {
+        GameManager.UI.SetRayOn(false);
         SceneManager.LoadScene("01.WaveScene");
     }
 

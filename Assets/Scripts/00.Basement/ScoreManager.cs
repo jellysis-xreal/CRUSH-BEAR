@@ -19,7 +19,7 @@ public class ScoreManager : MonoBehaviour
     public float TotalScore;
     public Transform effectSpawn;
     [SerializeField] private float maxSpeed = 3.0f;
-
+    public TextMesh[] scoreText_mesh = new TextMesh[3];
     
     [Header("setting(auto)")] 
     [SerializeField] private GameObject player;
@@ -64,8 +64,7 @@ public class ScoreManager : MonoBehaviour
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
     public void Scoring(GameObject target)
     {
-        if (target.GetComponent<BaseObject>().IsItScored())
-            return; // Object의 중복 scoring을 방지한다.
+        if (target.GetComponent<BaseObject>().IsItScored()) return; // Object의 중복 scoring을 방지한다.
         
         InteractionType targetType = target.GetComponent<BaseObject>().InteractionType;
         scoreType score;
@@ -151,23 +150,39 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
+    public void ScoringPunch(GameObject target, bool isPerpect)
+    {
+        scoreType score = scoreType.Perfect;
+
+        //target.GetComponent<BaseObject>().SetScoreBool();
+        AddScore(score);
+        SetScoreEffect(score, target.transform);
+        Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
+    }
+
     private void AddScore(scoreType score)
     {
         switch (score)
         {
             case scoreType.Perfect:
                 TotalScore += 100;
-                // scoreText_mesh.text = TotalScore.ToString();
+                scoreText_mesh[0].text = TotalScore.ToString();
+                scoreText_mesh[1].text = TotalScore.ToString();
+                scoreText_mesh[2].text = TotalScore.ToString();
                 break;
             
             case scoreType.Good:
                 TotalScore += 50;
-                // scoreText_mesh.text = TotalScore.ToString();
+                scoreText_mesh[0].text = TotalScore.ToString();
+                scoreText_mesh[1].text = TotalScore.ToString();
+                scoreText_mesh[2].text = TotalScore.ToString();
                 break;
             
             case scoreType.Bad:
                 TotalScore += 0;
-                // scoreText_mesh.text = TotalScore.ToString();
+                scoreText_mesh[0].text = TotalScore.ToString();
+                scoreText_mesh[1].text = TotalScore.ToString();
+                scoreText_mesh[2].text = TotalScore.ToString();
                 break;
         }
     }

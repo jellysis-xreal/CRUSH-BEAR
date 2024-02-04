@@ -95,7 +95,7 @@ namespace UnityEngine.XR.Content.Interaction
 
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
             brokenVersion.GetComponent<BreakController>().IsHit();
-            GameManager.Score.Scoring(this.gameObject);
+            GameManager.Score.ScoringPunch(this.gameObject, true);
 
             _punchaleMovement.EndInteraction();
         }
@@ -113,7 +113,7 @@ namespace UnityEngine.XR.Content.Interaction
             // m_OnBreak.Invoke(other.gameObject, brokenVersion);
             brokenVersion.GetComponent<BreakController>().IsHit();
             GameManager.Player.MinusPlayerLifeValue();
-            GameManager.Score.Scoring(this.gameObject);
+            GameManager.Score.ScoringPunch(this.gameObject, false);
 
             _punchaleMovement.EndInteraction();
         }

@@ -24,7 +24,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     [SerializeField] private GameObject[] punchToppingPool;
     [SerializeField] private GameObject[] hitToppingPool;
     
-    private uint _musicDataIndex = 0; //1~ NodeData
+    [SerializeField] public uint _musicDataIndex = 0; //1~ NodeData
     private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>();
 
     private Coroutine _curWaveCoroutine;
@@ -148,43 +148,18 @@ public class NodeInstantiator_minha : MonoBehaviour
                 // poolsize를 체크하다가 10개 미만일 경우에 Queue에 대해 다시 넣을 준비해야 함.
                 
                 NodeInfoToMusicData(wave);
-
-                /*var tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
-                Debug.Log($"[Node Maker] Dequeue! nodeQueue.Count : {_nodeQueue.Count}");
-                for (int i = 0; i < _poolSize; i++)
-                {
-                    if (wave == WaveType.Shooting)
-                    {
-                        //tempPool = shootToppingPool;
-                    }
-                    else if (wave == WaveType.Punching)
-                    {
-                        //tempPool = punchToppingPool;
-                        if(punchToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
-
-                        punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
-                        punchToppingPool[i].GetComponent<PunchaleMovement>().InitializeTopping(tempNodeInfo);
-                        punchToppingPool[i].SetActive(true);
-                        break;
-                    }
-                    else if(wave == WaveType.Hitting)
-                    {
-                        if (hitToppingPool[i].activeSelf == true) // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
-                            continue;
-                        hitToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
-                        hitToppingPool[i].GetComponent<HittableMovement>().InitializeTopping(tempNodeInfo);
-                        hitToppingPool[i].SetActive(true);
-                        //Debug.Log(musicDataIndex + " Beat " + hitToppingPool[i].name + " 생성함");
-                        break;
-                    }
-                }
-
-                // Debug.Log($"Node Info Dequeue");*/
+                
             }
         }
-        
     }
     
+    public void NotesExistButAreNLongerEnqueued()
+    {
+        // MusicDataToNodeInfo에서 60초 동안 존재하는 note만 있었다.
+        // 120비트까지 생김
+        // try catch에서 오류 발생 시 = 더이상 읽을 노트가 없을 시에 stop코루틴을 했음.
+        StopCoroutine(_curWaveCoroutine);
+    }
     // 각각의 노드에 세팅이 필요한 값들을 NodeInfo 타입으로 지정.
     private void MusicDataToNodeInfo(WaveType wave)
     {
@@ -200,11 +175,13 @@ public class NodeInstantiator_minha : MonoBehaviour
         try
         {
             nodes = data.NodeData[(int)_musicDataIndex];
+            // if(GameManager.Wave.CurMusicData.BeatNum - GameManager.Wave._beatNum == 10) {StopCoroutine(_curWaveCoroutine);}
         }
         catch (Exception e)
         {
             // NodeInfoToMusicData(wave); 
             // isWaveFinished = true;
+            Debug.Log("Error 더이상 Enqueuegkf data없음.");
             StopCoroutine(_curWaveCoroutine);
             return;
             throw;
@@ -212,7 +189,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
         // var nodes = data.NodeData[(int)_musicDataIndex];
         var beatNumber = nodes[0];
-
+        Debug.Log($"[Node] : {(int)_musicDataIndex}");
         switch (wave)
         {
             case WaveType.Shooting:
@@ -259,7 +236,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                         temp.sideType = InteractionSide.Green;
                     
                     _nodeQueue.Enqueue(temp);
-                    //Debug.Log($"[Node Maker] Enqueue! {wave} Beat {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
+                    Debug.Log($"[Node Maker] Enqueue! {wave} Beat {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
                     // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
                     //Debug.Log(beatNumber + "의 실행 시간은 " + temp.timeToReachPlayer);
                 }
@@ -291,12 +268,12 @@ public class NodeInstantiator_minha : MonoBehaviour
                 
                 punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
                 punchToppingPool[i].GetComponent<PunchaleMovement>().InitializeTopping(tempNodeInfo);
-                // punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
                 punchToppingPool[i].SetActive(true);
                 break;
             }
             else if(wave == WaveType.Hitting)
-            {
+            { //템프노트인포가 남아있는지, 위치는 어디로 초기화되는지
                 if (hitToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                 
                 var tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  

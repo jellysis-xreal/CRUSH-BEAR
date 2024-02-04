@@ -21,7 +21,7 @@ public class WaveManager : MonoBehaviour
     private WaveState beforeState;
     private float _oneBeat;
     private float _beat;
-    private int _beatNum = 0;
+    [SerializeField] public int _beatNum = 0;
     private Coroutine _waitBeforePlayingCoroutine;
     private Coroutine _waitAfterPlayingCoroutine;
     
@@ -212,7 +212,7 @@ public class WaveManager : MonoBehaviour
         _beatNum = 0;
         currenWaveNum++;
 
-        if (currenWaveNum % 2 == 0) currentWave = WaveType.Punching; 
+        if (currenWaveNum % 2 == 1) currentWave = WaveType.Punching; 
         else currentWave = WaveType.Hitting;
         // currentWave = WaveType.Hitting; // 
 
@@ -251,7 +251,7 @@ public class WaveManager : MonoBehaviour
     {
         if (_isPause)
         {
-            // Debug.Log("[WAVE] Wave Continue");
+            Debug.Log("[WAVE] Wave Continue");
             // __초 뒤에 Wave 일시정지를 해제합니다.
             
             if (beforeState == WaveState.Init && _waitBeforePlayingCoroutine == null)
@@ -386,9 +386,14 @@ public class WaveManager : MonoBehaviour
     public void UpdateBeat()
     {
         if (waveTime > _beat) // 조건 : 1beat 시간이 흘렀을 경우 한 번 호출
-        {
+        { 
             //Debug.Log("[WAVE BEAT] " + _beatNum + "beat");
-            
+            /*if (87 == nodeInstantiator._musicDataIndex)
+            {
+                Debug.Log("Stop Coroutine!");
+                nodeInstantiator.NotesExistButAreNLongerEnqueued();
+            }*/
+
             // 존재 비트 모두 플레이 했을 때 State : Playing -> Waiting으로 전환
             if (CurMusicData.BeatNum == _beatNum)
             {

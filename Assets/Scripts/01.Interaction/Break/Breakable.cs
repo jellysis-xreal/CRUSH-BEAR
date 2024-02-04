@@ -43,7 +43,8 @@ namespace UnityEngine.XR.Content.Interaction
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
         public void InitBreakable()
         {
-            m_Destroyed = true;
+            m_Destroyed = false;
+            _motionChecker._isTriggered = false;
         }
         private void OnCollisionStay(Collision collisionInfo)
         {
@@ -111,6 +112,7 @@ namespace UnityEngine.XR.Content.Interaction
 
             // m_OnBreak.Invoke(other.gameObject, brokenVersion);
             brokenVersion.GetComponent<BreakController>().IsHit();
+            GameManager.Player.MinusPlayerLifeValue();
             GameManager.Score.Scoring(this.gameObject);
 
             _punchaleMovement.EndInteraction();

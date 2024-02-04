@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     [Header("player Life")] public int playerLifeValue = 0;
     public GameObject[] parentUI = new GameObject[3];
     public GameObject[] score_G = new GameObject[3];
+    public ParticleSystem minusPrefab;
 
     
     [Header("Hearts (auto)")] public HeartsArray[] HeartGameObjects = new HeartsArray[3];
@@ -74,15 +75,17 @@ public class PlayerManager : MonoBehaviour
         {
             parentUI[i].gameObject.SetActive(false);            
         }
-        Debug.Log($"TypeNum : {(int)GameManager.Wave.currentWave}");
+        // Debug.Log($"TypeNum : {(int)GameManager.Wave.currentWave}");
         parentUI[idx].SetActive(true);
     }
-    public void setHearts(int playerLifeValue)
+    public void SetHearts(int playerLifeValue)
     {
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;
         for (int i = 0; i < WaveTypeCount; i++)
         {
-            HeartGameObjects[i].hearts[playerLifeValue - 1].GetComponent<MeshRenderer>().material.color = Color.gray;
+            HeartGameObjects[i].hearts[playerLifeValue - 1].GetComponent<MeshRenderer>().material.color = Color.black;
+            minusPrefab.transform.position = HeartGameObjects[(int)GameManager.Wave.currentWave].hearts[playerLifeValue - 1].transform.position;
+            minusPrefab.Play();
         }
     }
 
@@ -95,7 +98,7 @@ public class PlayerManager : MonoBehaviour
             HeartGameObjects[i].activeSelf
         }*/
         // 3 - 1 = 2 2번 인덱스 꺼야댐
-        setHearts(playerLifeValue);
+        SetHearts(playerLifeValue);
         // HeartGameObjects[0].hearts[playerLifeValue - 1].GetComponent<MeshRenderer>().material.color = Color.gray;
         // HeartGameObjects[playerLifeValue - 1].SetActive(false);
         playerLifeValue--;

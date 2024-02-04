@@ -6,8 +6,8 @@ using XRController = UnityEngine.InputSystem.XR.XRController;
 using System;
 using EnumTypes;
 
-[System.Serializable] //반드시 필요
-public class HeartsArray //행에 해당되는 이름
+[System.Serializable] // 반드시 필요
+public class HeartsArray // 행에 해당되는 이름
 {
     public GameObject[] hearts = new GameObject[5];
 }
@@ -23,11 +23,11 @@ public class PlayerManager : MonoBehaviour
     private XRBaseController L_XRController;
 
     [Header("player Life")] public int playerLifeValue = 0;
-    
+    public GameObject[] parentUI = new GameObject[3];
     public GameObject[] score_G = new GameObject[3];
 
     
-    [Header("hearts (auto)")] public HeartsArray[] HeartGameObjects = new HeartsArray[3];
+    [Header("Hearts (auto)")] public HeartsArray[] HeartGameObjects = new HeartsArray[3];
 
     public void Init()
     {
@@ -56,6 +56,7 @@ public class PlayerManager : MonoBehaviour
     public void HeartsInit()
     {
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;
+        Debug.Log($"WaveTypeCount : {WaveTypeCount}");
         for (int i = 0; i < WaveTypeCount; i++)
         {
             HeartGameObjects[i].hearts[0] = score_G[i].transform.GetChild(0).gameObject;
@@ -66,7 +67,16 @@ public class PlayerManager : MonoBehaviour
             Debug.Log("[TEST] hearts init " + i.ToString());
         }
     }
-    
+
+    public void PlaySceneUIInit(int idx)
+    {
+        for (int i = 0; i < parentUI.Length; i++)
+        {
+            parentUI[i].gameObject.SetActive(false);            
+        }
+        Debug.Log($"TypeNum : {(int)GameManager.Wave.currentWave}");
+        parentUI[idx].SetActive(true);
+    }
     public void setHearts(int playerLifeValue)
     {
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;

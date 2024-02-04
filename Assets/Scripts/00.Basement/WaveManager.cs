@@ -14,7 +14,7 @@ public class WaveManager : MonoBehaviour
     // [SerializeField] private uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
     public uint currenWaveNum = 0; // Wave number
     public uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
-    [SerializeField] private WaveType currentWave; // 진행 중인 Wave Type
+    public WaveType currentWave; // 진행 중인 Wave Type
     [SerializeField] private WaveState currentState;
     public float waveTime = 0.0f; // 흘러간 Wave Time
     [SerializeField] public float waveBeat = 0.0f; // 흘러간 Wave beat
@@ -136,18 +136,19 @@ public class WaveManager : MonoBehaviour
     private void SetWavePlay()
     {
         int TypeNum = (int)currentWave;
-        
+        Debug.Log($"TypeNum : {TypeNum}");
         // Node 도착 지점 설정
         nodeArrivalArea.transform.GetChild(0).gameObject.SetActive(false);
         nodeArrivalArea.transform.GetChild(1).gameObject.SetActive(false);
         nodeArrivalArea.transform.GetChild(2).gameObject.SetActive(false);
         nodeArrivalArea.transform.GetChild(TypeNum).gameObject.SetActive(true);
         
-        // Node Line UI 설정
-        nodeArrivalUI.transform.GetChild(0).gameObject.SetActive(false);
+        // PlayScene Node UI 설정
+        GameManager.Player.PlaySceneUIInit(TypeNum);
+        /*nodeArrivalUI.transform.GetChild(0).gameObject.SetActive(false);
         nodeArrivalUI.transform.GetChild(1).gameObject.SetActive(false);
         nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(TypeNum).gameObject.SetActive(true);
+        nodeArrivalUI.transform.GetChild(TypeNum).gameObject.SetActive(true);*/
     }
 
     private void Update()
@@ -181,12 +182,14 @@ public class WaveManager : MonoBehaviour
                 break;
 
             case WaveState.Waiting:
+                Debug.Log("[WAVE] : current State : Waiting");
                 SetPauseWave();
                 ContinueWave(beforeState);
                 beforeState = WaveState.Waiting;
                 break;
 
             case WaveState.Pause:
+                Debug.Log("[WAVE] : current State : Pause");
                 beforeState = WaveState.Pause;
                 break;
 
@@ -209,7 +212,7 @@ public class WaveManager : MonoBehaviour
         _beatNum = 0;
         currenWaveNum++;
 
-        if (currenWaveNum % 2 == 0) currentWave =WaveType.Punching; 
+        if (currenWaveNum % 2 == 0) currentWave = WaveType.Punching; 
         else currentWave = WaveType.Hitting;
         // currentWave = WaveType.Hitting; // 
 
@@ -240,7 +243,6 @@ public class WaveManager : MonoBehaviour
             SetIsPause(true);
             // _isPause = true;
             // Time.timeScale = 0;
-            // timeScale 변경 필요
         }
     }
 
@@ -271,6 +273,7 @@ public class WaveManager : MonoBehaviour
         // CMS: Count down starts
         // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여
         int idx = (int)currentWave;
+        Debug.Log($"idx : {idx}");
         timerCanvas[idx].SetActive(true);
 
         while(countdownTime > 0)

@@ -168,8 +168,8 @@ public class GameManager : MonoBehaviour
             //+-------- Managers Init() +--------//
             //_data.Init();
             _score.Init();
-            //_player.Init();
             _wave.Init();
+            //_player.PlaySceneUIInit();
             //_sound.Init();
             //_ui.Init();
             //_resource.Init();

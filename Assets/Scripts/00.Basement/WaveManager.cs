@@ -253,12 +253,15 @@ public class WaveManager : MonoBehaviour
         {
             Debug.Log("[WAVE] Wave Continue");
             // __초 뒤에 Wave 일시정지를 해제합니다.
-            
+
             if (beforeState == WaveState.Init && _waitBeforePlayingCoroutine == null)
                 _waitBeforePlayingCoroutine = StartCoroutine(WaitBeforePlaying(5, waveState));
-                
+
             else if (beforeState == WaveState.Playing && _waitAfterPlayingCoroutine == null)
+            {
+                countdownTime = 3;
                 _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3, waveState));
+            }
             //currentState = WaveState.Playing; 
             // Waiting -> Playing state 관리 
         }

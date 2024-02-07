@@ -189,7 +189,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
         // var nodes = data.NodeData[(int)_musicDataIndex];
         var beatNumber = nodes[0];
-        Debug.Log($"[Node] : {(int)_musicDataIndex}");
+        Debug.Log($"[Node] Music data -> Note Info {(int)_musicDataIndex}");
         switch (wave)
         {
             case WaveType.Shooting:
@@ -286,5 +286,6 @@ public class NodeInstantiator_minha : MonoBehaviour
                 break;
             }
         }
+        Debug.Log($"[Node] Music data -> Note Info {(int)_musicDataIndex}");
     }
 }

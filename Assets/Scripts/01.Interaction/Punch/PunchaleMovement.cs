@@ -56,7 +56,7 @@ public class PunchaleMovement : MonoBehaviour
     private void CalculateConstantSpeed()
     {
         // 속도 = 거리 / 시간
-        float time = arriveTime;
+        float time = arriveTime - GameManager.Wave.waveTime;
         _constantSpeed = Vector3.Distance(targetPosition, transform.position) / time;
         Debug.Log($"{this.gameObject.name} constant speed : {_constantSpeed}");
         Debug.Log($"{this.gameObject.name} time : {time}");

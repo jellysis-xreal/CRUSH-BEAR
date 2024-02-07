@@ -19,7 +19,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     [FormerlySerializedAs("PunchSpawn")] public static GameObject PunchSpawnTransform;
     [FormerlySerializedAs("HitSpawn")] public static GameObject HitSpawnTransform;
 
-    private int _poolSize = 10; // Object Pool Size
+    public int _poolSize = 20; // Object Pool Size
     [SerializeField] private GameObject[] shootToppingPool;
     [SerializeField] private GameObject[] punchToppingPool;
     [SerializeField] private GameObject[] hitToppingPool;
@@ -175,13 +175,14 @@ public class NodeInstantiator_minha : MonoBehaviour
         try
         {
             nodes = data.NodeData[(int)_musicDataIndex];
+            Debug.Log($"[Node] Music data -> Note Info {(int)_musicDataIndex}, node index : {nodes[0]}");
             // if(GameManager.Wave.CurMusicData.BeatNum - GameManager.Wave._beatNum == 10) {StopCoroutine(_curWaveCoroutine);}
         }
         catch (Exception e)
         {
             // NodeInfoToMusicData(wave); 
             // isWaveFinished = true;
-            Debug.Log("Error 더이상 Enqueuegkf data없음.");
+            Debug.Log("Error 더이상 Enqueue할 data없음.");
             StopCoroutine(_curWaveCoroutine);
             return;
             throw;
@@ -189,7 +190,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
         // var nodes = data.NodeData[(int)_musicDataIndex];
         var beatNumber = nodes[0];
-        Debug.Log($"[Node] Music data -> Note Info {(int)_musicDataIndex}");
+        
         switch (wave)
         {
             case WaveType.Shooting:
@@ -286,6 +287,6 @@ public class NodeInstantiator_minha : MonoBehaviour
                 break;
             }
         }
-        Debug.Log($"[Node] Music data -> Note Info {(int)_musicDataIndex}");
+        Debug.Log($"[Node] Note Info -> Music data {(int)_musicDataIndex}");
     }
 }

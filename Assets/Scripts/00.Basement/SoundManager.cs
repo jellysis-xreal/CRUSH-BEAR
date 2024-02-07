@@ -87,4 +87,16 @@ public class SoundManager : MonoBehaviour
             musicSource[id].Play();
         }
     }
+
+    public void RestartMusic(uint id, bool IsPause)
+    {
+        if (IsPause) musicSource[id].Stop();
+        else
+        {
+            musicSource[id].clip = musicClips[(int)id];
+            musicSource[id].volume = MusicVolume / 100.0f;
+            musicSource[id].Play();
+        }
+
+    }
 }

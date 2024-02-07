@@ -382,7 +382,8 @@ public class WaveManager : MonoBehaviour
     public void PauseMusic(bool _isPause = false)
     {
         this._isPause = _isPause;
-        GameManager.Sound.PauseMusic(waveMusicGUID, _isPause);
+        //GameManager.Sound.PauseMusic(waveMusicGUID, _isPause);
+        GameManager.Sound.RestartMusic(waveMusicGUID, _isPause);
     }
     
     // Update에서 반복, 비트가 남았을 경우 계속 진행(beatNum, beat값 수정), 모든 비트가 마무리된 경우 currentState -> Waiting으로 전환 

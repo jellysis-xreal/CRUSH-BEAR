@@ -45,7 +45,9 @@ namespace UnityEngine.XR.Content.Interaction
                 
                 m_OnBreak.Invoke(collision.gameObject, brokenVersion);
                 brokenVersion.GetComponent<BreakController>().IsHit();
-                GameManager.Score.Scoring(this.gameObject);
+                // In order to increase the versatility and block null reference error.
+                if(GameManager.Instance != null)
+                    GameManager.Score.Scoring(this.gameObject);
                 
                 Destroy(gameObject, 0.1f);
             }

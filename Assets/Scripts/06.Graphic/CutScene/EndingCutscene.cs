@@ -1,8 +1,10 @@
 using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 using UnityEngine.XR.Content.Interaction;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -14,11 +16,15 @@ public class EndingCutscene : TimeLineController
     [SerializeField]
     private float offset;
     [SerializeField]
+    private GameObject playerObject;
+    [SerializeField]
     private ActionBasedContinuousMoveProvider moveProvider;
     [SerializeField]
     private GameObject cookie;
     [SerializeField]
     private Camera cutsceneCamera;
+    [SerializeField]
+    private Image fadeOutPanel;
     private PlayableDirector director;
 
     private int shakeNumber;
@@ -80,6 +86,10 @@ public class EndingCutscene : TimeLineController
             StartCoroutine (CheckShake());
     }
 
+    public void StartEndingCredit()
+    {
+        fadeOutPanel.DOColor(Color.black, 1f);
+    }
     private IEnumerator UpdateShakeInput()
     {
         while (true)

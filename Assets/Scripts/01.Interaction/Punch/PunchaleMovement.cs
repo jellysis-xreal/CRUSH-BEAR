@@ -44,7 +44,8 @@ public class PunchaleMovement : MonoBehaviour
     {
         _meshRenderer.enabled = true;
         _rigidbody.WakeUp();
-        targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum-1);
+        this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
         
         CalculateConstantSpeed();
     }

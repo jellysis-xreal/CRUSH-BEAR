@@ -211,8 +211,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     temp.arrivalBoxNum = (i - 1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;
-                    temp.arrivalBoxNum = i;
-                    
+
                     _nodeQueue.Enqueue(temp);
                     Debug.Log($"[Node Maker] Enqueue! {wave} {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
                     // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
@@ -228,7 +227,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     if (nodes[i] == 0) continue;
                     
                     var temp = new NodeInfo();
-                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition((i-1));
+                    temp.spawnPosition = GameManager.Wave.GetSpawnPosition(((i-1)));
                     temp.arrivalBoxNum = (i-1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;

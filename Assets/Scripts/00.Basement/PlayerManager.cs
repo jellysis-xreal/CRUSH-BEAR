@@ -114,4 +114,6 @@ public class PlayerManager : MonoBehaviour
     {
         L_XRController.SendHapticImpulse(amplitude, duration);
     } 
+
+    // Haptic patterns
 }

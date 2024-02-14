@@ -41,7 +41,7 @@ namespace EnumTypes
     public enum InteractionSide
     {
         Red, 
-        Green
+        Blue
     }
     public enum Controller
     {

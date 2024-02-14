@@ -68,6 +68,8 @@ public class NodeInstantiator_minha : MonoBehaviour
         // Wave가 처음 실행될 때, 한번 초기화 진행하는 것임
         Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]");
         _musicDataIndex = 0;
+
+        InitializeNodeAndPool();
         
         switch (wave)
         {
@@ -160,6 +162,16 @@ public class NodeInstantiator_minha : MonoBehaviour
         // try catch에서 오류 발생 시 = 더이상 읽을 노트가 없을 시에 stop코루틴을 했음.
         StopCoroutine(_curWaveCoroutine);
     }
+
+    private void InitializeNodeAndPool()
+    {
+        foreach (var shoot in shootToppingPool) shoot.SetActive(false);
+        foreach (var punch in punchToppingPool) punch.SetActive(false);
+        foreach (var hit in hitToppingPool) hit.SetActive(false);
+        
+        _nodeQueue.Clear();
+    }
+    
     // 각각의 노드에 세팅이 필요한 값들을 NodeInfo 타입으로 지정.
     private void MusicDataToNodeInfo(WaveType wave)
     {

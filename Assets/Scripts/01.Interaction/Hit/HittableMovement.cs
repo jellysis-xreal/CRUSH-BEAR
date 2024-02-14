@@ -16,7 +16,7 @@ public class HittableMovement : MonoBehaviour
     public float arriveTime;
     public InteractionSide sideType = InteractionSide.Red;
     private float moveTime = 3.0f; // 토핑의 이동 속도를 결정함
-    private float popTime = 0.7f; // 토핑의 점프 시간을 결정함
+    private float popTime = 0.4f; // 토핑의 점프 시간을 결정함
     
     [Header("other Variable (AUTO)")] 
     [SerializeField] private GameObject refrigerator;
@@ -91,8 +91,8 @@ public class HittableMovement : MonoBehaviour
         sideType = node.sideType;
 
         InitiateVariable();
-        _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum-1);
-        _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum-1);
+        _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+        _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         InitializeBeforeStart();
 
         _isInit = true;
@@ -138,13 +138,24 @@ public class HittableMovement : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         
         //Debug.Log(timeElapsed);
-        Tween tweenJump = transform.DOJump(firstPos + new Vector3(0, 1.0f, 0),
-            2f, 1, popTime);
+        //Tween tweenJump = transform.DOJump(firstPos + new Vector3(0, 1.0f, 0), 2f, 1, popTime);
 
-        Tween tweenMove = transform.DOPath(new[]
+        Tween tweenJump = transform.DOPath(new[]
             {
                 new Vector3(firstPos.x, firstPos.y, firstPos.z),
                 new Vector3(firstPos.x, firstPos.y + 1.0f, firstPos.z),
+                new Vector3(firstPos.x, firstPos.y + 2.0f, firstPos.z)
+            },
+            popTime,
+            PathType.CatmullRom, PathMode.Full3D);
+        
+        firstPos = transform.position;
+        Vector3 upVector = transform.up.normalized * 4.0f;
+        Vector3 forwardVector = transform.forward.normalized * 5.0f;
+        Tween tweenMove = transform.DOPath(new[]
+            {
+                new Vector3(firstPos.x, firstPos.y, firstPos.z),
+                new Vector3(firstPos.x, firstPos.y, firstPos.z) + upVector + forwardVector,
                 new Vector3(_arrivalBoxPos.x, _arrivalBoxPos.y, _arrivalBoxPos.z)
             },
             moveTime,
@@ -249,7 +260,7 @@ public class HittableMovement : MonoBehaviour
             switch (type)
             {
                 case InteractionSide.Red: return true;      //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
-                case InteractionSide.Green: return false;   //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
+                case InteractionSide.Blue: return false;   //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
             }
         }
         else
@@ -257,7 +268,7 @@ public class HittableMovement : MonoBehaviour
             switch (type)
             {
                 case InteractionSide.Red:return false;      //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
-                case InteractionSide.Green:return true;     //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
+                case InteractionSide.Blue:return true;     //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
             }
         }
 

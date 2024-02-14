@@ -9,15 +9,19 @@ using Random = UnityEngine.Random;
 public class WaveManager : MonoBehaviour
 {
     [FormerlySerializedAs("waveNum")]
-    [Header("Wave Information")] 
+    [Header("----+ Wave Setting +----")] 
+    public uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
+    public WaveType firstWaveType = WaveType.Punching;
+    
+    [Header("----+ Wave Information +----")] 
     // [SerializeField] private uint currenWaveNum = 0; // Wave number
     // [SerializeField] private uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
     public uint currenWaveNum = 0; // Wave number
-    public uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
     public WaveType currentWave; // 진행 중인 Wave Type
     [SerializeField] private WaveState currentState;
     public float waveTime = 0.0f; // 흘러간 Wave Time
     [SerializeField] public int waveBeat = 0; // 흘러간 Wave beat
+    
     private WaveState beforeState;
     private float _oneBeat;
     private float _beat;
@@ -25,10 +29,12 @@ public class WaveManager : MonoBehaviour
     private Coroutine _waitBeforePlayingCoroutine;
     private Coroutine _waitAfterPlayingCoroutine;
     
-    [Header("Music Information")] public uint waveMusicGUID; // 현재 세팅된 Music의 GUID
+    [Header("----+ Music Information +----")] 
+    public uint waveMusicGUID; // 현재 세팅된 Music의 GUID
     public DataManager.MusicData CurMusicData; // 현재 세팅된 Music data
 
-    [Header("setting")] [SerializeField] private GameObject RightInteraction;
+    [Header("----+ setting +----")] 
+    [SerializeField] private GameObject RightInteraction;
     [SerializeField] private GameObject LeftInteraction;
     [SerializeField] private NodeInstantiator_minha nodeInstantiator;
     [SerializeField] private GameObject nodeArrivalArea;
@@ -37,7 +43,7 @@ public class WaveManager : MonoBehaviour
     private int countdownTime = 3;
 
     // 기획에 따른 변수
-    [SerializeField] private int waveTypeNum = 3; // Wave Type 갯수
+    private int waveTypeNum = 3; // Wave Type 종류의 갯수
     [SerializeField] private List<GameObject> _toppingArea = new List<GameObject>();
 
     // wave 일시정지 기능을 구현하기 위한 변수
@@ -212,9 +218,18 @@ public class WaveManager : MonoBehaviour
         _beatNum = 0;
         currenWaveNum++;
 
-        if (currenWaveNum % 2 == 1) currentWave = WaveType.Punching; 
-        else currentWave = WaveType.Hitting;
-        // currentWave = WaveType.Hitting; // 
+        switch (firstWaveType)
+        {
+            case WaveType.Punching:
+                if (currenWaveNum % 2 == 1) currentWave = WaveType.Punching;
+                else currentWave = WaveType.Hitting;
+                break;
+
+            case WaveType.Hitting:
+                if (currenWaveNum % 2 == 0) currentWave = WaveType.Punching;
+                else currentWave = WaveType.Hitting;
+                break;
+        }
 
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅

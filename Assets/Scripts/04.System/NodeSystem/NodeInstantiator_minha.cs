@@ -235,7 +235,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     if (nodes[i] == 1) 
                         temp.sideType = InteractionSide.Red;
                     else if (nodes[i] == 2) 
-                        temp.sideType = InteractionSide.Green;
+                        temp.sideType = InteractionSide.Blue;
                     
                     _nodeQueue.Enqueue(temp);
                     Debug.Log($"[Node Maker] Enqueue! {wave} Beat {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");

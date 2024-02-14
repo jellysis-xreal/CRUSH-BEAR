@@ -26,12 +26,15 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    
 
-
-    public void playMusic(string name) // 노래 재생
+    public void playMusic(int musicIndex) // 노래 재생
     {
-        Sound s = Array.Find(musicSounds, s => s.name == name);
-
+        musicSource.clip = musicSounds[musicIndex].clip;
+        
+        Sound s = Array.Find(musicSounds, s => s.musicIndex == musicIndex);
+        
+        
         if (s == null)
         {
             Debug.Log("[Music NOT FOUND] " + name);

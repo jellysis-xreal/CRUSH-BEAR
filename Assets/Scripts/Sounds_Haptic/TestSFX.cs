@@ -22,29 +22,33 @@ public class TestSFX : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("== Q : playEffect [sfx_btn_select] ");
-            AudioManager.instance.playEffect("sfx_btn_select");
+            
+            GameManager.Sound.playEffect("sfx_btn_select");
+            // AudioManager.instance.playEffect("sfx_btn_select");
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
             Debug.Log("== W : playEffect [sfx_btn_close] ");
-            AudioManager.instance.playEffect("sfx_btn_close");
-
+            GameManager.Sound.playEffect("sfx_btn_close");
+            // AudioManager.instance.playEffect("sfx_btn_close");
         }
 
         // BGM test
         if (Input.GetKeyDown(KeyCode.Z))
         {
             Debug.Log("== Z : playMusic");
-            //AudioManager.instance.PlayWaveMusic(0);
-            AudioManager.instance.playMusic("kawaii");
+            GameManager.Sound.PlayWaveMusic(0);
+            // AudioManager.instance.playMusic(0);
 
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
             Debug.Log("== X : stopMusic");
-            AudioManager.instance.stopMusic();
+            
+            GameManager.Sound.StopWaveMusic(0);
+            // AudioManager.instance.stopMusic();
 
         }
 
@@ -67,8 +71,8 @@ public class TestSFX : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             Debug.Log("== A : playMusic");
-            AudioManager.instance.playMusic("pastel_heart");
-
+            // AudioManager.instance.playMusic(1);
+            GameManager.Sound.PlayWaveMusic(1);
         }
 
         if (Input.GetKeyDown(KeyCode.O))

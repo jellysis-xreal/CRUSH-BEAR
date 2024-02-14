@@ -1382,6 +1382,31 @@ PrefabInstance:
       propertyPath: timerCanvas.Array.data[2]
       value: 
       objectReference: {fileID: 837935199}
+    - target: {fileID: 3264684537027495198, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: effectSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264684537027495198, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: effectSounds.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c3e259be98d2bda46b50e4da951b932a, type: 3}
+    - target: {fileID: 3264684537027495198, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: effectSounds.Array.data[0].name
+      value: sfx_btn_select
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264684537027495198, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: effectSounds.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7f0f9fd3d8465194fb13a0696ed76ac9, type: 3}
+    - target: {fileID: 3264684537027495198, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: effectSounds.Array.data[1].name
+      value: sfx_btn_close
+      objectReference: {fileID: 0}
     - target: {fileID: 3658031315907821553, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
       propertyPath: m_IsActive
@@ -3844,6 +3869,54 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1551242328}
   m_Mesh: {fileID: 7863173871992668944, guid: 10f184265e70d574fb7666cd156c79d7, type: 3}
+--- !u!1 &1583917579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1583917581}
+  - component: {fileID: 1583917580}
+  m_Layer: 0
+  m_Name: testsfx
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1583917580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583917579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd8b9852f63704940a13c5ddacae7f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vibrationStrength: 0.5
+  duration: 0.1
+  numVibrations: 3
+  interval: 0.5
+--- !u!4 &1583917581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583917579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.2942948, y: -2.646758, z: 7.732604}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1607482392
 GameObject:
   m_ObjectHideFlags: 0
@@ -5165,3 +5238,4 @@ SceneRoots:
   - {fileID: 2138121146}
   - {fileID: 499714142}
   - {fileID: 1826565098}
+  - {fileID: 1583917581}

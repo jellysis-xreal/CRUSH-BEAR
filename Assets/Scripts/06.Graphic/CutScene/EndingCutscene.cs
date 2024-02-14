@@ -1,4 +1,3 @@
-using Cinemachine;
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
@@ -37,7 +36,7 @@ public class EndingCutscene : TimeLineController
     }
     public void InitSetting()
     {
-        Debug.Log("½ÇÇàµÊ");
+        Debug.Log("Â½Ã‡Ã‡Ã ÂµÃŠ");
         SetObjectPosition(bannerTransform, Vector3.zero, new Vector3(0, 180, 0));
         SetObjectPosition(cookie.transform, Vector3.zero, new Vector3(-90, 180, 0));
         Breakable breakable = cookie.GetComponent<Breakable>();

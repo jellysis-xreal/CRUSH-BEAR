@@ -139,7 +139,7 @@ PrefabInstance:
     - target: {fileID: 123266566484672385, guid: 8722d302b9cb15f4ea93599fb9ec8dec,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 792139744689546555, guid: 8722d302b9cb15f4ea93599fb9ec8dec,
         type: 3}
@@ -149,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 792139744689546555, guid: 8722d302b9cb15f4ea93599fb9ec8dec,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.27
       objectReference: {fileID: 0}
     - target: {fileID: 792139744689546555, guid: 8722d302b9cb15f4ea93599fb9ec8dec,
         type: 3}
@@ -190,6 +190,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485815239360463389, guid: 8722d302b9cb15f4ea93599fb9ec8dec,
+        type: 3}
+      propertyPath: m_Avatar
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8736698969123692831, guid: 8722d302b9cb15f4ea93599fb9ec8dec,
         type: 3}
@@ -237,7 +242,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 55086139f5c7165439aa73c8e18c6185,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.10547745
+      value: -1.642
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55086139f5c7165439aa73c8e18c6185,
         type: 3}
@@ -247,7 +252,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 55086139f5c7165439aa73c8e18c6185,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.29485875
+      value: 0.83
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 55086139f5c7165439aa73c8e18c6185,
         type: 3}
@@ -294,6 +299,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: crushbear_rigging_v02(hand only)_KnifeGrab_Anim
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 55086139f5c7165439aa73c8e18c6185,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -311,6 +321,94 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 811633610}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &808858064
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1413172877662210535, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4475655139482890410, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6888855132042943226, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_Name
+      value: XR Origin(save_240203_minseo)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6888855132042943226, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139407841286402798, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170513604731921256, guid: 1a3d10f5ff481420da3a54380c1b5762,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1a3d10f5ff481420da3a54380c1b5762, type: 3}
 --- !u!1001 &811633610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -348,7 +446,7 @@ PrefabInstance:
     - target: {fileID: 1393434724145856470, guid: 4469bb20023f0d24190e2a977563543a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.575
       objectReference: {fileID: 0}
     - target: {fileID: 1393434724145856470, guid: 4469bb20023f0d24190e2a977563543a,
         type: 3}
@@ -433,7 +531,7 @@ PrefabInstance:
     - target: {fileID: 4849567354794624347, guid: 4469bb20023f0d24190e2a977563543a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5516676495201482396, guid: 4469bb20023f0d24190e2a977563543a,
         type: 3}
@@ -860,6 +958,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: crushbear_rigging_v02(hand only)_FistGrab_Anim
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c37938faacea2e442bd26c64bb1615b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2620,7 +2723,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6664193906497201814
 Transform:
   m_ObjectHideFlags: 0
@@ -3277,7 +3380,8 @@ SceneRoots:
   - {fileID: 1777971157}
   - {fileID: 2143862257}
   - {fileID: 313836680}
-  - {fileID: 811633610}
   - {fileID: 5812352389607725447}
   - {fileID: 371711520}
   - {fileID: 1813885887}
+  - {fileID: 811633610}
+  - {fileID: 808858064}

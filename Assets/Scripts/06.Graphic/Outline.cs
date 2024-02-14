@@ -8,7 +8,7 @@ public class Outline : MonoBehaviour
 {
     private List<Material> materials = new List<Material>();
     private Transform player;  
-    public float maxDistance = 8f;  
+    public float maxDistance = 25f;  
     public float maxRimPower = 2f;
 
     private HittableMovement _hittable;

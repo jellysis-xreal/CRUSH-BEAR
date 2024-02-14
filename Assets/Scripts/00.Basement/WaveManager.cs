@@ -192,7 +192,7 @@ public class WaveManager : MonoBehaviour
                 break;
 
             case WaveState.Waiting:
-                Debug.Log("[WAVE] : current State : Waiting");
+                //Debug.Log("[WAVE] : current State : Waiting");
                 SetPauseWave();
                 ContinueWave(beforeState);
                 beforeState = WaveState.Waiting;
@@ -221,32 +221,34 @@ public class WaveManager : MonoBehaviour
         waveTime = 0;
         _beatNum = 0;
         currenWaveNum++;
+        
+        // 음악 세팅
+        waveMusicGUID = 3; // TODO: 임시로 GUID 1번으로 세팅
+        CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
+        Debug.Log($"[Wave] : received Music Data. Music GUID {CurMusicData.GUID}");
+        _oneBeat = 60.0f / CurMusicData.BPM;
+        _beat = _oneBeat;
 
-        switch (firstWaveType)
-        {
-            case WaveType.Punching:
-                if (currenWaveNum % 2 == 1) currentWave = WaveType.Punching;
-                else currentWave = WaveType.Hitting;
-                break;
-
-            case WaveType.Hitting:
-                if (currenWaveNum % 2 == 0) currentWave = WaveType.Punching;
-                else currentWave = WaveType.Hitting;
-                break;
-        }
+        currentWave = (WaveType)CurMusicData.WaveType;
+        
+        // switch (firstWaveType)
+        // {
+        //     case WaveType.Punching:
+        //         if (currenWaveNum % 2 == 1) currentWave = WaveType.Punching;
+        //         else currentWave = WaveType.Hitting;
+        //         break;
+        //
+        //     case WaveType.Hitting:
+        //         if (currenWaveNum % 2 == 0) currentWave = WaveType.Punching;
+        //         else currentWave = WaveType.Hitting;
+        //         break;
+        // }
 
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅
         
         // TODO: Scene 내의 점수판, 조명, 노드 도착지점 세팅
         SetWavePlay();
-
-        // 음악 세팅
-        waveMusicGUID = 0; // TODO: 임시로 GUID 0번으로 세팅
-        CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
-        Debug.Log($"[Wave] : received Music Data. Music GUID {CurMusicData.GUID}");
-        _oneBeat = 60.0f / CurMusicData.BPM;
-        _beat = _oneBeat;
         
         nodeInstantiator.InitToppingPool(currentWave); //Topping Pool 세팅
     }
@@ -349,7 +351,7 @@ public class WaveManager : MonoBehaviour
         Debug.Log("[WAVE] Wave Start");
         currentState = WaveState.Playing;
         waveTime = 0.0f;
-        GameManager.Sound.PlayWaveMusic(waveMusicGUID); //음악 start
+        GameManager.Sound.PlayWaveMusic(waveMusicGUID-1); //음악 start
         // 노드는 Time.timeScale == 1일 경우 자동으로 Update 됨.
     }
 

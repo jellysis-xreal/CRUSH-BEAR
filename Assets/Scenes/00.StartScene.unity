@@ -1360,7 +1360,17 @@ PrefabInstance:
     - target: {fileID: 3244795051371102350, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
       propertyPath: currentWave
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244795051371102350, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: firstWaveType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244795051371102350, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: waveMusicGUID
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3244795051371102350, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
@@ -1395,13 +1405,23 @@ PrefabInstance:
     - target: {fileID: 4231970423466563964, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
       propertyPath: musicClips.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4231970423466563964, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
       propertyPath: musicClips.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 03d80ff402fec614fa1ccaa78b6a7c1e, type: 3}
+    - target: {fileID: 4231970423466563964, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: musicClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: f34bf20a1941b2e4ca750602e832bc08, type: 3}
+    - target: {fileID: 4231970423466563964, guid: 6409270fa2dfbe84f9072d99d22e5da7,
+        type: 3}
+      propertyPath: musicClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: e622bd39c2bef9f4bbc816df97ea2c8c, type: 3}
     - target: {fileID: 4436813838798986431, guid: 6409270fa2dfbe84f9072d99d22e5da7,
         type: 3}
       propertyPath: m_TagString

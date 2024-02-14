@@ -10,7 +10,7 @@ public class SoundManager : MonoBehaviour
     public List<AudioClip> musicClips = new List<AudioClip>();
     public Dictionary<string,AudioClip> effectClips = new Dictionary<string, AudioClip>();
 
-    AudioSource[] musicSource = new AudioSource[2]; // 사용할 배경음악
+    AudioSource[] musicSource = new AudioSource[5]; // 사용할 배경음악
     AudioSource[] effectSource = new AudioSource[4]; // 사용할 효과음
 
     public void Init()
@@ -90,6 +90,7 @@ public class SoundManager : MonoBehaviour
 
     public void RestartMusic(uint id, bool IsPause)
     {
+        // [임시] 잠깐 음악 전환으로 변경쇼..
         if (IsPause) musicSource[id].Stop();
         else
         {

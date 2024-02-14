@@ -91,8 +91,8 @@ public class HittableMovement : MonoBehaviour
         sideType = node.sideType;
 
         InitiateVariable();
-        _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum-1);
-        _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum-1);
+        _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+        _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         InitializeBeforeStart();
 
         _isInit = true;

@@ -100,12 +100,16 @@ public class WaveManager : MonoBehaviour
 
     public Vector3 GetSpawnPosition(int index)
     {
+        if (index < 0 || index > 3)
+            Debug.Log("[ERROR] " + index);
         int TypeNum = (int)currentWave;
         return _toppingArea[TypeNum].transform.GetChild(index).transform.position;
     }
 
     public Vector3 GetArrivalPosition(int index)
     {
+        if (index < 0 || index > 3)
+            Debug.Log("[ERROR] " + index);
         int TypeNum = (int)currentWave;
         Transform CurArrive = nodeArrivalArea.transform.GetChild(TypeNum);
         return CurArrive.GetChild(index).transform.position;

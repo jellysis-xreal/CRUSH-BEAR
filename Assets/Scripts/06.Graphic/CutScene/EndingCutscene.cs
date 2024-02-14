@@ -1,7 +1,6 @@
 using Cinemachine;
 using DG.Tweening;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -18,18 +17,20 @@ public class EndingCutscene : TimeLineController
     [SerializeField]
     private GameObject playerObject;
     [SerializeField]
-    private ActionBasedContinuousMoveProvider moveProvider;
-    [SerializeField]
     private GameObject cookie;
     [SerializeField]
-    private Camera cutsceneCamera;
+    private Renderer fadeOutPanel;
     [SerializeField]
-    private Image fadeOutPanel;
+    private Transform cameraPoints;
+    [SerializeField]
+    private Transform leftControllerTransform, rightControllerTransform;
     private PlayableDirector director;
 
-    private int shakeNumber;
     private bool isCutsceneStarted;
-    private const int CUTSCENE_PASS_THRESHOLD = 4;
+    private int currentPosition;
+    private float shakeAmount;
+
+    private const int CUTSCENE_PASS_THRESHOLD = 10;
     private void Awake()
     {
         InitSetting();
@@ -37,15 +38,13 @@ public class EndingCutscene : TimeLineController
     public void InitSetting()
     {
         Debug.Log("½ÇÇàµÊ");
-        Camera cam = Camera.main;
         SetObjectPosition(bannerTransform, Vector3.zero, new Vector3(0, 180, 0));
         SetObjectPosition(cookie.transform, Vector3.zero, new Vector3(-90, 180, 0));
         Breakable breakable = cookie.GetComponent<Breakable>();
         breakable.onBreak.AddListener(StartCutScene);
-        moveProvider.moveSpeed = 0f;
         director = GetComponent<PlayableDirector>();
         isCutsceneStarted = false;
-        cutsceneCamera.enabled = false; 
+        fadeOutPanel.material.color = new Color(0, 0, 0, 0);
     }
 
     private void SetObjectPosition(Transform transform, Vector3 positionOffset, Vector3 rotationOffset)
@@ -66,10 +65,8 @@ public class EndingCutscene : TimeLineController
         if (isCutsceneStarted)
             return;
         isCutsceneStarted = true;
+        playerObject.GetComponent<ActionBasedContinuousMoveProvider>().moveSpeed = 0;
         bannerTransform.gameObject.SetActive(false);
-        if(Camera.main != null)
-            Camera.main.enabled = false;
-        cutsceneCamera.enabled = true;
         director.Play();
     }
 
@@ -80,36 +77,64 @@ public class EndingCutscene : TimeLineController
 
     public void CheckShakeCount()
     {
-        if(shakeNumber >= CUTSCENE_PASS_THRESHOLD)
-            shakeNumber = 0;
+        if (shakeAmount >= CUTSCENE_PASS_THRESHOLD)
+            shakeAmount = 0f;
         else
-            StartCoroutine (CheckShake());
+            StartCoroutine(UpdateShake());
     }
 
     public void StartEndingCredit()
     {
-        fadeOutPanel.DOColor(Color.black, 1f);
+        fadeOutPanel.material.DOFade(1f, 1f);
+    }
+
+    public void SetCamera()
+    {
+        director.Pause();
+        DOTween.Sequence().
+            Append(fadeOutPanel.material.DOFade(1f, 0.4f)).
+            AppendCallback(() => ResetCameraPosition()).
+            Append(fadeOutPanel.material.DOFade(0f, 0.4f)).
+            OnComplete(() => director.Play());
+    }
+
+    private void ResetCameraPosition()
+    {
+        playerObject.transform.position = cameraPoints.GetChild(currentPosition).position;
+        playerObject.transform.rotation = cameraPoints.GetChild(currentPosition++).rotation;
     }
     private IEnumerator UpdateShakeInput()
     {
+        float previousLeftY = leftControllerTransform.position.y;
+        float previousRightY = rightControllerTransform.position.y;
+
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                shakeNumber++;
-            }
+            CheckShake(ref previousLeftY, ref previousRightY);
             yield return null;
         }
     }
 
-    private IEnumerator CheckShake()
+    private IEnumerator UpdateShake()
     {
         director.Pause();
-        while (shakeNumber < CUTSCENE_PASS_THRESHOLD)
+        float previousLeftY = leftControllerTransform.position.y;
+        float previousRightY = rightControllerTransform.position.y;
+
+        while (shakeAmount < CUTSCENE_PASS_THRESHOLD)
         {
+            CheckShake(ref previousLeftY, ref previousRightY);
             yield return null;
         }
+        shakeAmount = 0;
         director.Play();
-        shakeNumber = 0;
+    }
+
+    private void CheckShake(ref float previousLeftY, ref float previousRightY)
+    {
+        shakeAmount += Mathf.Abs(leftControllerTransform.position.y - previousLeftY);
+        shakeAmount += Mathf.Abs(rightControllerTransform.position.y - previousRightY);
+        previousLeftY = leftControllerTransform.position.y;
+        previousRightY = rightControllerTransform.position.y;
     }
 }

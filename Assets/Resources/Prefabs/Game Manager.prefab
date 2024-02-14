@@ -1463,8 +1463,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36a882c9522497eb33e9c19abd556a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currenWaveNum: 0
   endWaveNum: 0
+  firstWaveType: 1
+  currenWaveNum: 0
   currentWave: 0
   currentState: 0
   waveTime: 0
@@ -1484,7 +1485,6 @@ MonoBehaviour:
   nodeArrivalArea: {fileID: 0}
   nodeArrivalUI: {fileID: 0}
   timerCanvas: []
-  waveTypeNum: 3
   _toppingArea: []
 --- !u!1 &2847489701484841919
 GameObject:

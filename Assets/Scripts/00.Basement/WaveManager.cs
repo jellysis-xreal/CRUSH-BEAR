@@ -17,7 +17,7 @@ public class WaveManager : MonoBehaviour
     public WaveType currentWave; // 진행 중인 Wave Type
     [SerializeField] private WaveState currentState;
     public float waveTime = 0.0f; // 흘러간 Wave Time
-    [SerializeField] public float waveBeat = 0.0f; // 흘러간 Wave beat
+    [SerializeField] public int waveBeat = 0; // 흘러간 Wave beat
     private WaveState beforeState;
     private float _oneBeat;
     private float _beat;

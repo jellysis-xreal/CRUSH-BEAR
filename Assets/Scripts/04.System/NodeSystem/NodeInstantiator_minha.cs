@@ -175,7 +175,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         try
         {
             nodes = data.NodeData[(int)_musicDataIndex];
-            Debug.Log($"[Node] Music data -> Note Info {(int)_musicDataIndex}, node index : {nodes[0]}");
+            //Debug.Log($"[Node] Music data -> Note Info {(int)_musicDataIndex}, node index : {nodes[0]}");
             // if(GameManager.Wave.CurMusicData.BeatNum - GameManager.Wave._beatNum == 10) {StopCoroutine(_curWaveCoroutine);}
         }
         catch (Exception e)
@@ -190,7 +190,8 @@ public class NodeInstantiator_minha : MonoBehaviour
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
         // var nodes = data.NodeData[(int)_musicDataIndex];
         var beatNumber = nodes[0];
-        
+        GameManager.Wave.waveBeat = (int)beatNumber;
+
         switch (wave)
         {
             case WaveType.Shooting:

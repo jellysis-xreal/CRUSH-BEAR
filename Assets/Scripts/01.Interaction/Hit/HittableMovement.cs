@@ -16,7 +16,7 @@ public class HittableMovement : MonoBehaviour
     public float arriveTime;
     public InteractionSide sideType = InteractionSide.Red;
     private float moveTime = 3.0f; // 토핑의 이동 속도를 결정함
-    private float popTime = 0.5f; // 토핑의 점프 시간을 결정함
+    private float popTime = 0.7f; // 토핑의 점프 시간을 결정함
     
     [Header("other Variable (AUTO)")] 
     [SerializeField] private GameObject refrigerator;
@@ -30,22 +30,15 @@ public class HittableMovement : MonoBehaviour
     private Vector3 _moveStartPos;
     private Vector3 _arrivalBoxPos;
     private Vector3 _startBoxPos;
-    private Vector3 _initVelocity;
-    private Transform _firstTransform;
 
     //토핑이 맞은 후에 활용할 변수
-    private Vector3 _moveVector;
-    private float _moveSpeed;
     float _inTime = 1.5f;
-    
+
+    // Bool 값
+    private bool _isInit = false;
     private float _curDistance;
-    private bool _isJumped = false;
     private bool _isMoved = false;
-    private bool _isHitted = false;
-    
-    private float _waitStartTime = 0.0f;
-    private float _waitTime = 1.0f;
-    private bool _isWaiting = false;
+    private bool _isHitted = false; 
     private bool _isNotHitted = false;
     private bool _goTo = false;
 
@@ -62,7 +55,6 @@ public class HittableMovement : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _player = GameObject.FindWithTag("Player");
-        _firstTransform = this.transform;
     }
 
     /// <summary>
@@ -75,10 +67,13 @@ public class HittableMovement : MonoBehaviour
 
     private void Update()
     {
-        //if (GameManager.Instance.currentGameState == GameState.Waving)
+        if (GameManager.Instance.currentGameState == GameState.Waving)
         {
-            // 현재 토핑 상태 Update
-            UpdateToppingState();
+            if (_isInit)
+            {
+                // 현재 토핑 상태 Update
+                UpdateToppingState();
+            }
 
             // 처리되지 못한 토핑들 자동 처리
             if (GameManager.Wave.waveTime >= arriveTime + 1.0f && _isMoved)
@@ -98,14 +93,13 @@ public class HittableMovement : MonoBehaviour
         InitiateVariable();
         _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum-1);
         _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum-1);
-        this.transform.position = _startBoxPos;
+        InitializeBeforeStart();
+
+        _isInit = true;
     }
 
     private void InitiateVariable()
     {
-        _rigidbody.velocity = new Vector3(0f, 0f, 0f);
-        _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
-        
         refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
         curState = toppingState.idle;
         
@@ -113,18 +107,27 @@ public class HittableMovement : MonoBehaviour
         // idle time 이후 튀어오르고, moveTime 동안 움직이게 됩니다.
         _idleTime = arriveTime - (popTime + moveTime + GameManager.Wave.waveTime);
         //Debug.Log(this.transform.name + "의 Idle time은 " + _idleTime);
-        //_waitTime = 2.0f;
-        //_inTime = 1.5f;
+        InitateBoolean();
+    }
 
-        _isJumped = false;      // 1) 토스트기 위로 점프했나요?
+    private void InitateBoolean()
+    {
+        _isInit = false;
         _isMoved = false;       // 2) Player를 향해 움직이고 있나요?
         _isHitted = false;      // 3) 막대에 의해 맞았나요?
-        _waitStartTime = 0.0f;  // 4) WaitForSeconds() 함수를 위한 초기 시간 변수
-        _isWaiting = false;     // 5) WaitForSeconds() 함수를 사용 중인가요?
         _isNotHitted = false;   // 6) Player의 막대를 통해 처리되지 못한 경우
         _goTo = false;          // 7) 냉장고로 향하는 코드를 1번 실행하기 위한 변수
     }
     
+    private void InitializeBeforeStart()
+    {
+        this.transform.position = _startBoxPos;
+        this.transform.rotation = Quaternion.identity;
+
+        _rigidbody.velocity = new Vector3(0f, 0f, 0f);
+        _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+    }
+
     public void MoveToPlayer()
     {
         //float timeElapsed = arriveTime - _moveToppingTime;
@@ -166,10 +169,11 @@ public class HittableMovement : MonoBehaviour
             new Vector3(thirdPos.x, thirdPos.y, thirdPos.z),
         }, _inTime, PathType.CatmullRom, PathMode.Full3D);
 
-        gameObject.SetActive(false);
-        
         tween.onComplete = () =>
         {
+            gameObject.SetActive(false);
+            InitateBoolean();
+
             _rigidbody.useGravity = false;
             _rigidbody.velocity = new Vector3(0f, 0f, 0f);
             _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
@@ -179,7 +183,7 @@ public class HittableMovement : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {          
         // FOR DEBUG
-        Debug.Log("[DEBUG]" + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
+        //Debug.Log("[DEBUG]" + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
         
         if (curState == toppingState.interacable && !other.gameObject.CompareTag("Plane"))
         {
@@ -187,8 +191,6 @@ public class HittableMovement : MonoBehaviour
             Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
             Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
             
-            //DOTween.KillAll();
-
             bool IsRight = false;
 
             //잘못 충돌한 예외 처리
@@ -278,27 +280,6 @@ public class HittableMovement : MonoBehaviour
         {
             curState = toppingState.uninteracable;
         }
-    }
-
-    private void JumpOneTime(float time)
-    {
-        transform.DOJump(transform.position + new Vector3(0, 1.0f, 0),
-            2f, 1, time);
-    }
-
-    private void SetToppingMove()
-    {
-        _moveStartPos = transform.position;
-        //float leftTime = arriveTime - _startTime;
-        
-        // A에서 B까지의 거리와 방향 계산
-        Vector3 toTarget = _arrivalBoxPos - _moveStartPos;
-        float distance = toTarget.magnitude;
-        Vector3 direction = toTarget.normalized;
-
-        // 초기 속도 계산
-        //_initVelocity = direction * (distance / leftTime);
-        //GetComponent<Rigidbody>().velocity = _initVelocity;
     }
     
     private void UpdateToppingState()

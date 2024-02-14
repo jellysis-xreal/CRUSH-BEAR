@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 5Tone&Custom Shadow 19
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
-  m_Parent: {fileID: 2100000, guid: 4254f85ce7c5be2469b56c4aa98a8ec6, type: 2}
+  m_Parent: {fileID: 2100000, guid: 418a5e23d3e0dca4e9c440ffa6d6ee0b, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
@@ -25,7 +25,7 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - SRPDEFAULTUNLIT
-  m_LockedProperties: 
+  m_LockedProperties: _DitherThreshold
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
@@ -33,7 +33,7 @@ Material:
     m_Floats:
     - _DiffuseStep: 0.16
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.60062885, b: 0.7014705, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineDistancFade: {r: -25, g: 50, b: 0, a: 0}
-    - _ShadowColor: {r: 0.15343529, g: 0.12210748, b: 0.3962264, a: 1}
+    - _ShadowColor: {r: 0.64848894, g: 0.59748423, b: 0.8962264, a: 1}
   m_BuildTextureStacks: []

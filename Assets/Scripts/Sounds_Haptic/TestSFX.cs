@@ -5,17 +5,6 @@ using UnityEngine;
 public class TestSFX : MonoBehaviour
 {
 
-    //public float vibrationStrength = 0.5f;
-    //public float duration = 0.1f;
-    //public int numVibrations = 3;
-    //public float interval = 0.5f;
-
-
-    //private void Start()
-    //{
-    //    soundManager = FindObjectOfType<SoundManager>();
-    //}
-
     private void Update()
     {
         // effect test
@@ -32,6 +21,34 @@ public class TestSFX : MonoBehaviour
             Debug.Log("== W : playEffect [sfx_btn_close] ");
             GameManager.Sound.playEffect("sfx_btn_close");
             // AudioManager.instance.playEffect("sfx_btn_close");
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            GameManager.Sound.playEffect("sfx_btn_close");
+
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            GameManager.Sound.playEffect("sfx_btn_confirm");
+
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GameManager.Sound.playEffect("sfx_com_countdown");
+
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            GameManager.Sound.playEffect("sfx_com_countdown_start");
+
+
         }
 
         // BGM test
@@ -100,21 +117,15 @@ public class TestSFX : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("== E : SetMusicVolume");
-            GameManager.Sound.SetMusicVolume(0.2f);
+        
+
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    Debug.Log("== R : SetMusicVolume");
+        //    GameManager.Sound.SetMusicVolume(0.8f);
 
 
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("== R : SetMusicVolume");
-            GameManager.Sound.SetMusicVolume(0.8f);
-
-
-        }
+        //}
 
 
         //
@@ -131,18 +142,5 @@ public class TestSFX : MonoBehaviour
 
 
         }
-
-
-
-        //// Haptic test
-
-        //// p 키
-        //if (Input.GetKeyDown(KeyCode.P))
-        //{
-        //    Debug.Log("== P key down");
-
-        //    // HapticManager를 통해 진동 패턴을 실행
-        //    //HapticManager.Instance.TriggerHapticPattern(OVRInput.Controller.RTouch, vibrationStrength, duration, numVibrations, interval);
-        //}
     }
 }

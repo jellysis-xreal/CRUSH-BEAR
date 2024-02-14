@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -90,7 +91,7 @@ public class BreakController : MonoBehaviour
         for (int i = 0; i < shatteredObjects.Count; i++)
         {
             rbs[i] = shatteredObjects[i].GetComponent<Rigidbody>();
-            
+            rbs[i].gameObject.GetComponent<MeshRenderer>().material.DOColor(Color.red,2f);
             // 주먹의 방향에 약간의 랜덤한 변화를 추가
             Vector3 forceDirection = shatteredVector + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
             

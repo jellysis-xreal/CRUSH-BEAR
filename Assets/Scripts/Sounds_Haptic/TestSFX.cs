@@ -5,10 +5,10 @@ using UnityEngine;
 public class TestSFX : MonoBehaviour
 {
 
-    public float vibrationStrength = 0.5f;
-    public float duration = 0.1f;
-    public int numVibrations = 3;
-    public float interval = 0.5f;
+    //public float vibrationStrength = 0.5f;
+    //public float duration = 0.1f;
+    //public int numVibrations = 3;
+    //public float interval = 0.5f;
 
 
     //private void Start()
@@ -18,11 +18,11 @@ public class TestSFX : MonoBehaviour
 
     private void Update()
     {
-        // 'q' 키
+        // effect test
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("== Q : playEffect [sfx_btn_select] ");
-            
+
             GameManager.Sound.playEffect("sfx_btn_select");
             // AudioManager.instance.playEffect("sfx_btn_select");
         }
@@ -40,64 +40,109 @@ public class TestSFX : MonoBehaviour
             Debug.Log("== Z : playMusic");
             GameManager.Sound.PlayWaveMusic(0);
             // AudioManager.instance.playMusic(0);
-
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            Debug.Log("== X : stopMusic");
-            
+            Debug.Log("== X : playMusic");
+            GameManager.Sound.PlayWaveMusic(1);
+            // AudioManager.instance.playMusic(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("== C : playMusic");
+            GameManager.Sound.PlayWaveMusic(2);
+            // AudioManager.instance.playMusic(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Debug.Log("== V : playMusic");
+            GameManager.Sound.PlayWaveMusic(3);
+            // AudioManager.instance.playMusic(0);
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log("== H : stopMusic");
+
             GameManager.Sound.StopWaveMusic(0);
             // AudioManager.instance.stopMusic();
 
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("== C : pauseMusic");
-            AudioManager.instance.pauseMusic();
+            Debug.Log("== J : stopMusic");
+
+            GameManager.Sound.StopWaveMusic(1);
+            // AudioManager.instance.stopMusic();
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("== K : stopMusic");
+
+            GameManager.Sound.StopWaveMusic(2);
+            // AudioManager.instance.stopMusic();
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("== L : stopMusic");
+
+            GameManager.Sound.StopWaveMusic(3);
+            // AudioManager.instance.stopMusic();
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("== E : SetMusicVolume");
+            GameManager.Sound.SetMusicVolume(0.2f);
 
 
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("== V : resumeMusic");
-            AudioManager.instance.resumeMusic();
+            Debug.Log("== R : SetMusicVolume");
+            GameManager.Sound.SetMusicVolume(0.8f);
 
 
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+
+        //
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log("== A : playMusic");
-            // AudioManager.instance.playMusic(1);
-            GameManager.Sound.PlayWaveMusic(1);
+            Debug.Log("== P : pauseMusic");
+            GameManager.Sound.PauseMusic(0, true);
         }
 
         if (Input.GetKeyDown(KeyCode.O))
         {
-            Debug.Log("SetMusicVolume(0.2f)");
-            AudioManager.instance.SetMusicVolume(0.2f);
-        }
+            Debug.Log("== O : RestartMusic");
+            GameManager.Sound.RestartMusic(0, true);
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("SetMusicVolume(0.8f)");
-            AudioManager.instance.SetMusicVolume(0.8f);
+
         }
 
 
 
-        // Haptic test
+        //// Haptic test
 
-        // p 키
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("== P key down");
+        //// p 키
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    Debug.Log("== P key down");
 
-            // HapticManager를 통해 진동 패턴을 실행
-            //HapticManager.Instance.TriggerHapticPattern(OVRInput.Controller.RTouch, vibrationStrength, duration, numVibrations, interval);
-        }
+        //    // HapticManager를 통해 진동 패턴을 실행
+        //    //HapticManager.Instance.TriggerHapticPattern(OVRInput.Controller.RTouch, vibrationStrength, duration, numVibrations, interval);
+        //}
     }
 }

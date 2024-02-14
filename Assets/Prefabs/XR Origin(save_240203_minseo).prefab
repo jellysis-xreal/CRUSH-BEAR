@@ -2459,8 +2459,6 @@ MonoBehaviour:
   handVelocity: 0
   hookCoroutineExist: 0
   upperCutCoroutineExist: 0
-  isHooking: 0
-  doingUpperCut: 0
   activateAction:
     m_UseReference: 1
     m_Action:
@@ -2475,6 +2473,8 @@ MonoBehaviour:
     m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   motion: 0
+  hookMotion: 0
+  upperCutMotion: 0
 --- !u!1 &3140276121462247460
 GameObject:
   m_ObjectHideFlags: 0
@@ -6061,8 +6061,6 @@ MonoBehaviour:
   handVelocity: 0
   hookCoroutineExist: 0
   upperCutCoroutineExist: 0
-  isHooking: 0
-  doingUpperCut: 0
   activateAction:
     m_UseReference: 1
     m_Action:
@@ -6077,6 +6075,8 @@ MonoBehaviour:
     m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   motion: 0
+  hookMotion: 0
+  upperCutMotion: 0
 --- !u!1 &7254843957561762008
 GameObject:
   m_ObjectHideFlags: 0
@@ -6573,7 +6573,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.005
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -7583,7 +7583,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.005
     widthCurve:
       serializedVersion: 2
       m_Curve:

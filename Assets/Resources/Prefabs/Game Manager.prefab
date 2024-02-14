@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30d3d4cb215edb449cf933523e7a467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1816090934740786530
+--- !u!1 &1452349269649424483
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -834,8 +834,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4254025638572253539}
-  - component: {fileID: 3264684537027495198}
+  - component: {fileID: 787807660711566843}
+  - component: {fileID: 1313130737582335182}
   m_Layer: 0
   m_Name: Sound Manager
   m_TagString: Untagged
@@ -843,13 +843,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4254025638572253539
+--- !u!4 &787807660711566843
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1816090934740786530}
+  m_GameObject: {fileID: 1452349269649424483}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -858,23 +858,105 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1855853688689065024}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3264684537027495198
+--- !u!114 &1313130737582335182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1816090934740786530}
+  m_GameObject: {fileID: 1452349269649424483}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc2bd58dcb6bbb04ca030e65f9268802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EffectVolume: 50
   MusicVolume: 50
+  effectSounds:
+  - musicIndex: 1
+    name: sfx_btn_select
+    clip: {fileID: 8300000, guid: c3e259be98d2bda46b50e4da951b932a, type: 3}
+    volume: 0
+  - musicIndex: 2
+    name: sfx_btn_close
+    clip: {fileID: 8300000, guid: 7f0f9fd3d8465194fb13a0696ed76ac9, type: 3}
+    volume: 0
+  - musicIndex: 3
+    name: sfx_btn_confirm
+    clip: {fileID: 8300000, guid: 9f2ebda59bd85e441b18a331a290d0cd, type: 3}
+    volume: 0
+  - musicIndex: 4
+    name: sfx_com_countdown
+    clip: {fileID: 8300000, guid: 201708c9532d9e941afbfa7a14b09c2e, type: 3}
+    volume: 0
+  - musicIndex: 5
+    name: sfx_com_countdown_start
+    clip: {fileID: 8300000, guid: 7948b3e963e30574ba8f85ab287e63db, type: 3}
+    volume: 0
+  - musicIndex: 6
+    name: sfx_com_popup_01
+    clip: {fileID: 8300000, guid: 3bf4c013683e30f4191e50dd53cb7721, type: 3}
+    volume: 0
+  - musicIndex: 7
+    name: sfx_com_popup_01
+    clip: {fileID: 8300000, guid: 86c38f799d5f35e499063040fa9ef0aa, type: 3}
+    volume: 0
+  - musicIndex: 8
+    name: sfx_com_game_over
+    clip: {fileID: 8300000, guid: b8dd5145e3c4bb449aac4ab934caf6bf, type: 3}
+    volume: 0
+  - musicIndex: 9
+    name: sfx_com_game_win
+    clip: {fileID: 8300000, guid: 10d76c1a9d80f144989dbd0051e01fc4, type: 3}
+    volume: 0
+  - musicIndex: 10
+    name: sfx_cookie_combo_hit
+    clip: {fileID: 8300000, guid: a16c238a94ed970438d8b690058278ce, type: 3}
+    volume: 0
+  - musicIndex: 11
+    name: sfx_cookie_hit
+    clip: {fileID: 8300000, guid: 366e1d2a344d3c344808b2b65ca8f390, type: 3}
+    volume: 0
+  - musicIndex: 12
+    name: sfx_cookie_spawn
+    clip: {fileID: 8300000, guid: b7e11e9aba02a1a42974eaa552cf771d, type: 3}
+    volume: 0
+  - musicIndex: 13
+    name: sfx_toast_action
+    clip: {fileID: 8300000, guid: 38e49abf7d21b3944bbb4c3a80689d2d, type: 3}
+    volume: 0
+  - musicIndex: 14
+    name: sfx_toast_combo_hit1
+    clip: {fileID: 8300000, guid: ea112f726d8d9c54398f40e312d7ec3f, type: 3}
+    volume: 0
+  - musicIndex: 15
+    name: sfx_toast_combo_hit2
+    clip: {fileID: 8300000, guid: aad5a4b5a61a6e240a3099c7cba31976, type: 3}
+    volume: 0
+  - musicIndex: 16
+    name: sfx_toast_combo_hit3
+    clip: {fileID: 8300000, guid: 8de98f6d5ba0d5b4980786207bff6cb5, type: 3}
+    volume: 0
+  - musicIndex: 17
+    name: sfx_toast_hit1
+    clip: {fileID: 8300000, guid: d3d335c408cb2124985acd0b539022d7, type: 3}
+    volume: 0
+  - musicIndex: 18
+    name: sfx_toast_hit2
+    clip: {fileID: 8300000, guid: 78a6282a438d688498fd67e95b72a355, type: 3}
+    volume: 0
+  - musicIndex: 19
+    name: sfx_toast_hit3
+    clip: {fileID: 8300000, guid: 5e86e1e7280530247aabb82e37b6b627, type: 3}
+    volume: 0
+  - musicIndex: 20
+    name: sfx_toast_spawn
+    clip: {fileID: 8300000, guid: da9bf63ea16a86f4eaf9c2ace57af6b0, type: 3}
+    volume: 0
   musicClips:
   - {fileID: 8300000, guid: aecd3b522e04b3b4ba9e33368fcaae75, type: 3}
   - {fileID: 8300000, guid: 0d15acaa23891c54d84afb1e40feba8c, type: 3}
+  - {fileID: 8300000, guid: 518b151f0040fb24485a80fe001ad3cd, type: 3}
+  - {fileID: 8300000, guid: 76a08870490a5a54b8af7e408e4a600b, type: 3}
 --- !u!1 &1894511907933407323
 GameObject:
   m_ObjectHideFlags: 0
@@ -3172,7 +3254,7 @@ Transform:
   - {fileID: 5332413102420948033}
   - {fileID: 1611014066385962600}
   - {fileID: 3129454223721080544}
-  - {fileID: 4254025638572253539}
+  - {fileID: 787807660711566843}
   - {fileID: 2667659523827701421}
   - {fileID: 1758274795526570357}
   m_Father: {fileID: 0}
@@ -3194,7 +3276,7 @@ MonoBehaviour:
   _score: {fileID: 3696487564703237342}
   _player: {fileID: 4488816144222749852}
   _wave: {fileID: 3244795051371102350}
-  _sound: {fileID: 0}
+  _sound: {fileID: 1313130737582335182}
   currentGameState: 0
 --- !u!1 &8528614706715541673
 GameObject:

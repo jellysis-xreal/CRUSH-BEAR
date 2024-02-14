@@ -40,16 +40,7 @@ public class BreakController : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
             shatteredObjects.Add(transform.GetChild(i).gameObject);
     }
-
-    public void IsHit(Transform handTransform) // 손의 방향으로 흩어지기 위함.
-    {
-        shatteredVector = handTransform.forward;
-        Debug.Log($"Shatter Vecotr :{shatteredVector}");
-        Initialize();
-        isHit = true;
-        setBreakTime = true;
-        MoveShattered();
-    }
+    
     public void IsHit(Vector3 shatteredVec) // Failed
     {
         Initialize();
@@ -58,10 +49,9 @@ public class BreakController : MonoBehaviour
         setBreakTime = true;
 
         shatteredVector = shatteredVec;
-        StartCoroutine(MoveShat());
+        StartCoroutine(ShatteredMovement());
     }
     
-    // [ContextMenu("MoveShattered")]
     private void MoveShattered()
     {
         //조각들이 흩어지며 떨어지게 업데이트
@@ -85,7 +75,7 @@ public class BreakController : MonoBehaviour
 
         }
     }
-    IEnumerator MoveShat()
+    IEnumerator ShatteredMovement()
     {
         Rigidbody[] rbs = new Rigidbody[shatteredObjects.Count];
         for (int i = 0; i < shatteredObjects.Count; i++)

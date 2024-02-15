@@ -222,7 +222,7 @@ public class WaveManager : MonoBehaviour
         waveTime = 0;
         _beatNum = 0;
         currenWaveNum++;
-        
+        waveMusicGUID++;
         // 음악 세팅
         // waveMusicGUID = 1; // TODO: 임시로 GUID 1번으로 세팅
         CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅

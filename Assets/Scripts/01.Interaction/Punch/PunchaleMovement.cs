@@ -99,15 +99,16 @@ public class PunchaleMovement : MonoBehaviour
         {
             // Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
             // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
-
-            Debug.Log($"Trigger Arrival Area {other.name}");
+            
+            Debug.Log($"End Interaction {gameObject.name} Trigger Arrival Area {other.name}");
             _isArrivalAreaHit = true;
             EndInteraction();
         }
         if (other.tag == "body")
         {
             // 플레이어 공격 성공 처리
-            Debug.Log("Trigger body");
+            Debug.Log($"End Interaction {gameObject.name} Trigger body {other.name}");
+
             // GameManager.Player.MinusPlayerLifeValue();
             EndInteraction();
         }
@@ -115,7 +116,8 @@ public class PunchaleMovement : MonoBehaviour
         {
             // 뒤에 존재하는 곰돌이 공격 성공 처리
             // Debug.Log($"{gameObject.name} Trigger Pad");
-            Debug.Log("Trigger Trigger Pad");
+            Debug.Log($"End Interaction {gameObject.name} Trigger Trigger Pad {other.name}");
+
             EndInteraction();
             // GameManager.Player.MinusPlayerLifeValue();
             // other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);

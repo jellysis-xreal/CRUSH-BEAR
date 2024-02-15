@@ -3128,6 +3128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MusicVolume: 50
+  EffectVolume: 30
   effectSounds:
   - musicIndex: 1
     name: sfx_btn_select
@@ -3210,7 +3211,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: da9bf63ea16a86f4eaf9c2ace57af6b0, type: 3}
     volume: 50
   musicClips:
-  - {fileID: 8300000, guid: 03d80ff402fec614fa1ccaa78b6a7c1e, type: 3}
   - {fileID: 8300000, guid: f34bf20a1941b2e4ca750602e832bc08, type: 3}
   - {fileID: 8300000, guid: e622bd39c2bef9f4bbc816df97ea2c8c, type: 3}
 --- !u!1 &3497661126815890361
@@ -5262,10 +5262,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShootTopping: []
   PunchTopping:
-  - {fileID: 2791773474089750075, guid: 4b0e31f7881d97647b899eb98f506162, type: 3}
-  - {fileID: 3916203221849984202, guid: 56eef69e92aa0384abecea3afe9312ce, type: 3}
-  - {fileID: 6194237564939558499, guid: b12283a8fa743aa4d9c6691df775d15c, type: 3}
-  - {fileID: 1254823106255935291, guid: c3d74962533105142bd24a4f67515a51, type: 3}
+  - {fileID: 6768092335879949453, guid: 4c9430891dba07a46b2b195d56d25628, type: 3}
+  - {fileID: 144115957847377282, guid: ff2f9683a826fc7478008a0b083796a4, type: 3}
+  - {fileID: 8389459520185820668, guid: 2800adb24a99a824da239347d5685309, type: 3}
+  - {fileID: 6768092335879949453, guid: b0840ffdda6ef88408bf891f39413bf2, type: 3}
   HitTopping:
   - {fileID: 6238683775605244711, guid: 5e536b4c5fe8b2d41b3db93cca5b495c, type: 3}
   - {fileID: 6238683775605244711, guid: 5e536b4c5fe8b2d41b3db93cca5b495c, type: 3}

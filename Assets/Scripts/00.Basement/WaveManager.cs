@@ -224,7 +224,7 @@ public class WaveManager : MonoBehaviour
         currenWaveNum++;
         
         // 음악 세팅
-        waveMusicGUID = 3; // TODO: 임시로 GUID 1번으로 세팅
+        // waveMusicGUID = 1; // TODO: 임시로 GUID 1번으로 세팅
         CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
         Debug.Log($"[Wave] : received Music Data. Music GUID {CurMusicData.GUID}");
         _oneBeat = 60.0f / CurMusicData.BPM;

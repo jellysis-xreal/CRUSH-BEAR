@@ -2,19 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SoundManager : MonoBehaviour
 {
 
-    [Range(0, 100)] public int MusicVolume = 30;
-
+    [Range(0, 100)] public int MusicVolume = 40;
+    [Range(0, 100)] public int EffectVolume = 30;
+    
     public Sound[] effectSounds;
 
     public List<AudioClip> musicClips = new List<AudioClip>();
-    public Dictionary<string, AudioClip> effectClips = new Dictionary<string, AudioClip>();
+    //public Dictionary<string, AudioClip> effectClips = new Dictionary<string, AudioClip>();
     
     AudioSource[] musicSource = new AudioSource[5]; // 사용할 배경음악
-    AudioSource[] effectSource = new AudioSource[4]; // 사용할 효과음
+    AudioSource[] effectSource = new AudioSource[20]; // 사용할 효과음
 
     public void Init()
     {
@@ -22,7 +24,6 @@ public class SoundManager : MonoBehaviour
         {
             musicSource[i] = gameObject.AddComponent<AudioSource>();
         }
-
         for (int i = 0; i < effectSource.Length; i++)
         {
             effectSource[i] = gameObject.AddComponent<AudioSource>();
@@ -31,6 +32,7 @@ public class SoundManager : MonoBehaviour
     
     public void PlayWaveMusic(uint id)
     {
+        id--;
         musicSource[id].clip = musicClips[(int)id];
         musicSource[id].volume = MusicVolume / 100.0f;
         musicSource[id].Play();
@@ -43,6 +45,17 @@ public class SoundManager : MonoBehaviour
         musicSource[id].Pause();
     }
 
+    public void PlayToastHitEffect()
+    {
+        // 14~16 combo
+        
+        // 17~19 hit effect
+        int id = Random.Range(17, 20);
+        effectSource[id].clip = effectSounds[id].clip;
+        effectSource[id].volume = EffectVolume / 100.0f;
+        effectSource[id].Play();
+    }
+    
     public void SetMusicVolume(float _vol)
     {
         MusicVolume = (int)_vol;

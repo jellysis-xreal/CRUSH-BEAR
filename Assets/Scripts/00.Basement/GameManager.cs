@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public void WaveToEnding()
     {
-        SceneManager.LoadScene("SceneManager.LoadScene");
+        SceneManager.LoadScene("02.EndingCutScene");
     }
     
     private void InitLobby()

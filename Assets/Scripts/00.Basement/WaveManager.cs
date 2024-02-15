@@ -388,6 +388,8 @@ public class WaveManager : MonoBehaviour
         // 모든 웨이브가 종료되었을 때 호출.
         currentState = WaveState.End;
         Debug.Log("게임 종료!");
+
+        GameManager.Instance.WaveToEnding();
     }
     
     public void SetIsPause(bool _isPause)

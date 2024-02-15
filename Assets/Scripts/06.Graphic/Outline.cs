@@ -8,7 +8,7 @@ public class Outline : MonoBehaviour
 {
     private List<Material> materials = new List<Material>();
     private Transform player;  
-    public float maxDistance = 25f;  
+    public float maxDistance = 30f;  
     public float maxRimPower = 2f;
 
     private HittableMovement _hittable;
@@ -33,6 +33,7 @@ public class Outline : MonoBehaviour
     private Color GetUpdateSide()
     {
         Color sideColor = Color.white;
+        
         if (_hittable.sideType == InteractionSide.Red)
             sideColor = Color.red;
         else
@@ -43,6 +44,8 @@ public class Outline : MonoBehaviour
 
     void Update()
     {
+        if(_hittable == null) return; // 쿠키에 적용된 outline의 경우 GetUpdateSide의 hittable에서 nullReferenceException error 발생
+        
         if (player == null || materials.Count == 0)
         {
             Debug.LogError("Player �Ǵ� Material�� �������� �ʾҽ��ϴ�.");

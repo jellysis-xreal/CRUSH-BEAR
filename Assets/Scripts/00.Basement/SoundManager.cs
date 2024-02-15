@@ -45,6 +45,16 @@ public class SoundManager : MonoBehaviour
         musicSource[id].Pause();
     }
 
+    public void PlayPunchEffect()
+    {
+        // 10 combo
+
+        // 11 hit effect
+        effectSource[11].clip = effectSounds[11].clip;
+        effectSource[11].volume = EffectVolume / 100.0f;
+        effectSource[11].Play();
+    }
+    
     public void PlayToastHitEffect()
     {
         // 14~16 combo

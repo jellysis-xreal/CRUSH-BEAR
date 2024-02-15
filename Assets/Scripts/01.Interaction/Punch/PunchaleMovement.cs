@@ -15,9 +15,11 @@ public class PunchaleMovement : MonoBehaviour
     private Vector3 targetPosition;
     
     // 토핑이 움직이기 위한 변수 
+    public Transform parentTransform;
     private Rigidbody _rigidbody;
     private float _constantSpeed = 0f;
     private Vector3 dir = new Vector3();
+    public CookieControl cookieControl;
     
     // 토핑이 맞은, 맞지 않은 후에 활용할 변수
     private bool _isHit = false;
@@ -36,7 +38,8 @@ public class PunchaleMovement : MonoBehaviour
     {
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
-
+        cookieControl.Init(targetPosition);
+        
         InitiateVariable();
     }
 
@@ -66,12 +69,12 @@ public class PunchaleMovement : MonoBehaviour
 
     private void Move()
     {
-        dir = (targetPosition - transform.position).normalized;
-        transform.position += dir * _constantSpeed * Time.fixedDeltaTime;
+        dir = (targetPosition - parentTransform.position).normalized;
+        parentTransform.position += dir * _constantSpeed * Time.fixedDeltaTime;
     }
     private void TriggeredMove()
     {
-        transform.position += dir * _constantSpeed * Time.fixedDeltaTime;
+        parentTransform.position += dir * _constantSpeed * Time.fixedDeltaTime;
     }
 
     // 손에 맞거나 뒤 trigger pad에 닿았을 경우 setActive(false)
@@ -91,7 +94,7 @@ public class PunchaleMovement : MonoBehaviour
     private IEnumerator ActiveTime(float coolTime)
     {
         yield return new WaitForSeconds(coolTime); // coolTime만큼 활성화
-        gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
+        parentTransform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
     private void OnTriggerEnter(Collider other)
     {

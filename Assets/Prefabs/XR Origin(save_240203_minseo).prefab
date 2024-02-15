@@ -1350,7 +1350,7 @@ Transform:
   m_GameObject: {fileID: 2411765827364121990}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1176, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2433,7 +2433,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2459,8 +2459,6 @@ MonoBehaviour:
   handVelocity: 0
   hookCoroutineExist: 0
   upperCutCoroutineExist: 0
-  isHooking: 0
-  doingUpperCut: 0
   activateAction:
     m_UseReference: 1
     m_Action:
@@ -2475,6 +2473,8 @@ MonoBehaviour:
     m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   motion: 0
+  hookMotion: 0
+  upperCutMotion: 0
 --- !u!1 &3140276121462247460
 GameObject:
   m_ObjectHideFlags: 0
@@ -4080,9 +4080,9 @@ Transform:
   m_Children:
   - {fileID: 2116181607147300242}
   - {fileID: 274953601062050296}
-  - {fileID: 887248686747176089}
   - {fileID: 7671351307674820687}
   - {fileID: 2267770847823390715}
+  - {fileID: 887248686747176089}
   m_Father: {fileID: 2985150207681418988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1795481120254497201
@@ -4694,7 +4694,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5593557839498778957}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2d6dd76e1fda47058142fb4138af478, type: 3}
   m_Name: 
@@ -4714,8 +4714,8 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 1962996257623116034, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
-  ray_left: {fileID: 7110200510872540641}
-  ray_right: {fileID: 6682452435357802583}
+  ray_left: {fileID: 7873995444051487058}
+  ray_right: {fileID: 8626748621963719941}
 --- !u!1 &5782438972612868694
 GameObject:
   m_ObjectHideFlags: 0
@@ -5612,7 +5612,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -5757,7 +5757,7 @@ Transform:
   m_GameObject: {fileID: 6995450212335037936}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1176, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5931,7 +5931,7 @@ Transform:
   m_GameObject: {fileID: 7104744050718632357}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1176, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6035,7 +6035,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -6061,8 +6061,6 @@ MonoBehaviour:
   handVelocity: 0
   hookCoroutineExist: 0
   upperCutCoroutineExist: 0
-  isHooking: 0
-  doingUpperCut: 0
   activateAction:
     m_UseReference: 1
     m_Action:
@@ -6077,6 +6075,8 @@ MonoBehaviour:
     m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   motion: 0
+  hookMotion: 0
+  upperCutMotion: 0
 --- !u!1 &7254843957561762008
 GameObject:
   m_ObjectHideFlags: 0
@@ -6392,7 +6392,7 @@ Transform:
   m_GameObject: {fileID: 7873995444051487058}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1176, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6573,7 +6573,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.005
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -7402,7 +7402,7 @@ Transform:
   m_GameObject: {fileID: 8626748621963719941}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1176, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7583,7 +7583,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.005
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -8133,7 +8133,7 @@ Transform:
   m_GameObject: {fileID: 9074447881122300123}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1176, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

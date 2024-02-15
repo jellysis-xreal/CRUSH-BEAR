@@ -45,72 +45,72 @@ public class MotionChecker : MonoBehaviour
             case Motion.LeftHook:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("LeftHook Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("LeftHook Failed!");   
                 }
                 break;
             case Motion.RightHook:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("RightHook Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("RightHook Failed!");
                 }
                 break;
             case Motion.LeftUpperCut:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("UpperCut Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("UpperCut Failed!");
                 }
                 break;
             case Motion.RightUpperCut:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("UpperCut Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("UpperCut Failed!");
                 }
                 break;
             case Motion.LeftZap:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("Left Zap Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("Left Zap Failed!");
                 }
                 break;
             case Motion.RightZap:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("Right Zap Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("Right Zap Failed!");
                 }
                 break;

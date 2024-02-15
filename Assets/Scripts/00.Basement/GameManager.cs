@@ -121,6 +121,11 @@ public class GameManager : MonoBehaviour
     {
         SetGameState(GameState.Waving);
     }
+
+    public void WaveToEnding()
+    {
+        SceneManager.LoadScene("SceneManager.LoadScene");
+    }
     
     private void InitLobby()
     {
@@ -167,8 +172,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("Init GameManager Wave Scene");
             //+-------- Managers Init() +--------//
             //_data.Init();
-            _score.Init();
             _wave.Init();
+            _score.Init();
             //_player.PlaySceneUIInit();
             //_sound.Init();
             //_ui.Init();

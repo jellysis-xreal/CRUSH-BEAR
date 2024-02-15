@@ -29,32 +29,6 @@ public class NodeInstantiator_minha : MonoBehaviour
 
     private Coroutine _curWaveCoroutine;
 
-    /*// private void Start()
-    // {
-    //     // Resource에서 받아오기
-    //     object[] GunObjects = Resources.LoadAll("Interaction/Gun");
-    //     object[] BreakObjects = Resources.LoadAll("Interaction/Break");
-    //     object[] HitObjects = Resources.LoadAll("Interaction/Hit");
-    //     
-    //     for (int i = 0; i < GunObjects.Length; i++)
-    //     {
-    //         GameObject go = GunObjects[i] as GameObject;
-    //         GunTopping.Add(go);
-    //     }
-    //     
-    //     for (int i = 0; i < BreakObjects.Length; i++)
-    //     {
-    //         GameObject go = BreakObjects[i] as GameObject;
-    //         PunchTopping.Add(go);
-    //     }
-    //     
-    //     for (int i = 0; i < HitObjects.Length; i++)
-    //     {
-    //         GameObject go = HitObjects[i] as GameObject;
-    //         HitTopping.Add(go);
-    //     }
-    // }*/
-
     private void Start()
     {
         GunSpawnTransform = transform.GetChild(0).gameObject;
@@ -188,8 +162,6 @@ public class NodeInstantiator_minha : MonoBehaviour
         try
         {
             nodes = data.NodeData[(int)_musicDataIndex];
-            //Debug.Log($"[Node] Music data -> Note Info {(int)_musicDataIndex}, node index : {nodes[0]}");
-            // if(GameManager.Wave.CurMusicData.BeatNum - GameManager.Wave._beatNum == 10) {StopCoroutine(_curWaveCoroutine);}
         }
         catch (Exception e)
         {

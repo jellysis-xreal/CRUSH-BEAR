@@ -9,7 +9,7 @@ public class DiaryAniController : MonoBehaviour
     public Animator book_Anim;
     public int bookPage = 0;
     public GameObject text1, text2, text3, text4;
-
+    public bool isPlaying = false;
     public Animator text_animation;
 
     // Start is called before the first frame update
@@ -26,6 +26,15 @@ public class DiaryAniController : MonoBehaviour
             nextPage();
         }
     }
+
+    public void setIsPlaying(bool isPlaying_) {
+        isPlaying = isPlaying_;
+    }
+
+    public bool getIsPlaying() {
+        return isPlaying;
+    }
+
 
     public void nextPage()
     {
@@ -61,8 +70,8 @@ public class DiaryAniController : MonoBehaviour
                 bookPage = 0;
                 scene4_Anim.SetTrigger("close");
                 text4.SetActive(false);
-                //book_Anim.SetTrigger("next");
-                //StartCoroutine(openPage());
+                book_Anim.SetTrigger("next");
+                StartCoroutine(openPage());
                 break;
         }
     }
@@ -70,6 +79,7 @@ public class DiaryAniController : MonoBehaviour
     IEnumerator openPage()
     {
         yield return new WaitForSeconds(1.0f);
+        isPlaying = false;
         switch (bookPage)
         {
             case 1:

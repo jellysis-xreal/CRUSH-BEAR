@@ -1,15 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class SoundManager : MonoBehaviour
 {
-    [Range(0, 100)] public int EffectVolume = 50;
-    [Range(0, 100)] public int MusicVolume = 50;
-    public List<AudioClip> musicClips = new List<AudioClip>();
-    public Dictionary<string,AudioClip> effectClips = new Dictionary<string, AudioClip>();
 
+    [Range(0, 100)] public int MusicVolume = 50;
+
+    public Sound[] effectSounds;
+
+    public List<AudioClip> musicClips = new List<AudioClip>();
+    public Dictionary<string, AudioClip> effectClips = new Dictionary<string, AudioClip>();
+    
     AudioSource[] musicSource = new AudioSource[5]; // 사용할 배경음악
     AudioSource[] effectSource = new AudioSource[4]; // 사용할 효과음
 
@@ -19,45 +22,20 @@ public class SoundManager : MonoBehaviour
         {
             musicSource[i] = gameObject.AddComponent<AudioSource>();
         }
-        
+
         for (int i = 0; i < effectSource.Length; i++)
         {
             effectSource[i] = gameObject.AddComponent<AudioSource>();
         }
-        
-        // 효과음 추가 예시
-        //effectSources.Add("Boss_Battle", Resources.Load<AudioClip>("Sounds/Battle_Boss"));
-        //effectSources.Add("Battle", Resources.Load<AudioClip>("Sounds/Battle"));
     }
     
-    // 효과음 재생 예시
-    // public void PlayButtonSound()
-    // {
-    //     audioSource[0].clip = sounds["Button"];
-    //     audioSource[0].Play();
-    // }
-
-    // [ContextMenu("PlayFunction/PlaySong1BGM")]
-    // public void PlaySong1BGM()
-    // {
-    //     audioSource[0].clip = sounds["Play_Song_1"];
-    //     audioSource[0].Play();
-    // }
-
-    // [ContextMenu("PlayFunction/PlaySong2BGM")]
-    // public void PlaySong2BGM()
-    // {
-    //     audioSource[1].clip = sounds["Play_Song_1"];
-    //     audioSource[1].Play();
-    // }
-
     public void PlayWaveMusic(uint id)
     {
         musicSource[id].clip = musicClips[(int)id];
         musicSource[id].volume = MusicVolume / 100.0f;
         musicSource[id].Play();
     }
-    
+
     public void StopWaveMusic(uint id)
     {
         //musicSource[id].clip = musicClips[(int)id];
@@ -70,25 +48,18 @@ public class SoundManager : MonoBehaviour
         MusicVolume = (int)_vol;
     }
 
-    // public void Update()
-    // {
-    //     foreach (var audio in audioSource)
-    //     {
-    //         audio.volume = this.volume;
-    //     }
-    // }
-
     public void PauseMusic(uint id, bool IsPause)
     {
         if (IsPause) musicSource[id].Pause();
-        else {
+        else
+        {
             musicSource[id].clip = musicClips[(int)id];
             musicSource[id].volume = MusicVolume / 100.0f;
             musicSource[id].Play();
         }
     }
 
-    public void RestartMusic(uint id, bool IsPause)
+    public void RestartMusic(uint id, bool IsPause) // 처음부터
     {
         // [임시] 잠깐 음악 전환으로 변경쇼..
         if (IsPause) musicSource[id].Stop();
@@ -99,5 +70,35 @@ public class SoundManager : MonoBehaviour
             musicSource[id].Play();
         }
 
+    }
+
+    public void playEffect(string name)
+    {
+        Sound s = Array.Find(effectSounds, s => s.name == name);
+
+        if (s == null)
+        {
+            Debug.Log("[Effect NOT FOUND] " + name);
+        }
+
+        // 비어있는 AudioSource를 찾아서 효과음을 재생
+        foreach (var source in effectSource)
+        {
+            if (!source.isPlaying)
+            {
+                source.clip = s.clip;
+                source.Play();
+                StartCoroutine(CheckEffectCompletion(source, s.clip.length));
+                break;
+            }
+        }
+    }
+
+    // 효과음 재생 후 다시 비워주기
+    IEnumerator CheckEffectCompletion(AudioSource source, float clipLength)
+    {
+        yield return new WaitForSeconds(clipLength);
+        source.clip = null;
+        source.Stop();
     }
 }

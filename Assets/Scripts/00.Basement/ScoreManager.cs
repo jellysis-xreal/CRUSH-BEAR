@@ -148,6 +148,7 @@ public class ScoreManager : MonoBehaviour
         target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
         SetScoreEffect(score, target.transform);
+        GameManager.Sound.PlayToastHitEffect();
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
@@ -199,7 +200,7 @@ public class ScoreManager : MonoBehaviour
     private void SetScoreEffect(scoreType score, Transform transform)
     {
         GameObject effect;
-
+        
         if (score == scoreType.Perfect)
         {
             // Perfect! 글자

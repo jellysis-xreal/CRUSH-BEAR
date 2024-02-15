@@ -134,9 +134,12 @@ public class ScoreManager : MonoBehaviour
             return; // Object의 중복 scoring을 방지한다.
         
         scoreType score;
-        
+
         if (!IsRightSide)
+        {
             score = scoreType.Bad;
+            GameManager.Player.MinusPlayerLifeValue(); // 240216 수정함
+        }
         else
         {
             if (RHand.ControllerSpeed > standardSpeed || LHand.ControllerSpeed > standardSpeed)

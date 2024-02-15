@@ -8,7 +8,7 @@ public class Outline : MonoBehaviour
 {
     private List<Material> materials = new List<Material>();
     private Transform player;
-    public float maxDistance = 30f;
+    public float maxDistance = 40f;
     public float maxRimPower = 2f;
     public float rimIntensityMultiplier = 15f; // Rim Color의 Intensity를 조절할 변수
 

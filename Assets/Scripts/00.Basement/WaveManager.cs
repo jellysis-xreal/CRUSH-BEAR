@@ -324,6 +324,7 @@ public class WaveManager : MonoBehaviour
 
         CallContinueSetting(waveState);
         _waitBeforePlayingCoroutine = null;
+        countdownTime = 4;
     }
     // Waiting -> Init -> Playing 
     IEnumerator WaitAfterPlaying(int sec, WaveState waveState)
@@ -353,6 +354,7 @@ public class WaveManager : MonoBehaviour
 
         CallContinueSetting(waveState);
         _waitAfterPlayingCoroutine = null;
+        countdownTime = 4;
     }
 
     private void CallContinueSetting(WaveState waveState)

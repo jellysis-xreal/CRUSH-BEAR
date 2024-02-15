@@ -63,11 +63,13 @@ public class SoundManager : MonoBehaviour
 
     public void PauseMusic(uint id, bool IsPause)
     {
-        if (IsPause) musicSource[id].Pause();
+        if (IsPause) {
+            id--;
+            musicSource[id].Pause();
+        }
         else
-        {
-            musicSource[id].clip = musicClips[(int)id];
-            musicSource[id].volume = MusicVolume / 100.0f;
+        {   
+            id--;
             musicSource[id].Play();
         }
     }

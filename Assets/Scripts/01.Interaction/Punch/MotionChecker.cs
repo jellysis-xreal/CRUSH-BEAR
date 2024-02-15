@@ -45,73 +45,73 @@ public class MotionChecker : MonoBehaviour
             case Motion.LeftHook:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("LeftHook Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("LeftHook Failed!");   
                 }
                 break;
             case Motion.RightHook:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("RightHook Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("RightHook Failed!");
                 }
                 break;
             case Motion.LeftUpperCut:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("UpperCut Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("UpperCut Failed!");
                 }
                 break;
             case Motion.RightUpperCut:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
+                    breakable.MotionSucceed(detector.handTransform);
                     Debug.Log("UpperCut Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
+                    breakable.MotionFailed(detector.handTransform);
                     Debug.Log("UpperCut Failed!");
                 }
                 break;
             case Motion.LeftZap:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
-                    Debug.Log("Zap Succeed!");
+                    breakable.MotionSucceed(detector.handTransform);
+                    Debug.Log("Left Zap Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
-                    Debug.Log("Zap Failed!");
+                    breakable.MotionFailed(detector.handTransform);
+                    Debug.Log("Left Zap Failed!");
                 }
                 break;
             case Motion.RightZap:
                 if (CheckHandPosition(detector))
                 {
-                    breakable.MotionSucceed();
-                    Debug.Log("Zap Succeed!");
+                    breakable.MotionSucceed(detector.handTransform);
+                    Debug.Log("Right Zap Succeed!");
                 }
                 else
                 {
-                    breakable.MotionFailed();
-                    Debug.Log("Zap Failed!");
+                    breakable.MotionFailed(detector.handTransform);
+                    Debug.Log("Right Zap Failed!");
                 }
                 break;
             default:
@@ -125,8 +125,13 @@ public class MotionChecker : MonoBehaviour
     private bool CheckHandPosition(HookMotionDetector detector)
     {
         Transform handTransform = DoesHandExistWithinTheRange();
-        if (handTransform == null) return false; // null로 안 해도 될 듯? 그냥 범위 내 있는지만 조사하고 return?
-        
+        if (handTransform == null) 
+        {
+            Debug.Log("hand Transform is null");
+            return false; // null로 안 해도 될 듯? 그냥 범위 내 있는지만 조사하고 return?
+        }
+
+        Debug.Log($"upperCutMotion {detector.upperCutMotion}, HookMotion {detector.hookMotion}");
         // Hand의 위치까지 검사 완료
         // 오브젝트의 correct Motion과 Motion Detector의 Motion과 일치하면 true 반환 -> Breakable.MotionSucceed() 호출
         
@@ -137,7 +142,9 @@ public class MotionChecker : MonoBehaviour
            && correctMotion == detector.hookMotion) return true;
         if((correctMotion == Motion.LeftUpperCut || correctMotion == Motion.RightUpperCut)
            && correctMotion == detector.upperCutMotion) return true;
-        if((correctMotion == Motion.LeftZap || correctMotion == Motion.RightZap)) return true;
+        if((correctMotion == Motion.LeftZap && detector.controller == Controller.LeftController) 
+            || correctMotion == Motion.RightZap && (detector.controller == Controller.RightController))
+            return true;
         
         return false;
     }
@@ -183,35 +190,41 @@ public class MotionChecker : MonoBehaviour
         return null;
     }
     
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
-        /*Gizmos.color = Color.blue;
+        Gizmos.color = Color.black;
         Gizmos.DrawSphere(triggeredPosition, 0.05f);
         
         // 왼쪽 부분
+        
+        // Left Hook
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position - new Vector3(transform.lossyScale.x * _boxCollider.size.x/2, 0, 0),
             new Vector3(transform.lossyScale.x * _boxCollider.size.x * 1.5f, 
                 transform.lossyScale.y * _boxCollider.size.y * 2f,
                 transform.lossyScale.z * _boxCollider.size.z * 2f));
-        
-        // 오른쪽 부분
+
+        // Right Hook
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(transform.position + new Vector3(transform.lossyScale.x * _boxCollider.size.x/2, 0, 0),
             new Vector3(transform.lossyScale.x * _boxCollider.size.x * 1.5f, 
                 transform.lossyScale.y * _boxCollider.size.y * 2f,
                 transform.lossyScale.z * _boxCollider.size.z * 2f));
         
+        
+        // left, right Upper CUt
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(transform.position - new Vector3(0, transform.lossyScale.y * _boxCollider.size.y/2, 0),
             new Vector3(transform.lossyScale.x * _boxCollider.size.x * 1.5f, 
                 transform.lossyScale.y * _boxCollider.size.y * 2f,
                 transform.lossyScale.z * _boxCollider.size.z * 2f));
         
+        
+        // Left, Right Zap
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position - new Vector3(0, 0, transform.lossyScale.z * _boxCollider.size.z/2),
             new Vector3(transform.lossyScale.x * _boxCollider.size.x * 1.5f, 
                 transform.lossyScale.y * _boxCollider.size.y * 2f,
-                transform.lossyScale.z * _boxCollider.size.z * 2f));*/
-    }
+                transform.lossyScale.z * _boxCollider.size.z * 2f));
+    }*/
 }

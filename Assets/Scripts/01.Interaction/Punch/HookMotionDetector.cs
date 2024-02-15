@@ -9,10 +9,10 @@ using Motion = EnumTypes.Motion;
 public class HookMotionDetector : MonoBehaviour
 {
     public Controller controller;
-    [SerializeField] private Transform handTransform;
+    public Transform handTransform;
     [SerializeField] private HandData handData;
-    [SerializeField] private float handVelocityMinimumThreshold = 0.25f;
-    [SerializeField] private float handVelocityMaximumThreshold = 5f;
+    [SerializeField] private float handVelocityMinimumThreshold = 0.1f;
+    [SerializeField] private float handVelocityMaximumThreshold = 10f;
     [SerializeField] private float handVelocity;
     private Coroutine _chekingHookCoroutine;
     private Coroutine _chekingUpperCutCoroutine;
@@ -201,10 +201,10 @@ public class HookMotionDetector : MonoBehaviour
                     }
                     break;
             }
-            if (handVelocity < handVelocityMinimumThreshold * 0.5f
+            if (handVelocity < handVelocityMinimumThreshold
                 || handVelocity > handVelocityMaximumThreshold)
             {
-                Debug.Log("End UpperCut coroutine");
+                Debug.Log($"{handVelocity} Velocity low! End UpperCut coroutine");
                 UpperCutCoroutineEndEvent();
                 yield break;
             }

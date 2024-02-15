@@ -359,11 +359,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   correctMotion: 2
+  breakable: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 2048
   _boxCollider: {fileID: 7149605538882829368}
   triggeredPosition: {x: 0, y: 0, z: 0}
+  _isTriggered: 0
 --- !u!54 &9043012041573461857
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -409,6 +411,7 @@ MonoBehaviour:
   m_OnBreak:
     m_PersistentCalls:
       m_Calls: []
+  m_Destroyed: 0
 --- !u!114 &8114943071242708866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,4 +426,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrivalBoxNum: 0
   arriveTime: 0
-  arrivalArea: {fileID: 0}

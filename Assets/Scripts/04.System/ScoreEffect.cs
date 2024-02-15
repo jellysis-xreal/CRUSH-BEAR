@@ -7,9 +7,9 @@ using UnityEngine;
 public class ScoreEffect : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    public float duration = 1.5f;
+    public float duration = 2f;
     private Camera cameraToLookAt;
-
+    public SpriteRenderer spriteRenderer;
     private float firstY;
     
     // Start is called before the first frame update
@@ -26,7 +26,9 @@ public class ScoreEffect : MonoBehaviour
     {
         transform.LookAt(cameraToLookAt.transform.position);
 
-        transform.DOMoveY(firstY + 5.0f, duration, false);
-        text.material.DOFade(0.0f, duration).From().SetEase(Ease.OutQuad);
+        transform.DOMoveY(firstY + 1f, duration, false);
+        spriteRenderer.DOFade(0.1f, duration).SetEase(Ease.OutSine);
+        //Out(0.5f, duration).From().SetEase(Ease.OutSine);
+        // text.material.DOFade(0.0f, duration).From().SetEase(Ease.OutSine);
     }
 }

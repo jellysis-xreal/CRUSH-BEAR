@@ -43,7 +43,8 @@ public class ScoreManager : MonoBehaviour
     {
         Perfect,
         Good,
-        Bad
+        Bad,
+        Failed
     }
     
     public void Init()
@@ -152,7 +153,9 @@ public class ScoreManager : MonoBehaviour
 
     public void ScoringPunch(GameObject target, bool isPerpect)
     {
-        scoreType score = scoreType.Perfect;
+        scoreType score;
+        if(isPerpect) score = scoreType.Perfect;
+        else score = scoreType.Failed;
 
         //target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
@@ -179,6 +182,12 @@ public class ScoreManager : MonoBehaviour
                 break;
             
             case scoreType.Bad:
+                TotalScore += 0;
+                scoreText_mesh[0].text = TotalScore.ToString();
+                scoreText_mesh[1].text = TotalScore.ToString();
+                scoreText_mesh[2].text = TotalScore.ToString();
+                break;
+            case scoreType.Failed:
                 TotalScore += 0;
                 scoreText_mesh[0].text = TotalScore.ToString();
                 scoreText_mesh[1].text = TotalScore.ToString();
@@ -218,6 +227,15 @@ public class ScoreManager : MonoBehaviour
         else if (score == scoreType.Bad)
         {
             effect = Resources.Load("Prefabs/Effects/Score_bad") as GameObject;
+            Instantiate(effect, transform.position, Quaternion.identity);
+            
+            // 햅틱 효과
+            GameManager.Player.ActiveRightHaptic(0.2f, 0.1f);
+            GameManager.Player.ActiveLeftHaptic(0.2f, 0.1f);
+        }
+        else if (score == scoreType.Failed)
+        {
+            effect = Resources.Load("Prefabs/Effects/Score_Failed") as GameObject;
             Instantiate(effect, transform.position, Quaternion.identity);
             
             // 햅틱 효과

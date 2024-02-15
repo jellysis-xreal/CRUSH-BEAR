@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
 {
     int _order = 10;
 
-    bool ray = false;
+    bool ray = true;
     
     Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
     UI_Scene _sceneUI = null;

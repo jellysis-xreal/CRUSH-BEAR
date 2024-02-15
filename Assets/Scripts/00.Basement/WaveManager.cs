@@ -371,7 +371,7 @@ public class WaveManager : MonoBehaviour
         Debug.Log("[WAVE] Wave Start");
         currentState = WaveState.Playing;
         waveTime = 0.0f;
-        GameManager.Sound.PlayWaveMusic(waveMusicGUID-1); //음악 start
+        GameManager.Sound.PlayWaveMusic(waveMusicGUID); //음악 start
         // 노드는 Time.timeScale == 1일 경우 자동으로 Update 됨.
     }
 

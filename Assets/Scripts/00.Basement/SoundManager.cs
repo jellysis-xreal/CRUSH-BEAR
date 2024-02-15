@@ -6,7 +6,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
 
-    [Range(0, 100)] public int MusicVolume = 50;
+    [Range(0, 100)] public int MusicVolume = 30;
 
     public Sound[] effectSounds;
 

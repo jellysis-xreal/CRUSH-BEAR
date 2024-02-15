@@ -167,8 +167,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("Init GameManager Wave Scene");
             //+-------- Managers Init() +--------//
             //_data.Init();
-            _score.Init();
             _wave.Init();
+            _score.Init();
             //_player.PlaySceneUIInit();
             //_sound.Init();
             //_ui.Init();

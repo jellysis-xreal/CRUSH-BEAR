@@ -20,6 +20,7 @@ public class ScoreManager : MonoBehaviour
     public Transform effectSpawn;
     [SerializeField] private float maxSpeed = 3.0f;
     public TextMesh[] scoreText_mesh = new TextMesh[3];
+    public TMP_Text[] comboText = new TMP_Text[3];
     
     [Header("setting(auto)")] 
     [SerializeField] private GameObject player;
@@ -168,35 +169,43 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
+    private void setTXT()
+    {
+        scoreText_mesh[0].text = TotalScore.ToString();
+        scoreText_mesh[1].text = TotalScore.ToString();
+        scoreText_mesh[2].text = TotalScore.ToString();
+
+        comboText[0].text = "COMBO\n" + GameManager.Combo.comboValue.ToString();
+        comboText[1].text = "COMBO\n" + GameManager.Combo.comboValue.ToString();
+        comboText[2].text = "COMBO\n" + GameManager.Combo.comboValue.ToString();
+    }
+
     private void AddScore(scoreType score)
     {
         switch (score)
         {
             case scoreType.Perfect:
+                GameManager.Combo.ActionSucceed();
                 TotalScore += 100;
-                scoreText_mesh[0].text = TotalScore.ToString();
-                scoreText_mesh[1].text = TotalScore.ToString();
-                scoreText_mesh[2].text = TotalScore.ToString();
+                setTXT();
                 break;
             
             case scoreType.Good:
+                GameManager.Combo.ActionSucceed();
                 TotalScore += 50;
-                scoreText_mesh[0].text = TotalScore.ToString();
-                scoreText_mesh[1].text = TotalScore.ToString();
-                scoreText_mesh[2].text = TotalScore.ToString();
+                setTXT();
                 break;
             
             case scoreType.Bad:
+                GameManager.Combo.ActionFailed(); // 목숨깎여야함
                 TotalScore += 0;
-                scoreText_mesh[0].text = TotalScore.ToString();
-                scoreText_mesh[1].text = TotalScore.ToString();
-                scoreText_mesh[2].text = TotalScore.ToString();
+                setTXT();
                 break;
+
             case scoreType.Failed:
+                GameManager.Combo.ActionFailed(); // 목숨깎여야함
                 TotalScore += 0;
-                scoreText_mesh[0].text = TotalScore.ToString();
-                scoreText_mesh[1].text = TotalScore.ToString();
-                scoreText_mesh[2].text = TotalScore.ToString();
+                setTXT();
                 break;
         }
     }

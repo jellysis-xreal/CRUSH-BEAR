@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class CookieControl : MonoBehaviour
 {
-    public Transform playerTransform; // 플레이어의 Transform
+    public Vector3 playerPosition; // 플레이어의 Transform
     public float stopDistance = 5f; // 회전을 멈출 거리
     public float rotationDuration = 1f; // 회전 완료까지 걸리는 시간
 
@@ -13,6 +13,10 @@ public class CookieControl : MonoBehaviour
     private bool isRotating = true; // 회전 여부
     private Tweener rotationTween; // 회전 Tween
 
+    public void Init(Vector3 targetPosition)
+    {
+        this.playerPosition = targetPosition;
+    }
     void Start()
     {
         // 원래의 회전 값을 저장
@@ -23,11 +27,11 @@ public class CookieControl : MonoBehaviour
             .SetLoops(-1, LoopType.Incremental)
             .SetEase(Ease.Linear);
     }
-
+    
     void Update()
     {
         // 플레이어와의 거리 계산
-        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, playerPosition); //playerTransform.position);
 
         // 만약 플레이어와의 거리가 stopDistance보다 작다면 회전을 멈춤
         if (distanceToPlayer < stopDistance && isRotating)

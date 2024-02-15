@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1490160692705460800}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.56114125, y: 0.003, z: -1.090265}
+  m_LocalPosition: {x: 0.003000021, y: -0.34245175, z: 0}
   m_LocalScale: {x: 0.054244, y: 0.054244, z: 0.054244}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -109,12 +109,12 @@ Transform:
   m_GameObject: {fileID: 5986108987827161212}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.573, z: 5.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 598356306709737363}
   - {fileID: 9158858305125275864}
+  - {fileID: 598356306709737363}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4636480642831608884
@@ -130,6 +130,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3879507000903094937, guid: a14acfedef13fff47ad23d89cef28bce,
+        type: 3}
+      propertyPath: cookieControl
+      value: 
+      objectReference: {fileID: 2448158927086902224}
+    - target: {fileID: 3879507000903094937, guid: a14acfedef13fff47ad23d89cef28bce,
+        type: 3}
+      propertyPath: parentTransform
+      value: 
+      objectReference: {fileID: 5710466182403573894}
     - target: {fileID: 3949081961071777868, guid: a14acfedef13fff47ad23d89cef28bce,
         type: 3}
       propertyPath: m_Name
@@ -138,17 +148,17 @@ PrefabInstance:
     - target: {fileID: 4558447175965816044, guid: a14acfedef13fff47ad23d89cef28bce,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.55814123
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4558447175965816044, guid: a14acfedef13fff47ad23d89cef28bce,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.34545177
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4558447175965816044, guid: a14acfedef13fff47ad23d89cef28bce,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.0902653
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4558447175965816044, guid: a14acfedef13fff47ad23d89cef28bce,
         type: 3}
@@ -212,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a3e55724afa8c3418d6e1fc9488749c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
+  playerPosition: {x: 0, y: 0, z: 0}
   stopDistance: 5
   rotationDuration: 1
 --- !u!4 &9158858305125275864 stripped

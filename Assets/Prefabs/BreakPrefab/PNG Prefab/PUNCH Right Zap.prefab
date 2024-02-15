@@ -55,20 +55,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6770517267290117937, guid: 8e2933048c421a6489e2c1140167c46d,
+        type: 3}
+      propertyPath: cookieControl
+      value: 
+      objectReference: {fileID: 7801968652427905665}
+    - target: {fileID: 6770517267290117937, guid: 8e2933048c421a6489e2c1140167c46d,
+        type: 3}
+      propertyPath: parentTransform
+      value: 
+      objectReference: {fileID: 8539986969836299677}
     - target: {fileID: 7839611225500861707, guid: 8e2933048c421a6489e2c1140167c46d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.55814123
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7839611225500861707, guid: 8e2933048c421a6489e2c1140167c46d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.34545177
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7839611225500861707, guid: 8e2933048c421a6489e2c1140167c46d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.0902653
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7839611225500861707, guid: 8e2933048c421a6489e2c1140167c46d,
         type: 3}
@@ -132,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a3e55724afa8c3418d6e1fc9488749c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
+  playerPosition: {x: 0, y: 0, z: 0}
   stopDistance: 5
   rotationDuration: 1
 --- !u!4 &8519617761116494909 stripped

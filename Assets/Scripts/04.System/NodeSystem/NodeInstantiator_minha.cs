@@ -253,8 +253,8 @@ public class NodeInstantiator_minha : MonoBehaviour
                 Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
                 
                 punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
-                punchToppingPool[i].GetComponent<PunchaleMovement>().InitializeTopping(tempNodeInfo);
-                punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                punchToppingPool[i].GetComponentInChildren<PunchaleMovement>().InitializeTopping(tempNodeInfo);
+                punchToppingPool[i].GetComponentInChildren<Breakable>().InitBreakable();
                 punchToppingPool[i].SetActive(true);
                 break;
             }

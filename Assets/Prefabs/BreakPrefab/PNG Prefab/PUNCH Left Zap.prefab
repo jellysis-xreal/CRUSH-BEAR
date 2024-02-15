@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 8698371234449229498}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.759, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -45,6 +45,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 927352e9e10819a4a80c1a63ab595ba1, type: 2}
+    - target: {fileID: 1017183906599719941, guid: f9b2b182ce401074a99e8bb966401669,
+        type: 3}
+      propertyPath: cookieControl
+      value: 
+      objectReference: {fileID: 8813944334705537242}
+    - target: {fileID: 1017183906599719941, guid: f9b2b182ce401074a99e8bb966401669,
+        type: 3}
+      propertyPath: parentTransform
+      value: 
+      objectReference: {fileID: 2045450555345664924}
     - target: {fileID: 7121000884796897971, guid: f9b2b182ce401074a99e8bb966401669,
         type: 3}
       propertyPath: m_Name
@@ -58,17 +68,17 @@ PrefabInstance:
     - target: {fileID: 8062998470611303941, guid: f9b2b182ce401074a99e8bb966401669,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.55814123
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8062998470611303941, guid: f9b2b182ce401074a99e8bb966401669,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.34545177
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8062998470611303941, guid: f9b2b182ce401074a99e8bb966401669,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.0902653
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8062998470611303941, guid: f9b2b182ce401074a99e8bb966401669,
         type: 3}
@@ -143,6 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a3e55724afa8c3418d6e1fc9488749c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
+  playerPosition: {x: 0, y: 0, z: 0}
   stopDistance: 5
   rotationDuration: 1

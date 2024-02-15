@@ -871,6 +871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MusicVolume: 50
+  EffectVolume: 30
   effectSounds:
   - musicIndex: 1
     name: sfx_btn_select
@@ -1936,6 +1937,10 @@ MonoBehaviour:
   effectSpawn: {fileID: 0}
   maxSpeed: 3.5
   scoreText_mesh:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  comboText:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -3272,6 +3277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ui: {fileID: 2666069508525771980}
+  _combo: {fileID: 0}
   _resource: {fileID: 1097091423538334986}
   _score: {fileID: 3696487564703237342}
   _player: {fileID: 4488816144222749852}

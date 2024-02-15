@@ -103,6 +103,10 @@ public class DiaryAniController : MonoBehaviour
                 text4.SetActive(true);
                 text_animation.Play("ui_pop4");
                 break;
+            case 0:
+                GameManager.UI.SetRayOn(false);
+                GameManager.Instance.LobbyToWave();
+                break;
         }
     }
 }

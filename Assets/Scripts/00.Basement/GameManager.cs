@@ -36,6 +36,9 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private UIManager _ui = new UIManager();
     public static UIManager UI { get { return Instance._ui; } }
+    
+    [SerializeField] private ComboManager _combo = new ComboManager();
+    public static ComboManager Combo { get { return Instance._combo; } }
 
     [SerializeField] private ResourceManager _resource = new ResourceManager();
     public static ResourceManager Resource { get { return Instance._resource; } }

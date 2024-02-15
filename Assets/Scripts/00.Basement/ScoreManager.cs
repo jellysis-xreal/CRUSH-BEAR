@@ -164,6 +164,7 @@ public class ScoreManager : MonoBehaviour
         //target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
         SetScoreEffect(score, target.transform);
+        GameManager.Sound.PlayPunchEffect();
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
@@ -234,8 +235,8 @@ public class ScoreManager : MonoBehaviour
             Instantiate(effect, transform.position, Quaternion.identity);
             
             // 햅틱 효과
-            GameManager.Player.ActiveRightHaptic(0.2f, 0.1f);
-            GameManager.Player.ActiveLeftHaptic(0.2f, 0.1f);
+            GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
+            GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
         }
         else if (score == scoreType.Failed)
         {
@@ -243,8 +244,8 @@ public class ScoreManager : MonoBehaviour
             Instantiate(effect, transform.position, Quaternion.identity);
             
             // 햅틱 효과
-            GameManager.Player.ActiveRightHaptic(0.2f, 0.1f);
-            GameManager.Player.ActiveLeftHaptic(0.2f, 0.1f);
+            GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
+            GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
         }
     }
 }

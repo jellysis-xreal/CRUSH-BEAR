@@ -121,6 +121,11 @@ public class GameManager : MonoBehaviour
     {
         SetGameState(GameState.Waving);
     }
+
+    public void WaveToEnding()
+    {
+        SceneManager.LoadScene("SceneManager.LoadScene");
+    }
     
     private void InitLobby()
     {

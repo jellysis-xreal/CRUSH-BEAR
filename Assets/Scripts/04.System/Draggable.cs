@@ -9,23 +9,28 @@ public class Draggable : MonoBehaviour
     [SerializeField] private float maxZ = 0.2f;
 
     [SerializeField] public DiaryAniController diaryController_;
+    Vector3 transformOrigin;
+
+    void Start() {
+        transformOrigin = transform.position;
+    }
 
     void Update() {
-        transform.localPosition = new Vector3(0.0f, 0.0f, transform.localPosition.z);
+        transform.position = new Vector3(transformOrigin.x, transformOrigin.y, transform.position.z);
 
-        if (transform.localPosition.z < 0.0f)
+        if ((transformOrigin.z - transform.position.z) > 0.0f)
         {
             diaryController_.returned = true;
         }
 
-        if (transform.localPosition.z > maxZ)
+        if ((transformOrigin.z - transform.position.z) < -maxZ)
         {
             if (diaryController_.returned)
             {
                 diaryController_.returned = false;
-                Debug.Log("Global Position: " + transform.localPosition);
+                // Debug.Log("Global Position: " + transform.localPosition);
                 Debug.Log("[TEST] bookPage: " + diaryController_.bookPage.ToString());
-                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, maxZ);
+                transform.position = new Vector3(transformOrigin.x, transformOrigin.y, transformOrigin.z + maxZ);
                 diaryController_.nextPage();
             }
         }

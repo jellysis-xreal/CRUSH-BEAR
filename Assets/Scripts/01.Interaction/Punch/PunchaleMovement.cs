@@ -25,6 +25,7 @@ public class PunchaleMovement : MonoBehaviour
     private bool _isHit = false;
     private bool _isArrivalAreaHit = false; // 박스 트리거된 이후, 바로 직전의 움직임을 유지할 때 사용하는 변수
     private MeshRenderer _meshRenderer;
+    public SpriteRenderer spriteRenderer; 
     private Breakable _breakable;
 
     void Awake()
@@ -46,6 +47,8 @@ public class PunchaleMovement : MonoBehaviour
     private void InitiateVariable()
     {
         _meshRenderer.enabled = true;
+        if(spriteRenderer != null) spriteRenderer.enabled = true; 
+        
         _rigidbody.WakeUp();
         //this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
@@ -81,6 +84,7 @@ public class PunchaleMovement : MonoBehaviour
     public void EndInteraction()
     {
         _meshRenderer.enabled = false;
+        if(spriteRenderer != null) spriteRenderer.enabled = false; 
         
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;

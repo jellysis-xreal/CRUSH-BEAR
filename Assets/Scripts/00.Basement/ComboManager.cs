@@ -56,6 +56,7 @@ public class ComboManager : MonoBehaviour
     public void ActionMissed()
     {
         comboValueFever -= 0.05f;
+        comboValue = 0;
         if(comboValueFever < 0f) comboValueFever = 0f;
     }
 

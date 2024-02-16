@@ -107,7 +107,9 @@ public class PlayerManager : MonoBehaviour
     // 처음에 3
     public void MinusPlayerLifeValue()
     {
-        if (playerLifeValue == 0) return;
+        //  || GameManager.Wave.currenWaveNum <= 2 <- XMC용 튜토리얼
+        if (playerLifeValue == 0 || GameManager.Wave.currenWaveNum <= 2) return;
+        
         /*for (int i = HeartGameObjects.Length - 1; i >= 0 ; i--)
         {
             HeartGameObjects[i].activeSelf

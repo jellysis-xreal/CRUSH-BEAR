@@ -152,7 +152,7 @@ public class ScoreManager : MonoBehaviour
         target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
         SetScoreEffect(score, target.transform);
-        GameManager.Sound.PlayToastHitEffect();
+        GameManager.Sound.PlayEffect_ToastHit();
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
@@ -165,7 +165,7 @@ public class ScoreManager : MonoBehaviour
         //target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
         SetScoreEffect(score, target.transform);
-        GameManager.Sound.PlayPunchEffect();
+        GameManager.Sound.PlayEffect_Punch();
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 

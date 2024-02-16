@@ -47,7 +47,29 @@ public class SoundManager : MonoBehaviour
         musicSource[id].Pause();
     }
 
-    public void PlayCountdownSound(int time, bool IsStart)
+    public void PlayEffect_UI_ButtonSelect()
+    {
+        playEffect("sfx_btn_select");
+    }
+
+    public void PlayEffect_UI_ButtonConfirm()
+    {
+        playEffect("sfx_btn_confirm");
+    }
+    
+    public void PlayEffect_UI_ButtonClose()
+    {
+        playEffect("sfx_btn_confirm");
+    }
+    
+    public void PlayEffect_UI_PopUp()
+    {
+        playEffect("sfx_btn_confirm");
+    }
+    
+    
+    
+    public void PlayEffect_Countdown(int time, bool IsStart)
     {
         if (time == 1 && IsStart)
             playEffect("sfx_com_countdown_start");
@@ -55,17 +77,17 @@ public class SoundManager : MonoBehaviour
             playEffect("sfx_com_countdown");
     }
     
-    public void PlayPunchEffect()
+    public void PlayEffect_Punch()
     {
-        // 10 combo
+        // TODO combo
 
-        // 11 hit effect
+        // hit effect
         playEffect("sfx_cookie_hit");
     }
     
-    public void PlayToastHitEffect()
+    public void PlayEffect_ToastHit()
     {
-        // 14~16 combo
+        // TODO 14~16 combo
         
         // 17~19 hit effect
         int id = Random.Range(1, 4);

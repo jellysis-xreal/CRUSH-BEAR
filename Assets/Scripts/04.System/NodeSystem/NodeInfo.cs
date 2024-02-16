@@ -16,6 +16,8 @@ public class NodeInfo
     public uint beatNum;
     public Vector3 spawnPosition;
     public InteractionSide sideType;
+
+    public uint punchTypeIndex;
         
     // 직선 운동, 속도는 자동으로 지정됨. 여기서 정할 수 있는 것은 등속도인가? 등가속도인가?
     public float movingSpeed; 
@@ -34,31 +36,27 @@ public class NodeInfo
         objectNum = 0;
         arrivalBoxNum = 0;
         totalJumpNumberOfTimes = 0;
+        beatNum = 0;
         
         // Hit
-        beatNum = 0;
         spawnPosition = new Vector3(0, 0, 0);
         sideType = InteractionSide.Red;
         
-
+        // Punch
+        punchTypeIndex = 0;
     }
 }
 /*
  * Json -> int, float, bool, string, null
  * 생성 위치, 생성 시간, objectType, movingType, 오브젝트 번호
- * 
- * Object Type
- * 0 : Rip 찢어야 하는 오브젝트
- * 1 : Break 부서야 하는 오브젝트
- * 2 : Avoid 피해야 하는 오브젝트
  *
- * Moving Type
- * 0 : Straight : 플레이어를 향해 직선으로 날아옴
- * 1 : Cannon  : 플레이어를 향해 빠르게
- *
- * Object Num -> Object Type을 선택하고 Object Num에 따라 다른 오브젝트가 생성됨
- * Object Type : 0, Object Num : 4 => Type 0번인 Rip 오브젝트 중 4번 오브젝트가 생성됨.
- * 0 ~ 9 : Object Type : Rip items
- * 10 ~ 19 : Object Type : Break items
- * 20 ~ 29 : Object Type : Avoid items
+ * 펀치 타입 별 인덱스
+ 1 - 빨강 레프트 잽
+ 2 - 빨강 레프트 훅
+ 3 - 빨강 레프트 어퍼컷
+ 4 - 파랑 라이트 잽
+ 5 - 파랑 라이트 훅
+ 6 - 파랑 라이트 어퍼컷
  */
+ 
+ 

@@ -100,10 +100,14 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Waving:
+                GameObject lobbyPlayer = GameObject.FindWithTag("Player");
+                lobbyPlayer.SetActive(false);
+                
                 LoadWave = true;
-                InitPlay();
                 StopCoroutine(LoadWaveScene());
-                //SceneManager.LoadScene("11.ToastHit_Fix_240117");
+
+                Invoke("InitPlay", 1.0f);
+
                 break;
             
             case GameState.Ending:
@@ -134,6 +138,11 @@ public class GameManager : MonoBehaviour
     {
         SetGameState(GameState.Ending);
     }
+
+    public void WaveToLobby()
+    {
+        SetGameState(GameState.Lobby);
+    }
     
     private void InitLobby()
     {
@@ -157,7 +166,7 @@ public class GameManager : MonoBehaviour
             //+-------- Managers Init() +--------//
             
             //_score.Init();
-            _player.Init();
+            //_player.Init();
             _data.Init();
             //_wave.Init();
             _sound.Init();
@@ -178,8 +187,10 @@ public class GameManager : MonoBehaviour
         if (instance != null)
         {
             Debug.Log("Init GameManager Wave Scene");
+
             //+-------- Managers Init() +--------//
             //_data.Init();
+            _player.Init();
             _wave.Init();
             _score.Init();
             //_player.PlaySceneUIInit();

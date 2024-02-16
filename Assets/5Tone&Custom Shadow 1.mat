@@ -7,13 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 5Tone&Custom Shadow
+  m_Name: 5Tone&Custom Shadow 1
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
-  - _OUTLINE
   - _RECEIVE_SHADOWS_OFF
   - _TOON_SHADING_ON
   m_InvalidKeywords:
@@ -232,10 +231,10 @@ Material:
     - _NoiseStrength: 0.1
     - _OcclusionStrength: 1
     - _OutlineDepthOffset: 0
-    - _OutlineEnabled: 1
+    - _OutlineEnabled: 0
     - _OutlineMode: 0
     - _OutlineScale: 1
-    - _OutlineWidth: 9.01
+    - _OutlineWidth: 5
     - _Outline_Width: 0
     - _OverrideLightmapDir: 0
     - _Parallax: 0.02
@@ -313,10 +312,10 @@ Material:
     - _HatchColor: {r: 0, g: 0, b: 0, a: 1}
     - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightmapDirection: {r: 0, g: 1, b: 0, a: 0}
-    - _OutlineColor: {r: 0.509434, g: 0.18503025, b: 0.37098998, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineDistancFade: {r: -25, g: 50, b: 0, a: 0}
     - _RimColor: {r: 0.80893326, g: 1, b: 0, a: 1}
-    - _ShadowColor: {r: 0.5566038, g: 0.34919012, b: 0.53685015, a: 1}
+    - _ShadowColor: {r: 0.5566037, g: 0.22929269, b: 0.5243024, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpherizeNormalOrigin: {r: 0, g: 0, b: 0, a: 1}
     - _UnityShadowColor: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}

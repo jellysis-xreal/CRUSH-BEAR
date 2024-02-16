@@ -267,6 +267,7 @@ public class WaveManager : MonoBehaviour
             // _isPause = true;
             // Time.timeScale = 0;
         }
+        
     }
 
     [ContextMenu("DEBUG/ContinueWave()")] //TODO: For Test, 이후 제거하기
@@ -285,6 +286,7 @@ public class WaveManager : MonoBehaviour
                 countdownTime = 3;
                 _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3, waveState));
             }
+
             //currentState = WaveState.Playing; 
             // Waiting -> Playing state 관리 
         }
@@ -393,9 +395,9 @@ public class WaveManager : MonoBehaviour
         GameManager.Instance.WaveToEnding();
     }
     
-    public void SetIsPause(bool _isPause)
+    public void SetIsPause(bool pause)
     {
-        if (_isPause) {
+        if (pause) {
             Time.timeScale = 0;
             PauseMusic_Popup(true);
             // 소리 끄기
@@ -421,6 +423,7 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator CountdownToStart()
     {
+        Debug.Log("[Wave] : Countdown To Start");
         int idx = (int)currentWave;
         timerCanvas[idx].SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
@@ -449,10 +452,10 @@ public class WaveManager : MonoBehaviour
         GameManager.Sound.RestartMusic(waveMusicGUID, _isPause);
     }
 
-    public void PauseMusic_Popup(bool _isPause = false)
+    public void PauseMusic_Popup(bool isPause = false)
     {
-        this._isPause = _isPause;
-        GameManager.Sound.PauseMusic(waveMusicGUID, _isPause);
+        this._isPause = isPause;
+        GameManager.Sound.PauseMusic(waveMusicGUID, isPause);
     }
     
     // Update에서 반복, 비트가 남았을 경우 계속 진행(beatNum, beat값 수정), 모든 비트가 마무리된 경우 currentState -> Waiting으로 전환 

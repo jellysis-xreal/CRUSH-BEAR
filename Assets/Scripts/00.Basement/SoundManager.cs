@@ -118,7 +118,7 @@ public class SoundManager : MonoBehaviour
             if (!source.isPlaying)
             {
                 source.clip = s.clip;
-                source.volume = EffectVolume;
+                source.volume = EffectVolume / 100.0f;
                 source.Play();
                 StartCoroutine(CheckEffectCompletion(source, s.clip.length));
                 break;

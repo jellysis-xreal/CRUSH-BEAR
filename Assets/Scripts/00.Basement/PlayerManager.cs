@@ -49,9 +49,9 @@ public class PlayerManager : MonoBehaviour
         R_XRController = RightController.GetComponent<XRBaseController>();
         L_XRController = LeftController.GetComponent<XRBaseController>();
         
-        RightInteraction = Utils.FindChildByRecursion(player.transform, "Interaction")
+        RightInteraction = Utils.FindChildByRecursion(RightController.transform, "Interaction")
             .gameObject;
-        LeftInteraction = Utils.FindChildByRecursion(player.transform, "Interaction")
+        LeftInteraction = Utils.FindChildByRecursion(LeftController.transform, "Interaction")
             .gameObject;
         // Player Life
         playerLifeValue = 5;

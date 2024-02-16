@@ -18,14 +18,15 @@ public class WaveManager : MonoBehaviour
     // [SerializeField] private uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
     public uint currenWaveNum = 0; // Wave number
     public WaveType currentWave; // 진행 중인 Wave Type
-    [SerializeField] private WaveState currentState;
     public float waveTime = 0.0f; // 흘러간 Wave Time
-    [SerializeField] public int currentWaveBeat = 0; // 흘러간 Wave beat
-    
-    private WaveState beforeState;
+    [SerializeField] public int currentBeatNum = 0;
+    [SerializeField] private WaveState beforeState;
+    [SerializeField] private WaveState currentState;
+    [SerializeField] public int loadedBeatNum = 0; // 로딩된 Wave beat
+
     private float _oneBeat;
     private float _beat;
-    [SerializeField] public int _beatNum = 0;
+   
     private Coroutine _waitBeforePlayingCoroutine;
     private Coroutine _waitAfterPlayingCoroutine;
     
@@ -178,23 +179,18 @@ public class WaveManager : MonoBehaviour
         // Init -> Waiting -> Playing(노래(wave) 재생 중..) -> Waiting(노래(wave) 종료) -> Init -> 반복하다 비트 끝나면 End
         switch (currentState)
         {
-            case WaveState.Init: 
-                if (beforeState != WaveState.Waiting) // CallContinueSetting() 예외 처리 위함
-                {                    
-                    Debug.Log("[WAVE] Wave Initialize(next wave setting), 잠시 대기하는 중입니다.");
-                    Debug.Log("[Wave] Change wave State Init to Waiting!");
-                    
-                    NextWaveSetting();
-                    beforeState = WaveState.Init;
-                    currentState = WaveState.Waiting;
-                }
-                else if (beforeState == WaveState.Waiting)
-                {
-                    beforeState = WaveState.Init;
-                    currentState = WaveState.Playing;
-                }
+            case WaveState.Init:
+                Debug.Log("[WAVE] Wave Initialize(next wave setting), 잠시 대기하는 중입니다.");
+                NextWaveSetting();
+                beforeState = WaveState.Init;
+                currentState = WaveState.Waiting;
+                // else if (beforeState == WaveState.Waiting)
+                // {
+                //     beforeState = WaveState.Init;
+                //     currentState = WaveState.Playing;
+                // }
                 break;
-            
+
             case WaveState.Playing:
                 waveTime += Time.deltaTime;
                 beforeState = WaveState.Playing;
@@ -202,8 +198,8 @@ public class WaveManager : MonoBehaviour
                 break;
 
             case WaveState.Waiting:
-                //Debug.Log("[WAVE] : current State : Waiting");
                 SetPauseWave();
+
                 ContinueWave(beforeState);
                 beforeState = WaveState.Waiting;
                 break;
@@ -214,8 +210,8 @@ public class WaveManager : MonoBehaviour
                 break;
 
             case WaveState.End:
-                
-                
+
+
                 break;
         }
     }
@@ -229,7 +225,7 @@ public class WaveManager : MonoBehaviour
         //currentWave = GetRandomWave();
         // TODO: 임시설정. For Test
         waveTime = 0;
-        _beatNum = 0;
+        currentBeatNum = 0;
         currenWaveNum++;
         waveMusicGUID++;
         // 음악 세팅
@@ -376,8 +372,9 @@ public class WaveManager : MonoBehaviour
         
         // 진행된 wave가 최종 wave 수와 같아지면 게임 종료, wave가 남았다면 Next Wave Start
         if (currenWaveNum > endWaveNum) EndGame();
-        else if(currenWaveNum < endWaveNum && waveState == WaveState.Init) NextWaveStart();
-        else if(currenWaveNum < endWaveNum && waveState == WaveState.Playing) NextWaveInit();
+        else if(currenWaveNum <= endWaveNum && waveState == WaveState.Init) NextWaveStart();
+        else if(currenWaveNum <= endWaveNum && waveState == WaveState.Playing) NextWaveInit();
+        else if(currenWaveNum <= endWaveNum && waveState == WaveState.Waiting) NextWaveStart();
     }
     private void NextWaveStart()
     {
@@ -391,7 +388,7 @@ public class WaveManager : MonoBehaviour
     private void NextWaveInit()
     {
         Debug.Log("[WAVE] Next Wave Init");
-        beforeState = WaveState.Waiting;
+        //beforeState = WaveState.Waiting;
         currentState = WaveState.Init;
     }
 
@@ -480,13 +477,13 @@ public class WaveManager : MonoBehaviour
             }*/
 
             // 존재 비트 모두 플레이 했을 때 State : Playing -> Waiting으로 전환
-            if (CurMusicData.BeatNum == _beatNum)
+            if (CurMusicData.BeatNum == currentBeatNum)
             {
                 Debug.Log($"[Wave] : Detected All Beat is Done");
                 currentState = WaveState.Waiting;
             }
             
-            _beatNum++;
+            currentBeatNum++;
             _beat += _oneBeat;
         }
     }

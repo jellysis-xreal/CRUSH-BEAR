@@ -175,7 +175,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
         // var nodes = data.NodeData[(int)_musicDataIndex];
         var beatNumber = nodes[0];
-        GameManager.Wave.waveBeat = (int)beatNumber;
+        GameManager.Wave.currentWaveBeat = (int)beatNumber;
 
         switch (wave)
         {

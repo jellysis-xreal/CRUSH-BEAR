@@ -33,6 +33,8 @@ public class SoundManager : MonoBehaviour
     public void PlayWaveMusic(uint id)
     {
         id--;
+        Debug.Log($"[Sound] ID {id} " + musicClips[(int)id].name + " Play");
+        
         musicSource[id].clip = musicClips[(int)id];
         musicSource[id].volume = MusicVolume / 100.0f;
         musicSource[id].Play();

@@ -210,8 +210,6 @@ public class WaveManager : MonoBehaviour
                 break;
 
             case WaveState.End:
-
-
                 break;
         }
     }
@@ -287,7 +285,7 @@ public class WaveManager : MonoBehaviour
 
             else if (beforeState == WaveState.Playing && _waitAfterPlayingCoroutine == null)
             {
-                countdownTime = 3;
+                countdownTime = 2;
                 _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3, waveState));
             }
 
@@ -321,8 +319,16 @@ public class WaveManager : MonoBehaviour
 
         while(countdownTime > 0)
         {
-            if (countdownTime == 1) {timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);}
-            else timer.text = (countdownTime - 1).ToString();
+            GameManager.Sound.PlayCountdownSound(countdownTime, true);
+            if (countdownTime == 1)
+            {
+                timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
+                
+            }
+            else
+            {
+                timer.text = (countdownTime - 1).ToString();
+            }
             yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
         }
@@ -350,9 +356,15 @@ public class WaveManager : MonoBehaviour
 
         while(countdownTime > 0)
         {
-            if (countdownTime == 1) {timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);}
+            // TODO: 임시로... 240216 JMH
+            // 게임이 쭉 이어질 때, 이게 2번씩 나오니까 중복되어서 하나는 없애는게 나을 것 같았습니다.
+            // GameManager.Sound.PlayCountdownSound(countdownTime, false);
+            if (countdownTime == 1)
+            {
+                //timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
+            }
             else timer.text = (countdownTime - 1).ToString();
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(0f); // TODO: 임시로... 240216 JMH
             countdownTime--;
         }
         timerCanvas[idx].SetActive(false);
@@ -396,9 +408,10 @@ public class WaveManager : MonoBehaviour
     {
         // 모든 웨이브가 종료되었을 때 호출.
         currentState = WaveState.End;
-        Debug.Log("게임 종료!");
+        Debug.Log("[WAVE] 게임 종료!");
 
         GameManager.Instance.WaveToEnding();
+        nodeInstantiator.FinishAllWaveNode();
     }
     
     public void SetIsPause(bool pause)

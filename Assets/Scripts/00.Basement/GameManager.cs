@@ -105,6 +105,11 @@ public class GameManager : MonoBehaviour
                 StopCoroutine(LoadWaveScene());
                 //SceneManager.LoadScene("11.ToastHit_Fix_240117");
                 break;
+            
+            case GameState.Ending:
+                _player.InActivePlayer();
+                SceneManager.LoadScene("02.EndingCutScene");
+                break;
         }
     }
     
@@ -127,7 +132,7 @@ public class GameManager : MonoBehaviour
 
     public void WaveToEnding()
     {
-        SceneManager.LoadScene("02.EndingCutScene");
+        SetGameState(GameState.Ending);
     }
     
     private void InitLobby()

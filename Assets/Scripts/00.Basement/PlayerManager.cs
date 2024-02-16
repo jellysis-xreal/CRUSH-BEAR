@@ -95,6 +95,8 @@ public class PlayerManager : MonoBehaviour
     
     public void SetHearts(int playerLifeValue)
     {
+        if (playerLifeValue == 0) GameManager.UI.ShowPopupUI<UI_Popup>("PopupSettings"); // XMC용 테스트 코드
+        
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;
         for (int i = 0; i < WaveTypeCount; i++)
         {
@@ -119,6 +121,7 @@ public class PlayerManager : MonoBehaviour
         // HeartGameObjects[0].hearts[playerLifeValue - 1].GetComponent<MeshRenderer>().material.color = Color.gray;
         // HeartGameObjects[playerLifeValue - 1].SetActive(false);
         playerLifeValue--;
+         
         Debug.Log("Attack Success player HP -1");
     }
 

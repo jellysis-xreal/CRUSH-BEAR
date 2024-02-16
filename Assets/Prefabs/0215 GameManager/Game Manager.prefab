@@ -3417,6 +3417,7 @@ MonoBehaviour:
     name: sfx_toast_spawn
     clip: {fileID: 8300000, guid: da9bf63ea16a86f4eaf9c2ace57af6b0, type: 3}
     volume: 50
+  backgroundClips: []
   musicClips:
   - {fileID: 8300000, guid: f34bf20a1941b2e4ca750602e832bc08, type: 3}
   - {fileID: 8300000, guid: e622bd39c2bef9f4bbc816df97ea2c8c, type: 3}
@@ -3834,10 +3835,11 @@ MonoBehaviour:
   firstWaveType: 2
   currenWaveNum: 0
   currentWave: 2
-  currentState: 0
   waveTime: 0
-  waveBeat: 0
-  _beatNum: 0
+  currentBeatNum: 0
+  beforeState: 0
+  currentState: 0
+  loadedBeatNum: 0
   waveMusicGUID: 3
   CurMusicData:
     Difficulty: 0
@@ -3846,8 +3848,6 @@ MonoBehaviour:
     MusicName: 
     BPM: 0
     BeatNum: 0
-  RightInteraction: {fileID: 0}
-  LeftInteraction: {fileID: 0}
   nodeInstantiator: {fileID: 496803953950109727}
   nodeArrivalArea: {fileID: 0}
   nodeArrivalUI: {fileID: 0}
@@ -4517,9 +4517,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  IK_player: {fileID: 0}
   RightController: {fileID: 0}
   LeftController: {fileID: 0}
+  RightInteraction: {fileID: 0}
+  LeftInteraction: {fileID: 0}
   playerLifeValue: 0
   parentUI:
   - {fileID: 4356051692884835041}
@@ -5904,13 +5905,21 @@ MonoBehaviour:
   - {fileID: 8370039835697521976, guid: c5b1893ec691a7c43a3381e41b353e6d, type: 3}
   - {fileID: 6525727010650561712, guid: 5459109887d417d43a2fbb9b82d9f0d5, type: 3}
   HitTopping:
-  - {fileID: 6238683775605244711, guid: 5e536b4c5fe8b2d41b3db93cca5b495c, type: 3}
-  - {fileID: 6238683775605244711, guid: 5e536b4c5fe8b2d41b3db93cca5b495c, type: 3}
-  - {fileID: 6238683775605244711, guid: 5e536b4c5fe8b2d41b3db93cca5b495c, type: 3}
+  - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
+  - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
+  - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
   _poolSize: 20
   shootToppingPool: []
   punchToppingPool: []
   hitToppingPool: []
+  punchLeftZapPool: []
+  punchLeftHookPool: []
+  punchLeftUpperCutPool: []
+  punchRightZapPool: []
+  punchRightHookPool: []
+  punchRightUpperCutPool: []
+  hitRedPool: []
+  hitBluePool: []
   _musicDataIndex: 0
 --- !u!1 &7377906120315274076
 GameObject:

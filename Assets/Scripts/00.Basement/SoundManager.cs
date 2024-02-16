@@ -93,12 +93,7 @@ public class SoundManager : MonoBehaviour
         int id = Random.Range(1, 4);
         playEffect("sfx_toast_hit"+id);
     }
-
-    public void PlayEffectMusic_GameOver()
-    {
-        playEffect("sfx_com_game_over");
-    }
-
+    
     public void PlayMusic_Lobby(bool play)
     {
         AudioClip audioClip = backgroundClips[0];
@@ -131,21 +126,19 @@ public class SoundManager : MonoBehaviour
         playEffect("sfx_com_game_win");
 
         AudioClip audioClip = backgroundClips[1];
-        
-        // 비어있는 AudioSource를 찾아서 효과음을 재생
-        foreach (var source in effectSource)
-        {
-            if (!source.isPlaying)
-            {
-                source.clip = audioClip;
-                source.volume = MusicVolume / 100.0f;
-                source.Play();
-                StartCoroutine(CheckEffectCompletion(source, audioClip.length));
-                break;
-            }
-        }
+        FindBlankAudioSource(audioClip);
     }
-    
+
+    public void PlayEffectMusic_GameOver()
+    {
+        //Effect Sound
+        playEffect("sfx_com_game_over");
+
+        //Music Sound
+        AudioClip audioClip = backgroundClips[2];
+        FindBlankAudioSource(audioClip);
+    }
+
     public void SetMusicVolume(float _vol)
     {
         MusicVolume = (int)_vol;
@@ -195,6 +188,22 @@ public class SoundManager : MonoBehaviour
                 source.volume = EffectVolume / 100.0f;
                 source.Play();
                 StartCoroutine(CheckEffectCompletion(source, s.clip.length));
+                break;
+            }
+        }
+    }
+
+    private void FindBlankAudioSource(AudioClip audioClip)
+    {
+        // 비어있는 AudioSource를 찾아서 효과음을 재생
+        foreach (var source in effectSource)
+        {
+            if (!source.isPlaying)
+            {
+                source.clip = audioClip;
+                source.volume = MusicVolume / 100.0f;
+                source.Play();
+                StartCoroutine(CheckEffectCompletion(source, audioClip.length));
                 break;
             }
         }

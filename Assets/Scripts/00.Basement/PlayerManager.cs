@@ -95,8 +95,13 @@ public class PlayerManager : MonoBehaviour
     
     public void SetHearts(int playerLifeValue)
     {
-        if (playerLifeValue == 0) GameManager.UI.ShowPopupUI<UI_Popup>("PopupSettings"); // XMC용 테스트 코드
-        
+        // TODO: XMC용 테스트 코드
+        if (playerLifeValue == 0)
+        {
+            GameManager.UI.ShowPopupUI<UI_Popup>("PopupSettings"); 
+            GameManager.Sound.PlayEffectMusic_GameOver();
+        }
+
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;
         for (int i = 0; i < WaveTypeCount; i++)
         {

@@ -287,7 +287,7 @@ public class WaveManager : MonoBehaviour
 
             else if (beforeState == WaveState.Playing && _waitAfterPlayingCoroutine == null)
             {
-                countdownTime = 3;
+                countdownTime = 2;
                 _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3, waveState));
             }
 
@@ -321,8 +321,16 @@ public class WaveManager : MonoBehaviour
 
         while(countdownTime > 0)
         {
-            if (countdownTime == 1) {timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);}
-            else timer.text = (countdownTime - 1).ToString();
+            GameManager.Sound.PlayCountdownSound(countdownTime, true);
+            if (countdownTime == 1)
+            {
+                timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
+                
+            }
+            else
+            {
+                timer.text = (countdownTime - 1).ToString();
+            }
             yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
         }
@@ -350,7 +358,11 @@ public class WaveManager : MonoBehaviour
 
         while(countdownTime > 0)
         {
-            if (countdownTime == 1) {timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);}
+            GameManager.Sound.PlayCountdownSound(countdownTime, false);
+            if (countdownTime == 1)
+            {
+                //timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
+            }
             else timer.text = (countdownTime - 1).ToString();
             yield return new WaitForSecondsRealtime(1f);
             countdownTime--;

@@ -51,7 +51,16 @@ public class BreakController : MonoBehaviour
         shatteredVector = shatteredVec;
         StartCoroutine(ShatteredMovement());
     }
-    
+    public void IsHit() // Failed
+    {
+        Initialize();
+        
+        isHit = true;
+        setBreakTime = true;
+
+        shatteredVector = new Vector3(0,0,0);
+        StartCoroutine(ShatteredMovement());
+    }
     private void MoveShattered()
     {
         //조각들이 흩어지며 떨어지게 업데이트
@@ -72,7 +81,6 @@ public class BreakController : MonoBehaviour
                 //Vector3 moveDir = obj.transform.localPosition - Vector3.zero;
                 //obj.transform.localPosition += moveDir * Time.deltaTime;
             }
-
         }
     }
     IEnumerator ShatteredMovement()

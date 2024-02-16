@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21609369, g: 0.27435172, b: 0.1681903, a: 1}
+  m_IndirectSpecularColor: {r: 0.21550298, g: 0.27394462, b: 0.16814935, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -674,7 +674,7 @@ PrefabInstance:
     - target: {fileID: 6725875270303160479, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
       propertyPath: waveMusicGUID
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9016859143390974980, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
@@ -24351,10 +24351,11 @@ MonoBehaviour:
   firstWaveType: 2
   currenWaveNum: 0
   currentWave: 2
-  currentState: 0
   waveTime: 0
-  waveBeat: 0
-  _beatNum: 0
+  currentBeatNum: 0
+  beforeState: 0
+  currentState: 0
+  loadedBeatNum: 0
   waveMusicGUID: 0
   CurMusicData:
     Difficulty: 0

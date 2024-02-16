@@ -138,6 +138,16 @@ public class NodeInstantiator_minha : MonoBehaviour
         StopCoroutine(_curWaveCoroutine);
     }
 
+    public void FinishAllWaveNode()
+    {
+        foreach (var shoot in shootToppingPool) Destroy(shoot);
+        foreach (var punch in punchToppingPool) Destroy(punch);
+        foreach (var hit in hitToppingPool) Destroy(hit);
+        _nodeQueue.Clear();
+        
+        StopCoroutine(_curWaveCoroutine);
+    }
+    
     private void InitializeNodeAndPool()
     {
         foreach (var shoot in shootToppingPool) shoot.SetActive(false);
@@ -175,7 +185,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
         // var nodes = data.NodeData[(int)_musicDataIndex];
         var beatNumber = nodes[0];
-        GameManager.Wave.waveBeat = (int)beatNumber;
+        GameManager.Wave.loadedBeatNum = (int)beatNumber;
 
         switch (wave)
         {

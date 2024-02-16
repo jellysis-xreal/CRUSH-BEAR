@@ -112,5 +112,20 @@ namespace UnityEngine.XR.Content.Interaction
         {
             // 못 치고 지나가면 Miss
         }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (m_Destroyed)
+                return;
+            // Motion Checker OnTriggerEnter와 연결해야 함.
+
+            if (other.gameObject.tag.Equals(m_ColliderTag, System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                m_Destroyed = true;
+                var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+                m_OnBreak.Invoke(other.gameObject, brokenVersion);
+                brokenVersion.GetComponent<BreakController>().IsHit();
+            }
+        }
     }
 }

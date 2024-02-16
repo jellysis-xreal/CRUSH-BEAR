@@ -37,8 +37,8 @@ public class EndingCutscene : TimeLineController
     public void InitSetting()
     {
         Debug.Log("½ÇÇàµÊ");
-        SetObjectPosition(bannerTransform, Vector3.zero, new Vector3(0, 180, 0));
-        SetObjectPosition(cookie.transform, Vector3.zero, new Vector3(-90, 180, 0));
+        SetObjectPosition(bannerTransform, new Vector3(0, 0.4f, 0), new Vector3(-30, 180, 0));
+        SetObjectPosition(cookie.transform, new Vector3(0, 0.4f, 0), new Vector3(-90, 180, 0));
         Breakable breakable = cookie.GetComponent<Breakable>();
         breakable.onBreak.AddListener(StartCutScene);
         director = GetComponent<PlayableDirector>();

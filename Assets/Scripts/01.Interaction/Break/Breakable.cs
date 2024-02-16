@@ -121,24 +121,10 @@ namespace UnityEngine.XR.Content.Interaction
 
             if (other.gameObject.tag.Equals(m_ColliderTag, System.StringComparison.InvariantCultureIgnoreCase))
             {
-                Debug.Log($"correct Motion is {_motionChecker.correctMotion}");
-                Debug.Log($"Hand Motion is : {other.gameObject.GetComponent<HookMotionDetector>().motion}");
-                // Debug.Log($"correct Motion is {_motionChecker.correctMotion}");
-                // Debug.Log($"Hand Motion is : {other.gameObject.GetComponent<HookMotionDetector>().motion}");
-                HookMotionDetector detector = other.gameObject.GetComponent<HookMotionDetector>();
-
-                if ((detector.motion != _motionChecker.correctMotion) || !detector.GetControllerActivateAction())
-                {
-                    Debug.Log("you did Wrong Motion;");
-                    return;
-                }
                 m_Destroyed = true;
                 var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
                 m_OnBreak.Invoke(other.gameObject, brokenVersion);
                 brokenVersion.GetComponent<BreakController>().IsHit();
-                GameManager.Score.Scoring(this.gameObject);
-                _punchaleMovement.EndInteraction();
-                // Destroy(gameObject, 0.1f);
             }
         }
     }

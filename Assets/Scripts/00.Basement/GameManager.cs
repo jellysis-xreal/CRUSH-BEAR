@@ -103,16 +103,19 @@ public class GameManager : MonoBehaviour
                 GameObject lobbyPlayer = GameObject.FindWithTag("Player");
                 lobbyPlayer.SetActive(false);
                 
-                LoadWave = true;
+                LoadWave = true; //비동기로 Load하던 01 Scene Active!
                 StopCoroutine(LoadWaveScene());
-
-                Invoke("InitPlay", 1.0f);
+                
+                Sound.PlayMusic_Lobby(false); //Effect & Sound
+                Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()
 
                 break;
             
             case GameState.Ending:
                 _player.InActivePlayer();
+                Sound.PlayEffectMusic_GameWin();
                 SceneManager.LoadScene("02.EndingCutScene");
+                
                 break;
         }
     }
@@ -172,6 +175,9 @@ public class GameManager : MonoBehaviour
             _sound.Init();
             _ui.Init();
             _resource.Init();
+            
+            // Effect & Sound
+            Sound.PlayMusic_Lobby(true);
         }
         else
         {

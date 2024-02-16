@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21609369, g: 0.27435172, b: 0.1681903, a: 1}
+  m_IndirectSpecularColor: {r: 0.21550298, g: 0.27394462, b: 0.16814935, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -697,10 +697,30 @@ PrefabInstance:
       propertyPath: musicClips.Array.data[3]
       value: 
       objectReference: {fileID: 8300000, guid: 76a08870490a5a54b8af7e408e4a600b, type: 3}
+    - target: {fileID: 2602041222296081612, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: backgroundClips.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2602041222296081612, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: backgroundClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: d1596cc87e730284b9b00928968c4a19, type: 3}
+    - target: {fileID: 2602041222296081612, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: backgroundClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2b42414aa180a0c48a663e2242cd3cec, type: 3}
+    - target: {fileID: 2602041222296081612, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: backgroundClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7cd6e159383e8994caf26566ef8c0301, type: 3}
     - target: {fileID: 6725875270303160479, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
       propertyPath: endWaveNum
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6725875270303160479, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
@@ -26611,6 +26631,7 @@ MonoBehaviour:
     name: sfx_toast_spawn
     clip: {fileID: 8300000, guid: da9bf63ea16a86f4eaf9c2ace57af6b0, type: 3}
     volume: 50
+  backgroundClips: []
   musicClips:
   - {fileID: 8300000, guid: f34bf20a1941b2e4ca750602e832bc08, type: 3}
   - {fileID: 8300000, guid: e622bd39c2bef9f4bbc816df97ea2c8c, type: 3}

@@ -8,12 +8,12 @@ public class ObjectArrivalAreaManager : MonoBehaviour
 {
     public Transform[] arrivalAreas;
     [SerializeField] private GameObject playerTransform;
-    [SerializeField] private GameObject IKplayerTransform;
+    //[SerializeField] private GameObject IKplayerTransform;
 
     private void Start()
     {
         playerTransform = GameManager.Player.player;
-        IKplayerTransform = GameManager.Player.IK_player;
+        //IKplayerTransform = GameManager.Player.IK_player;
     }
 
     private void updateArea()

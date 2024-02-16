@@ -16,11 +16,13 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("setting(auto)")]
     [SerializeField] public GameObject player;
-    [SerializeField] public GameObject IK_player;
+    //[SerializeField] public GameObject IK_player;
     public GameObject RightController;
     public GameObject LeftController;
     private XRBaseController R_XRController;
     private XRBaseController L_XRController;
+    public GameObject RightInteraction;
+    public GameObject LeftInteraction;
 
     [Header("player Life")] public int playerLifeValue = 0;
     public GameObject[] parentUI = new GameObject[3];
@@ -36,10 +38,10 @@ public class PlayerManager : MonoBehaviour
 
         // Game object setting
         player = GameObject.FindWithTag("Player");
-        IK_player = GameObject.FindWithTag("IKPlayer");
+        //IK_player = GameObject.FindWithTag("IKPlayer");
         
         DontDestroyOnLoad(player);
-        DontDestroyOnLoad(IK_player);
+        //DontDestroyOnLoad(IK_player);
         
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
@@ -47,6 +49,10 @@ public class PlayerManager : MonoBehaviour
         R_XRController = RightController.GetComponent<XRBaseController>();
         L_XRController = LeftController.GetComponent<XRBaseController>();
         
+        RightInteraction = Utils.FindChildByRecursion(player.transform, "Interaction")
+            .gameObject;
+        LeftInteraction = Utils.FindChildByRecursion(player.transform, "Interaction")
+            .gameObject;
         // Player Life
         playerLifeValue = 5;
 
@@ -78,6 +84,15 @@ public class PlayerManager : MonoBehaviour
         // Debug.Log($"TypeNum : {(int)GameManager.Wave.currentWave}");
         parentUI[idx].SetActive(true);
     }
+
+    public void FinishSceneUI()
+    {
+        for (int i = 0; i < parentUI.Length; i++)
+        {
+            parentUI[i].gameObject.SetActive(false);            
+        }
+    }
+    
     public void SetHearts(int playerLifeValue)
     {
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;
@@ -109,7 +124,7 @@ public class PlayerManager : MonoBehaviour
     public void InActivePlayer()
     {
         player.SetActive(false);
-        IK_player.SetActive(false);
+        //IK_player.SetActive(false);
     }
     
     // Haptic

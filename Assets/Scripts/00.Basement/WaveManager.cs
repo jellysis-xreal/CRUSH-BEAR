@@ -35,8 +35,8 @@ public class WaveManager : MonoBehaviour
     public DataManager.MusicData CurMusicData; // 현재 세팅된 Music data
 
     [Header("----+ setting +----")] 
-    [SerializeField] private GameObject RightInteraction;
-    [SerializeField] private GameObject LeftInteraction;
+    //[SerializeField] private GameObject RightInteraction;
+    //[SerializeField] private GameObject LeftInteraction;
     [SerializeField] private NodeInstantiator_minha nodeInstantiator;
     [SerializeField] private GameObject nodeArrivalArea;
     [SerializeField] private GameObject nodeArrivalUI;
@@ -55,6 +55,7 @@ public class WaveManager : MonoBehaviour
     private float _waitTimer;
     private bool _hasSet = false;*/
     private bool _isPause = false;
+    private bool _IsManagerInit = false;
 
     // wave 전환을 위한 변수
     public enum WaveState
@@ -74,10 +75,11 @@ public class WaveManager : MonoBehaviour
         // Wave Num
         waveTime = 0.0f;
 
-        RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction")
-            .gameObject;
-        LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction")
-            .gameObject;
+        // Player Manager로 변수 이동
+        // RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction")
+        //     .gameObject;
+        // LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction")
+        //     .gameObject;
 
 
         // Topping이 생성될 위치 초기화. **Hierarchy 주의**
@@ -93,6 +95,7 @@ public class WaveManager : MonoBehaviour
         // Topping이 이동하는 Arrival UI 초기화. **Hierarchy 주의**
         nodeArrivalUI = transform.GetChild(2).gameObject;
 
+        _IsManagerInit = true;
     }
     
     public WaveType GetWaveType()
@@ -131,18 +134,18 @@ public class WaveManager : MonoBehaviour
 
     private void SetWavePlayer()
     {
-        RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
+        GameManager.Player.RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
+        GameManager.Player.RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
 
-        LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        GameManager.Player.LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
+        GameManager.Player.LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
+        GameManager.Player.LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
 
         int TypeNum = (int)currentWave;
         Debug.Log($"TypeNum : {TypeNum}");
-        RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
-        LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
+        GameManager.Player.RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
+        GameManager.Player.LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
     }
 
     private void SetWavePlay()
@@ -162,12 +165,27 @@ public class WaveManager : MonoBehaviour
         nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);
         nodeArrivalUI.transform.GetChild(TypeNum).gameObject.SetActive(true);*/
     }
+    
+    public void FinishWavePlay()
+    {
+        int TypeNum = (int)currentWave;
+        // Node 도착 지점 설정
+        nodeArrivalArea.transform.GetChild(0).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild(1).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild(2).gameObject.SetActive(false);
+        
+        // PlayScene Node UI 설정
+        GameManager.Player.FinishSceneUI();
+        /*nodeArrivalUI.transform.GetChild(0).gameObject.SetActive(false);
+        nodeArrivalUI.transform.GetChild(1).gameObject.SetActive(false);
+        nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);*/
+    }
 
     private void Update()
     {
         // Debug.Log("Time scale" +Time.timeScale);
         // 현재 Wave manager가 작동하는 상황이라면, Wave State를 업데이트 합니다.
-        if (GameManager.Instance.currentGameState == GameState.Waving)
+        if (GameManager.Instance.currentGameState == GameState.Waving && _IsManagerInit)
         {
             UpdateWaveState();
             UpdateBeat();
@@ -319,7 +337,7 @@ public class WaveManager : MonoBehaviour
 
         while(countdownTime > 0)
         {
-            GameManager.Sound.PlayCountdownSound(countdownTime, true);
+            GameManager.Sound.PlayEffect_Countdown(countdownTime, true);
             if (countdownTime == 1)
             {
                 timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);

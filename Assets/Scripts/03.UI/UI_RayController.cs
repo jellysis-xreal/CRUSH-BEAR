@@ -30,6 +30,8 @@ public class UI_RayController : MonoBehaviour
         // InputAction이 trigger될 때 호출되는 콜백 메서드
         Debug.Log("Action Triggered!");
         
+        GameManager.Sound.PlayEffect_UI_PopUp();
+        
         if (SceneManager.GetActiveScene().name == "00.StartScene"){
             GameManager.UI.SetRayOn(!GameManager.UI.IsRayOn());
         }

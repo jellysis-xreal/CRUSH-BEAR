@@ -47,14 +47,20 @@ public class SoundManager : MonoBehaviour
         musicSource[id].Pause();
     }
 
+    public void PlayCountdownSound(int time, bool IsStart)
+    {
+        if (time == 1 && IsStart)
+            playEffect("sfx_com_countdown_start");
+        else
+            playEffect("sfx_com_countdown");
+    }
+    
     public void PlayPunchEffect()
     {
         // 10 combo
 
         // 11 hit effect
-        effectSource[11].clip = effectSounds[11].clip;
-        effectSource[11].volume = EffectVolume / 100.0f;
-        effectSource[11].Play();
+        playEffect("sfx_cookie_hit");
     }
     
     public void PlayToastHitEffect()
@@ -62,10 +68,8 @@ public class SoundManager : MonoBehaviour
         // 14~16 combo
         
         // 17~19 hit effect
-        int id = Random.Range(17, 20);
-        effectSource[id].clip = effectSounds[id].clip;
-        effectSource[id].volume = EffectVolume / 100.0f;
-        effectSource[id].Play();
+        int id = Random.Range(1, 4);
+        playEffect("sfx_toast_hit"+id);
     }
     
     public void SetMusicVolume(float _vol)
@@ -114,6 +118,7 @@ public class SoundManager : MonoBehaviour
             if (!source.isPlaying)
             {
                 source.clip = s.clip;
+                source.volume = EffectVolume / 100.0f;
                 source.Play();
                 StartCoroutine(CheckEffectCompletion(source, s.clip.length));
                 break;

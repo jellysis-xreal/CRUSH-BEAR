@@ -105,6 +105,13 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Attack Success player HP -1");
     }
 
+    // Ending Scene에서 main play 캐릭터 필요 없음
+    public void InActivePlayer()
+    {
+        player.SetActive(false);
+        IK_player.SetActive(false);
+    }
+    
     // Haptic
     // 기본 진동
     public void ActiveRightHaptic(float amplitude, float duration)

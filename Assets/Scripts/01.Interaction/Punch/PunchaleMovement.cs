@@ -17,7 +17,7 @@ public class PunchaleMovement : MonoBehaviour
     // 토핑이 움직이기 위한 변수 
     public Transform parentTransform;
     private Rigidbody _rigidbody;
-    private float _constantSpeed = 0f;
+    public float _constantSpeed = 0f;
     private Vector3 dir = new Vector3();
     public CookieControl cookieControl;
     
@@ -39,11 +39,25 @@ public class PunchaleMovement : MonoBehaviour
     {
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
-        cookieControl.Init(targetPosition);
         
+        cookieControl.Init(targetPosition);
         InitiateVariable();
     }
+    
+    public IEnumerator InitializeToppingRoutine(NodeInfo node)
+    {
+        arrivalBoxNum = node.arrivalBoxNum;
+        arriveTime = node.timeToReachPlayer;
+        
+        while (arriveTime - GameManager.Wave.waveTime > 5)
+        {
+            yield return null;
+        }
 
+        Debug.Log($"[punch] InitVar {gameObject.name} ");
+        cookieControl.Init(targetPosition);
+        InitiateVariable();
+    }
     private void InitiateVariable()
     {
         _meshRenderer.enabled = true;
@@ -63,11 +77,12 @@ public class PunchaleMovement : MonoBehaviour
     private void CalculateConstantSpeed()
     {
         // 속도 = 거리 / 시간
+        // 도달까지 걸리는 시간 = 최종 도착 시간 - 현재 시간
         float time = arriveTime - GameManager.Wave.waveTime;
         _constantSpeed = Vector3.Distance(targetPosition, transform.position) / time;
-        Debug.Log($"{this.gameObject.name} constant speed : {_constantSpeed}");
-        Debug.Log($"{this.gameObject.name} time : {time}");
-        Debug.Log($"{this.gameObject.name} distance : {Vector3.Distance(targetPosition, transform.position)}");
+        Debug.Log($"[punch] {parentTransform.gameObject.name} constant speed : {_constantSpeed}");
+        Debug.Log($"[punch] {parentTransform.gameObject.name} time : {time}, arriveTime : {arriveTime} ");
+        Debug.Log($"[punch] {parentTransform.gameObject.name} distance : {Vector3.Distance(targetPosition, transform.position)}");
     }
 
     private void Move()

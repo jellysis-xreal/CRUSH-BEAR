@@ -164,6 +164,7 @@ public class WaveManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("Time scale" +Time.timeScale);
         // 현재 Wave manager가 작동하는 상황이라면, Wave State를 업데이트 합니다.
         if (GameManager.Instance.currentGameState == GameState.Waving)
         {
@@ -364,7 +365,7 @@ public class WaveManager : MonoBehaviour
         Time.timeScale = 1;
         
         // 진행된 wave가 최종 wave 수와 같아지면 게임 종료, wave가 남았다면 Next Wave Start
-        if (currenWaveNum == endWaveNum) EndGame();
+        if (currenWaveNum > endWaveNum) EndGame();
         else if(currenWaveNum < endWaveNum && waveState == WaveState.Init) NextWaveStart();
         else if(currenWaveNum < endWaveNum && waveState == WaveState.Playing) NextWaveInit();
     }
@@ -476,5 +477,17 @@ public class WaveManager : MonoBehaviour
             _beatNum++;
             _beat += _oneBeat;
         }
+    }
+
+    [ContextMenu("TimeScale 1")]
+    private void ddd()
+    {
+        Time.timeScale = 1;
+    }
+    
+    
+    private void FixedUpdate()
+    {
+        
     }
 }

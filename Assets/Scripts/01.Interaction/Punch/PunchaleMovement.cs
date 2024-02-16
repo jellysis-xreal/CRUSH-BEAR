@@ -49,7 +49,7 @@ public class PunchaleMovement : MonoBehaviour
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
         
-        while (arriveTime - GameManager.Wave.waveTime > 5)
+        while (arriveTime - GameManager.Wave.waveTime > 7)
         {
             yield return null;
         }

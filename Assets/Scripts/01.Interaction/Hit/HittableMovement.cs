@@ -15,8 +15,8 @@ public class HittableMovement : MonoBehaviour
     public int arrivalBoxNum = 0; // 목표인 Box index number
     public float arriveTime;
     public InteractionSide sideType = InteractionSide.Red;
-    private float moveTime = 3.0f; // 토핑의 이동 속도를 결정함
-    private float popTime = 0.2f; // 토핑의 점프 시간을 결정함
+    private float moveTime = 3.3f; // 토핑의 이동 속도를 결정함
+    private float popTime = 0.1f; // 토핑의 점프 시간을 결정함
     
     [Header("other Variable (AUTO)")] 
     [SerializeField] private GameObject refrigerator;

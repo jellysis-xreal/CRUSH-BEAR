@@ -243,6 +243,9 @@ public class WaveManager : MonoBehaviour
         waveTime = 0;
         currentBeatNum = 0;
         currenWaveNum++;
+
+        if (currenWaveNum > endWaveNum)
+            return;
         waveMusicGUID++;
         // 음악 세팅
         // waveMusicGUID = 1; // TODO: 임시로 GUID 1번으로 세팅

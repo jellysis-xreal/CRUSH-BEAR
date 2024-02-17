@@ -123,7 +123,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         {
             // Debug.Log($"coroutine~ this wave is {wave}");
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
-            yield return new WaitForSecondsRealtime(0.2f);
+            yield return new WaitForSecondsRealtime(0.1f);
             
             // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
             if (_nodeQueue.Count < 10)

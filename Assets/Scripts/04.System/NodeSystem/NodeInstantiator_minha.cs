@@ -52,7 +52,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     {
         // topping pool 생성해줌.
         // Wave가 처음 실행될 때, 한번 초기화 진행하는 것임
-        Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]");
+        Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]"); //[XMC]
         _musicDataIndex = 0;
 
         InitializeNodeAndPool();
@@ -105,14 +105,14 @@ public class NodeInstantiator_minha : MonoBehaviour
                         hitToppingPool[i] = node;
                         hitToppingPool[i].name = "Hit_" + i;
                     }
-                    Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
+                    //[XMC]Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
                 }
 
                 break;
         }
 
         _curWaveCoroutine = StartCoroutine(SpawnManager(wave));
-        Debug.Log("[Node Maker] Start Coroutine");
+        //[XMC]Debug.Log("[Node Maker] Start Coroutine");
     }
 
     IEnumerator SpawnManager(WaveType wave)
@@ -123,7 +123,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         {
             // Debug.Log($"coroutine~ this wave is {wave}");
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
-            yield return new WaitForSecondsRealtime(0.05f);
+            yield return new WaitForSecondsRealtime(0.2f);
             
             // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
             if (_nodeQueue.Count < 10)
@@ -152,7 +152,14 @@ public class NodeInstantiator_minha : MonoBehaviour
     public void FinishAllWaveNode()
     {
         foreach (var shoot in shootToppingPool) Destroy(shoot);
-        foreach (var punch in punchToppingPool) Destroy(punch);
+        // foreach (var punch in punchToppingPool) Destroy(punch);
+        foreach (var punch in punchLeftZapPool) Destroy(punch);
+        foreach (var punch in punchLeftHookPool) Destroy(punch);
+        foreach (var punch in punchLeftUpperCutPool) Destroy(punch);
+        foreach (var punch in punchRightZapPool) Destroy(punch);
+        foreach (var punch in punchRightHookPool) Destroy(punch);
+        foreach (var punch in punchRightUpperCutPool) Destroy(punch);
+        
         foreach (var hit in hitToppingPool) Destroy(hit);
         _nodeQueue.Clear();
         
@@ -162,7 +169,14 @@ public class NodeInstantiator_minha : MonoBehaviour
     private void InitializeNodeAndPool()
     {
         foreach (var shoot in shootToppingPool) shoot.SetActive(false);
-        foreach (var punch in punchToppingPool) punch.SetActive(false);
+        // foreach (var punch in punchToppingPool) punch.SetActive(false);
+        foreach (var punch in punchLeftZapPool) punch.SetActive(false);
+        foreach (var punch in punchLeftHookPool) punch.SetActive(false);
+        foreach (var punch in punchLeftUpperCutPool) punch.SetActive(false);
+        foreach (var punch in punchRightZapPool) punch.SetActive(false);
+        foreach (var punch in punchRightHookPool) punch.SetActive(false);
+        foreach (var punch in punchRightUpperCutPool) punch.SetActive(false);
+        
         foreach (var hit in hitToppingPool) hit.SetActive(false);
         
         _nodeQueue.Clear();
@@ -188,7 +202,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         {
             // NodeInfoToMusicData(wave); 
             // isWaveFinished = true;
-            Debug.Log("Error 더이상 Enqueue할 data없음.");
+            Debug.Log("Error 더이상 Enqueue할 data없음."); //[XMC]
             StopCoroutine(_curWaveCoroutine);
             return;
             throw;
@@ -232,7 +246,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     */
                     
                     _nodeQueue.Enqueue(temp);
-                    Debug.Log($"[Node Maker] Enqueue! {wave} {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
+                    Debug.Log($"[Node Maker] Enqueue! {wave} {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
                     // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
                 }
 
@@ -256,7 +270,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                         temp.sideType = InteractionSide.Blue;
                     
                     _nodeQueue.Enqueue(temp);
-                    Debug.Log($"[Node Maker] Enqueue! {wave} Beat {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
+                    //[XMC]Debug.Log($"[Node Maker] Enqueue! {wave} Beat {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
                     // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
                     //Debug.Log(beatNumber + "의 실행 시간은 " + temp.timeToReachPlayer);
                 }
@@ -277,20 +291,20 @@ public class NodeInstantiator_minha : MonoBehaviour
             {
                 //tempPool = shootToppingPool;
                 tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
-                Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                //[XMC]Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
             }
             else if (wave == WaveType.Punching)
             {
                 //tempPool = punchToppingPool; 
                 if (tempNodeInfo.beatNum != 0)
                 {
-                    Debug.Log("[Node Maker] Dequeue 저장하고 다시 시도");
+                    // Debug.Log("[Node Maker] Dequeue 저장하고 다시 시도"); //[XMC]
                     GameObject[] poolsToUse = GetObjectPool(tempNodeInfo.punchTypeIndex);
                     if(poolsToUse[i].activeSelf == true) 
                     {
                         continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                     }
-                    Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                    Debug.Log($"[Node Maker] Dequeue {poolsToUse[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
                     
                     poolsToUse[i].SetActive(true);
                     poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
@@ -303,7 +317,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 GameObject[] punchPoolsToUse = GetObjectPool(tempNodeInfo.punchTypeIndex);
                 for (int j = 0; j < punchPoolsToUse.Length; j++)
                 {
-                    Debug.Log($"[Node Maker] punchPoolsToUse[{j}] {punchPoolsToUse[j].name} is {punchPoolsToUse[j].activeSelf}");
+                    //[XMC]Debug.Log($"[Node Maker] punchPoolsToUse[{j}] {punchPoolsToUse[j].name} is {punchPoolsToUse[j].activeSelf}");
                 }
                 
 
@@ -311,7 +325,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 {
                     continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                 }
-                Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                Debug.Log($"[Node Maker] Dequeue {punchPoolsToUse[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
 
                 punchPoolsToUse[i].SetActive(true);
                 punchPoolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
@@ -329,7 +343,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 if (hitToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                 
                 tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
-                Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                //[XMC]Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
                 
                 hitToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
                 hitToppingPool[i].GetComponent<HittableMovement>().InitializeTopping(tempNodeInfo);
@@ -338,7 +352,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 break;
             }
         }
-        Debug.Log($"[Node] Note Info -> Music data {(int)_musicDataIndex}");
+        //[XMC] Debug.Log($"[Node] Note Info -> Music data {(int)_musicDataIndex}");
     }
     
     // tempNodeInfo.sideType,tempNodeInfo.punchTypeIndex에 따라 해당하는 오브젝트 풀을 반환함. 
@@ -383,6 +397,7 @@ public class NodeInstantiator_minha : MonoBehaviour
 
     private void InitPunchToppingPool()
     {
+        Debug.Log("Init Punch Topping Pool");
         int poolSize = 20;
         if (punchLeftZapPool.Length == 0)
         {

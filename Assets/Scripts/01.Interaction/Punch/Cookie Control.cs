@@ -5,13 +5,13 @@ using DG.Tweening;
 
 public class CookieControl : MonoBehaviour
 {
-    public Vector3 playerPosition; // ÇÃ·¹ÀÌ¾îÀÇ Transform
-    public float stopDistance = 5f; // È¸ÀüÀ» ¸ØÃâ °Å¸®
-    public float rotationDuration = 1f; // È¸Àü ¿Ï·á±îÁö °É¸®´Â ½Ã°£
+    public Vector3 playerPosition; // í”Œë ˆì´ì–´ì˜ Transform
+    public float stopDistance = 5f; // íšŒì „ì„ ë©ˆì¶œ ê±°ë¦¬
+    public float rotationDuration = 1f; // íšŒì „ ì™„ë£Œê¹Œì§€ ê±¸ë¦¬ëŠ” ì‹œê°„
 
-    private Quaternion originalRotation; // ¿ø·¡ÀÇ È¸Àü °ª
-    private bool isRotating = true; // È¸Àü ¿©ºÎ
-    private Tweener rotationTween; // È¸Àü Tween
+    private Quaternion originalRotation; // ì›ë˜ì˜ íšŒì „ ê°’
+    private bool isRotating = true; // íšŒì „ ì—¬ë¶€
+    private Tweener rotationTween; // íšŒì „ Tween
 
     public void Init(Vector3 targetPosition)
     {
@@ -19,10 +19,10 @@ public class CookieControl : MonoBehaviour
     }
     void Start()
     {
-        // ¿ø·¡ÀÇ È¸Àü °ªÀ» ÀúÀå
+        // ì›ë˜ì˜ íšŒì „ ê°’ì„ ì €ì¥
         originalRotation = transform.rotation;
 
-        // °´Ã¼¸¦ 360µµ È¸Àü½ÃÅ°´Â TweenÀ» ½ÃÀÛ
+        // ê°ì²´ë¥¼ 360ë„ íšŒì „ì‹œí‚¤ëŠ” Tweenì„ ì‹œì‘
         rotationTween = transform.DORotate(new Vector3(0, 0, 360), 10f, RotateMode.FastBeyond360)
             .SetLoops(-1, LoopType.Incremental)
             .SetEase(Ease.Linear);
@@ -30,21 +30,21 @@ public class CookieControl : MonoBehaviour
     
     void Update()
     {
-        // ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸® °è»ê
+        // í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬ ê³„ì‚°
         float distanceToPlayer = Vector3.Distance(transform.position, playerPosition); //playerTransform.position);
 
-        // ¸¸¾à ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®°¡ stopDistanceº¸´Ù ÀÛ´Ù¸é È¸ÀüÀ» ¸ØÃã
+        // ë§Œì•½ í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬ê°€ stopDistanceë³´ë‹¤ ì‘ë‹¤ë©´ íšŒì „ì„ ë©ˆì¶¤
         if (distanceToPlayer < stopDistance && isRotating)
         {
-            // TweenÀ» ¸ØÃß°í ¿ø·¡ÀÇ È¸Àü °ªÀ¸·Î ÀÚ¿¬½º·´°Ô È¸Àü
+            // Tweenì„ ë©ˆì¶”ê³  ì›ë˜ì˜ íšŒì „ ê°’ìœ¼ë¡œ ìì—°ìŠ¤ëŸ½ê²Œ íšŒì „
             rotationTween.Kill();
             transform.DORotate(originalRotation.eulerAngles, rotationDuration).SetEase(Ease.InOutQuad);
             isRotating = false;
         }
-        // °Å¸®°¡ ´Ù½Ã ¸Ö¾îÁ³À» ¶§ ´Ù½Ã È¸ÀüÀ» ½ÃÀÛ
+        // ê±°ë¦¬ê°€ ë‹¤ì‹œ ë©€ì–´ì¡Œì„ ë•Œ ë‹¤ì‹œ íšŒì „ì„ ì‹œì‘
         else if (distanceToPlayer >= stopDistance && !isRotating)
         {
-            // ¿ø·¡ÀÇ È¸Àü °ª¿¡¼­ 360µµ È¸Àü±îÁöÀÇ TweenÀ» ½ÃÀÛ
+            // ì›ë˜ì˜ íšŒì „ ê°’ì—ì„œ 360ë„ íšŒì „ê¹Œì§€ì˜ Tweenì„ ì‹œì‘
             rotationTween = transform.DORotate(new Vector3(0, 0, 360), 10f, RotateMode.FastBeyond360)
                 .SetLoops(-1, LoopType.Incremental)
                 .SetEase(Ease.Linear);

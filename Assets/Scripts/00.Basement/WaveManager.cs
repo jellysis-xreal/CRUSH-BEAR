@@ -105,16 +105,16 @@ public class WaveManager : MonoBehaviour
 
     public Vector3 GetSpawnPosition(int index)
     {
-        if (index < 0 || index > 3)
-            Debug.Log("[ERROR] " + index);
+        //if (index < 0 || index > 3)
+        //[XMC]Debug.Log("[ERROR] " + index);
         int TypeNum = (int)currentWave;
         return _toppingArea[TypeNum].transform.GetChild(index).transform.position;
     }
 
     public Vector3 GetArrivalPosition(int index)
     {
-        if (index < 0 || index > 3)
-            Debug.Log("[ERROR] " + index);
+        //if (index < 0 || index > 3)
+        //[XMC]Debug.Log("[ERROR] " + index);
         int TypeNum = (int)currentWave;
         Transform CurArrive = nodeArrivalArea.transform.GetChild(TypeNum);
         return CurArrive.GetChild(index).transform.position;
@@ -143,7 +143,7 @@ public class WaveManager : MonoBehaviour
         GameManager.Player.LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
 
         int TypeNum = (int)currentWave;
-        Debug.Log($"TypeNum : {TypeNum}");
+        //[XMC]Debug.Log($"TypeNum : {TypeNum}");
         GameManager.Player.RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
         GameManager.Player.LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
     }
@@ -151,7 +151,7 @@ public class WaveManager : MonoBehaviour
     private void SetWavePlay()
     {
         int TypeNum = (int)currentWave;
-        Debug.Log($"TypeNum : {TypeNum}");
+        //[XMC]Debug.Log($"TypeNum : {TypeNum}");
         // Node 도착 지점 설정
         nodeArrivalArea.transform.GetChild(0).gameObject.SetActive(false);
         nodeArrivalArea.transform.GetChild(1).gameObject.SetActive(false);
@@ -198,7 +198,7 @@ public class WaveManager : MonoBehaviour
         switch (currentState)
         {
             case WaveState.Init:
-                Debug.Log("[WAVE] Wave Initialize(next wave setting), 잠시 대기하는 중입니다.");
+                //[XMC]Debug.Log("[WAVE] Wave Initialize(next wave setting), 잠시 대기하는 중입니다.");
                 NextWaveSetting();
                 beforeState = WaveState.Init;
                 currentState = WaveState.Waiting;
@@ -223,7 +223,7 @@ public class WaveManager : MonoBehaviour
                 break;
 
             case WaveState.Pause:
-                Debug.Log("[WAVE] : current State : Pause");
+                //[XMC]Debug.Log("[WAVE] : current State : Pause");
                 beforeState = WaveState.Pause;
                 break;
 
@@ -281,7 +281,7 @@ public class WaveManager : MonoBehaviour
     {
         if (!_isPause)
         {
-            Debug.Log("[WAVE] Wave Pause");
+            //[XMC]Debug.Log("[WAVE] Wave Pause");
             // Wave 진행을 일시정지 시킵니다.
             SetIsPause(true);
             // _isPause = true;
@@ -315,7 +315,7 @@ public class WaveManager : MonoBehaviour
     [ContextMenu("DEBUG/CountDown()")] //TODO: For Test, 이후 제거하기
     public void CountDown()
     {
-        Debug.Log("[TEST] Countdown Start!");
+        //[XMC]Debug.Log("[TEST] Countdown Start!");
         StartCoroutine(CountdownToStart());
     }
     
@@ -323,7 +323,7 @@ public class WaveManager : MonoBehaviour
     // Waiting -> Playing
     IEnumerator WaitBeforePlaying(int sec, WaveState waveState)
     {
-        Debug.Log($"[Wave] State : Waiting -> Playing Wait {sec}s. (이제 Wave 시작한다? 세팅 후에 게임 시작 전 대기 시간을 가짐. 플레이어 준비 시간.) ");
+        //[XMC]Debug.Log($"[Wave] State : Waiting -> Playing Wait {sec}s. (이제 Wave 시작한다? 세팅 후에 게임 시작 전 대기 시간을 가짐. 플레이어 준비 시간.) ");
 
                 // CMS: Count down starts
         // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여2
@@ -360,7 +360,7 @@ public class WaveManager : MonoBehaviour
     // Waiting -> Init -> Playing 
     IEnumerator WaitAfterPlaying(int sec, WaveState waveState)
     {
-        Debug.Log($"[Wave] State : Playing -> Waiting Wait {sec}s. (이제 Wave 끝났다? 다음 Wave 시작 전 혹은 게임 종료 전 대기 시간) ");
+        //[XMC]Debug.Log($"[Wave] State : Playing -> Waiting Wait {sec}s. (이제 Wave 끝났다? 다음 Wave 시작 전 혹은 게임 종료 전 대기 시간) ");
 
         // CMS: Count down starts
         // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여2
@@ -396,7 +396,7 @@ public class WaveManager : MonoBehaviour
 
     private void CallContinueSetting(WaveState waveState)
     {
-        Debug.Log("[WAVE] Wave 일시중지 해제함");
+        //[XMC]Debug.Log("[WAVE] Wave 일시중지 해제함");
         _isPause = false;
         Time.timeScale = 1;
         
@@ -417,7 +417,7 @@ public class WaveManager : MonoBehaviour
 
     private void NextWaveInit()
     {
-        Debug.Log("[WAVE] Next Wave Init");
+        //[XMC]Debug.Log("[WAVE] Next Wave Init");
         //beforeState = WaveState.Waiting;
         currentState = WaveState.Init;
     }
@@ -441,7 +441,7 @@ public class WaveManager : MonoBehaviour
         } else {
             // 소리 3초 후 틀기
             StartCoroutine(CountdownToStart());
-            Debug.Log("Resume the game after 3 sec...");
+            //[XMC]Debug.Log("Resume the game after 3 sec...");
         }
     }
 
@@ -454,13 +454,13 @@ public class WaveManager : MonoBehaviour
         } else {
             // 소리 3초 후 틀기
             StartCoroutine(CountdownToStart());
-            Debug.Log("Resume the game after 3 sec...");
+            //[XMC]Debug.Log("Resume the game after 3 sec...");
         }
     }
 
     IEnumerator CountdownToStart()
     {
-        Debug.Log("[Wave] : Countdown To Start");
+        //[XMC]Debug.Log("[Wave] : Countdown To Start");
         int idx = (int)currentWave;
         timerCanvas[idx].SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
@@ -510,7 +510,7 @@ public class WaveManager : MonoBehaviour
             // 존재 비트 모두 플레이 했을 때 State : Playing -> Waiting으로 전환
             if (CurMusicData.BeatNum == currentBeatNum)
             {
-                Debug.Log($"[Wave] : Detected All Beat is Done");
+                //[XMC]Debug.Log($"[Wave] : Detected All Beat is Done");
                 currentState = WaveState.Waiting;
             }
             

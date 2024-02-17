@@ -40,8 +40,8 @@ public class HookMotionDetector : MonoBehaviour
         
         handVelocity = handData.ControllerSpeed;
         
-        if(_chekingHookCoroutine != null) Debug.Log("hook Coroutine exist!");
-        if(_chekingUpperCutCoroutine != null) Debug.Log("upper Coroutine exist!");
+        //[XMC]if(_chekingHookCoroutine != null) Debug.Log("hook Coroutine exist!");
+        //[XMC]if(_chekingUpperCutCoroutine != null) Debug.Log("upper Coroutine exist!");
     }
 
     private void Init()
@@ -64,11 +64,11 @@ public class HookMotionDetector : MonoBehaviour
         {
             case Controller.LeftController:
                 _chekingHookCoroutine = StartCoroutine(IsLeftHook());
-                Debug.Log("LHand Velocity Value reach a ceration threshold.");
+                //[XMC]Debug.Log("LHand Velocity Value reach a ceration threshold.");
                 break;
             case Controller.RightController:
                 _chekingHookCoroutine = StartCoroutine(IsRightHook());
-                Debug.Log("RHand Velocity Value reach a ceration threshold.");
+                //[XMC]Debug.Log("RHand Velocity Value reach a ceration threshold.");
                 break;
         }
     }
@@ -81,11 +81,11 @@ public class HookMotionDetector : MonoBehaviour
         {
             case Controller.LeftController:
                 _chekingUpperCutCoroutine = StartCoroutine(IsUpperCut());
-                Debug.Log("LHand Velocity Value reach a ceration threshold.");
+                //[XMC]Debug.Log("LHand Velocity Value reach a ceration threshold.");
                 break;
             case Controller.RightController:
                 _chekingUpperCutCoroutine = StartCoroutine(IsUpperCut());
-                Debug.Log("RHand Velocity Value reach a ceration threshold.");
+                //[XMC]Debug.Log("RHand Velocity Value reach a ceration threshold.");
                 break;
         }
     }
@@ -94,19 +94,19 @@ public class HookMotionDetector : MonoBehaviour
     {
         // _chekingHook 코루틴 존재하지 않음, 컨트롤러 속도 > 임계값, grab 버튼 활성화된 경우 회전 감지 시작.
        
-        Debug.Log($"handSpeed is available: {handVelocity}");
+        //[XMC]Debug.Log($"handSpeed is available: {handVelocity}");
         
         switch (controller)
         {   
             case Controller.LeftController:
                 _chekingHookCoroutine = StartCoroutine(IsLeftHook());
                 _chekingUpperCutCoroutine = StartCoroutine(IsUpperCut());
-                Debug.Log("LHand Velocity Value reach a ceration threshold.");
+                //[XMC]Debug.Log("LHand Velocity Value reach a ceration threshold.");
                 break;
             case Controller.RightController:
                 _chekingHookCoroutine = StartCoroutine(IsRightHook());
                 _chekingUpperCutCoroutine = StartCoroutine(IsUpperCut());
-                Debug.Log("RHand Velocity Value reach a ceration threshold.");
+                //[XMC]Debug.Log("RHand Velocity Value reach a ceration threshold.");
                 break;
         }
     }
@@ -118,11 +118,11 @@ public class HookMotionDetector : MonoBehaviour
         float startAngleY = handTransform.localEulerAngles.y; 
         while (GetControllerActivateAction())
         {
-            Debug.Log("Left Hook Check....");
+            //[XMC]Debug.Log("Left Hook Check....");
             if ((transform.localEulerAngles.x > -135 && transform.localEulerAngles.x < -45)
                 && (transform.localEulerAngles.z > -135 && transform.localEulerAngles.z < -45))
             {
-                Debug.Log("detect Left Hook motion");
+                //[XMC]Debug.Log("detect Left Hook motion");
                 hookMotion = Motion.LeftHook;
             }
             // 조건 : 주먹을 쥔 상태, 주먹이 바라보는 방향(hand의 local rotation z방향)의 회전 
@@ -131,7 +131,7 @@ public class HookMotionDetector : MonoBehaviour
             if((currentAngleY < startAngleY) ||handVelocity < handVelocityMinimumThreshold 
                                              || handVelocity > handVelocityMaximumThreshold)
             {
-                Debug.Log("left hook Coroutine end");
+                //[XMC]Debug.Log("left hook Coroutine end");
                 HookCoroutineEndEvent();
                 yield break;
             }
@@ -148,11 +148,11 @@ public class HookMotionDetector : MonoBehaviour
         float startAngleY = handTransform.localEulerAngles.y;
         while (GetControllerActivateAction())
         {
-            Debug.Log("Right Hook Check....");
+            //[XMC]Debug.Log("Right Hook Check....");
             if ((transform.localEulerAngles.x > -135 && transform.localEulerAngles.x < -45)
                 && (transform.localEulerAngles.z > 45 && transform.localEulerAngles.z < 90))
             {
-                Debug.Log("detect Right Hook motion");
+                //[XMC]Debug.Log("detect Right Hook motion");
                 hookMotion = Motion.RightHook;
             }
             // 조건 : 주먹을 쥔 상태, 주먹이 바라보는 방향(hand의 local rotation z방향)의 회전 
@@ -161,7 +161,7 @@ public class HookMotionDetector : MonoBehaviour
             if(currentAngleY > startAngleY ||handVelocity < handVelocityMinimumThreshold 
                                            || handVelocity > handVelocityMaximumThreshold)
             {
-                Debug.Log("right hook Coroutine end");
+                //[XMC]Debug.Log("right hook Coroutine end");
                 HookCoroutineEndEvent();
                 yield break;
             }
@@ -179,7 +179,7 @@ public class HookMotionDetector : MonoBehaviour
     {
         while (GetControllerActivateAction())
         {
-            Debug.Log("Upper Cut Check....");
+            //[XMC]Debug.Log("Upper Cut Check....");
             switch (controller)
             {
                 case Controller.RightController:
@@ -187,7 +187,7 @@ public class HookMotionDetector : MonoBehaviour
                     if ((handTransform.localEulerAngles.x < 360 && handTransform.localEulerAngles.x > 225)
                         && (handTransform.localEulerAngles.z < 315 && handTransform.localEulerAngles.z > 225))
                     {
-                        Debug.Log("detect Right Upper Cut motion");
+                        //[XMC]Debug.Log("detect Right Upper Cut motion");
                         upperCutMotion = Motion.RightUpperCut;
                     }
                     break;
@@ -196,7 +196,7 @@ public class HookMotionDetector : MonoBehaviour
                     if ((handTransform.localEulerAngles.x < 315 && handTransform.localEulerAngles.x > 225)
                         && (handTransform.localEulerAngles.z > 45 && handTransform.localEulerAngles.z < 135))
                     {
-                        Debug.Log("detect Left Upper Cut motion");
+                        //[XMC]Debug.Log("detect Left Upper Cut motion");
                         upperCutMotion = Motion.LeftUpperCut;
                     }
                     break;
@@ -204,7 +204,7 @@ public class HookMotionDetector : MonoBehaviour
             if (handVelocity < handVelocityMinimumThreshold
                 || handVelocity > handVelocityMaximumThreshold)
             {
-                Debug.Log($"{handVelocity} Velocity low! End UpperCut coroutine");
+                //[XMC]Debug.Log($"{handVelocity} Velocity low! End UpperCut coroutine");
                 UpperCutCoroutineEndEvent();
                 yield break;
             }

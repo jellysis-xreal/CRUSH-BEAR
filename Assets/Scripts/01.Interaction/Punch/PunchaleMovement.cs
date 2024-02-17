@@ -54,7 +54,7 @@ public class PunchaleMovement : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log($"[punch] InitVar {gameObject.name} ");
+        Debug.Log($"[punch] InitVar {parentTransform.gameObject.name} ");
         cookieControl.Init(targetPosition);
         InitiateVariable();
     }
@@ -112,7 +112,8 @@ public class PunchaleMovement : MonoBehaviour
     
     private IEnumerator ActiveTime(float coolTime)
     {
-        yield return new WaitForSeconds(coolTime); // coolTime만큼 활성화
+        yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
+        _meshRenderer.enabled = true;
         parentTransform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
     private void OnTriggerEnter(Collider other)
@@ -122,14 +123,14 @@ public class PunchaleMovement : MonoBehaviour
             // Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
             // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
             
-            Debug.Log($"End Interaction {gameObject.name} Trigger Arrival Area {other.name}");
+            //Debug.Log($"End Interaction {gameObject.name} Trigger Arrival Area {other.name}");
             _isArrivalAreaHit = true;
             EndInteraction();
         }
         if (other.tag == "body")
         {
             // 플레이어 공격 성공 처리
-            Debug.Log($"End Interaction {gameObject.name} Trigger body {other.name}");
+            //Debug.Log($"End Interaction {gameObject.name} Trigger body {other.name}");
 
             // GameManager.Player.MinusPlayerLifeValue();
             EndInteraction();
@@ -138,7 +139,7 @@ public class PunchaleMovement : MonoBehaviour
         {
             // 뒤에 존재하는 곰돌이 공격 성공 처리
             // Debug.Log($"{gameObject.name} Trigger Pad");
-            Debug.Log($"End Interaction {gameObject.name} Trigger Trigger Pad {other.name}");
+            //Debug.Log($"End Interaction {gameObject.name} Trigger Trigger Pad {other.name}");
 
             EndInteraction();
             // GameManager.Player.MinusPlayerLifeValue();

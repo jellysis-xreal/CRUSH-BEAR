@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 5Tone&Custom Shadow 9
+  m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
+  m_Parent: {fileID: 2100000, guid: 1e7fd596b0b23ca4c8cd8788268fe3bd, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _HALFTONESHAPE_DOT
+  - _OUTLINE
+  - _RECEIVE_SHADOWS_OFF
+  - _TOON_SHADING_ON
+  m_InvalidKeywords:
+  - _STEPVIARAMPTEXTURE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - SRPDEFAULTUNLIT
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _DiffuseStep: 0.05
+    - _OutlineEnabled: 1
+    - _OutlineWidth: 9.2
+    m_Colors:
+    - _BaseColor: {r: 1, g: 0.9627973, b: 0.8254717, a: 1}
+    - _OutlineColor: {r: 0.6792453, g: 0.50539273, b: 0.40690637, a: 1}
+    - _OutlineDistancFade: {r: -34.18235, g: 44.117653, b: 0, a: 0}
+    - _ShadowColor: {r: 0.6981132, g: 0.4809834, b: 0.24697402, a: 1}
+  m_BuildTextureStacks: []

@@ -292,9 +292,7 @@ public class HittableMovement : MonoBehaviour
             curState = toppingState.interacable;
         }
         else
-        {
             curState = toppingState.uninteracable;
-        }
     }
     
     private void UpdateToppingState()

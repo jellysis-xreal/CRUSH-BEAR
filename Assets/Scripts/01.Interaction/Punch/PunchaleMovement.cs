@@ -116,7 +116,7 @@ public class PunchaleMovement : MonoBehaviour
         _meshRenderer.enabled = true;
         parentTransform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ArrivalArea"))
         {
@@ -145,5 +145,5 @@ public class PunchaleMovement : MonoBehaviour
             // GameManager.Player.MinusPlayerLifeValue();
             // other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
         }
-    }
+    }*/
 }

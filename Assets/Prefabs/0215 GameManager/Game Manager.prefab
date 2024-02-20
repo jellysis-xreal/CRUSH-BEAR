@@ -3201,7 +3201,7 @@ Transform:
   m_GameObject: {fileID: 3114721414779498666}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: -0.25, z: 0}
+  m_LocalPosition: {x: 0.25, y: -0.11199999, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3334,8 +3334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2bd58dcb6bbb04ca030e65f9268802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MusicVolume: 100
-  EffectVolume: 30
+  MusicVolume: 60
+  EffectVolume: 50
   effectSounds:
   - musicIndex: 1
     name: sfx_btn_select
@@ -3700,7 +3700,7 @@ Transform:
   m_GameObject: {fileID: 3767721868828293831}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: -0.25, z: 0}
+  m_LocalPosition: {x: -0.25, y: -0.112, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3845,7 +3845,7 @@ MonoBehaviour:
   beforeState: 0
   currentState: 0
   loadedBeatNum: 0
-  waveMusicGUID: 1
+  waveMusicGUID: 0
   CurMusicData:
     Difficulty: 0
     WaveType: 0
@@ -5911,9 +5911,9 @@ MonoBehaviour:
   - {fileID: 5986108987827161212, guid: 8fed5918828f016449ff2e16191bd0d8, type: 3}
   HitTopping:
   - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
-  - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
-  - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
-  - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
+  - {fileID: 6385131919391849816, guid: 7b742be79a2407b41a805f43219bf5ae, type: 3}
+  - {fileID: 1299475217588371555, guid: 13358304075e5b74cb8f2ee1d5ae0809, type: 3}
+  - {fileID: 4600889075278095963, guid: ee0a6066897b8b94cb8d493f21260581, type: 3}
   _poolSize: 20
   shootToppingPool: []
   punchToppingPool: []

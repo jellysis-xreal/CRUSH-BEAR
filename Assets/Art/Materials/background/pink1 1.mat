@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
+  - _OUTLINE
   - _RECEIVE_SHADOWS_OFF
   - _TOON_SHADING_ON
   m_InvalidKeywords:
@@ -234,10 +235,10 @@ Material:
     - _NoiseStrength: 0.1
     - _OcclusionStrength: 1
     - _OutlineDepthOffset: 0
-    - _OutlineEnabled: 0
+    - _OutlineEnabled: 1
     - _OutlineMode: 0
     - _OutlineScale: 1
-    - _OutlineWidth: 5
+    - _OutlineWidth: 8.92
     - _Outline_Width: 0
     - _OverrideLightmapDir: 0
     - _OverrideShadowColor: 0
@@ -267,7 +268,7 @@ Material:
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SpecClipMaskScale: 1
-    - _SpecShadowStrength: 1
+    - _SpecShadowStrength: 0.955
     - _SpecSource: 0
     - _SpecularClipStrength: 0
     - _SpecularEnabled: 0
@@ -319,10 +320,10 @@ Material:
     - _HatchColor: {r: 0, g: 0, b: 0, a: 1}
     - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightmapDirection: {r: 0, g: 1, b: 0, a: 0}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 0.7264151, g: 0.01027944, b: 0.46030238, a: 1}
     - _OutlineDistancFade: {r: -25, g: 50, b: 0, a: 0}
     - _RimColor: {r: 0.80893326, g: 1, b: 0, a: 1}
-    - _ShadowColor: {r: 0.35204068, g: 0.20303783, b: 0.5566038, a: 1}
+    - _ShadowColor: {r: 1, g: 0.5137255, b: 0.72550625, a: 0.967}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpherizeNormalOrigin: {r: 0, g: 0, b: 0, a: 1}
     - _UnityShadowColor: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}

@@ -19,6 +19,11 @@ public class BaseObject : MonoBehaviour
     {
         return IsScored;
     }
+
+    public void InitScoreBool()
+    {
+        IsScored = false;
+    }
     
     public void UpdateMovement()
     {

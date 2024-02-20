@@ -23,6 +23,7 @@ public class HittableMovement : MonoBehaviour
     [SerializeField] private toppingState curState = toppingState.idle;
     private float distancePlayer = 3.5f;
     private GameObject _player;
+    private BaseObject _baseObject;
 
     //토핑이 움직이기 위한 변수
     [SerializeField] private float _idleTime;
@@ -53,6 +54,7 @@ public class HittableMovement : MonoBehaviour
 
     private void Awake()
     {
+        _baseObject = GetComponent<BaseObject>();
         _rigidbody = GetComponent<Rigidbody>();
         _player = GameObject.FindWithTag("Player");
     }
@@ -112,6 +114,8 @@ public class HittableMovement : MonoBehaviour
 
     private void InitateBoolean()
     {
+        _baseObject.InitScoreBool();
+        
         _isInit = false;
         _isMoved = false;       // 2) Player를 향해 움직이고 있나요?
         _isHitted = false;      // 3) 막대에 의해 맞았나요?

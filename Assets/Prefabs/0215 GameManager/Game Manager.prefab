@@ -1378,7 +1378,7 @@ Transform:
   m_GameObject: {fileID: 1714670906898189510}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: -0.25, z: 0}
+  m_LocalPosition: {x: 0.3, y: -0.25, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2501,7 +2501,7 @@ Transform:
   m_GameObject: {fileID: 2796930160202356604}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: -0.25, z: 0}
+  m_LocalPosition: {x: -0.3, y: -0.25, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2847,7 +2847,7 @@ Transform:
   m_GameObject: {fileID: 2947842069465579784}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0.8, y: 0.25, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2965,7 +2965,7 @@ Transform:
   m_GameObject: {fileID: 2973238141866924897}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.75, y: 0.25, z: 0}
+  m_LocalPosition: {x: -0.8, y: 0.25, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3201,7 +3201,7 @@ Transform:
   m_GameObject: {fileID: 3114721414779498666}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: -0.25, z: 0}
+  m_LocalPosition: {x: 0.25, y: -0.11199999, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3334,8 +3334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2bd58dcb6bbb04ca030e65f9268802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MusicVolume: 15
-  EffectVolume: 30
+  MusicVolume: 60
+  EffectVolume: 50
   effectSounds:
   - musicIndex: 1
     name: sfx_btn_select
@@ -3417,10 +3417,15 @@ MonoBehaviour:
     name: sfx_toast_spawn
     clip: {fileID: 8300000, guid: da9bf63ea16a86f4eaf9c2ace57af6b0, type: 3}
     volume: 50
-  backgroundClips: []
+  backgroundClips:
+  - {fileID: 8300000, guid: d1596cc87e730284b9b00928968c4a19, type: 3}
+  - {fileID: 8300000, guid: 2b42414aa180a0c48a663e2242cd3cec, type: 3}
+  - {fileID: 8300000, guid: 7cd6e159383e8994caf26566ef8c0301, type: 3}
   musicClips:
   - {fileID: 8300000, guid: f34bf20a1941b2e4ca750602e832bc08, type: 3}
   - {fileID: 8300000, guid: e622bd39c2bef9f4bbc816df97ea2c8c, type: 3}
+  - {fileID: 8300000, guid: 518b151f0040fb24485a80fe001ad3cd, type: 3}
+  - {fileID: 8300000, guid: 76a08870490a5a54b8af7e408e4a600b, type: 3}
 --- !u!1 &3497661126815890361
 GameObject:
   m_ObjectHideFlags: 0
@@ -3695,7 +3700,7 @@ Transform:
   m_GameObject: {fileID: 3767721868828293831}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.25, y: -0.25, z: 0}
+  m_LocalPosition: {x: -0.25, y: -0.112, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3831,7 +3836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36a882c9522497eb33e9c19abd556a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endWaveNum: 2
+  endWaveNum: 4
   firstWaveType: 2
   currenWaveNum: 0
   currentWave: 2
@@ -3840,7 +3845,7 @@ MonoBehaviour:
   beforeState: 0
   currentState: 0
   loadedBeatNum: 0
-  waveMusicGUID: 3
+  waveMusicGUID: 0
   CurMusicData:
     Difficulty: 0
     WaveType: 0
@@ -5898,16 +5903,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShootTopping: []
   PunchTopping:
-  - {fileID: 5195794950197738625, guid: 0685ee5b9ee72a84b93292240abcdd17, type: 3}
   - {fileID: 8698371234449229498, guid: 2df2550ffecbf23429715df82b497467, type: 3}
-  - {fileID: 5986108987827161212, guid: 8fed5918828f016449ff2e16191bd0d8, type: 3}
-  - {fileID: 7202021882020893903, guid: 6facf6a260429b64880e2eeba9ae7a4b, type: 3}
   - {fileID: 8370039835697521976, guid: c5b1893ec691a7c43a3381e41b353e6d, type: 3}
+  - {fileID: 5195794950197738625, guid: 0685ee5b9ee72a84b93292240abcdd17, type: 3}
+  - {fileID: 7202021882020893903, guid: 6facf6a260429b64880e2eeba9ae7a4b, type: 3}
   - {fileID: 6525727010650561712, guid: 5459109887d417d43a2fbb9b82d9f0d5, type: 3}
+  - {fileID: 5986108987827161212, guid: 8fed5918828f016449ff2e16191bd0d8, type: 3}
   HitTopping:
   - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
-  - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
-  - {fileID: 7316578390627877693, guid: e5c516d188ca0c842bd5be8447874047, type: 3}
+  - {fileID: 6385131919391849816, guid: 7b742be79a2407b41a805f43219bf5ae, type: 3}
+  - {fileID: 1299475217588371555, guid: 13358304075e5b74cb8f2ee1d5ae0809, type: 3}
+  - {fileID: 4600889075278095963, guid: ee0a6066897b8b94cb8d493f21260581, type: 3}
   _poolSize: 20
   shootToppingPool: []
   punchToppingPool: []
@@ -6383,8 +6389,8 @@ Transform:
   m_GameObject: {fileID: 7689708762190353352}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.231, z: 0.87}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3494558951624355406}

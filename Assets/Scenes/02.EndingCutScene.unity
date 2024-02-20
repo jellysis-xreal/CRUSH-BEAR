@@ -829,7 +829,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1, y: -5.049897}
+  m_AnchoredPosition: {x: 1, y: -4.9998975}
   m_SizeDelta: {x: 0.43, y: 0.00044656656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &193184978
@@ -1128,7 +1128,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1, y: -3.6240127}
+  m_AnchoredPosition: {x: 1, y: -3.4990127}
   m_SizeDelta: {x: 0.26, y: 0.0005839717}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &258279181
@@ -1155,7 +1155,7 @@ MonoBehaviour:
 
     <size=0.03>Kang Seohyun
 
-    Im Jaehwak'
+    lim Jaehwak'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f2e94abea5f68604ea9ace08cc841a8a, type: 2}
   m_sharedMaterial: {fileID: -6153489780186082023, guid: f2e94abea5f68604ea9ace08cc841a8a,
@@ -2363,6 +2363,7 @@ GameObject:
   - component: {fileID: 730164156}
   - component: {fileID: 730164155}
   - component: {fileID: 730164157}
+  - component: {fileID: 730164158}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -2461,6 +2462,102 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!82 &730164158
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730164153}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8f416e54f1dfbbd4e9e5144d91550683, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &788777299
 GameObject:
   m_ObjectHideFlags: 0
@@ -4943,7 +5040,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1, y: -4.099193}
+  m_AnchoredPosition: {x: 1, y: -3.999193}
   m_SizeDelta: {x: 0.22, y: 0.0009274844}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1053664077
@@ -4968,7 +5065,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'DEsign
 
-    <size=0.03>Kim Yeokyung
+    <size=0.03>Kim Yeogyung
 
     Lee Songhee
 
@@ -5089,7 +5186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1, y: -4.5746655}
+  m_AnchoredPosition: {x: 1, y: -4.4996657}
   m_SizeDelta: {x: 0.23, y: 0.0011679434}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1070614055
@@ -5118,7 +5215,7 @@ MonoBehaviour:
 
     Kim Junghyo
 
-    Shin Juhong
+    Shin Joohong
 
     Choi
     Minseo
@@ -5752,7 +5849,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1, y: -5.5250607}
+  m_AnchoredPosition: {x: 1, y: -5.500061}
   m_SizeDelta: {x: 0.54, y: 0.0010305382}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1260334956
@@ -5971,7 +6068,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1, y: -3.149073}
+  m_AnchoredPosition: {x: 1, y: -2.9990728}
   m_SizeDelta: {x: 0.2, y: 0.00044656656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1279987412
@@ -5996,7 +6093,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Leader
 
-    <size=0.03>Im Jaehwak'
+    <size=0.03>lim Jaehwak</size>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f2e94abea5f68604ea9ace08cc841a8a, type: 2}
   m_sharedMaterial: {fileID: -6153489780186082023, guid: f2e94abea5f68604ea9ace08cc841a8a,
@@ -7120,8 +7217,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1, y: -2.3744247}
-  m_SizeDelta: {x: 1, y: 0.6}
+  m_AnchoredPosition: {x: 1, y: -2.2994246}
+  m_SizeDelta: {x: 0.6, y: 0.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1624608742
 CanvasRenderer:

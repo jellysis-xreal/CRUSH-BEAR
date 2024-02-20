@@ -96,14 +96,24 @@ public class NodeInstantiator_minha : MonoBehaviour
                 if (hitToppingPool.Length == 0)
                 {
                     hitToppingPool = new GameObject[_poolSize];
-                    for (int i = 0; i < _poolSize; ++i)
+                    for (int i = 0; i < _poolSize/2; ++i)
                     {
-                        GameObject topping = HitTopping[(i % HitTopping.Count)];
+                        GameObject topping = HitTopping[(i % 2)];
                         GameObject node = Instantiate(topping);
                         node.SetActive(false);
                         DontDestroyOnLoad(node);
                         hitToppingPool[i] = node;
-                        hitToppingPool[i].name = "Hit_" + i;
+                        hitToppingPool[i].name = "Hit_R_" + i;
+                    }
+
+                    for (int i = _poolSize / 2; i < _poolSize; ++i)
+                    {
+                        GameObject topping = HitTopping[(2 + i % 2)];
+                        GameObject node = Instantiate(topping);
+                        node.SetActive(false);
+                        DontDestroyOnLoad(node);
+                        hitToppingPool[i] = node;
+                        hitToppingPool[i].name = "Hit_B_" + i;
                     }
                     //[XMC]Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
                 }
@@ -346,6 +356,8 @@ public class NodeInstantiator_minha : MonoBehaviour
             else if(wave == WaveType.Hitting)
             { //템프노트인포가 남아있는지, 위치는 어디로 초기화되는지
                 if (hitToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
+                if (_nodeQueue.Peek().sideType == InteractionSide.Red && i > 9) continue;   // 0~9 만 Red Object. 아니면 넘어감
+                if (_nodeQueue.Peek().sideType == InteractionSide.Blue && i < 10) continue;  // 10~19만 Blue Object. 아니면 넘어감
                 
                 tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
                 //[XMC]Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");

@@ -226,7 +226,7 @@ public class ScoreManager : MonoBehaviour
             
             // 점수에 따른 효과
             GameObject obj = Instantiate(Perfect_VFX, transform.position, Quaternion.identity);
-            Destroy(obj, 3.0f);
+            Destroy(obj, 2.0f);
         }
         else if (score == scoreType.Good)
         {

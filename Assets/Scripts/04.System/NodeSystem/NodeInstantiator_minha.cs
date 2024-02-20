@@ -322,8 +322,11 @@ public class NodeInstantiator_minha : MonoBehaviour
                     Debug.Log($"[Node Maker] Dequeue {poolsToUse[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
                     
                     poolsToUse[i].SetActive(true);
-                    poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
-                    StartCoroutine(poolsToUse[i].GetComponentInChildren<PunchaleMovement>().InitializeToppingRoutine(tempNodeInfo));
+                    
+                    PunchaleMovement punchaleMovement = poolsToUse[i].GetComponentInChildren<PunchaleMovement>();
+                    punchaleMovement.parentTransform.position = tempNodeInfo.spawnPosition;
+                    // poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
+                    StartCoroutine(punchaleMovement.InitializeToppingRoutine(tempNodeInfo));
                     poolsToUse[i].GetComponentInChildren<Breakable>().InitBreakable();
                     break;
                 }
@@ -343,8 +346,10 @@ public class NodeInstantiator_minha : MonoBehaviour
                 Debug.Log($"[Node Maker] Dequeue {punchPoolsToUse[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
 
                 punchPoolsToUse[i].SetActive(true);
-                punchPoolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
-                StartCoroutine(punchPoolsToUse[i].GetComponentInChildren<PunchaleMovement>().InitializeToppingRoutine(tempNodeInfo));
+                PunchaleMovement movement = punchPoolsToUse[i].GetComponentInChildren<PunchaleMovement>();
+                movement.parentTransform.position = tempNodeInfo.spawnPosition;
+                // poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
+                StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
                 punchPoolsToUse[i].GetComponentInChildren<Breakable>().InitBreakable();
                     
                 /*punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;

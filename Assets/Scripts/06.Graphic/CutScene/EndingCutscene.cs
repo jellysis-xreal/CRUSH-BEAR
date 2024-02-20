@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -14,22 +15,20 @@ public class EndingCutscene : TimeLineController
     [SerializeField]
     private float offset;
     [SerializeField]
-    private GameObject playerObject;
-    [SerializeField]
-    private GameObject cookie;
+    private GameObject playerObject, startCookie, particle, smoke, cutsceneCookie, shatteredCutsceneCookie, shakeInfo, endingCredit;
     [SerializeField]
     private Renderer fadeOutPanel;
     [SerializeField]
-    private Transform cameraPoints;
-    [SerializeField]
-    private Transform leftControllerTransform, rightControllerTransform;
+    private Transform cameraPoints, leftControllerTransform, rightControllerTransform;
     private PlayableDirector director;
 
     private bool isCutsceneStarted;
     private int currentPosition;
     private float shakeAmount;
 
-    private const int CUTSCENE_PASS_THRESHOLD = 10;
+
+    private const float CAMERA_OFFSET = 1.1176f;
+    private const int CUTSCENE_PASS_THRESHOLD = 5;
     private void Awake()
     {
         InitSetting();
@@ -38,12 +37,13 @@ public class EndingCutscene : TimeLineController
     {
         Debug.Log("½ÇÇàµÊ");
         SetObjectPosition(bannerTransform, new Vector3(0, 0.4f, 0), new Vector3(-30, 180, 0));
-        SetObjectPosition(cookie.transform, new Vector3(0, 0.4f, 0), new Vector3(-90, 180, 0));
-        Breakable breakable = cookie.GetComponent<Breakable>();
+        SetObjectPosition(startCookie.transform, new Vector3(0, -0.1f, 0), new Vector3(-90, 180, 0));
+        Breakable breakable = startCookie.GetComponent<Breakable>();
         breakable.onBreak.AddListener(StartCutScene);
         director = GetComponent<PlayableDirector>();
         isCutsceneStarted = false;
         fadeOutPanel.material.color = new Color(0, 0, 0, 0);
+        shakeInfo.SetActive(false);
     }
 
     private void SetObjectPosition(Transform transform, Vector3 positionOffset, Vector3 rotationOffset)
@@ -63,9 +63,11 @@ public class EndingCutscene : TimeLineController
     {
         if (isCutsceneStarted)
             return;
+        startCookie.SetActive(false);
         isCutsceneStarted = true;
         playerObject.GetComponent<ActionBasedContinuousMoveProvider>().moveSpeed = 0;
         bannerTransform.gameObject.SetActive(false);
+        particle.SetActive(false);
         director.Play();
     }
 
@@ -81,10 +83,16 @@ public class EndingCutscene : TimeLineController
         else
             StartCoroutine(UpdateShake());
     }
+    public void InstantiateSmokeParticle()
+    {
+        Instantiate(smoke, cutsceneCookie.transform.position, Quaternion.identity);
 
+    }
     public void StartEndingCredit()
     {
-        fadeOutPanel.material.DOFade(1f, 1f);
+        DOTween.Sequence().Append(fadeOutPanel.material.DOFade(1f, 1f))
+            .AppendCallback(ResetCameraPosition).
+            OnComplete(StartEnding);
     }
 
     public void SetCamera()
@@ -97,9 +105,18 @@ public class EndingCutscene : TimeLineController
             OnComplete(() => director.Play());
     }
 
+    public void ShakeInfo()
+    {
+        shakeInfo.SetActive(true);
+        Image image = shakeInfo.transform.GetChild(0).GetComponent<Image>();
+        DOTween.Sequence().
+            Append(shakeInfo.transform.DOShakePosition(2, 0.1f)).
+            Append(image.DOFade(0, 1f)).
+            Join(image.transform.GetChild(0).GetComponent<TextMeshProUGUI>().DOFade(0, 1f));
+    }
     private void ResetCameraPosition()
     {
-        playerObject.transform.position = cameraPoints.GetChild(currentPosition).position;
+        playerObject.transform.position = cameraPoints.GetChild(currentPosition).position - new Vector3(0, CAMERA_OFFSET, 0);
         playerObject.transform.rotation = cameraPoints.GetChild(currentPosition++).rotation;
     }
     private IEnumerator UpdateShakeInput()
@@ -127,6 +144,7 @@ public class EndingCutscene : TimeLineController
         }
         shakeAmount = 0;
         director.Play();
+        Instantiate(shatteredCutsceneCookie, cutsceneCookie.transform);
     }
 
     private void CheckShake(ref float previousLeftY, ref float previousRightY)
@@ -135,5 +153,13 @@ public class EndingCutscene : TimeLineController
         shakeAmount += Mathf.Abs(rightControllerTransform.position.y - previousRightY);
         previousLeftY = leftControllerTransform.position.y;
         previousRightY = rightControllerTransform.position.y;
+    }
+
+    private void StartEnding()
+    {
+        fadeOutPanel.gameObject.SetActive(false);
+        endingCredit.SetActive(true);
+        RectTransform steproll = endingCredit.transform.GetChild(0).GetComponent<RectTransform>();
+        steproll.DOLocalMoveY(2.5f, 40);
     }
 }

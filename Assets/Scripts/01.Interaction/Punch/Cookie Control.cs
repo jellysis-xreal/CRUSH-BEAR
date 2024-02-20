@@ -19,6 +19,7 @@ public class CookieControl : MonoBehaviour
     }
     void Start()
     {
+        stopDistance = 7f;
         // 원래의 회전 값을 저장
         originalRotation = transform.rotation;
 

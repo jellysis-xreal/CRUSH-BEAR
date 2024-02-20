@@ -86,14 +86,18 @@ public class BreakController : MonoBehaviour
     IEnumerator ShatteredMovement()
     {
         Rigidbody[] rbs = new Rigidbody[shatteredObjects.Count];
+        
+        //color.a = 0.5f;
         for (int i = 0; i < shatteredObjects.Count; i++)
         {
             rbs[i] = shatteredObjects[i].GetComponent<Rigidbody>();
-            rbs[i].gameObject.GetComponent<MeshRenderer>().material.DOColor(Color.red,2f);
+            Material mat = rbs[i].gameObject.GetComponent<MeshRenderer>().material;
+            //mat.color.a = 0.5f;
+            mat.DOColor(Color.clear, 0.5f);
             // 주먹의 방향에 약간의 랜덤한 변화를 추가
             Vector3 forceDirection = shatteredVector + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
             
-            rbs[i].AddForce(forceDirection * 6f);
+            rbs[i].AddForce(forceDirection * 15f);
         }
         yield return new WaitForSeconds(0.3f);
 

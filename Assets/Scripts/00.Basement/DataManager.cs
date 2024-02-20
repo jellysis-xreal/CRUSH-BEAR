@@ -14,7 +14,7 @@ public class DataManager
         public uint WaveType; // (1)Gun   (2)Punch    (3)ToastHit
         public uint GUID; // Difficulty + WaveType + ID;
         public string MusicName;
-        public uint BPM;
+        public float BPM;
         public uint BeatNum;
         public List<uint[]> NodeData;
     }
@@ -60,7 +60,7 @@ public class DataManager
                     musicData.WaveType = uint.Parse(elems[2]);
                     musicData.GUID = uint.Parse(elems[3]);
                     musicData.MusicName = elems[4];
-                    musicData.BPM = uint.Parse(elems[5]);
+                    musicData.BPM = float.Parse(elems[5]);
                     musicData.BeatNum = uint.Parse(elems[6]);
 
                     line = csvWave.Readline();

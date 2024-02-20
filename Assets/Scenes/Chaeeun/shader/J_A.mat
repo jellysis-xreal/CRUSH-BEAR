@@ -13,8 +13,9 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
-  - _OUTLINE
   - _RECEIVE_SHADOWS_OFF
+  - _RIMLIGHTING_ON
+  - _SPECULARHIGHLIGHTS_OFF
   - _TOON_SHADING_ON
   m_InvalidKeywords:
   - _STEPVIARAMPTEXTURE_ON
@@ -32,11 +33,17 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _OutlineEnabled: 1
+    - _OutlineEnabled: 0
     - _OutlineWidth: 9.5
+    - _RimEnabled: 1
+    - _RimLightAlign: 0.05
+    - _RimLightSmoothness: 0.232
+    - _RimPower: 0.321
+    - _SpecularHighlights: 0
     m_Colors:
     - _BaseColor: {r: 0.36718583, g: 0.27843142, b: 1, a: 1}
     - _OutlineColor: {r: 0.4205553, g: 0.059407253, b: 0.8396226, a: 1}
     - _OutlineDistancFade: {r: -85.6, g: 19.7, b: 0, a: 0}
-    - _ShadowColor: {r: 0.1309317, g: 0, b: 0.6320754, a: 1}
+    - _RimColor: {r: 0, g: 0, b: 851.2258, a: 1}
+    - _ShadowColor: {r: 0.14889252, g: 0, b: 0.7264151, a: 1}
   m_BuildTextureStacks: []

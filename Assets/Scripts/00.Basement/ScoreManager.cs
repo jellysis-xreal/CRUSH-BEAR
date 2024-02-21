@@ -160,7 +160,12 @@ public class ScoreManager : MonoBehaviour
     {
         scoreType score;
         if(isPerpect) score = scoreType.Perfect;
-        else score = scoreType.Failed;
+        else
+        {
+            score = scoreType.Bad;
+            
+            if(GameManager.Wave.currenWaveNum > 1) GameManager.Player.MinusPlayerLifeValue(); // 임시
+        }
 
         //target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);

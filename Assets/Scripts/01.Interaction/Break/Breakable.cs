@@ -1,4 +1,5 @@
 using System;
+using EnumTypes;
 using UnityEngine.Events;
 
 namespace UnityEngine.XR.Content.Interaction
@@ -103,7 +104,7 @@ namespace UnityEngine.XR.Content.Interaction
             // m_OnBreak.Invoke(other.gameObject, brokenVersion);
             brokenVersion.GetComponent<BreakController>().IsHit(handTransform.forward);
             // GameManager.Player.MinusPlayerLifeValue();
-            // GameManager.Score.ScoringPunch(this.gameObject, false);
+            GameManager.Score.ScoringPunch(this.gameObject, false);
 
             _punchaleMovement.EndInteraction();
         }
@@ -115,6 +116,7 @@ namespace UnityEngine.XR.Content.Interaction
         
         private void OnTriggerEnter(Collider other)
         {
+            if(GameManager.Instance.currentGameState == GameState.Waving) return;
             if (m_Destroyed)
                 return;
             // Motion Checker OnTriggerEnter와 연결해야 함.

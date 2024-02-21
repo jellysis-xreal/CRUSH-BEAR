@@ -11,11 +11,11 @@ public class EndingCutscene : TimeLineController
 {
     [Header("Debug")]
     [SerializeField]
-    private RectTransform bannerTransform;
+    private RectTransform bannerTransform; //
     [SerializeField]
     private float offset;
     [SerializeField]
-    private GameObject playerObject, startCookie, particle, smoke, cutsceneCookie, shatteredCutsceneCookie, shakeInfo, endingCredit;
+    private GameObject playerObject, startCookie, particle, smoke, cutsceneCookie, shatteredCutsceneCookie, shakeInfo, endingCredit; // startCookie
     [SerializeField]
     private Renderer fadeOutPanel;
     [SerializeField]
@@ -37,7 +37,7 @@ public class EndingCutscene : TimeLineController
     {
         Debug.Log("½ÇÇàµÊ");
         SetObjectPosition(bannerTransform, new Vector3(0, 0.4f, 0), new Vector3(-30, 180, 0));
-        SetObjectPosition(startCookie.transform, new Vector3(0, -0.1f, 0), new Vector3(-90, 180, 0));
+        SetObjectPosition(startCookie.transform, new Vector3(0, -0.1f, -0.4f), new Vector3(-90, 180, 0));
         Breakable breakable = startCookie.GetComponent<Breakable>();
         breakable.onBreak.AddListener(StartCutScene);
         director = GetComponent<PlayableDirector>();

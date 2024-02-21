@@ -11,6 +11,7 @@ public class PunchaleMovement : MonoBehaviour
     [Header("Setting Variable")]
     public int arrivalBoxNum = 0; // 목표인 Box index number
     public float arriveTime; // Node Instantiate
+    public uint beatNum;
 
     [Header("other Variable (AUTO)")] 
     private Vector3 targetPosition;
@@ -52,6 +53,15 @@ public class PunchaleMovement : MonoBehaviour
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
         
+        Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {parentTransform.name}  ");
+        if (arriveTime - GameManager.Wave.waveTime < 7)
+        {
+            Debug.Log($"[Punch] Init Early {parentTransform.name} ");
+            cookieControl.Init(targetPosition);
+            InitiateVariableEarly();
+            yield break;
+        }
+        
         while (arriveTime - GameManager.Wave.waveTime > 7)
         {
             yield return null;
@@ -60,6 +70,22 @@ public class PunchaleMovement : MonoBehaviour
         Debug.Log($"[punch] InitVar {parentTransform.gameObject.name} ");
         cookieControl.Init(targetPosition);
         InitiateVariable();
+    }
+
+    private void InitiateVariableEarly()
+    {
+        _meshRenderer.enabled = true;
+        if(spriteRenderer != null) spriteRenderer.enabled = true; 
+        
+        _rigidbody.WakeUp();
+        //this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+
+        dir = targetPosition - parentTransform.position;
+        parentTransform.position += dir * ((7 - (arriveTime - GameManager.Wave.waveTime)) / 7f);
+        // Debug.Log($"[punch] pos {parentTransform.name} dir : {dir}, value : {((7 - (arriveTime - GameManager.Wave.waveTime)) / 7f)}");
+        // Debug.Log($"[punch] pos {parentTransform.name} : {parentTransform.position}");
+        StartCoroutine(Movement(arriveTime - GameManager.Wave.waveTime));
     }
     private void InitiateVariable()
     {
@@ -94,6 +120,13 @@ public class PunchaleMovement : MonoBehaviour
         parentTransform.position += dir * _constantSpeed * Time.fixedDeltaTime;
     }
 
+    IEnumerator Movement(float time)
+    {
+        _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / time;
+        dir = (targetPosition - parentTransform.position).normalized;
+        parentTransform.DOMove(targetPosition, time).SetEase(Ease.Linear);
+        yield return null;
+    }
     IEnumerator Movement()
     {
         Debug.Log($"[Punch] Movement {GameManager.Wave.currentBeatNum} Start Pos {parentTransform.position}, Time : {arriveTime - GameManager.Wave.waveTime}");
@@ -142,7 +175,7 @@ public class PunchaleMovement : MonoBehaviour
     IEnumerator TriggerArrivalAreaEndInteraction()
     {
         yield return new WaitForSeconds(1f);
-        
+        Debug.Log("trigger arrival");
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
         
@@ -165,10 +198,7 @@ public class PunchaleMovement : MonoBehaviour
     {
         if (other.CompareTag("ArrivalArea"))
         {
-            // Debug.Log($"Trigger {other.GetComponent<ObjectArrivalArea>().boxIndex} box ");
-            // other.GetComponent<MeshRenderer>().material.DOColor(Random.ColorHSV(), 1f);
-            
-            //Debug.Log($"End Interaction {gameObject.name} Trigger Arrival Area {other.name}");
+            Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
             // StartCoroutine(TriggeredMovement());

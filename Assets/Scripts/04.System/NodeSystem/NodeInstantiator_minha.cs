@@ -325,6 +325,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     
                     PunchaleMovement punchaleMovement = poolsToUse[i].GetComponentInChildren<PunchaleMovement>();
                     punchaleMovement.parentTransform.position = tempNodeInfo.spawnPosition;
+                    punchaleMovement.beatNum = tempNodeInfo.beatNum;
                     // poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
                     StartCoroutine(punchaleMovement.InitializeToppingRoutine(tempNodeInfo));
                     poolsToUse[i].GetComponentInChildren<Breakable>().InitBreakable();
@@ -348,6 +349,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchPoolsToUse[i].SetActive(true);
                 PunchaleMovement movement = punchPoolsToUse[i].GetComponentInChildren<PunchaleMovement>();
                 movement.parentTransform.position = tempNodeInfo.spawnPosition;
+                movement.beatNum = tempNodeInfo.beatNum;
                 // poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
                 punchPoolsToUse[i].GetComponentInChildren<Breakable>().InitBreakable();

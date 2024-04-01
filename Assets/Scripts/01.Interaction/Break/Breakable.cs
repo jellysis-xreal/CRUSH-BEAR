@@ -1,6 +1,6 @@
 using System;
-using EnumTypes;
 using UnityEngine.Events;
+using EnumTypes;
 
 namespace UnityEngine.XR.Content.Interaction
 {
@@ -86,7 +86,39 @@ namespace UnityEngine.XR.Content.Interaction
 
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
             brokenVersion.GetComponent<BreakController>().IsHit(handTransform.forward);
-            GameManager.Score.ScoringPunch(this.gameObject, true);
+            if(GameManager.Score != null) GameManager.Score.ScoringPunch(this.gameObject, true);
+
+            _punchaleMovement.EndInteraction();
+        }
+        public void MotionSucceed(EnumTypes.Motion motion) // Breakable.IsHit의 파라미터 전달하기 위함.
+        {
+            if (m_Destroyed)
+                return;
+
+            Debug.Log("Motion Succeed!");
+            
+            m_Destroyed = true;
+            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+
+            // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
+            brokenVersion.GetComponent<BreakController>().IsHit(motion);
+            if(GameManager.Score != null) GameManager.Score.ScoringPunch(this.gameObject, true);
+
+            _punchaleMovement.EndInteraction();
+        }
+        public void MotionSucceed() // Breakable.IsHit의 파라미터 전달하기 위함.
+        {
+            if (m_Destroyed)
+                return;
+
+            Debug.Log("Motion Succeed!");
+            
+            m_Destroyed = true;
+            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+
+            // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
+            brokenVersion.GetComponent<BreakController>().IsHit();
+            if(GameManager.Score != null) GameManager.Score.ScoringPunch(this.gameObject, true);
 
             _punchaleMovement.EndInteraction();
         }
@@ -108,10 +140,23 @@ namespace UnityEngine.XR.Content.Interaction
 
             _punchaleMovement.EndInteraction();
         }
-
-        public void MotionMissed()
+        public void MotionFailed()
         {
-            // 못 치고 지나가면 Miss
+            // 인터랙션했지만 MotionChecker.correctMotion과 일치하지 않을 때 Fail 처리
+            if (m_Destroyed)
+                return;
+            
+            Debug.Log("Motion Failed!");
+            
+            m_Destroyed = true;
+            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+
+            // m_OnBreak.Invoke(other.gameObject, brokenVersion);
+            brokenVersion.GetComponent<BreakController>().IsHit();
+            // GameManager.Player.MinusPlayerLifeValue();
+            GameManager.Score.ScoringPunch(this.gameObject, false);
+
+            _punchaleMovement.EndInteraction();
         }
         
         private void OnTriggerEnter(Collider other)

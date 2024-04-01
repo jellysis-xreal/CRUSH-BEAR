@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Motion = EnumTypes.Motion;
 using Random = UnityEngine.Random;
 
 public class BreakController : MonoBehaviour
@@ -49,6 +50,36 @@ public class BreakController : MonoBehaviour
         setBreakTime = true;
 
         shatteredVector = shatteredVec;
+        StartCoroutine(ShatteredMovement());
+    }
+    public void IsHit(Motion motionVecor) // Failed  Motino
+    {
+        Initialize();
+        
+        isHit = true;
+        setBreakTime = true;
+
+        switch (motionVecor)
+        {
+            case Motion.LeftZap:
+                shatteredVector = new Vector3(0,0,1);
+                break;
+            case Motion.RightZap:
+                shatteredVector = new Vector3(0,0,1);
+                break;
+            case Motion.LeftHook:
+                shatteredVector = new Vector3(-1,0,1);
+                break;
+            case Motion.RightHook:
+                shatteredVector = new Vector3(1,0,1);
+                break;
+            case Motion.LeftUpperCut:
+                shatteredVector = new Vector3(0,1,1);
+                break;
+            case Motion.RightUpperCut:
+                shatteredVector = new Vector3(0,1,1);
+                break;
+        }
         StartCoroutine(ShatteredMovement());
     }
     public void IsHit() // Failed

@@ -263,16 +263,24 @@ public class HittableMovement : MonoBehaviour
             //Debug.Log("Up : 벽의 위에 부딪힘");
             switch (type)
             {
-                case InteractionSide.Red: return true;      //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
-                case InteractionSide.Blue: return false;   //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
+                case InteractionSide.Blue:
+                    //Debug.Log("[SWING] Up : 윗면에 부딪힘, 정상이 아님");
+                    return true;      //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
+                case InteractionSide.Red:
+                    //Debug.Log("[SWING] Up : 윗면에 부딪힘, 정상적으로 감지된 것");
+                    return false;   //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
             }
         }
         else
         {
             switch (type)
             {
-                case InteractionSide.Red:return false;      //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
-                case InteractionSide.Blue:return true;     //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
+                case InteractionSide.Blue:
+                    //Debug.Log("[SWING] Down : 아래면에 부딪힘, 정상적으로 감지된 것");
+                    return false;      //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
+                case InteractionSide.Red :
+                    //Debug.Log("[SWING] Down : 아래면에 부딪힘, 정상이 아님");
+                    return true;     //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
             }
         }
 

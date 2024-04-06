@@ -6,6 +6,8 @@ using UnityEngine;
 public class DataManager
 {
     public Dictionary<uint, MusicData> waveMusicData = new Dictionary<uint, MusicData>();
+    public Dictionary<uint, MusicData> tutorialWaveMusicData = new Dictionary<uint, MusicData>();
+
 
     [Serializable]
     public struct MusicData
@@ -19,10 +21,15 @@ public class DataManager
         public List<uint[]> NodeData;
     }
 
+
+
     public void Init()
     {
         Debug.Log("Initialize DataManager");
         LoadInitialWaveData();
+        // tutorial csv 파일
+        LoadInitialTutorialWaveData("01-tutorial-punch");
+        LoadInitialTutorialWaveData("02-tutorial-hit");
     }
 
     // csv 파일의 값들을 읽어 MusicData 구조체 내에 값을 저장한다. 추후 GameManager.Data.GetMusicData(uint index)로 노래에 대한 값들을 읽어온다.
@@ -92,10 +99,76 @@ public class DataManager
         }
     }
 
+    // 튜토리얼 csv 읽어오는 함수
+    private void LoadInitialTutorialWaveData(string tutorialFileName) 
+    {
+        Debug.Log("===LoadInitialTutorialWaveData : 튜토리얼 csv 파일 읽어오기");
+
+        CSVImporter csvTutorial = new CSVImporter();
+        //string tutorialFileName = "01-tutorial-punch"; // 튜토리얼 csv 파일 이름
+        if (!csvTutorial.OpenFile("Data/tutorialTest/" + tutorialFileName))
+        {
+            Debug.Log("Read File Error");
+            return;
+        }
+        csvTutorial.ReadHeader();
+        string line = csvTutorial.Readline();
+
+        // 튜토리얼 노래 정보
+        var tutorialMusicData = new MusicData();
+        List<uint[]> Node = new List<uint[]>();
+
+        while (line != null)
+        {
+            string[] elems = line.Split(',');
+
+            if (elems[0] == "")
+            {
+                break;
+            }
+
+            if (elems[0] == "#")
+            {
+                tutorialMusicData.Difficulty = uint.Parse(elems[1]);
+                tutorialMusicData.WaveType = uint.Parse(elems[2]);
+                tutorialMusicData.GUID = uint.Parse(elems[3]);
+                tutorialMusicData.MusicName = elems[4];
+                tutorialMusicData.BPM = float.Parse(elems[5]);
+                tutorialMusicData.BeatNum = uint.Parse(elems[6]);
+
+                line = csvTutorial.Readline();
+                continue;
+            }
+            else
+            {
+                uint[] OneBeat = new uint[5];
+                OneBeat[0] = uint.Parse(elems[0]); // Beat
+                OneBeat[1] = uint.Parse(elems[1]); // Box 1
+                OneBeat[2] = uint.Parse(elems[2]); // Box 2
+                OneBeat[3] = uint.Parse(elems[3]); // Box 3
+                OneBeat[4] = uint.Parse(elems[4]); // Box 4
+                Node.Add(OneBeat);
+            }
+
+            line = csvTutorial.Readline();
+        }
+
+        tutorialMusicData.NodeData = Node.ToList();
+        tutorialWaveMusicData.Add(tutorialMusicData.GUID, tutorialMusicData);
+        Debug.Log($"DataManager : [Done] Load Tutorial Music Data {tutorialMusicData.MusicName}");
+    }
+
+
     public MusicData GetMusicData(uint id)
     {
         Debug.Log("DataManager : [Done] Load music data " + "GUID : "+id+" Music Name :" +waveMusicData[id].MusicName);
         return waveMusicData[id];
+    }
+
+    public MusicData GetTutorialMusicData(uint id)
+    {
+        Debug.Log("DataManager : [Done] Load music data " + "GUID : " + id + " Music Name :" + tutorialWaveMusicData[id].MusicName);
+        return tutorialWaveMusicData[id];
     }
 
     private void DebugNodeData()

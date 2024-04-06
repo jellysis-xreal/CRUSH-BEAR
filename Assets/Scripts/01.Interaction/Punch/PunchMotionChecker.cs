@@ -22,12 +22,12 @@ public class PunchMotionChecker : MonoBehaviour
     
     private void Awake()
     {
-        if (_childTriggerChecker != null)
+        if (_childTriggerChecker == null)
         {
             _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
             correctMotion = _childTriggerChecker.handMotion;
         }
-        if(_breakable != null) _breakable = GetComponent<Breakable>();
+        if(_breakable == null) _breakable = GetComponent<Breakable>();
     }
 
     private void OnTriggerEnter(Collider other)

@@ -22,10 +22,6 @@ public class BreakController : MonoBehaviour
 
     public Vector3 shatteredVector;
     
-    private void Start()
-    {
-        //Initialize();
-    }
 
     private void OnEnable()
     {
@@ -139,19 +135,6 @@ public class BreakController : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         Destroy(this.gameObject);
-    }
-    void Update()
-    {
-        /*if (isHit && setBreakTime)
-        {
-            breakTime += Time.deltaTime;
-            
-            // 조각을 자연스럽게 흩어지게 한뒤, 5s가 지나면 해당 오브젝트를 destory
-            if (breakTime < 3.0f)
-                MoveShattered();
-            else
-                Destroy(this.gameObject);
-        }*/
     }
 
     private void OnDrawGizmos()

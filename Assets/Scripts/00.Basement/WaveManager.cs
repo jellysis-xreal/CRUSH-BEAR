@@ -24,6 +24,16 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private WaveState currentState;
     [SerializeField] public int loadedBeatNum = 0; // 로딩된 Wave beat
 
+    // For Tutorial 
+    private bool _isTutorialPlayed = false; // 튜토리얼 플레이 완료 여부
+    public bool isTutorial = false; // 현재 튜토리얼 게임중 여부
+    public uint tutorialMusicGUID; // 튜토리얼 웨이브에 대한 음악 데이터의 GUID
+    private bool tutorialWaveCompleted = false; // 튜토리얼의 한 웨이브가 완료되었는지(튜토리얼 웨이브의 노드가 다 생성 되었는지)
+    private int tutorialRound = 1;// 튜토리얼의 라운드 (1,2 존재)
+    private int tutorialScore = 0;
+    ////
+
+
     private float _oneBeat;
     private float _beat;
    
@@ -61,6 +71,8 @@ public class WaveManager : MonoBehaviour
     public enum WaveState
     {
         Init,       //새로운 Wave로 Enter 하는 중
+        TutorialWaiting, // 튜토리얼 Wave 대기 중
+        TutorialPlaying, // 튜토리얼 Wave 진행 중
         Waiting,    //잠시 대기 중
         Playing,     //Wave 진행 중
         Pause,
@@ -187,7 +199,14 @@ public class WaveManager : MonoBehaviour
         // 현재 Wave manager가 작동하는 상황이라면, Wave State를 업데이트 합니다.
         if (GameManager.Instance.currentGameState == GameState.Waving && _IsManagerInit)
         {
-            UpdateWaveState();
+            //if (isTutorial) // 이거 튜토리얼 업데이트 하는 거 없어도 되게 수정중!
+            //{
+            //    UpdateTutorialState(); // 튜토리얼 상태 업데이트
+            //}
+            //else
+            //{
+            UpdateWaveState(); // 일반 웨이브 상태 업데이트
+            //}
             UpdateBeat();
         }
     }
@@ -195,18 +214,107 @@ public class WaveManager : MonoBehaviour
     private void UpdateWaveState()
     {
         // Init -> Waiting -> Playing(노래(wave) 재생 중..) -> Waiting(노래(wave) 종료) -> Init -> 반복하다 비트 끝나면 End
+        // tutorial 추가 시 : (Init -> TutorialWaiting -> TutorialPlaying) * 2 (2회 반복) -> init -> Waiting -> ... (TutorialPlaying 이후는 위와 동일)
         switch (currentState)
         {
             case WaveState.Init:
+                //Debug.Log("===WaveState : Init");
+                //_isTutorialPlayed = true; // 튜토리얼 제외한 코드 테스트용
+                // tutorial wave를 위해 새로 작성한 코드
+                if (!_isTutorialPlayed)
+                {
+                    //Debug.Log("튜토리얼 미완료 상태 : _isTutorialPlayed = F");
+                    tutorialWaveCompleted = false;
+                    GameManager.Score.ResetTutorialScore();
+                    //Debug.Log("튜토리얼 tutorialScore : " + tutorialScore);
+
+                    NextTutorialWaveSetting();
+                    //beforeState = WaveState.Init;
+                    currentState = WaveState.TutorialWaiting;
+                }
+                else
+                {
+                    //Debug.Log("튜토리얼 완료한 상태 : _isTutorialPlayed = T");
+                    NextWaveSetting();
+                    beforeState = WaveState.Init;
+                    currentState = WaveState.Waiting;
+                }
                 //[XMC]Debug.Log("[WAVE] Wave Initialize(next wave setting), 잠시 대기하는 중입니다.");
-                NextWaveSetting();
-                beforeState = WaveState.Init;
-                currentState = WaveState.Waiting;
+
                 // else if (beforeState == WaveState.Waiting)
                 // {
                 //     beforeState = WaveState.Init;
                 //     currentState = WaveState.Playing;
                 // }
+                break;
+
+            case WaveState.TutorialWaiting:
+                Debug.Log("===WaveState : TutorialWaiting");
+                SetPauseWave();
+                
+                //튜토리얼 설명 UI 추가 예정
+
+                ContinueTutorialWave(beforeState);
+                currentState = WaveState.TutorialPlaying; 
+                break;
+
+            case WaveState.TutorialPlaying: // 튜토리얼 Wave를 실행 중
+                Debug.Log("===WaveState : TutorialPlaying");
+                isTutorial = true;
+                waveTime += Time.deltaTime;
+
+                switch (tutorialRound)
+                {
+                    case 1:
+                        Debug.Log("[tutorialRound] = 1");
+                        Debug.Log("튜토리얼 tutorialScore : " + tutorialScore);
+
+                        if (IsTutorialScoreComplete()) // 튜토리얼 완료 조건
+                        {
+                            Debug.Log("IsTutorialScoreComplete 달성 완료");
+
+                            // 튜토리얼 1라운드만 완료 처리
+                            //_isTutorialPlayed = true;
+                            isTutorial = false;
+                            tutorialRound++;
+                            currentState = WaveState.Init; // 다음 상태로 전환
+                        }
+                        else
+                        {
+                            if (tutorialWaveCompleted) // 노드는 다 나왔는데, 점수 도달 못했다면 1라운드 반복
+                            {
+                                Debug.Log("XX IsTutorialScoreComplete XX");
+
+                                isTutorial = false;
+                                currentState = WaveState.Init; // 그냥 다음 상태로 전환
+                            }
+                        }
+                        break;
+                    case 2:
+                        Debug.Log("[tutorialRound] = 2");
+                        Debug.Log("튜토리얼 tutorialScore : " + tutorialScore);
+
+                        if (IsTutorialScoreComplete()) // 튜토리얼 완료 조건
+                        {
+                            Debug.Log("IsTutorialScoreComplete 달성 완료");
+
+                            // 튜토리얼 완전 완료 처리
+                            _isTutorialPlayed = true;
+                            isTutorial = false;
+                            currentState = WaveState.Init; // 다음 상태로 전환
+                        }
+                        else
+                        {
+                            if (tutorialWaveCompleted)
+                            {
+                                Debug.Log("XX IsTutorialScoreComplete XX");
+
+                                isTutorial = false;
+                                currentState = WaveState.Init; // 그냥 다음 상태로 전환
+                            }
+                        }
+                        break;
+                }
                 break;
 
             case WaveState.Playing:
@@ -235,6 +343,22 @@ public class WaveManager : MonoBehaviour
     /// Wave 전환 시 사용함.
     /// Random으로 다음 wave를 지정하고, 세팅합니다.
     /// </summary>
+    /// 
+
+    private bool IsTutorialScoreComplete()
+    {
+        bool ret_value = false;
+        int TnodeNum = 1; // 칠 수 있는 노드 1개라고 가정 
+        tutorialScore = GameManager.Score.GetTutorialScore();
+
+        if (tutorialScore >= TnodeNum)
+        {
+            ret_value = true;
+        }
+        return ret_value;
+    }
+
+
     public void NextWaveSetting()
     {
         // Random으로 다음 wave를 지정
@@ -271,10 +395,46 @@ public class WaveManager : MonoBehaviour
 
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅
-        
+
         // TODO: Scene 내의 점수판, 조명, 노드 도착지점 세팅
         SetWavePlay();
-        
+        nodeInstantiator.InitToppingPool(currentWave); //Topping Pool 세팅
+    }
+
+    public void NextTutorialWaveSetting()
+    {
+        Debug.Log("============ NextTutorialWaveSetting 함수 내부 ==============");
+        Debug.Log("[다음 튜토리얼 세팅] NextTutorialWaveSetting()");
+
+        // 다음 튜토리얼 wave를 지정
+        waveTime = 0;
+        currentBeatNum = 0;
+
+        Debug.Log("[tutorialRound] : " + tutorialRound);
+
+        Debug.Log("[tutorialMusicGUID] : " + tutorialMusicGUID);
+
+
+        if (tutorialRound == 1) // 튜토리얼 1라운드
+        {
+            tutorialMusicGUID = 11;
+        }
+        if (tutorialRound == 2) // 튜토리얼 2라운드
+        {
+            tutorialMusicGUID = 12;
+        }
+
+        CurMusicData = GameManager.Data.GetTutorialMusicData(tutorialMusicGUID); //받아올 Music Data 세팅
+        Debug.Log("==NextTutorialWaveSetting==");
+        Debug.Log($"[Tutorial Wave] : received Tutorial Music Data. Music GUID {CurMusicData.GUID}");
+        _oneBeat = 60.0f / CurMusicData.BPM;
+        _beat = _oneBeat;
+
+        currentWave = (WaveType)CurMusicData.WaveType;
+
+        // Wave 세팅
+        SetWavePlayer(); // Player의 Interact 세팅
+        SetWavePlay();
         nodeInstantiator.InitToppingPool(currentWave); //Topping Pool 세팅
     }
 
@@ -292,6 +452,29 @@ public class WaveManager : MonoBehaviour
         }
         
     }
+
+    public void ContinueTutorialWave(WaveState beforeState) //
+    {
+        Debug.Log("----[TutorialWaiting] ContinueTutorialWave");
+        if (_isPause)
+        {
+            // Debug.Log("[WAVE] Wave Continue");
+            // __초 뒤에 Wave 일시정지를 해제합니다.
+
+            if (beforeState == WaveState.Init && _waitBeforePlayingCoroutine == null)
+                _waitBeforePlayingCoroutine = StartCoroutine(WaitBeforePlaying(5, WaveState.TutorialPlaying));
+
+            else if (beforeState == WaveState.TutorialPlaying && _waitAfterPlayingCoroutine == null)
+            {
+                countdownTime = 2;
+                _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3, WaveState.TutorialPlaying));
+            }
+
+            // currentState = WaveState.TutorialPlaying; 
+            // TutorialWaiting -> TutorialPlaying state 관리 
+        }
+    }
+
 
     [ContextMenu("DEBUG/ContinueWave()")] //TODO: For Test, 이후 제거하기
     public void ContinueWave(WaveState waveState)
@@ -517,6 +700,16 @@ public class WaveManager : MonoBehaviour
                 currentState = WaveState.Waiting;
             }
             
+            currentBeatNum++;
+            _beat += _oneBeat;
+        }
+        // 튜토리얼용) -> 나중에 합치기
+        if (waveTime > _beat && currentState == WaveState.TutorialPlaying)
+        {
+            if (currentBeatNum == CurMusicData.BeatNum) // 튜토리얼 웨이브의 비트가 모두 재생되었는지 확인
+            {
+                tutorialWaveCompleted = true; // 튜토리얼 한 웨이브 완료
+            }
             currentBeatNum++;
             _beat += _oneBeat;
         }

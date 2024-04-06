@@ -21,7 +21,9 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private float maxSpeed = 3.0f;
     public TextMesh[] scoreText_mesh = new TextMesh[3];
     public TMP_Text[] comboText = new TMP_Text[3];
-    
+
+    public int tutorial_score = 0; // 튜토리얼 스코어
+
     [Header("setting(auto)")] 
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject RightController;
@@ -187,31 +189,58 @@ public class ScoreManager : MonoBehaviour
 
     private void AddScore(scoreType score)
     {
-        switch (score)
+        if (!GameManager.Wave.isTutorial)
         {
-            case scoreType.Perfect:
-                GameManager.Combo.ActionSucceed();
-                TotalScore += 100;
-                setTXT();
-                break;
-            
-            case scoreType.Good:
-                GameManager.Combo.ActionSucceed();
-                TotalScore += 50;
-                setTXT();
-                break;
-            
-            case scoreType.Bad:
-                GameManager.Combo.ActionFailed(); // 목숨깎여야함
-                TotalScore += 0;
-                setTXT();
-                break;
+            // 튜토리얼이 아닐 때 실행되는 코드 
+            switch (score)
+            {
+                case scoreType.Perfect:
+                    GameManager.Combo.ActionSucceed();
+                    TotalScore += 100;
+                    setTXT();
+                    break;
 
-            case scoreType.Failed:
-                GameManager.Combo.ActionFailed(); // 목숨깎여야함
-                TotalScore += 0;
-                setTXT();
-                break;
+                case scoreType.Good:
+                    GameManager.Combo.ActionSucceed();
+                    TotalScore += 50;
+                    setTXT();
+                    break;
+
+                case scoreType.Bad:
+                    GameManager.Combo.ActionFailed(); // 목숨깎여야함
+                    TotalScore += 0;
+                    setTXT();
+                    break;
+
+                case scoreType.Failed:
+                    GameManager.Combo.ActionFailed(); // 목숨깎여야함
+                    TotalScore += 0;
+                    setTXT();
+                    break;
+            }
+        }
+        else
+        {
+            // 튜토리얼 상황에서 실행되는 코드
+            switch (score)
+            {
+                case scoreType.Perfect:
+                    (tutorial_score)++; // 튜토리얼 점수 +1
+                    Debug.Log("=======tutorial_score : " + tutorial_score);
+                    break;
+                case scoreType.Good:
+                    (tutorial_score)++; // 튜토리얼 점수 +1
+                    Debug.Log("=======tutorial_score : " + tutorial_score);
+                    break;
+                case scoreType.Bad:
+                    (tutorial_score)++; // 튜토리얼 점수 +1
+                    Debug.Log("=======tutorial_score : "+ tutorial_score);
+                    break;
+                case scoreType.Failed:
+                    Debug.Log("=======tutorial_score : " + tutorial_score);
+                    // 튜토리얼 점수 +0
+                    break;
+            }
         }
     }
 
@@ -262,4 +291,15 @@ public class ScoreManager : MonoBehaviour
             GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
         }
     }
+    
+    public int GetTutorialScore()
+    {
+        return tutorial_score;
+    }
+
+    public void ResetTutorialScore()
+    {
+        tutorial_score = 0;
+    }
+
 }

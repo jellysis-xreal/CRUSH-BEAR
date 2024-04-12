@@ -3845,6 +3845,7 @@ MonoBehaviour:
   beforeState: 0
   currentState: 0
   loadedBeatNum: 0
+  beforeWave: 0
   waveMusicGUID: 0
   CurMusicData:
     Difficulty: 0
@@ -3861,6 +3862,7 @@ MonoBehaviour:
   - {fileID: 5491410443780946049}
   - {fileID: 1527758820718102695}
   _toppingArea: []
+  indicatorController: {fileID: 0}
 --- !u!1 &4086093951594315916
 GameObject:
   m_ObjectHideFlags: 0
@@ -5952,7 +5954,7 @@ Transform:
   m_GameObject: {fileID: 7377906120315274076}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.38660276, z: 0, w: 0.9222464}
-  m_LocalPosition: {x: 15.3, y: 0.47, z: 14.6}
+  m_LocalPosition: {x: 15.3, y: 1.54, z: 14.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -23,6 +23,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private WaveState beforeState;
     [SerializeField] private WaveState currentState;
     [SerializeField] public int loadedBeatNum = 0; // 로딩된 Wave beat
+    [HideInInspector] public WaveType beforeWave; // 이전 Wave Type
 
     private float _oneBeat;
     private float _beat;
@@ -48,12 +49,8 @@ public class WaveManager : MonoBehaviour
     private int waveTypeNum = 3; // Wave Type 종류의 갯수
     [SerializeField] private List<GameObject> _toppingArea = new List<GameObject>();
 
-    // wave 일시정지 기능을 구현하기 위한 변수
-    // 일단 사용하지 않아서 주석처리
-    /*private bool _isWait = false;
-    private float _timerDuration = 2f;
-    private float _waitTimer;
-    private bool _hasSet = false;*/
+    // Wave 전환 사이의 Wait Time
+    public IndicatorController indicatorController;
     private bool _isPause = false;
     private bool _IsManagerInit = false;
 
@@ -160,10 +157,11 @@ public class WaveManager : MonoBehaviour
         
         // PlayScene Node UI 설정
         GameManager.Player.PlaySceneUIInit(TypeNum);
-        /*nodeArrivalUI.transform.GetChild(0).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(1).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(TypeNum).gameObject.SetActive(true);*/
+        
+        // Wave indicator 세팅
+        if (indicatorController == null)
+            indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
+        indicatorController.SetWaveIndicator(currenWaveNum, beforeWave, currentWave);
     }
     
     public void FinishWavePlay()
@@ -254,6 +252,7 @@ public class WaveManager : MonoBehaviour
         _oneBeat = 60.0f / CurMusicData.BPM;
         _beat = _oneBeat;
 
+        beforeWave = currentWave;
         currentWave = (WaveType)CurMusicData.WaveType;
         
         // Wave 세팅

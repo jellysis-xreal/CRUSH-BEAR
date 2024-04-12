@@ -126,7 +126,7 @@ public class HittableMovement : MonoBehaviour
     private void InitializeBeforeStart()
     {
         this.transform.position = _startBoxPos;
-        this.transform.rotation = Quaternion.identity;
+        this.transform.LookAt(GameManager.Player.player.transform);
 
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
         _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);

@@ -256,19 +256,6 @@ public class WaveManager : MonoBehaviour
 
         currentWave = (WaveType)CurMusicData.WaveType;
         
-        // switch (firstWaveType)
-        // {
-        //     case WaveType.Punching:
-        //         if (currenWaveNum % 2 == 1) currentWave = WaveType.Punching;
-        //         else currentWave = WaveType.Hitting;
-        //         break;
-        //
-        //     case WaveType.Hitting:
-        //         if (currenWaveNum % 2 == 0) currentWave = WaveType.Punching;
-        //         else currentWave = WaveType.Hitting;
-        //         break;
-        // }
-
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅
         

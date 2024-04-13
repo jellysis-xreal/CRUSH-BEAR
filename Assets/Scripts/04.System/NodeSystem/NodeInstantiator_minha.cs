@@ -6,9 +6,16 @@ using UnityEngine;
 using EnumTypes;
 using UnityEngine.Serialization;
 using UnityEngine.XR.Content.Interaction;
+using Random = UnityEngine.Random;
 
 public class NodeInstantiator_minha : MonoBehaviour
 {
+    // Refactoring Punch Topping
+    public List<GameObject> cookiePrefabs;
+    public List<GameObject> cookieDirectionPrefabs;
+    public List<GameObject> childCollider;
+    
+
     // Topping Prefabs
     public List<GameObject> ShootTopping;
     public List<GameObject> PunchTopping;
@@ -444,7 +451,8 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchLeftHookPool[i] = node;
                 punchLeftHookPool[i].name = "Punch_LeftHook" + i;
             }
-        }if (punchLeftUpperCutPool.Length == 0)
+        }
+        if (punchLeftUpperCutPool.Length == 0)
         {
             punchLeftUpperCutPool = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
@@ -456,7 +464,8 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchLeftUpperCutPool[i] = node;
                 punchLeftUpperCutPool[i].name = "Punch_LeftUpperCut" + i;
             }
-        }if (punchRightZapPool.Length == 0)
+        }
+        if (punchRightZapPool.Length == 0)
         {
             punchRightZapPool = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
@@ -468,7 +477,8 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchRightZapPool[i] = node;
                 punchRightZapPool[i].name = "Punch_RightZap" + i;
             }
-        }if (punchRightHookPool.Length == 0)
+        }
+        if (punchRightHookPool.Length == 0)
         {
             punchRightHookPool = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
@@ -494,5 +504,23 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchRightUpperCutPool[i].name = "Punch_RightUpperCut" + i;
             }
         }
+        
+        if (punchToppingPool.Length == 0)
+        {
+            punchToppingPool = new GameObject[40];
+            for (int i = 0; i < 40; i++)
+            {
+                // 쿠키 프리팹 랜덤 생성
+                GameObject topping = cookiePrefabs[Random.Range(0, 4)];
+                GameObject node = Instantiate(topping);
+                node.SetActive(false);
+                DontDestroyOnLoad(node);
+                punchRightUpperCutPool[i] = node;
+                punchRightUpperCutPool[i].name = "Punch_" + i;
+            }
+        }
     }
 }
+cookiePrefabs;
+public List<GameObject> cookieDirectionPrefabs;
+public List<GameObject> childCollider

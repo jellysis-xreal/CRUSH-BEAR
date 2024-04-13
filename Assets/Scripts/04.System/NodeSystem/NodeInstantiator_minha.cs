@@ -353,11 +353,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 // poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
                 punchPoolsToUse[i].GetComponentInChildren<Breakable>().InitBreakable();
-                    
-                /*punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
-                punchToppingPool[i].GetComponentInChildren<PunchaleMovement>().InitializeTopping(tempNodeInfo);
-                punchToppingPool[i].GetComponentInChildren<Breakable>().InitBreakable();
-                punchToppingPool[i].SetActive(true);*/
+                
                 break;
             }
             else if(wave == WaveType.Hitting)

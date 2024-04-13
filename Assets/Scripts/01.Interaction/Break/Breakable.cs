@@ -145,10 +145,12 @@ namespace UnityEngine.XR.Content.Interaction
         
         private void OnTriggerEnter(Collider other)
         {
+#if UNITY_EDITOR
             if (GameManager.Instance != null)
             {
                 if(GameManager.Instance.currentGameState == GameState.Waving) return;
             }
+#endif
             if (m_Destroyed)
                 return;
             // Motion Checker OnTriggerEnter와 연결해야 함.
@@ -178,9 +180,7 @@ namespace UnityEngine.XR.Content.Interaction
         {
             // 추가 조건 검사. 프레임 사이에 콜라이더를 지나 자식의 콜라이더에 트리거되지 않았을 경우를 대비한 메서드
             bool isRightPosition = false;
-        
-        
-        
+
             return isRightPosition;
         }
     }

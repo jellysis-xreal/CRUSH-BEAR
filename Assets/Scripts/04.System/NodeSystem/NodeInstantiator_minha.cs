@@ -521,6 +521,3 @@ public class NodeInstantiator_minha : MonoBehaviour
         }
     }
 }
-cookiePrefabs;
-public List<GameObject> cookieDirectionPrefabs;
-public List<GameObject> childCollider

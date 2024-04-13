@@ -8,35 +8,40 @@ public class Metronome : MonoBehaviour
     double lastbeat;
     double songStartTime;
     double songPosition;
-    double secondsPerBeat;
+    public double secondsPerBeat;
     float bpm;
-    bool isStarted;
+    bool isBeated;
+    public int currentBeat;
 
     [SerializeField] private AudioSource testSound;
-    public event Action onBeat;
+    public event Action<int> onBeat;
 
-    public void Init(float bpm) // 노래 시작할 때 해당 함수 호출
+    public void Init(float bpm, uint musicGUID) // 웨이브 시작 시 해당 함수 호출!
     {
-
+        GameManager.Sound.PlayWaveMusic(musicGUID); //음악 start
         this.bpm = bpm;
         songStartTime = AudioSettings.dspTime;
         lastbeat = 0;
         secondsPerBeat = 60 / bpm;
         StartCoroutine(CheckBeat());
+        currentBeat = 0;
+        onBeat = null; // 이벤트 초기화!
     }
 
     IEnumerator CheckBeat()
     {
-
         while (true)
         {
+            isBeated = false;
             songPosition = AudioSettings.dspTime - songStartTime;
             if (songPosition > lastbeat + secondsPerBeat)
             {
-                onBeat?.Invoke(); // 비트마다 실행되는 함수
+                currentBeat++;
+                onBeat?.Invoke(currentBeat); // 비트마다 호출되는 이벤트
                 lastbeat += secondsPerBeat;
+                isBeated = true;
                 PlaySound();
-                Debug.LogError("비트!");
+                Debug.LogError($"{currentBeat}비트!");
             }
             yield return null;
         }
@@ -45,4 +50,12 @@ public class Metronome : MonoBehaviour
     {
         testSound.Play();
     }
+
+    public void BindEvent(Action<int> someAction)
+    {
+        onBeat -= someAction;
+        onBeat += someAction;
+    }
+
+    public bool IsBeated() => isBeated;
 }

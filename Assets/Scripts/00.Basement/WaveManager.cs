@@ -64,8 +64,6 @@ public class WaveManager : MonoBehaviour
         End
     }
 
-    //Test Code
-    [SerializeField] private Metronome metronome;
     public void Init()
     {
         Debug.Log("Initialize WaveManager");
@@ -251,6 +249,7 @@ public class WaveManager : MonoBehaviour
         CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
         Debug.Log($"[Wave] : received Music Data. Music GUID {CurMusicData.GUID}");
         _oneBeat = 60.0f / CurMusicData.BPM;
+        GameManager.Instance.Metronome.secondsPerBeat = _oneBeat;
         _beat = _oneBeat;
 
         beforeWave = currentWave;
@@ -401,9 +400,8 @@ public class WaveManager : MonoBehaviour
         Debug.Log("[WAVE] Wave Start");
         currentState = WaveState.Playing;
         waveTime = 0.0f;
-        GameManager.Sound.PlayWaveMusic(waveMusicGUID); //음악 start
-        // 디버깅
-        metronome.Init(CurMusicData.BPM);
+        // 음악 시작 및 메트로놈 작동!
+        GameManager.Instance.Metronome.Init(CurMusicData.BPM, waveMusicGUID);
         // 노드는 Time.timeScale == 1일 경우 자동으로 Update 됨.
     }
 

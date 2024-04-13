@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
+
+    [SerializeField] private Metronome _metronome;
+    public Metronome Metronome { get { return _metronome; } }
     //+------------------------//
     
     

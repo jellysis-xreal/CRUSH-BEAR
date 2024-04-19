@@ -17,7 +17,7 @@ public class PunchaleMovement : MonoBehaviour
     private Vector3 targetPosition;
     
     // 토핑이 움직이기 위한 변수 
-    public Transform parentTransform;
+    // public Transform parentTransform;
     private Rigidbody _rigidbody;
     public float _constantSpeed = 0f;
     private Vector3 dir = new Vector3();
@@ -38,26 +38,17 @@ public class PunchaleMovement : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public void InitializeTopping(NodeInfo node)
-    {
-        arrivalBoxNum = node.arrivalBoxNum;
-        arriveTime = node.timeToReachPlayer;
-        
-        cookieControl.Init(targetPosition);
-        InitiateVariable();
-    }
-    
     public IEnumerator InitializeToppingRoutine(NodeInfo node)
     {
         _isArrivalAreaHit = false;
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
         
-        Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {parentTransform.name}  ");
+        Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime}");
         if (arriveTime - GameManager.Wave.waveTime < 7)
         {
-            Debug.Log($"[Punch] Init Early {parentTransform.name} ");
-            cookieControl.Init(targetPosition);
+            Debug.Log($"[Punch] Init Early {transform.name} ");
+            // cookieControl.Init(targetPosition);
             InitiateVariableEarly();
             yield break;
         }
@@ -67,8 +58,8 @@ public class PunchaleMovement : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log($"[punch] InitVar {parentTransform.gameObject.name} ");
-        cookieControl.Init(targetPosition);
+        Debug.Log($"[punch] InitVar {gameObject.name} ");
+        // cookieControl.Init(targetPosition);
         InitiateVariable();
     }
 
@@ -81,10 +72,8 @@ public class PunchaleMovement : MonoBehaviour
         //this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
 
-        dir = targetPosition - parentTransform.position;
-        parentTransform.position += dir * ((7 - (arriveTime - GameManager.Wave.waveTime)) / 7f);
-        // Debug.Log($"[punch] pos {parentTransform.name} dir : {dir}, value : {((7 - (arriveTime - GameManager.Wave.waveTime)) / 7f)}");
-        // Debug.Log($"[punch] pos {parentTransform.name} : {parentTransform.position}");
+        dir = targetPosition - transform.position;
+        transform.position += dir * ((7 - (arriveTime - GameManager.Wave.waveTime)) / 7f);
         StartCoroutine(Movement(arriveTime - GameManager.Wave.waveTime));
     }
     private void InitiateVariable()
@@ -108,54 +97,35 @@ public class PunchaleMovement : MonoBehaviour
         // 속도 = 거리 / 시간
         // 도달까지 걸리는 시간 = 최종 도착 시간 - 현재 시간
         float time = arriveTime - GameManager.Wave.waveTime;
-        _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / time;
-        Debug.Log($"[punch] constant speed : {_constantSpeed} name : {parentTransform.gameObject.name} pos : {parentTransform.position}");
-        // Debug.Log($"[punch] {parentTransform.gameObject.name} time : {time}, arriveTime : {arriveTime} ");
-        Debug.Log($"[punch] distance : {Vector3.Distance(targetPosition, transform.position)} {parentTransform.gameObject.name} ");
-    }
-
-    private void Move()
-    {
-        dir = (targetPosition - parentTransform.position).normalized;
-        parentTransform.position += dir * _constantSpeed * Time.fixedDeltaTime;
+        _constantSpeed = Vector3.Distance(targetPosition, transform.position) / time;
+        /*Debug.Log($"[punch] constant speed : {_constantSpeed} name : {transform.gameObject.name} pos : {transform.position}");
+        Debug.Log($"[punch] distance : {Vector3.Distance(targetPosition, transform.position)} {transform.gameObject.name} ");*/
     }
 
     IEnumerator Movement(float time)
     {
-        _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / time;
-        dir = (targetPosition - parentTransform.position).normalized;
-        parentTransform.DOMove(targetPosition, time).SetEase(Ease.Linear);
+        _constantSpeed = Vector3.Distance(targetPosition, transform.position) / time;
+        dir = (targetPosition - transform.position).normalized;
+        transform.DOMove(targetPosition, time).SetEase(Ease.Linear);
         yield return null;
     }
     IEnumerator Movement()
     {
-        Debug.Log($"[Punch] Movement {GameManager.Wave.currentBeatNum} Start Pos {parentTransform.position}, Time : {arriveTime - GameManager.Wave.waveTime}");
+        Debug.Log($"[Punch] Movement {GameManager.Wave.currentBeatNum} Start Pos {transform.position}, Time : {arriveTime - GameManager.Wave.waveTime}");
         float time = arriveTime - GameManager.Wave.waveTime;
-        _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / time;
-        moveDistance = Vector3.Distance(targetPosition, parentTransform.position);
-        dir = (targetPosition - parentTransform.position).normalized;
+        moveDistance = Vector3.Distance(targetPosition, transform.position);
+        _constantSpeed = moveDistance / time;
+        dir = (targetPosition - transform.position).normalized;
         
-        parentTransform.DOMove(targetPosition, arriveTime - GameManager.Wave.waveTime).SetEase(Ease.Linear);
+        transform.DOMove(targetPosition, arriveTime - GameManager.Wave.waveTime).SetEase(Ease.Linear);
         yield return null;
     }
 
     private void TriggeredMove()
     {
-        parentTransform.position += dir * _constantSpeed * Time.fixedDeltaTime;
+        transform.position += dir * _constantSpeed * Time.fixedDeltaTime;
     }
-    /*IEnumerator TriggeredMovement()
-    {
-        Debug.Log($"[Punch] TriggerMove Start {parentTransform.name} ");
-        float triggerdTime = Time.time;
-        while (Time.time - triggerdTime < 1)
-        {
-            parentTransform.position += dir * _constantSpeed * Time.fixedDeltaTime;
-            yield return null;
-        }
-        //parentTransform.DOMove(parentTransform.position += dir * 5f, 2f).SetEase(Ease.Linear);
-        yield return new WaitForSeconds(1f);
-        Debug.Log($"[Punch] TriggerMove Finished {parentTransform.name} ");
-    }*/
+    
 
     // 손에 맞거나 뒤 trigger pad에 닿았을 경우 setActive(false)
     public void EndInteraction()
@@ -192,7 +162,7 @@ public class PunchaleMovement : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
         _meshRenderer.enabled = true;
-        parentTransform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
+        transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
     private void OnTriggerEnter(Collider other)
     {

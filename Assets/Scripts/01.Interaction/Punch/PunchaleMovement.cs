@@ -171,7 +171,6 @@ public class PunchaleMovement : MonoBehaviour
             Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
-            // StartCoroutine(TriggeredMovement());
         }
         if (other.CompareTag("TriggerPad"))
         {
@@ -181,9 +180,6 @@ public class PunchaleMovement : MonoBehaviour
 
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
-            // StartCoroutine(TriggeredMovement());
-            // GameManager.Player.MinusPlayerLifeValue();
-            // other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
         }
     }
 }

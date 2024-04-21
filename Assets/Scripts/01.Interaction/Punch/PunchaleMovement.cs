@@ -12,6 +12,7 @@ public class PunchaleMovement : MonoBehaviour
     public int arrivalBoxNum = 0; // 목표인 Box index number
     public float arriveTime; // Node Instantiate
     public uint beatNum;
+    public uint typeIndex;
 
     [Header("other Variable (AUTO)")] 
     private Vector3 targetPosition;
@@ -138,7 +139,7 @@ public class PunchaleMovement : MonoBehaviour
         _rigidbody.Sleep();
 
         _breakable.m_Destroyed = false;
-        
+
         StartCoroutine(ActiveTime(1f));
     }
 

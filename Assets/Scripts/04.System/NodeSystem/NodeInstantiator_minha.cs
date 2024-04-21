@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using EnumTypes;
@@ -306,7 +307,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     // Breakable 초기화
                     punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
 
-                    SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex);
+                    SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchaleMovement);
                     
                     break;
                 }
@@ -351,16 +352,90 @@ public class NodeInstantiator_minha : MonoBehaviour
     }
     
     // tempNodeInfo.sideType,tempNodeInfo.punchTypeIndex에 따라 해당하는 오브젝트 풀을 반환함. 
-    void SetPunchType(GameObject punchGameObject, uint typeIndex)
+    void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchaleMovement movement)
     {
-        Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
-        switch (typeIndex)
+        if (movement.typeIndex != 0)
         {
-            case 1:
-                break;
-            default:
-                break;
+            // 이미 존재하면 prevTypeIndex와 typeIndex를 비교하고 삭제, 생성
+            // 추후 콜라이더는 위치 조정만 하는 방향으로 수정
+            if (movement.typeIndex == typeIndex) return;
+            else
+            {
+                movement.typeIndex = typeIndex;
+                
+                // 자식 게임오브젝트 삭제
+                Transform[] allChildrenExcludingThis = transform.GetComponentsInChildren<Transform>(true).Where(t => t != transform).ToArray();
+                foreach (var childTransform in allChildrenExcludingThis)
+                    Destroy(childTransform.gameObject);
+                        
+                    // typeIndex에 맞는 자식 게임오브젝트 생성
+                Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
+                switch (typeIndex)
+                {
+                    case 1:
+                        Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform);
+                        break;
+                    case 2:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform);
+                        break;
+                    case 3:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[1], punchGameObject.transform);
+                        break;
+                    case 4:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        break;
+                    case 5:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
+                        break;
+                    case 6:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
+                        break;
+                    default:
+                        break;
+                }  
+                return;
+            }
+
         }
+        else if (movement.typeIndex == 0)
+        {
+            movement.typeIndex = typeIndex;
+            Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
+            switch (typeIndex)
+            {
+                case 1:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    break;
+                case 2:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform);
+                    break;
+                case 3:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[1], punchGameObject.transform);
+                    break;
+                case 4:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    break;
+                case 5:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
+                    break;
+                case 6:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
+                    break;
+                default:
+                    break;
+            }    
+        }
+        
+        
+        // typeIndex에 해당하는 콜라이더와 방향 UI가 이미 존재하면 생성하지 않는다.
         // 타입에 맞는 UI와 콜라이더를 자식으로 붙임. 
         // temp.punchTypeIndex = node[i]
         // node[i] -> 펀치 타입 인덱스  노드 큐에 enqueue하는 곳

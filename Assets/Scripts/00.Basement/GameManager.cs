@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
+
+    [SerializeField] private TutorialManager _tutorial = new TutorialManager();
+    public static TutorialManager Tutorial { get { return Instance._tutorial; } }
     //+------------------------//
     
     
@@ -108,14 +111,16 @@ public class GameManager : MonoBehaviour
                 
                 Sound.PlayMusic_Lobby(false); //Effect & Sound
                 Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()
-
                 break;
             
             case GameState.Ending:
                 _player.InActivePlayer();
                 Sound.PlayEffectMusic_GameWin();
                 SceneManager.LoadScene("02.EndingCutScene");
-                
+                break;
+            
+            case GameState.Tutorial:
+                InitTutorial();
                 break;
         }
     }
@@ -187,7 +192,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void InitTutorial()
+    {
+        if (instance != null)
+        {
+            Debug.Log("Init GameManager Tutorial Scene");
+            //+-------- Managers Init() +--------//
+            _tutorial.Init();
+        }
+        else
+        {
+            Debug.Log("GameManager instance is null");
+        }
+    }
     public void InitPlay()
     {
         if (instance != null)

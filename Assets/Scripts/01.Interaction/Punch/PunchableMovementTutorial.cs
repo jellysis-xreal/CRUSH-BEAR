@@ -54,22 +54,15 @@ public class PunchableMovementTutorial : MonoBehaviour
         if (_isArrivalAreaHit) TriggeredMove();
     }
     
-    IEnumerator Movement(float time)
-    {
-        _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / time;
-        dir = (targetPosition - parentTransform.position).normalized;
-        parentTransform.DOMove(targetPosition, time).SetEase(Ease.Linear);
-        yield return null;
-    }
     IEnumerator Movement()
     {
-        Debug.Log($"[Punch] Movement {GameManager.Wave.currentBeatNum} Start Pos {parentTransform.position}, Time : {arriveTime - GameManager.Wave.waveTime}");
-        float time = arriveTime - GameManager.Wave.waveTime;
-        _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / time;
+        // Debug.Log($"[Punch] Movement Start Pos {parentTransform.position}");
+        
+        _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / arriveTime;
         moveDistance = Vector3.Distance(targetPosition, parentTransform.position);
         dir = (targetPosition - parentTransform.position).normalized;
         
-        parentTransform.DOMove(targetPosition, arriveTime - GameManager.Wave.waveTime).SetEase(Ease.Linear);
+        parentTransform.DOMove(targetPosition, arriveTime).SetEase(Ease.Linear);
         yield return null;
     }
 

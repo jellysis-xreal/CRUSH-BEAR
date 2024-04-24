@@ -23,6 +23,7 @@ public class PunchaleMovement : MonoBehaviour
     private Vector3 dir = new Vector3();
     public CookieControl cookieControl;
     private float moveDistance = 0f;
+    private int shootStandard;
     
     // 토핑이 맞은, 맞지 않은 후에 활용할 변수
     private bool _isHit = false;
@@ -57,12 +58,13 @@ public class PunchaleMovement : MonoBehaviour
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
 
         dir = parentTransform.position - targetPosition;
-        if (beatNum < 7)
+        shootStandard = GameManager.Instance.Metronome.shootStandard;
+        if (beatNum < shootStandard)
         {
-            parentTransform.position = dir * beatNum / 7;
+            parentTransform.position = dir * beatNum / shootStandard;
             Debug.Log($"{beatNum}번째 노드 생성됨");
             yield return new WaitUntil(() => GameManager.Instance.Metronome.IsBeated());
-            parentTransform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(7, beatNum)).SetEase(Ease.Linear);
+            parentTransform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
         }
         else
             parentTransform.position = dir;
@@ -132,12 +134,12 @@ public class PunchaleMovement : MonoBehaviour
 
     public void CheckBeat(int currentBeat)
     {
-        if (beatNum < 7)
+        if (beatNum < shootStandard)
             return;
-        if(beatNum  == currentBeat + 7)
+        if(beatNum  == currentBeat + shootStandard)
         {
             Debug.Log($"{currentBeat}번째 노드 생성됨");
-            parentTransform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(7, beatNum)).SetEase(Ease.Linear);
+            parentTransform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
         }
     }
 

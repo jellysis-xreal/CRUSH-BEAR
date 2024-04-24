@@ -13,7 +13,8 @@ public class HittableMovement : MonoBehaviour
     // TODO: 해당 Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")] 
     public int arrivalBoxNum = 0; // 목표인 Box index number
-    public float arriveTime;
+    [SerializeField]
+    private uint beatNum;
     public InteractionSide sideType = InteractionSide.Red;
     private float moveTime = 3.3f; // 토핑의 이동 속도를 결정함
     private float popTime = 0.1f; // 토핑의 점프 시간을 결정함
@@ -26,11 +27,11 @@ public class HittableMovement : MonoBehaviour
     private BaseObject _baseObject;
 
     //토핑이 움직이기 위한 변수
-    [SerializeField] private float _idleTime;
     private Rigidbody _rigidbody;
     private Vector3 _moveStartPos;
     private Vector3 _arrivalBoxPos;
     private Vector3 _startBoxPos;
+    private int shootStandard;
 
     //토핑이 맞은 후에 활용할 변수
     float _inTime = 1.5f;
@@ -66,38 +67,24 @@ public class HittableMovement : MonoBehaviour
     /// <param name="arrivalBox">arrival area의 index</param>
     /// <param name="arriveTime">arrival time</param>
 
-
-    private void Update()
-    {
-        if (GameManager.Instance.currentGameState == GameState.Waving)
-        {
-            if (_isInit)
-            {
-                // 현재 토핑 상태 Update
-                UpdateToppingState();
-            }
-
-            // 처리되지 못한 토핑들 자동 처리
-            if (GameManager.Wave.waveTime >= arriveTime + 1.0f && _isMoved)
-            {
-                //Debug.Log("처리되지 못함");
-                curState = toppingState.refrigerator;
-                _isNotHitted = true;
-            }
-        }
-    }
     public void InitializeTopping(NodeInfo node)
     {
         arrivalBoxNum = node.arrivalBoxNum;
-        arriveTime = node.timeToReachPlayer;
+        beatNum = node.beatNum;
         sideType = node.sideType;
 
+        shootStandard = GameManager.Instance.Metronome.shootStandard;
+        popTime = (float)GameManager.Instance.Metronome.secondsPerBeat;
+        moveTime = popTime * (shootStandard - 1);
         InitiateVariable();
         _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
         _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         InitializeBeforeStart();
 
         _isInit = true;
+        GameManager.Instance.Metronome.BindEvent(UpdateToppingState);
+        GameManager.Instance.Metronome.BindEvent(RemoveTopping);
+        Debug.Log(beatNum + "번 노드 만들어짐");
     }
 
     private void InitiateVariable()
@@ -107,7 +94,6 @@ public class HittableMovement : MonoBehaviour
         
         // 생성된 이후, 가만히 있는 시간을 결정합니다.
         // idle time 이후 튀어오르고, moveTime 동안 움직이게 됩니다.
-        _idleTime = arriveTime - (popTime + moveTime + GameManager.Wave.waveTime);
         //Debug.Log(this.transform.name + "의 Idle time은 " + _idleTime);
         InitateBoolean();
     }
@@ -169,6 +155,26 @@ public class HittableMovement : MonoBehaviour
         sequence.Play();
     }
 
+    public void MoveToPlayerAtMiddle()
+    {
+        Vector3 firstPos = transform.position;
+        transform.LookAt(_player.transform);
+        Vector3 upVector = transform.up.normalized * 4.0f;
+        Vector3 forwardVector = transform.forward.normalized * 5.0f;
+        Tween tweenMove = transform.DOPath(new[]
+            {
+                new Vector3(firstPos.x, firstPos.y, firstPos.z),
+                new Vector3(firstPos.x, firstPos.y, firstPos.z) + upVector + forwardVector,
+                new Vector3(_arrivalBoxPos.x, _arrivalBoxPos.y, _arrivalBoxPos.z)
+            },
+            moveTime,
+            PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint);
+
+        float elapsedTime = (shootStandard - 1 - beatNum) * (float)GameManager.Instance.Metronome.secondsPerBeat;
+        transform.position = tweenMove.PathGetPoint(elapsedTime);
+
+        tweenMove.Play();
+    }
     public void GoToRefrigerator()
     {
         Vector3 firstPos = transform.position;
@@ -204,7 +210,7 @@ public class HittableMovement : MonoBehaviour
         {
             // FOR DEBUG
             //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
-            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
+            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 현재 비트는 " + beatNum);
             
             bool IsRight = false;
 
@@ -333,24 +339,30 @@ public class HittableMovement : MonoBehaviour
             curState = toppingState.uninteracable;
     }
     
-    private void UpdateToppingState()
+    private void UpdateToppingState(int beat)
     {
         switch (curState)
         {
             case toppingState.idle:
-                if (_idleTime <= 0.0f)
-                    curState = toppingState.uninteracable;
-                else
-                    _idleTime -= Time.deltaTime;
-                break;
-
-            case toppingState.uninteracable:
-                if (!_isMoved)
+                if (beatNum == beat + shootStandard)
                 {
+                    Debug.Log(beatNum + "번 노드 날아감");
+                    curState = toppingState.uninteracable;
                     MoveToPlayer();
                     _isMoved = true;
                 }
-                else
+                else if (beatNum < beat + shootStandard)
+                {
+                    curState = toppingState.uninteracable;
+                    MoveToPlayerAtMiddle();
+                    _isMoved = true;
+                    // 혹시 중간 지점에서 시작할 때 이미 interactable이 되는 구간을 지나왔다면 보정함.
+                    CanInteractTopping();
+                }
+                break;
+
+            case toppingState.uninteracable:
+                if (_isMoved)
                     CanInteractTopping();
                 break;
 
@@ -373,6 +385,16 @@ public class HittableMovement : MonoBehaviour
                     _goTo = true;
                 }
                 break;
+        }
+    }
+
+    private void RemoveTopping(int beat)
+    {
+        if (beat >= beatNum + 1 && _isMoved)
+        {
+            //Debug.Log("처리되지 못함");
+            curState = toppingState.refrigerator;
+            _isNotHitted = true;
         }
     }
 }

@@ -351,6 +351,7 @@ public class WaveManager : MonoBehaviour
     {
         //[XMC]Debug.Log($"[Wave] State : Playing -> Waiting Wait {sec}s. (이제 Wave 끝났다? 다음 Wave 시작 전 혹은 게임 종료 전 대기 시간) ");
 
+        GameManager.Instance.Metronome.SetGameEnd();
         // CMS: Count down starts
         // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여2
         int idx = (int)currentWave;

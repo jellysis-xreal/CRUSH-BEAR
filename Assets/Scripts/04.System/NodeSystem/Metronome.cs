@@ -9,28 +9,28 @@ public class Metronome : MonoBehaviour
     double songStartTime;
     double songPosition;
     public double secondsPerBeat;
-    float bpm;
     bool isBeated;
+    bool isPlaying;
     public int currentBeat;
+    public int shootStandard = 7; // 노트를 몇 BPM 전에 발사하는 지, 그 기준.
 
     [SerializeField] private AudioSource testSound;
-    public event Action<int> onBeat;
+    private event Action<int> onBeat;
 
     public void Init(float bpm, uint musicGUID) // 웨이브 시작 시 해당 함수 호출!
     {
         GameManager.Sound.PlayWaveMusic(musicGUID); //음악 start
-        this.bpm = bpm;
         songStartTime = AudioSettings.dspTime;
         lastbeat = 0;
         secondsPerBeat = 60 / bpm;
-        StartCoroutine(CheckBeat());
+        isPlaying = true;
         currentBeat = 0;
-        onBeat = null; // 이벤트 초기화!
+        StartCoroutine(CheckBeat());
     }
 
     IEnumerator CheckBeat()
     {
-        while (true)
+        while (isPlaying)
         {
             isBeated = false;
             songPosition = AudioSettings.dspTime - songStartTime;
@@ -45,6 +45,8 @@ public class Metronome : MonoBehaviour
             }
             yield return null;
         }
+
+        onBeat = null; // 이벤트 초기화!
     }
     void PlaySound()
     {
@@ -58,4 +60,5 @@ public class Metronome : MonoBehaviour
     }
 
     public bool IsBeated() => isBeated;
+    public bool SetGameEnd() => isPlaying = false;
 }

@@ -187,12 +187,7 @@ public class HittableMovement : MonoBehaviour
 
         tween.onComplete = () =>
         {
-            gameObject.SetActive(false);
-            InitateBoolean();
-
-            _rigidbody.useGravity = false;
-            _rigidbody.velocity = new Vector3(0f, 0f, 0f);
-            _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+            UnactiveObject();
         };
     }
 
@@ -305,13 +300,24 @@ public class HittableMovement : MonoBehaviour
     
     private IEnumerator ExplodeAfterSeconds(float seconds)
     {
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSecondsRealtime(seconds);
         
-        this.gameObject.SetActive(false);
         burstEffect.SetActive(true);
         burstEffect.GetComponent<ParticleSystem>().Play();
+
+        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().enabled = false;
+        //UnactiveObject();
     }
-    
+
+    private void UnactiveObject()
+    {
+        this.gameObject.SetActive(false);
+        InitateBoolean();
+        _rigidbody.useGravity = false;
+        _rigidbody.velocity = new Vector3(0f, 0f, 0f);
+        _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+    }
+
     private void UpdateToppingState()
     {
         switch (curState)
@@ -343,15 +349,17 @@ public class HittableMovement : MonoBehaviour
                 if (!_isHitted)
                 {
                     //GoToRefrigerator();
-                    StartCoroutine(ExplodeAfterSeconds(_inTime));
+                    StartCoroutine(ExplodeAfterSeconds(0.5f));
+                    _isNotHitted = false;
                     _isHitted = true;
                 }
 
-                if (_isNotHitted && !_goTo)
+                if (this.gameObject.activeSelf == true && _isNotHitted && !_goTo)
                 {
                     GoToRefrigerator();
                     _goTo = true;
                 }
+                
                 break;
         }
     }

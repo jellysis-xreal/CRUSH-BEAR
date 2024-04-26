@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class SliderController : MonoBehaviour
 {
@@ -10,14 +11,16 @@ public class SliderController : MonoBehaviour
     private float maxSliderAmount = 10.0f;
     private float smoothSpeed = 10.0f;  // 슬라이더 값이 변경되는 속도
     public float targetValue;  // 목표 슬라이더 값
-    //private float initialDecreasePerSecond = 2.0f; // 초당 감소할 값
-    //private float decreaseAcceleration = 0.09f; // 감소 속도 가속도
-    //private float baseDecayRate = 3.0f; // 초당 기본 감소율
-    //private float currentDecayRate; // 현재 감소율
-    //private float timeSinceLastReset = 0; // 리셋 이후 경과 시간
 
-    private float elapsedTime = 0f; // 경과 시간 추적
+    private float SliderWidth = 140f; // 슬라이더 width 값
 
+
+    public Image sliderFillImage;  // 슬라이더의 색상을 변경할 Image 컴포넌트 참조
+    public float highestValue = 0f;  // 최대 속도 변수
+
+    public RectTransform highest_RectTransform;
+    public RectTransform slider_RectTransform;
+    public GameObject highestPointMarker; // 화살표 게임 오브젝트
     void Start()
     {
         if (mySlider != null)
@@ -25,8 +28,14 @@ public class SliderController : MonoBehaviour
             mySlider.minValue = 0;
             mySlider.maxValue = maxSliderAmount;
             mySlider.value = 0; // 시작 0
-            //currentDecayRate = baseDecayRate; // 초기 감소율 설정
+
             UpdateSliderText(mySlider.value);
+            sliderFillImage = mySlider.fillRect.GetComponent<Image>();  // 슬라이더의 Fill Image
+
+            highest_RectTransform = highestPointMarker.GetComponent<RectTransform>();
+
+            slider_RectTransform = mySlider.GetComponent<RectTransform>();
+            SliderWidth = slider_RectTransform.rect.width;
         }
     }
 
@@ -47,6 +56,8 @@ public class SliderController : MonoBehaviour
 
         }
         UpdateSliderText(mySlider.value);
+        UpdateSliderColor(mySlider.value / maxSliderAmount);
+        UpdateHighestValue(mySlider.value);
     }
     private void UpdateSliderText(float value)
     {
@@ -56,11 +67,54 @@ public class SliderController : MonoBehaviour
             sliderText.text = localValue.ToString("0.00");
         }
     }
+    private void UpdateSliderColor(float percentage)
+    {
+        if (percentage < 0.3f)
+        {
+            sliderFillImage.color = Color.yellow;  // 30% 이하일 때 노랑
+        }
+        else if (percentage < 0.7f)
+        {
+            sliderFillImage.color = new Color(1f, 0.5f, 0f);  // 30%~70%일 때 주황
+        }
+        else
+        {
+            sliderFillImage.color = Color.red;  // 70% 이상일 때 빨강
+        }
+    }
+
+    private void UpdateHighestValue(float currentValue) 
+    {
+        if (currentValue > highestValue)
+        {
+            highestValue = currentValue;
+            UpdateHighestPointMarker();  // 화살표 위치 업데이트
+        }
+    }
+
+    private void UpdateHighestPointMarker()
+    {
+        if (highestPointMarker != null && mySlider != null)
+        {
+            float normalizedHighestValue = highestValue / maxSliderAmount;
+            float markerPositionX = normalizedHighestValue * SliderWidth;
+            Vector3 markerPosition = new Vector3(markerPositionX, 0,0);
+            highest_RectTransform.anchoredPosition3D = markerPosition;
+        }
+    }
+
+    public void ResetHighest() // 게임 시작 시 초기화
+    {
+        highestValue = 0f;
+        highest_RectTransform.anchoredPosition3D = new Vector3(0,0,0);
+    }
+
+
     public void SetPunchSliderSpeed(float speed)
     {
         targetValue = Mathf.Clamp(speed, 0, mySlider.maxValue);  // 최대값 범위 내로 제한
         mySlider.value = targetValue;
-        Debug.Log("[Slider] SetPunchSliderSpeed 속도 " + targetValue);
+        //Debug.Log("[Slider] SetPunchSliderSpeed 속도 " + targetValue);
     }
     //private void ResetDecayRate()
     //{

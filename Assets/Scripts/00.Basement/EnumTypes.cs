@@ -7,7 +7,8 @@ namespace EnumTypes
     {
         Lobby,
         Waving,
-        Ending
+        Ending,
+        Tutorial
     }
     
     

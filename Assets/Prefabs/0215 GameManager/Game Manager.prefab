@@ -3201,7 +3201,7 @@ Transform:
   m_GameObject: {fileID: 3114721414779498666}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.35, y: -0.11199999, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0.9, z: 0.5}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3700,7 +3700,7 @@ Transform:
   m_GameObject: {fileID: 3767721868828293831}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.35, y: -0.112, z: 0}
+  m_LocalPosition: {x: -0.2, y: 0.9, z: 0.5}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3845,6 +3845,7 @@ MonoBehaviour:
   beforeState: 0
   currentState: 0
   loadedBeatNum: 0
+  beforeWave: 0
   waveMusicGUID: 0
   CurMusicData:
     Difficulty: 0
@@ -3854,13 +3855,14 @@ MonoBehaviour:
     BPM: 0
     BeatNum: 0
   nodeInstantiator: {fileID: 496803953950109727}
-  nodeArrivalArea: {fileID: 0}
-  nodeArrivalUI: {fileID: 0}
+  nodeArrivalArea: {fileID: 2606310811085291220}
+  nodeArrivalUI: {fileID: 2443742045382284797}
   timerCanvas:
   - {fileID: 2378098112727059934}
   - {fileID: 5491410443780946049}
   - {fileID: 1527758820718102695}
   _toppingArea: []
+  indicatorController: {fileID: 0}
 --- !u!1 &4086093951594315916
 GameObject:
   m_ObjectHideFlags: 0
@@ -4667,7 +4669,7 @@ Transform:
   m_GameObject: {fileID: 5686992101671614679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.35, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0.2, y: 1, z: 0.5}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -5952,7 +5954,7 @@ Transform:
   m_GameObject: {fileID: 7377906120315274076}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.38660276, z: 0, w: 0.9222464}
-  m_LocalPosition: {x: 10.917, y: 0.706, z: 16.907}
+  m_LocalPosition: {x: 15.3, y: 1.54, z: 14.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6389,7 +6391,7 @@ Transform:
   m_GameObject: {fileID: 7689708762190353352}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6511,7 +6513,7 @@ Transform:
   m_GameObject: {fileID: 7926993320110495415}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.35, y: 0.25, z: 0}
+  m_LocalPosition: {x: -0.2, y: 1, z: 0.5}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []

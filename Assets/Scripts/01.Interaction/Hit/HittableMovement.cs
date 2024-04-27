@@ -127,7 +127,7 @@ public class HittableMovement : MonoBehaviour
     private void InitializeBeforeStart()
     {
         this.transform.position = _startBoxPos;
-        this.transform.rotation = Quaternion.identity;
+        this.transform.LookAt(GameManager.Player.player.transform);
 
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
         _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
@@ -199,12 +199,12 @@ public class HittableMovement : MonoBehaviour
         if (curState == toppingState.interacable && !other.gameObject.CompareTag("Plane"))
         {
             // FOR DEBUG
-            Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
+            //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
             Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 목표 시간은 " + arriveTime);
             
             bool IsRight = false;
 
-            //잘못 충돌한 예외 처리
+            // 잘못 충돌한 예외 처리
             if (!other.transform.TryGetComponent(out Rigidbody body))
                 return;
 
@@ -217,8 +217,11 @@ public class HittableMovement : MonoBehaviour
             else
             {
                 // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
-                IsRight = UpOrDown(other, colSide); 
-                //if (IsRight) Debug.Log("예외 처리 성공");
+                IsRight = IsRightJudgment(other, colSide); 
+                //if (IsRight) 
+                    //Debug.Log("[DEBUG] 예외 처리 성공");
+                //else
+                    //Debug.Log("[DEBUG] 예외가 아니었군");
             }
 
             // Controller / Hand_R/L의 HandData에서
@@ -232,8 +235,7 @@ public class HittableMovement : MonoBehaviour
             _rigidbody.useGravity = true;
             
             // For Debug
-            Debug.Log("[SCORE] " + this.transform.name + "의 Side는 " + sideType + 
-                      "\n, " + other.transform.name + "와 충돌함. 따라서 " + IsRight);
+            // Debug.Log("[SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name + "와 충돌함. 따라서 " + IsRight);
             
             // Set Score & State
             GameManager.Score.ScoringHit(this.gameObject, IsRight);
@@ -242,7 +244,35 @@ public class HittableMovement : MonoBehaviour
         else
             return;
     }
-    
+
+    private bool IsRightJudgment(Collision _col, InteractionSide type)
+    {
+        Transform otherSide = _col.transform;
+
+        switch (type)
+        {
+            case InteractionSide.Red:
+                otherSide = _col.transform.parent.GetChild(1); // Blue
+                break;
+
+            case InteractionSide.Blue:
+                otherSide = _col.transform.parent.GetChild(0); // Red
+                break;
+        }
+
+        if (otherSide.GetChild(0).TryGetComponent(out HitTrigger hit))
+        {
+            // Trigger되었다고 인식된 면과
+            // 반대 면에서 Triggered라고 판단되어지면, return True 
+            if (hit.isTriggered)
+                return true;
+            else
+                return false;
+        }
+
+        return false;
+    }
+
     private bool UpOrDown(Collision _col, InteractionSide type)
     {
         //오른면(초록색)에 존재하면, 위에 부딪혀야 정상적으로 감지 처리가 된 것

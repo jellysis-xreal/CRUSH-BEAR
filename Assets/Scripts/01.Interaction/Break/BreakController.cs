@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Motion = EnumTypes.Motion;
 using Random = UnityEngine.Random;
 
 public class BreakController : MonoBehaviour
@@ -21,10 +22,6 @@ public class BreakController : MonoBehaviour
 
     public Vector3 shatteredVector;
     
-    private void Start()
-    {
-        //Initialize();
-    }
 
     private void OnEnable()
     {
@@ -49,6 +46,36 @@ public class BreakController : MonoBehaviour
         setBreakTime = true;
 
         shatteredVector = shatteredVec;
+        StartCoroutine(ShatteredMovement());
+    }
+    public void IsHit(Motion motionVecor) // Failed  Motino
+    {
+        Initialize();
+        
+        isHit = true;
+        setBreakTime = true;
+
+        switch (motionVecor)
+        {
+            case Motion.LeftZap:
+                shatteredVector = new Vector3(0,0,1);
+                break;
+            case Motion.RightZap:
+                shatteredVector = new Vector3(0,0,1);
+                break;
+            case Motion.LeftHook:
+                shatteredVector = new Vector3(-1,0,1);
+                break;
+            case Motion.RightHook:
+                shatteredVector = new Vector3(1,0,1);
+                break;
+            case Motion.LeftUpperCut:
+                shatteredVector = new Vector3(0,1,1);
+                break;
+            case Motion.RightUpperCut:
+                shatteredVector = new Vector3(0,1,1);
+                break;
+        }
         StartCoroutine(ShatteredMovement());
     }
     public void IsHit() // Failed
@@ -108,19 +135,6 @@ public class BreakController : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         Destroy(this.gameObject);
-    }
-    void Update()
-    {
-        /*if (isHit && setBreakTime)
-        {
-            breakTime += Time.deltaTime;
-            
-            // 조각을 자연스럽게 흩어지게 한뒤, 5s가 지나면 해당 오브젝트를 destory
-            if (breakTime < 3.0f)
-                MoveShattered();
-            else
-                Destroy(this.gameObject);
-        }*/
     }
 
     private void OnDrawGizmos()

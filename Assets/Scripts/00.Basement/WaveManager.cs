@@ -23,6 +23,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private WaveState beforeState;
     [SerializeField] private WaveState currentState;
     [SerializeField] public int loadedBeatNum = 0; // 로딩된 Wave beat
+    [HideInInspector] public WaveType beforeWave; // 이전 Wave Type
 
     private float _oneBeat;
     private float _beat;
@@ -48,12 +49,8 @@ public class WaveManager : MonoBehaviour
     private int waveTypeNum = 3; // Wave Type 종류의 갯수
     [SerializeField] private List<GameObject> _toppingArea = new List<GameObject>();
 
-    // wave 일시정지 기능을 구현하기 위한 변수
-    // 일단 사용하지 않아서 주석처리
-    /*private bool _isWait = false;
-    private float _timerDuration = 2f;
-    private float _waitTimer;
-    private bool _hasSet = false;*/
+    // Wave 전환 사이의 Wait Time
+    public IndicatorController indicatorController;
     private bool _isPause = false;
     private bool _IsManagerInit = false;
 
@@ -108,7 +105,9 @@ public class WaveManager : MonoBehaviour
         //if (index < 0 || index > 3)
         //[XMC]Debug.Log("[ERROR] " + index);
         int TypeNum = (int)currentWave;
-        return _toppingArea[TypeNum].transform.GetChild(index).transform.position;
+        if(TypeNum >=0 && TypeNum <=3)
+            return _toppingArea[TypeNum].transform.GetChild(index).transform.position;
+        return Vector3.zero;
     }
 
     public Vector3 GetArrivalPosition(int index)
@@ -160,10 +159,11 @@ public class WaveManager : MonoBehaviour
         
         // PlayScene Node UI 설정
         GameManager.Player.PlaySceneUIInit(TypeNum);
-        /*nodeArrivalUI.transform.GetChild(0).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(1).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(TypeNum).gameObject.SetActive(true);*/
+        
+        // Wave indicator 세팅
+        if (indicatorController == null)
+            indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
+        indicatorController.SetWaveIndicator(currenWaveNum, beforeWave, currentWave);
     }
     
     public void FinishWavePlay()
@@ -180,8 +180,9 @@ public class WaveManager : MonoBehaviour
         nodeArrivalUI.transform.GetChild(1).gameObject.SetActive(false);
         nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);*/
     }
-
-    private void Update()
+    
+    // Fixedupdate -> 프레임
+    private void Update() // 프레임에 의존적
     {
         // Debug.Log("Time scale" +Time.timeScale);
         // 현재 Wave manager가 작동하는 상황이라면, Wave State를 업데이트 합니다.
@@ -254,21 +255,9 @@ public class WaveManager : MonoBehaviour
         _oneBeat = 60.0f / CurMusicData.BPM;
         _beat = _oneBeat;
 
+        beforeWave = currentWave;
         currentWave = (WaveType)CurMusicData.WaveType;
         
-        // switch (firstWaveType)
-        // {
-        //     case WaveType.Punching:
-        //         if (currenWaveNum % 2 == 1) currentWave = WaveType.Punching;
-        //         else currentWave = WaveType.Hitting;
-        //         break;
-        //
-        //     case WaveType.Hitting:
-        //         if (currenWaveNum % 2 == 0) currentWave = WaveType.Punching;
-        //         else currentWave = WaveType.Hitting;
-        //         break;
-        // }
-
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅
         
@@ -447,20 +436,7 @@ public class WaveManager : MonoBehaviour
             //[XMC]Debug.Log("Resume the game after 3 sec...");
         }
     }
-
-    public void SetPause(bool _isPause)
-    {
-        if (_isPause) {
-            Time.timeScale = 0;
-            PauseMusic(true);
-            // 소리 끄기
-        } else {
-            // 소리 3초 후 틀기
-            StartCoroutine(CountdownToStart());
-            //[XMC]Debug.Log("Resume the game after 3 sec...");
-        }
-    }
-
+    
     IEnumerator CountdownToStart()
     {
         //[XMC]Debug.Log("[Wave] : Countdown To Start");
@@ -484,14 +460,7 @@ public class WaveManager : MonoBehaviour
         countdownTime = 4;
         currentState = WaveState.Playing;
     }
-
-    public void PauseMusic(bool _isPause = false)
-    {
-        this._isPause = _isPause;
-        //GameManager.Sound.PauseMusic(waveMusicGUID, _isPause);
-        GameManager.Sound.RestartMusic(waveMusicGUID, _isPause);
-    }
-
+    
     public void PauseMusic_Popup(bool isPause = false)
     {
         this._isPause = isPause;
@@ -528,9 +497,4 @@ public class WaveManager : MonoBehaviour
         Time.timeScale = 1;
     }
     
-    
-    private void FixedUpdate()
-    {
-        
-    }
 }

@@ -25,6 +25,7 @@ public class HittableMovement : MonoBehaviour
     private float distancePlayer = 3.5f;
     private GameObject _player;
     private BaseObject _baseObject;
+    private SkinnedMeshRenderer _meshRenderer;
 
     //토핑이 움직이기 위한 변수
     [SerializeField] private float _idleTime;
@@ -58,6 +59,7 @@ public class HittableMovement : MonoBehaviour
         _baseObject = GetComponent<BaseObject>();
         _rigidbody = GetComponent<Rigidbody>();
         _player = GameObject.FindWithTag("Player");
+        _meshRenderer = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
     }
 
     /// <summary>
@@ -122,6 +124,8 @@ public class HittableMovement : MonoBehaviour
         _isHitted = false;      // 3) 막대에 의해 맞았나요?
         _isNotHitted = false;   // 6) Player의 막대를 통해 처리되지 못한 경우
         _goTo = false;          // 7) 냉장고로 향하는 코드를 1번 실행하기 위한 변수
+        
+        StopCoroutine("ExplodeAfterSeconds");
     }
     
     private void InitializeBeforeStart()
@@ -328,24 +332,39 @@ public class HittableMovement : MonoBehaviour
             curState = toppingState.uninteracable;
     }
     
-    private IEnumerator ExplodeAfterSeconds(float seconds)
+    private IEnumerator ExplodeAfterSeconds(float delay)
     {
-        yield return new WaitForSecondsRealtime(seconds);
+        yield return new WaitForSecondsRealtime(delay);
+        
+        _meshRenderer.enabled = false;
         
         burstEffect.SetActive(true);
-        burstEffect.GetComponent<ParticleSystem>().Play();
+        ParticleSystem vfx = burstEffect.GetComponent<ParticleSystem>();
+        vfx.Play();
 
-        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().enabled = false;
-        //UnactiveObject();
+        // ParticleSystem의 재생이 끝난 후에 GameObject를 비활성화
+        yield return new WaitForSeconds(vfx.duration);
+        vfx.Stop();
+        burstEffect.SetActive(false);
+        UnactiveObject();
     }
 
     private void UnactiveObject()
     {
         this.gameObject.SetActive(false);
+        
         InitateBoolean();
+        _meshRenderer.enabled = true;
+        
         _rigidbody.useGravity = false;
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
         _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+    }
+
+    private void OnEnable()
+    {
+        burstEffect.SetActive(false);
+        _meshRenderer.enabled = true;
     }
 
     private void UpdateToppingState()

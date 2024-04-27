@@ -354,6 +354,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     // tempNodeInfo.sideType,tempNodeInfo.punchTypeIndex에 따라 해당하는 오브젝트 풀을 반환함. 
     void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchaleMovement movement)
     {
+        // [Punch] 오브젝트 풀의 재사용성을 높이기 위해, 각 쿠키의 요소를 동적으로 변경 
         if (movement.typeIndex != 0)
         {
             // 이미 존재하면 prevTypeIndex와 typeIndex를 비교하고 삭제, 생성

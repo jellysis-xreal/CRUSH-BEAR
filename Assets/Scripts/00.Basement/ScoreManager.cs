@@ -162,6 +162,7 @@ public class ScoreManager : MonoBehaviour
     public void ScoringPunch(GameObject target, bool isPerpect)
     {
         GameObject sliderControllerObject = GameObject.Find("SliderController"); //
+        if(sliderControllerObject == null) return;
         sliderController = sliderControllerObject.GetComponent<SliderController>();
 
         scoreType score;

@@ -266,7 +266,12 @@ public class GameManager : MonoBehaviour
 
     void OnTutorialSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.buildIndex == 3) _tutorial.Init();
+        if (scene.buildIndex == 3)
+        {
+            GameManager.Wave.SetWaveType(WaveType.Punching);
+            GameManager.Wave.SetWaveTutorial();
+            _tutorial.Init();
+        }
         SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
     }
 }

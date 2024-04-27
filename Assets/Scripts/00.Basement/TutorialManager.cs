@@ -13,6 +13,10 @@ public class TutorialManager : MonoBehaviour
     public GameObject[] hookGameObjects;
     public GameObject[] upperCutGameObjects;
 
+    public GameObject zapRootGameObject;
+    public GameObject hookRootGameObject;
+    public GameObject upperCutRootGameObject;
+    
     public int succeedNumber = 0;
     public int processedNumber = 0;
 
@@ -42,9 +46,9 @@ public class TutorialManager : MonoBehaviour
         {
             GameObject gameObject = Instantiate(punchPrefab[i % 2]);
             Debug.Log(gameObject.name);
-            zapGameObjects[i] = Instantiate(punchPrefab[i % 2]); // i에 따라 1, 2번 프리팹
-            hookGameObjects[i] = Instantiate(punchPrefab[i % 2 + 2]); // i에 따라 3, 4번 프리팹
-            upperCutGameObjects[i] = Instantiate(punchPrefab[i % 2 + 4]); // i에 따라 5, 6번 프리팹
+            zapGameObjects[i] = Instantiate(punchPrefab[i % 2], zapRootGameObject.transform); // i에 따라 1, 2번 프리팹
+            hookGameObjects[i] = Instantiate(punchPrefab[i % 2 + 2], hookRootGameObject.transform); // i에 따라 3, 4번 프리팹
+            upperCutGameObjects[i] = Instantiate(punchPrefab[i % 2 + 4], upperCutRootGameObject.transform); // i에 따라 5, 6번 프리팹
         }
     }
     
@@ -85,19 +89,20 @@ public class TutorialManager : MonoBehaviour
     IEnumerator RoutineByPunchType(TutorialType tutorialType)
     {
         // PunchableMovementTutorial Init        
+        Debug.Log("Routine Start");
         switch (tutorialType)
         {
             case TutorialType.Zap:
                 for (int i = 0; i < zapGameObjects.Length; i++)
-                    zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 0.5f * i);        
+                    zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);        
                 break;
             case TutorialType.Hook:
                 for (int i = 0; i < hookGameObjects.Length; i++)
-                    hookGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 0.5f * i);
+                    hookGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
                 break;
             case TutorialType.UpperCut:
                 for (int i = 0; i < upperCutGameObjects.Length; i++)
-                    upperCutGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2 + 2, 3 + 0.5f * i);
+                    upperCutGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
                 break;
         }
 
@@ -138,8 +143,10 @@ public class TutorialManager : MonoBehaviour
     {
         while (processedNumber < 6)
         {
-            yield return new WaitForSeconds(1f);
+            yield return null;
         }
+
+        Debug.Log("Out");
         yield return null;
     }
 

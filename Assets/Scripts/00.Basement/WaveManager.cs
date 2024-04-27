@@ -151,7 +151,14 @@ public class WaveManager : MonoBehaviour
             indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
         indicatorController.SetWaveIndicator(currenWaveNum, beforeWave, currentWave);
     }
-    
+
+    public void SetWaveTutorial()
+    {
+        nodeArrivalArea.transform.GetChild(0).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild(1).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild(2).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild((int)currentWave).gameObject.SetActive(true);
+    }
     public void FinishWavePlay()
     {
         int TypeNum = (int)currentWave;
@@ -263,6 +270,10 @@ public class WaveManager : MonoBehaviour
         
     }
 
+    public void SetWaveType(WaveType waveType)
+    {
+        currentWave = waveType;
+    }
     [ContextMenu("DEBUG/ContinueWave()")] //TODO: For Test, 이후 제거하기
     public void ContinueWave(WaveState waveState)
     {

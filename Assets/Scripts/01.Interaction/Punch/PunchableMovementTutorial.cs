@@ -35,29 +35,23 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
         _rigidbody = GetComponent<Rigidbody>();
         _breakable = GetComponent<Breakable>();
         _meshRenderer = GetComponent<MeshRenderer>();
-        Debug.Log("1");
-    }
-
-    private void Update()
-    {
-        Debug.Log("1");
+        
+        parentTransform.gameObject.SetActive(false);
     }
 
     public void InitiateVariable(int _arrivalBoxNum, float timeToReachPlayer)
     {
+        parentTransform.transform.position = new Vector3(0, 0, 10);
         arrivalBoxNum = _arrivalBoxNum;
         arriveTime = timeToReachPlayer;
 
-        Debug.Log("Init Var");
+        if(!parentTransform.gameObject.activeSelf) parentTransform.gameObject.SetActive(true);
         _meshRenderer.enabled = true;
         if(spriteRenderer != null) spriteRenderer.enabled = true;
-        if(!parentTransform.gameObject.activeSelf) parentTransform.gameObject.SetActive(true);
-        Debug.Log("Init Var2");
 
         _rigidbody.WakeUp();
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
         _breakable.InitBreakable();
-        Debug.Log("Init Var3");
 
         StartMovement();
     }
@@ -72,19 +66,12 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
     }
     IEnumerator Movement()
     {
-        
         _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / arriveTime;
         moveDistance = Vector3.Distance(targetPosition, parentTransform.position);
         dir = (targetPosition - parentTransform.position).normalized;
-        Debug.Log($"[Punch] Movement Start Pos {targetPosition} {parentTransform.position}");
         
         parentTransform.DOMove(targetPosition, arriveTime).SetEase(Ease.Linear);
         yield return null;
-    }
-
-    private void OnDestroy()
-    {
-        Debug.Log("Destroyed!");
     }
 
     private void TriggeredMove()
@@ -109,12 +96,12 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
 
     IEnumerator TriggerArrivalAreaEndInteraction()
     {
+        _breakable.MotionFailed();
         yield return new WaitForSeconds(1f);
         Debug.Log("trigger arrival");
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
         
-        _isArrivalAreaHit = false;
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
@@ -127,14 +114,16 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
     {
         yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
         _meshRenderer.enabled = true;
+        _isArrivalAreaHit = false;
         parentTransform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
     
     // 도착 이후 인터랙션 종료를 알리기 위함, 플레이어와 상호작용 X
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("ArrivalArea"))
+        if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
+            Debug.Log("Triggered "+other.gameObject.name);
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
         }

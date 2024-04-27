@@ -43,8 +43,6 @@ namespace UnityEngine.XR.Content.Interaction
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
         public void InitBreakable()
         {
-            Debug.Log("Init 코드 추가해야 됨.");
-            
             if(_punchableMovement == null)
                 _punchableMovement = GetComponent<IPunchableMovement>();
             
@@ -92,7 +90,6 @@ namespace UnityEngine.XR.Content.Interaction
             if (m_Destroyed)
                 return;
             
-            Debug.Log("Motion Failed!");
             
             m_Destroyed = true;
             var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);

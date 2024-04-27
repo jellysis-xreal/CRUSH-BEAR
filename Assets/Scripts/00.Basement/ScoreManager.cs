@@ -199,32 +199,33 @@ public class ScoreManager : MonoBehaviour
 
     private void AddScore(scoreType score)
     {
+        float value = 0;
         switch (score)
         {
             case scoreType.Perfect:
                 GameManager.Combo.ActionSucceed();
-                TotalScore += 100;
-                setTXT();
+                value = 100;
                 break;
             
             case scoreType.Good:
                 GameManager.Combo.ActionSucceed();
-                TotalScore += 50;
-                setTXT();
+                value= 50;
                 break;
             
             case scoreType.Bad:
                 GameManager.Combo.ActionFailed(); // 목숨깎여야함
-                TotalScore += 0;
-                setTXT();
+                value = 0;
                 break;
 
             case scoreType.Failed:
                 GameManager.Combo.ActionFailed(); // 목숨깎여야함
-                TotalScore += 0;
-                setTXT();
+                value = 0;
                 break;
         }
+
+        TotalScore += value;
+        setTXT();
+        GameManager.UI.RequestFloatingUI(value);
     }
 
     private void SetScoreEffect(scoreType score, Transform transform)

@@ -35,7 +35,7 @@ public class WaveManager : MonoBehaviour
     public uint waveMusicGUID; // 현재 세팅된 Music의 GUID
     public DataManager.MusicData CurMusicData; // 현재 세팅된 Music data
 
-    [Header("----+ setting +----")] 
+    [Header("----+ setting +----")]
     //[SerializeField] private GameObject RightInteraction;
     //[SerializeField] private GameObject LeftInteraction;
     [SerializeField] private NodeInstantiator_minha nodeInstantiator;
@@ -63,7 +63,6 @@ public class WaveManager : MonoBehaviour
         Pause,
         End
     }
-
 
     public void Init()
     {
@@ -112,6 +111,12 @@ public class WaveManager : MonoBehaviour
         return CurArrive.GetChild(index).transform.position;
     }
 
+    public Transform GetWaveScoreUI()
+    {
+        int TypeNum = (int)currentWave;
+        return nodeArrivalUI.transform.GetChild(TypeNum).GetChild(0);
+    }
+    
     private void SetWavePlayer()
     {
         GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);

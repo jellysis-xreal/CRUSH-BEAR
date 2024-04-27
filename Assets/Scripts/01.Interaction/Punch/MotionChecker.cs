@@ -28,7 +28,7 @@ public class MotionChecker : MonoBehaviour
         breakable = GetComponent<Breakable>();
     }
     
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         // 1. detector.isHooking = true
         // 2. left일 경우 콜라이더의 왼쪽 면 근처에서 트리거 됐는가, (박스 콜라이더 기준 반으로 나눈 영역 트리거)
@@ -120,6 +120,7 @@ public class MotionChecker : MonoBehaviour
         }
         // Debug.Log($"Is correct Hooking Motion : CheckHandPosition : {CheckHandPosition(detector)}");
     }
+    */
 
     // 손과 트리거된 순간의 위치를 판단해 올바른 동작인지 체크함.
     private bool CheckHandPosition(HookMotionDetector detector)

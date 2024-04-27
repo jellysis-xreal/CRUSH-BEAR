@@ -5,7 +5,7 @@ using EnumTypes;
 using UnityEngine;
 using UnityEngine.XR.Content.Interaction;
 
-public class PunchaleMovement : MonoBehaviour
+public class PunchableMovement : MonoBehaviour, IPunchableMovement
 {
     // TODO : Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")]
@@ -75,9 +75,9 @@ public class PunchaleMovement : MonoBehaviour
 
         dir = targetPosition - transform.position;
         transform.position += dir * ((7 - (arriveTime - GameManager.Wave.waveTime)) / 7f);
-        StartCoroutine(Movement(arriveTime - GameManager.Wave.waveTime));
+        StartMovement(arriveTime - GameManager.Wave.waveTime);
     }
-    private void InitiateVariable()
+    public void InitiateVariable()
     {
         _meshRenderer.enabled = true;
         if(spriteRenderer != null) spriteRenderer.enabled = true; 
@@ -86,23 +86,20 @@ public class PunchaleMovement : MonoBehaviour
         //this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
 
-        StartCoroutine(Movement());
-        // CalculateConstantSpeed();
+        StartMovement();
     }
     void FixedUpdate()
     {
         if (_isArrivalAreaHit) TriggeredMove();
     }
-    private void CalculateConstantSpeed()
+    public void StartMovement()
     {
-        // 속도 = 거리 / 시간
-        // 도달까지 걸리는 시간 = 최종 도착 시간 - 현재 시간
-        float time = arriveTime - GameManager.Wave.waveTime;
-        _constantSpeed = Vector3.Distance(targetPosition, transform.position) / time;
-        /*Debug.Log($"[punch] constant speed : {_constantSpeed} name : {transform.gameObject.name} pos : {transform.position}");
-        Debug.Log($"[punch] distance : {Vector3.Distance(targetPosition, transform.position)} {transform.gameObject.name} ");*/
+        StartCoroutine(Movement());
     }
-
+    public void StartMovement(float time)
+    {
+        StartCoroutine(Movement(time));
+    }
     IEnumerator Movement(float time)
     {
         _constantSpeed = Vector3.Distance(targetPosition, transform.position) / time;
@@ -165,6 +162,8 @@ public class PunchaleMovement : MonoBehaviour
         _meshRenderer.enabled = true;
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
+    
+    // 도착 이후 인터랙션 종료를 알리기 위함, 플레이어와 상호작용 X
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ArrivalArea"))

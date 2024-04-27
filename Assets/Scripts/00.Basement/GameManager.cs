@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         {           
             SetGameState(GameState.Lobby);
             InitLobby();
-            StartCoroutine(LoadWaveScene());
+            // StartCoroutine(LoadWaveScene());
         }
         //Test();
     }
@@ -151,7 +151,12 @@ public class GameManager : MonoBehaviour
     {
         SetGameState(GameState.Lobby);
     }
-    
+
+    [ContextMenu("DEBUG/Tutorial")]
+    public void LobbyToTutorial()
+    {
+        SetGameState(GameState.Tutorial);
+    }
     private void InitLobby()
     {
         if (instance == null)
@@ -198,7 +203,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Init GameManager Tutorial Scene");
             //+-------- Managers Init() +--------//
-            _tutorial.Init();
+            SceneManager.sceneLoaded += OnTutorialSceneLoaded;
+            SceneManager.LoadScene(3);
         }
         else
         {
@@ -258,4 +264,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnTutorialSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.buildIndex == 3) _tutorial.Init();
+        SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
+    }
 }

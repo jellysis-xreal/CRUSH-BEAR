@@ -299,15 +299,15 @@ public class NodeInstantiator_minha : MonoBehaviour
                     punchToppingPool[i].SetActive(true);
                     
                     // PunchableMovement 초기화
-                    PunchaleMovement punchaleMovement = punchToppingPool[i].GetComponent<PunchaleMovement>();
-                    punchaleMovement.transform.position = tempNodeInfo.spawnPosition;
-                    punchaleMovement.beatNum = tempNodeInfo.beatNum;
-                    StartCoroutine(punchaleMovement.InitializeToppingRoutine(tempNodeInfo));
+                    PunchableMovement punchableMovement = punchToppingPool[i].GetComponent<PunchableMovement>();
+                    punchableMovement.transform.position = tempNodeInfo.spawnPosition;
+                    punchableMovement.beatNum = tempNodeInfo.beatNum;
+                    StartCoroutine(punchableMovement.InitializeToppingRoutine(tempNodeInfo));
                     
                     // Breakable 초기화
                     punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
 
-                    SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchaleMovement);
+                    SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchableMovement);
                     
                     break;
                 }
@@ -324,7 +324,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchToppingPool[i].SetActive(true);
                 
                 // PunchableMovement 초기화
-                PunchaleMovement movement = punchToppingPool[i].GetComponent<PunchaleMovement>();
+                PunchableMovement movement = punchToppingPool[i].GetComponent<PunchableMovement>();
                 movement.transform.position = tempNodeInfo.spawnPosition;
                 movement.beatNum = tempNodeInfo.beatNum;
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
@@ -352,7 +352,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     }
     
     // tempNodeInfo.sideType,tempNodeInfo.punchTypeIndex에 따라 해당하는 오브젝트 풀을 반환함. 
-    void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchaleMovement movement)
+    void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchableMovement movement)
     {
         // [Punch] 오브젝트 풀의 재사용성을 높이기 위해, 각 쿠키의 요소를 동적으로 변경 
         if (movement.typeIndex != 0)

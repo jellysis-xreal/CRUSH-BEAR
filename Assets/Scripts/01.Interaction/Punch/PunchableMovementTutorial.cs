@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -5,7 +6,7 @@ using EnumTypes;
 using UnityEngine;
 using UnityEngine.XR.Content.Interaction;
 
-public class PunchableMovementTutorial : MonoBehaviour
+public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
 {
     // TODO : Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")]
@@ -34,36 +35,56 @@ public class PunchableMovementTutorial : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _breakable = GetComponent<Breakable>();
         _meshRenderer = GetComponent<MeshRenderer>();
+        Debug.Log("1");
     }
 
-    public void InitiateVariable(int arrivalBoxNum, float timeToReachPlayer)
+    private void Update()
     {
-        arrivalBoxNum = arrivalBoxNum;
+        Debug.Log("1");
+    }
+
+    public void InitiateVariable(int _arrivalBoxNum, float timeToReachPlayer)
+    {
+        arrivalBoxNum = _arrivalBoxNum;
         arriveTime = timeToReachPlayer;
-        
+
+        Debug.Log("Init Var");
         _meshRenderer.enabled = true;
-        if(spriteRenderer != null) spriteRenderer.enabled = true; 
-        
+        if(spriteRenderer != null) spriteRenderer.enabled = true;
+        if(!parentTransform.gameObject.activeSelf) parentTransform.gameObject.SetActive(true);
+        Debug.Log("Init Var2");
+
         _rigidbody.WakeUp();
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+        _breakable.InitBreakable();
+        Debug.Log("Init Var3");
 
-        StartCoroutine(Movement());
+        StartMovement();
     }
     void FixedUpdate()
     {
         if (_isArrivalAreaHit) TriggeredMove();
     }
-    
+
+    public void StartMovement()
+    {
+        StartCoroutine(Movement());
+    }
     IEnumerator Movement()
     {
-        // Debug.Log($"[Punch] Movement Start Pos {parentTransform.position}");
         
         _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / arriveTime;
         moveDistance = Vector3.Distance(targetPosition, parentTransform.position);
         dir = (targetPosition - parentTransform.position).normalized;
+        Debug.Log($"[Punch] Movement Start Pos {targetPosition} {parentTransform.position}");
         
         parentTransform.DOMove(targetPosition, arriveTime).SetEase(Ease.Linear);
         yield return null;
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("Destroyed!");
     }
 
     private void TriggeredMove()
@@ -83,7 +104,7 @@ public class PunchableMovementTutorial : MonoBehaviour
 
         _breakable.m_Destroyed = false;
         
-        StartCoroutine(ActiveTime(1f));
+        StartCoroutine(ActiveTime(0.1f));
     }
 
     IEnumerator TriggerArrivalAreaEndInteraction()
@@ -100,7 +121,7 @@ public class PunchableMovementTutorial : MonoBehaviour
 
         _breakable.m_Destroyed = false;
         
-        StartCoroutine(ActiveTime(1f));
+        StartCoroutine(ActiveTime(0.1f));
     }
     private IEnumerator ActiveTime(float coolTime)
     {
@@ -108,6 +129,8 @@ public class PunchableMovementTutorial : MonoBehaviour
         _meshRenderer.enabled = true;
         parentTransform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
+    
+    // 도착 이후 인터랙션 종료를 알리기 위함, 플레이어와 상호작용 X
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ArrivalArea"))

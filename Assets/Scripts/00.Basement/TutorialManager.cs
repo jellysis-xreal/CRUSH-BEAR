@@ -9,21 +9,18 @@ public class TutorialManager : MonoBehaviour
     private Dictionary<TutorialType, bool> tutorialClearData = new Dictionary<TutorialType, bool>();
 
     public GameObject[] punchPrefab; // 완성된 형태의 펀치 프리팹
-    private GameObject[] _zapGameObjects;
-    private GameObject[] _hookGameObjects;
-    private GameObject[] _upperCutGameObjects;
+    public GameObject[] zapGameObjects;
+    public GameObject[] hookGameObjects;
+    public GameObject[] upperCutGameObjects;
 
     public int succeedNumber = 0;
     public int processedNumber = 0;
-    private void Start()
-    {
-        Init();
-    }
 
     public void Init()
     {
         InitTutorialData();
         InitPunchGameObjectPool();
+        StartTutorialPunchRoutine();
     }
 
     private void InitTutorialData()
@@ -38,14 +35,16 @@ public class TutorialManager : MonoBehaviour
     {
         int prefabArrayLength = 6; // 게임 오브젝트 사이즈 6, left 3개 right 3개씩 들어감.
         
-        _zapGameObjects = new GameObject[6];
-        _hookGameObjects = new GameObject[6];
-        _upperCutGameObjects = new GameObject[6];
+        zapGameObjects = new GameObject[6];
+        hookGameObjects = new GameObject[6];
+        upperCutGameObjects = new GameObject[6];
         for (int i = 0; i < prefabArrayLength; i++)
         {
-            _zapGameObjects[i] = Instantiate(punchPrefab[i % 2]); // i에 따라 1, 2번 프리팹
-            _hookGameObjects[i] = Instantiate(punchPrefab[i % 2 + 2]); // i에 따라 3, 4번 프리팹
-            _upperCutGameObjects[i] = Instantiate(punchPrefab[i % 2 + 4]); // i에 따라 5, 6번 프리팹
+            GameObject gameObject = Instantiate(punchPrefab[i % 2]);
+            Debug.Log(gameObject.name);
+            zapGameObjects[i] = Instantiate(punchPrefab[i % 2]); // i에 따라 1, 2번 프리팹
+            hookGameObjects[i] = Instantiate(punchPrefab[i % 2 + 2]); // i에 따라 3, 4번 프리팹
+            upperCutGameObjects[i] = Instantiate(punchPrefab[i % 2 + 4]); // i에 따라 5, 6번 프리팹
         }
     }
     
@@ -58,7 +57,11 @@ public class TutorialManager : MonoBehaviour
         }
         return TutorialType.Clear;
     }
-    
+
+    public void StartTutorialPunchRoutine()
+    {
+        StartCoroutine(TutorialPunchRoutine());
+    }
     IEnumerator TutorialPunchRoutine()
     {
         Debug.Log("Start Tutorial Routine");
@@ -85,16 +88,16 @@ public class TutorialManager : MonoBehaviour
         switch (tutorialType)
         {
             case TutorialType.Zap:
-                for (int i = 0; i < _zapGameObjects.Length; i++)
-                    _zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 0.5f * i);        
+                for (int i = 0; i < zapGameObjects.Length; i++)
+                    zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 0.5f * i);        
                 break;
             case TutorialType.Hook:
-                for (int i = 0; i < _hookGameObjects.Length; i++)
-                    _hookGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 0.5f * i);
+                for (int i = 0; i < hookGameObjects.Length; i++)
+                    hookGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 0.5f * i);
                 break;
             case TutorialType.UpperCut:
-                for (int i = 0; i < _upperCutGameObjects.Length; i++)
-                    _upperCutGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2 + 2, 3 + 0.5f * i);
+                for (int i = 0; i < upperCutGameObjects.Length; i++)
+                    upperCutGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2 + 2, 3 + 0.5f * i);
                 break;
         }
 
@@ -138,6 +141,12 @@ public class TutorialManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         yield return null;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q)) succeedNumber++;
+        if (Input.GetKeyDown(KeyCode.W)) processedNumber++;
     }
 }
 

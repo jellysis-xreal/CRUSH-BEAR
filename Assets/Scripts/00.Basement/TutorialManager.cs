@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    private TutorialType _tutorialType;
+    public TutorialType tutorialType;
     private Dictionary<TutorialType, bool> tutorialClearData = new Dictionary<TutorialType, bool>();
 
     public GameObject[] punchPrefab; // 완성된 형태의 펀치 프리팹
@@ -28,7 +28,7 @@ public class TutorialManager : MonoBehaviour
 
     private void InitTutorialData()
     {
-        _tutorialType = TutorialType.Zap;
+        tutorialType = TutorialType.Zap;
         tutorialClearData.Add(TutorialType.Zap, false);
         tutorialClearData.Add(TutorialType.Hook, false);
         tutorialClearData.Add(TutorialType.UpperCut, false);
@@ -62,17 +62,17 @@ public class TutorialManager : MonoBehaviour
     IEnumerator TutorialPunchRoutine()
     {
         Debug.Log("Start Tutorial Routine");
-        _tutorialType = GetNonClearTutorialType();
+        tutorialType = GetNonClearTutorialType();
         // 튜토리얼 타입에 따라
         // 레프트 잽, 라이트 잽 각 2번
         // 레프트 훅, 라이트 훅 각 2번
         // 레프트 어퍼컷, 라이트 어퍼컷 각 2번 
-        while (_tutorialType != TutorialType.Clear)
+        while (tutorialType != TutorialType.Clear)
         {
-            yield return StartCoroutine(RoutineByPunchType(_tutorialType));
+            yield return StartCoroutine(RoutineByPunchType(tutorialType));
             
             // 루틴 끝내고 게임 클리어 확인
-            _tutorialType = GetNonClearTutorialType();
+            tutorialType = GetNonClearTutorialType();
         }
 
         Debug.Log("[Tutorial] All Routine Clear~!");

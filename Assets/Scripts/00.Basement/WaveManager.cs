@@ -71,14 +71,7 @@ public class WaveManager : MonoBehaviour
 
         // Wave Num
         waveTime = 0.0f;
-
-        // Player Manager로 변수 이동
-        // RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction")
-        //     .gameObject;
-        // LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction")
-        //     .gameObject;
-
-
+        
         // Topping이 생성될 위치 초기화. **Hierarchy 주의**
         for (int i = 0; _toppingArea.Count < waveTypeNum && i < waveTypeNum; i++)
         {
@@ -117,18 +110,6 @@ public class WaveManager : MonoBehaviour
         int TypeNum = (int)currentWave;
         Transform CurArrive = nodeArrivalArea.transform.GetChild(TypeNum);
         return CurArrive.GetChild(index).transform.position;
-    }
-
-    private WaveType GetRandomWave()
-    {
-        WaveType temp;
-        // 진행하던 wave와 중복되지 않도록 random하게 돌림
-        do
-        {
-            temp = (WaveType)Random.Range(0, 3);
-        } while (temp != currentWave);
-
-        return temp;
     }
 
     private void SetWavePlayer()
@@ -176,9 +157,6 @@ public class WaveManager : MonoBehaviour
         
         // PlayScene Node UI 설정
         GameManager.Player.FinishSceneUI();
-        /*nodeArrivalUI.transform.GetChild(0).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(1).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);*/
     }
     
     // Fixedupdate -> 프레임
@@ -276,8 +254,6 @@ public class WaveManager : MonoBehaviour
             //[XMC]Debug.Log("[WAVE] Wave Pause");
             // Wave 진행을 일시정지 시킵니다.
             SetIsPause(true);
-            // _isPause = true;
-            // Time.timeScale = 0;
         }
         
     }
@@ -490,11 +466,4 @@ public class WaveManager : MonoBehaviour
             _beat += _oneBeat;
         }
     }
-
-    [ContextMenu("TimeScale 1")]
-    private void ddd()
-    {
-        Time.timeScale = 1;
-    }
-    
 }

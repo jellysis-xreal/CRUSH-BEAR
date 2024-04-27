@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 4036367542367450808}
   - component: {fileID: 7025838827255463438}
   - component: {fileID: 366712034925401827}
-  - component: {fileID: 5127419140291494767}
   - component: {fileID: 7554578937000182857}
   m_Layer: 8
   m_Name: rightZap
@@ -173,19 +172,6 @@ MonoBehaviour:
   playerPosition: {x: 0, y: 0, z: 0}
   stopDistance: 6
   rotationDuration: 1
---- !u!114 &5127419140291494767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971657996212871007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8128d7987249f6b4dadb4afe45d6340d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctMotion: 6
 --- !u!114 &7554578937000182857
 MonoBehaviour:
   m_ObjectHideFlags: 0

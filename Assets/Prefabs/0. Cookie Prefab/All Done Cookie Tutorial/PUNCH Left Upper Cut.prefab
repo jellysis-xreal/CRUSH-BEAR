@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 6857847953060771887}
   - component: {fileID: 8076257832350970827}
   - component: {fileID: 7770660047803392433}
-  - component: {fileID: 6802722944474980564}
   - component: {fileID: 5109196130651892530}
   m_Layer: 8
   m_Name: leftUpperCut(Sub Collider Parent)
@@ -306,19 +305,6 @@ MonoBehaviour:
   maxDistance: 25
   maxRimPower: 2
   rimIntensityMultiplier: 15
---- !u!114 &6802722944474980564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6472327438079458978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8128d7987249f6b4dadb4afe45d6340d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctMotion: 6
 --- !u!114 &5109196130651892530
 MonoBehaviour:
   m_ObjectHideFlags: 0

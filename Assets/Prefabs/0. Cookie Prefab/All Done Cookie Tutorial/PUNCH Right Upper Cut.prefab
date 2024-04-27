@@ -99,7 +99,6 @@ GameObject:
   - component: {fileID: 8225728334201856597}
   - component: {fileID: 7444904783927537345}
   - component: {fileID: 6196830984065385765}
-  - component: {fileID: 5299494484444513457}
   - component: {fileID: 143499202297343431}
   m_Layer: 8
   m_Name: rightUpperCut
@@ -257,19 +256,6 @@ MonoBehaviour:
   playerPosition: {x: 0, y: 0, z: 0}
   stopDistance: 6
   rotationDuration: 1
---- !u!114 &5299494484444513457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4683195343375393020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8128d7987249f6b4dadb4afe45d6340d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctMotion: 6
 --- !u!114 &143499202297343431
 MonoBehaviour:
   m_ObjectHideFlags: 0

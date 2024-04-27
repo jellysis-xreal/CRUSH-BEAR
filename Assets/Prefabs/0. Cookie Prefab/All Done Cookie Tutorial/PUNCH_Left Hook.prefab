@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 2510779743339540631}
   - component: {fileID: 3636455491137582229}
   - component: {fileID: 4422528024718737516}
-  - component: {fileID: 4308297797693233423}
   - component: {fileID: 5152849353245782672}
   m_Layer: 8
   m_Name: leftHook
@@ -173,19 +172,6 @@ MonoBehaviour:
   playerPosition: {x: 0, y: 0, z: 0}
   stopDistance: 6
   rotationDuration: 1
---- !u!114 &4308297797693233423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 141621519007236151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8128d7987249f6b4dadb4afe45d6340d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  correctMotion: 6
 --- !u!114 &5152849353245782672
 MonoBehaviour:
   m_ObjectHideFlags: 0

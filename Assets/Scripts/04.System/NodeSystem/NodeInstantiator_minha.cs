@@ -303,12 +303,11 @@ public class NodeInstantiator_minha : MonoBehaviour
                     punchableMovement.transform.position = tempNodeInfo.spawnPosition;
                     punchableMovement.beatNum = tempNodeInfo.beatNum;
                     StartCoroutine(punchableMovement.InitializeToppingRoutine(tempNodeInfo));
-                    
-                    // Breakable 초기화
-                    punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
 
+                    // Breakable 초기화
                     SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchableMovement);
-                    
+                    punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                   
                     break;
                 }
                     

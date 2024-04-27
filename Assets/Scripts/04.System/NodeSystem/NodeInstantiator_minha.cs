@@ -329,8 +329,9 @@ public class NodeInstantiator_minha : MonoBehaviour
                 movement.beatNum = tempNodeInfo.beatNum;
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
 
+                SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, movement);
                 punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
-                
+
                 break;
             }
             else if(wave == WaveType.Hitting)

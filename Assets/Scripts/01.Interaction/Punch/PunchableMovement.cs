@@ -18,11 +18,11 @@ public class PunchableMovement : MonoBehaviour
     private Vector3 targetPosition;
     
     // 토핑이 움직이기 위한 변수 
-    public Transform parentTransform;
+    //public Transform parentTransform;
     private Rigidbody _rigidbody;
     public float _constantSpeed = 0f;
     private Vector3 dir = new Vector3();
-    public CookieControl cookieControl;
+    //public CookieControl cookieControl;
     private float moveDistance = 0f;
     private int shootStandard;
     
@@ -47,9 +47,9 @@ public class PunchableMovement : MonoBehaviour
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
         
-        Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {parentTransform.name}  ");
-        Debug.Log($"[Punch] Init {parentTransform.name} ");
-        cookieControl.Init(targetPosition);
+        Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
+        Debug.Log($"[Punch] Init {transform.name} ");
+        //cookieControl.Init(targetPosition);
         GameManager.Instance.Metronome.BindEvent(CheckBeat);
         _meshRenderer.enabled = true;
         if (spriteRenderer != null) spriteRenderer.enabled = true;
@@ -58,17 +58,17 @@ public class PunchableMovement : MonoBehaviour
         //this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
 
-        dir = parentTransform.position - targetPosition;
+        dir = transform.position - targetPosition;
         shootStandard = GameManager.Instance.Metronome.shootStandard;
         if (beatNum < shootStandard)
         {
-            parentTransform.position = dir * beatNum / shootStandard;
+            transform.position = dir * beatNum / shootStandard;
             Debug.Log($"{beatNum}번째 노드 생성됨");
             yield return new WaitUntil(() => GameManager.Instance.Metronome.IsBeated());
-            parentTransform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
+            transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
         }
         else
-            parentTransform.position = dir;
+            transform.position = dir;
         yield return null;
     }
 
@@ -108,7 +108,7 @@ public class PunchableMovement : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
         _meshRenderer.enabled = true;
-        parentTransform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
+        transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -140,7 +140,7 @@ public class PunchableMovement : MonoBehaviour
         if(beatNum  == currentBeat + shootStandard)
         {
             Debug.Log($"{currentBeat}번째 노드 생성됨");
-            parentTransform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
+            transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
         }
     }
 

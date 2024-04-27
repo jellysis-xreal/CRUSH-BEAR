@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         {           
             SetGameState(GameState.Lobby);
             InitLobby();
-            // StartCoroutine(LoadWaveScene());
+            StartCoroutine(LoadWaveScene());
         }
         //Test();
     }

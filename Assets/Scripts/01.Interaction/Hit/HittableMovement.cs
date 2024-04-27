@@ -17,6 +17,7 @@ public class HittableMovement : MonoBehaviour
     public InteractionSide sideType = InteractionSide.Red;
     private float moveTime = 3.3f; // 토핑의 이동 속도를 결정함
     private float popTime = 0.1f; // 토핑의 점프 시간을 결정함
+    public GameObject burstEffect;
     
     [Header("other Variable (AUTO)")] 
     [SerializeField] private GameObject refrigerator;
@@ -33,8 +34,8 @@ public class HittableMovement : MonoBehaviour
     private Vector3 _startBoxPos;
 
     //토핑이 맞은 후에 활용할 변수
-    float _inTime = 1.5f;
-
+    private float _inTime = 1.5f;
+    
     // Bool 값
     private bool _isInit = false;
     private float _curDistance;
@@ -186,12 +187,7 @@ public class HittableMovement : MonoBehaviour
 
         tween.onComplete = () =>
         {
-            gameObject.SetActive(false);
-            InitateBoolean();
-
-            _rigidbody.useGravity = false;
-            _rigidbody.velocity = new Vector3(0f, 0f, 0f);
-            _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+            UnactiveObject();
         };
     }
 
@@ -211,7 +207,7 @@ public class HittableMovement : MonoBehaviour
             // 잘못 충돌한 예외 처리
             if (!other.transform.TryGetComponent(out Rigidbody body))
                 return;
-            
+
             // hitter의 side 색과 일치한 topping일 경우
             InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
             if (colSide == sideType)
@@ -234,7 +230,6 @@ public class HittableMovement : MonoBehaviour
             float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
             
             // 충돌 지점 기준으로 날아가게
-            
             Vector3 dir = other.contacts[0].normal.normalized;
             _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
             _rigidbody.useGravity = true;
@@ -333,6 +328,26 @@ public class HittableMovement : MonoBehaviour
             curState = toppingState.uninteracable;
     }
     
+    private IEnumerator ExplodeAfterSeconds(float seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+        
+        burstEffect.SetActive(true);
+        burstEffect.GetComponent<ParticleSystem>().Play();
+
+        transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().enabled = false;
+        //UnactiveObject();
+    }
+
+    private void UnactiveObject()
+    {
+        this.gameObject.SetActive(false);
+        InitateBoolean();
+        _rigidbody.useGravity = false;
+        _rigidbody.velocity = new Vector3(0f, 0f, 0f);
+        _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
+    }
+
     private void UpdateToppingState()
     {
         switch (curState)
@@ -363,15 +378,18 @@ public class HittableMovement : MonoBehaviour
             case toppingState.refrigerator:
                 if (!_isHitted)
                 {
-                    GoToRefrigerator();
+                    //GoToRefrigerator();
+                    StartCoroutine(ExplodeAfterSeconds(0.5f));
+                    _isNotHitted = false;
                     _isHitted = true;
                 }
 
-                if (_isNotHitted && !_goTo)
+                if (this.gameObject.activeSelf == true && _isNotHitted && !_goTo)
                 {
                     GoToRefrigerator();
                     _goTo = true;
                 }
+                
                 break;
         }
     }

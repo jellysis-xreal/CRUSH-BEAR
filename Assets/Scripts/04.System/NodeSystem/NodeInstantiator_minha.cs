@@ -363,12 +363,17 @@ public class NodeInstantiator_minha : MonoBehaviour
             {
                 movement.typeIndex = typeIndex;
                 
-                // 자식 게임오브젝트 삭제
-                Transform[] allChildrenExcludingThis = transform.GetComponentsInChildren<Transform>(true).Where(t => t != transform).ToArray();
+                // 쿠키 원본은 유지, UI, Image(자식 게임오브젝트) 삭제
+                Transform[] allChildrenExcludingThis 
+                    = punchGameObject.transform.GetComponentsInChildren<Transform>(true)
+                        .Where(t => t != punchGameObject.transform).ToArray();
                 foreach (var childTransform in allChildrenExcludingThis)
+                {
+                    Debug.Log($"destroy {childTransform.gameObject}");
                     Destroy(childTransform.gameObject);
+                }
                         
-                    // typeIndex에 맞는 자식 게임오브젝트 생성
+                // typeIndex에 맞는 자식 게임오브젝트 생성
                 Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
                 switch (typeIndex)
                 {
@@ -453,86 +458,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     {
         Debug.Log("Init Punch Topping Pool");
         int poolSize = 20;
-        
-        /*if (punchLeftZapPool.Length == 0)
-        {
-            punchLeftZapPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[0];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchLeftZapPool[i] = node;
-                punchLeftZapPool[i].name = "Punch_LeftZap" + i;
-            }
-        }
-        if (punchLeftHookPool.Length == 0)
-        {
-            punchLeftHookPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[1];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchLeftHookPool[i] = node;
-                punchLeftHookPool[i].name = "Punch_LeftHook" + i;
-            }
-        }
-        if (punchLeftUpperCutPool.Length == 0)
-        {
-            punchLeftUpperCutPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[2];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchLeftUpperCutPool[i] = node;
-                punchLeftUpperCutPool[i].name = "Punch_LeftUpperCut" + i;
-            }
-        }
-        if (punchRightZapPool.Length == 0)
-        {
-            punchRightZapPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[3];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchRightZapPool[i] = node;
-                punchRightZapPool[i].name = "Punch_RightZap" + i;
-            }
-        }
-        if (punchRightHookPool.Length == 0)
-        {
-            punchRightHookPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[4];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchRightHookPool[i] = node;
-                punchRightHookPool[i].name = "Punch_RightHook" + i;
-            }
-        }
-        if (punchRightUpperCutPool.Length == 0)
-        {
-            punchRightUpperCutPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[5];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchRightUpperCutPool[i] = node;
-                punchRightUpperCutPool[i].name = "Punch_RightUpperCut" + i;
-            }
-        }*/
-        
+
         if (punchToppingPool.Length == 0)
         {
             punchToppingPool = new GameObject[poolSize];

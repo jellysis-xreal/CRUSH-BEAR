@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using EnumTypes;
 using UnityEngine.Serialization;
 using UnityEngine.XR.Content.Interaction;
+using Random = UnityEngine.Random;
 
 public class NodeInstantiator_minha : MonoBehaviour
 {
+    // Refactoring Punch Topping
+    public List<GameObject> cookiePrefabs;          // 방향에 따르지 않는 랜덤한 쿠키
+    public List<GameObject> cookieDirectionPrefabs; // 쿠키의 타입에 따라 정해짐, 쿠키에 붙일 UI Image
+    public List<GameObject> childCollider;          // 쿠키의 타입에 따라 정해짐, 동작을 인식하기 위한 콜라이더.
+    
+
     // Topping Prefabs
     public List<GameObject> ShootTopping;
     public List<GameObject> PunchTopping;
@@ -63,61 +71,13 @@ public class NodeInstantiator_minha : MonoBehaviour
                 if (shootToppingPool.Length == 0)
                 {
                     shootToppingPool = new GameObject[_poolSize]; // 배열 생성
-                    // for (int i = 0; i < poolSize; ++i)
-                    // {
-                    //     GameObject topping = ShootTopping[(i % ShootTopping.Count)];
-                    //     toppingPool[i] = Instantiate(topping) as GameObject;
-                    //     toppingPool[i].name = "Shoot_" + i;
-                    //     toppingPool[i].SetActive(false); // `사용 안함` 상태
-                    // }
                 }
-
                 break;
-
             case WaveType.Punching:
                 InitPunchToppingPool();
-                /*if (punchToppingPool.Length == 0)
-                {
-                    punchToppingPool = new GameObject[_poolSize]; // 배열 생성
-                    for (int i = 0; i < _poolSize; ++i)
-                    {
-                        GameObject topping = PunchTopping[(i % PunchTopping.Count)];
-                        GameObject node = Instantiate(topping);
-                        node.SetActive(false);
-                        DontDestroyOnLoad(node);
-                        punchToppingPool[i] = node;
-                        punchToppingPool[i].name = "Punch_" + i;
-                    }
-                    Debug.Log($"[Node Maker] Generate {punchToppingPool.Length} Punchable Object ");
-                }*/
                 break;
-
             case WaveType.Hitting:
-                if (hitToppingPool.Length == 0)
-                {
-                    hitToppingPool = new GameObject[_poolSize];
-                    for (int i = 0; i < _poolSize/2; ++i)
-                    {
-                        GameObject topping = HitTopping[(i % 2)];
-                        GameObject node = Instantiate(topping);
-                        node.SetActive(false);
-                        DontDestroyOnLoad(node);
-                        hitToppingPool[i] = node;
-                        hitToppingPool[i].name = "Hit_R_" + i;
-                    }
-
-                    for (int i = _poolSize / 2; i < _poolSize; ++i)
-                    {
-                        GameObject topping = HitTopping[(2 + i % 2)];
-                        GameObject node = Instantiate(topping);
-                        node.SetActive(false);
-                        DontDestroyOnLoad(node);
-                        hitToppingPool[i] = node;
-                        hitToppingPool[i].name = "Hit_B_" + i;
-                    }
-                    //[XMC]Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
-                }
-
+                InitHittingToppingPool();
                 break;
         }
 
@@ -125,13 +85,38 @@ public class NodeInstantiator_minha : MonoBehaviour
         //[XMC]Debug.Log("[Node Maker] Start Coroutine");
     }
 
+    void InitHittingToppingPool()
+    {
+        if (hitToppingPool.Length == 0)
+        {
+            hitToppingPool = new GameObject[_poolSize];
+            for (int i = 0; i < _poolSize/2; ++i)
+            {
+                GameObject topping = HitTopping[(i % 2)];
+                GameObject node = Instantiate(topping);
+                node.SetActive(false);
+                DontDestroyOnLoad(node);
+                hitToppingPool[i] = node;
+                hitToppingPool[i].name = "Hit_R_" + i;
+            }
+
+            for (int i = _poolSize / 2; i < _poolSize; ++i)
+            {
+                GameObject topping = HitTopping[(2 + i % 2)];
+                GameObject node = Instantiate(topping);
+                node.SetActive(false);
+                DontDestroyOnLoad(node);
+                hitToppingPool[i] = node;
+                hitToppingPool[i].name = "Hit_B_" + i;
+            }
+            //[XMC]Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
+        }
+    }
+
     IEnumerator SpawnManager(WaveType wave)
     {
-        // while (!isWaveFinished)
-        // break
         while (true) // 지금은 10개 생성, 대기 Queue 10개까지 됨.
         {
-            // Debug.Log($"coroutine~ this wave is {wave}");
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
             //TODO: XMC 임시
             float _time = 0.0f;
@@ -247,18 +232,8 @@ public class NodeInstantiator_minha : MonoBehaviour
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;
 
-                    temp.punchTypeIndex = nodes[i]; // Punch Type 별 인덱스 입력
-                    
-                    // temp.punchTypeIndex = node[i]
-                    // node[i] -> 펀치 타입 인덱스  노드 큐에 enqueue하는 곳
-                    /*
-                    1 - 빨강 레프트 잽
-                    2 - 빨강 레프트 훅
-                    3 - 빨강 레프트 어퍼컷
-                    4 - 파랑 라이트 잽
-                    5 - 파랑 라이트 훅
-                    6 - 파랑 라이트 어퍼컷
-                    */
+                    // Punch Type 별 인덱스 입력, NodeInfo To MusicData에서 punch에 필요한 UI와 콜라이더 붙임.
+                    temp.punchTypeIndex = nodes[i]; 
                     
                     _nodeQueue.Enqueue(temp);
                     Debug.Log($"[Node Maker] Enqueue! {wave} {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
@@ -310,54 +285,52 @@ public class NodeInstantiator_minha : MonoBehaviour
             }
             else if (wave == WaveType.Punching)
             {
-                //tempPool = punchToppingPool; 
                 if (tempNodeInfo.beatNum != 0)
                 {
                     // Debug.Log("[Node Maker] Dequeue 저장하고 다시 시도"); //[XMC]
-                    GameObject[] poolsToUse = GetObjectPool(tempNodeInfo.punchTypeIndex);
-                    if(poolsToUse[i].activeSelf == true) 
+
+                    if(punchToppingPool[i].activeSelf == true) 
                     {
-                        continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
+                        // 이미 setactive(true)인 상태인 오브젝트면 = 이미 활성화돼서 초기화되면 안되는 상태일 경우는 다음 인덱스로 넘어감.
+                        continue; 
                     }
-                    Debug.Log($"[Node Maker] Dequeue {poolsToUse[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                    Debug.Log($"[Node Maker] Dequeue {punchToppingPool[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
                     
-                    poolsToUse[i].SetActive(true);
+                    punchToppingPool[i].SetActive(true);
                     
-                    PunchaleMovement punchaleMovement = poolsToUse[i].GetComponentInChildren<PunchaleMovement>();
-                    punchaleMovement.parentTransform.position = tempNodeInfo.spawnPosition;
+                    // PunchableMovement 초기화
+                    PunchaleMovement punchaleMovement = punchToppingPool[i].GetComponent<PunchaleMovement>();
+                    punchaleMovement.transform.position = tempNodeInfo.spawnPosition;
                     punchaleMovement.beatNum = tempNodeInfo.beatNum;
-                    // poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
                     StartCoroutine(punchaleMovement.InitializeToppingRoutine(tempNodeInfo));
-                    poolsToUse[i].GetComponentInChildren<Breakable>().InitBreakable();
+                    
+                    // Breakable 초기화
+                    punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+
+                    SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchaleMovement);
+                    
                     break;
                 }
                     
-                tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
-                GameObject[] punchPoolsToUse = GetObjectPool(tempNodeInfo.punchTypeIndex);
-                for (int j = 0; j < punchPoolsToUse.Length; j++)
-                {
-                    //[XMC]Debug.Log($"[Node Maker] punchPoolsToUse[{j}] {punchPoolsToUse[j].name} is {punchPoolsToUse[j].activeSelf}");
-                }
-                
+                // nodeInfo 노드 하나에 해당하는 값
+                tempNodeInfo = _nodeQueue.Dequeue();   
 
-                if(punchPoolsToUse[i].activeSelf == true) 
+                if(punchToppingPool[i].activeSelf == true) 
                 {
                     continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                 }
-                Debug.Log($"[Node Maker] Dequeue {punchPoolsToUse[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
+                Debug.Log($"[Node Maker] Dequeue {punchToppingPool[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
 
-                punchPoolsToUse[i].SetActive(true);
-                PunchaleMovement movement = punchPoolsToUse[i].GetComponentInChildren<PunchaleMovement>();
-                movement.parentTransform.position = tempNodeInfo.spawnPosition;
+                punchToppingPool[i].SetActive(true);
+                
+                // PunchableMovement 초기화
+                PunchaleMovement movement = punchToppingPool[i].GetComponent<PunchaleMovement>();
+                movement.transform.position = tempNodeInfo.spawnPosition;
                 movement.beatNum = tempNodeInfo.beatNum;
-                // poolsToUse[i].transform.position = tempNodeInfo.spawnPosition;
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
-                punchPoolsToUse[i].GetComponentInChildren<Breakable>().InitBreakable();
-                    
-                /*punchToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
-                punchToppingPool[i].GetComponentInChildren<PunchaleMovement>().InitializeTopping(tempNodeInfo);
-                punchToppingPool[i].GetComponentInChildren<Breakable>().InitBreakable();
-                punchToppingPool[i].SetActive(true);*/
+
+                punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                
                 break;
             }
             else if(wave == WaveType.Hitting)
@@ -376,54 +349,112 @@ public class NodeInstantiator_minha : MonoBehaviour
                 break;
             }
         }
-        //[XMC] Debug.Log($"[Node] Note Info -> Music data {(int)_musicDataIndex}");
     }
     
     // tempNodeInfo.sideType,tempNodeInfo.punchTypeIndex에 따라 해당하는 오브젝트 풀을 반환함. 
-    private GameObject[] GetObjectPool(uint punchTypeIndex)
+    void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchaleMovement movement)
     {
-        switch (punchTypeIndex)
+        if (movement.typeIndex != 0)
         {
-            case 1:
-                return punchLeftZapPool;
-                break;
-            case 2:
-                return punchLeftHookPool;
-                break;
-            case 3:
-                return punchLeftUpperCutPool;
-                break;
-            case 4:
-                return punchRightZapPool;
-                break;
-            case 5:
-                return punchRightHookPool;
-                break;
-            case 6:
-                return punchRightUpperCutPool;
-                break;
+            // 이미 존재하면 prevTypeIndex와 typeIndex를 비교하고 삭제, 생성
+            // 추후 콜라이더는 위치 조정만 하는 방향으로 수정
+            if (movement.typeIndex == typeIndex) return;
+            else
+            {
+                movement.typeIndex = typeIndex;
+                
+                // 자식 게임오브젝트 삭제
+                Transform[] allChildrenExcludingThis = transform.GetComponentsInChildren<Transform>(true).Where(t => t != transform).ToArray();
+                foreach (var childTransform in allChildrenExcludingThis)
+                    Destroy(childTransform.gameObject);
+                        
+                    // typeIndex에 맞는 자식 게임오브젝트 생성
+                Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
+                switch (typeIndex)
+                {
+                    case 1:
+                        Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform);
+                        break;
+                    case 2:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform);
+                        break;
+                    case 3:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[1], punchGameObject.transform);
+                        break;
+                    case 4:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        break;
+                    case 5:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
+                        break;
+                    case 6:
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
+                        break;
+                    default:
+                        break;
+                }  
+                return;
+            }
+
         }
-        return null;
-    }
-    private GameObject[] GetObjectPool(InteractionSide sideType)
-    {
-        switch (sideType)
+        else if (movement.typeIndex == 0)
         {
-            case InteractionSide.Red:
-                return hitRedPool;
-                break;
-            case InteractionSide.Blue:
-                return hitBluePool;
-                break;
+            movement.typeIndex = typeIndex;
+            Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
+            switch (typeIndex)
+            {
+                case 1:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    break;
+                case 2:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform);
+                    break;
+                case 3:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[1], punchGameObject.transform);
+                    break;
+                case 4:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    break;
+                case 5:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
+                    break;
+                case 6:
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
+                    break;
+                default:
+                    break;
+            }    
         }
-        return null;
+        
+        
+        // typeIndex에 해당하는 콜라이더와 방향 UI가 이미 존재하면 생성하지 않는다.
+        // 타입에 맞는 UI와 콜라이더를 자식으로 붙임. 
+        // temp.punchTypeIndex = node[i]
+        // node[i] -> 펀치 타입 인덱스  노드 큐에 enqueue하는 곳
+        /*
+        1 - 빨강 레프트 잽
+        2 - 빨강 레프트 훅
+        3 - 빨강 레프트 어퍼컷
+        4 - 파랑 라이트 잽
+        5 - 파랑 라이트 훅
+        6 - 파랑 라이트 어퍼컷
+        */
     }
 
     private void InitPunchToppingPool()
     {
         Debug.Log("Init Punch Topping Pool");
         int poolSize = 20;
-        if (punchLeftZapPool.Length == 0)
+        
+        /*if (punchLeftZapPool.Length == 0)
         {
             punchLeftZapPool = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
@@ -448,7 +479,8 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchLeftHookPool[i] = node;
                 punchLeftHookPool[i].name = "Punch_LeftHook" + i;
             }
-        }if (punchLeftUpperCutPool.Length == 0)
+        }
+        if (punchLeftUpperCutPool.Length == 0)
         {
             punchLeftUpperCutPool = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
@@ -460,7 +492,8 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchLeftUpperCutPool[i] = node;
                 punchLeftUpperCutPool[i].name = "Punch_LeftUpperCut" + i;
             }
-        }if (punchRightZapPool.Length == 0)
+        }
+        if (punchRightZapPool.Length == 0)
         {
             punchRightZapPool = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
@@ -472,7 +505,8 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchRightZapPool[i] = node;
                 punchRightZapPool[i].name = "Punch_RightZap" + i;
             }
-        }if (punchRightHookPool.Length == 0)
+        }
+        if (punchRightHookPool.Length == 0)
         {
             punchRightHookPool = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
@@ -496,6 +530,24 @@ public class NodeInstantiator_minha : MonoBehaviour
                 DontDestroyOnLoad(node);
                 punchRightUpperCutPool[i] = node;
                 punchRightUpperCutPool[i].name = "Punch_RightUpperCut" + i;
+            }
+        }*/
+        
+        if (punchToppingPool.Length == 0)
+        {
+            punchToppingPool = new GameObject[poolSize];
+            for (int i = 0; i < poolSize; i++)
+            {
+                // 쿠키 프리팹 랜덤 생성 (타입 지정되지 않은 상태)
+                GameObject topping = cookiePrefabs[Random.Range(0, 4)];
+                GameObject node = Instantiate(topping);
+                node.SetActive(false);
+
+                // 토핑 각각을 DDOL할 이유가 없다.
+                // DontDestroyOnLoad(node);
+                
+                punchToppingPool[i] = node;
+                punchToppingPool[i].name = "Punch_" + i;
             }
         }
     }

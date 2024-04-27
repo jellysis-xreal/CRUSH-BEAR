@@ -33,16 +33,15 @@ namespace UnityEngine.XR.Content.Interaction
         /// The first parameter is the colliding object, the second parameter is the 'broken' version.
         /// </summary>
         public BreakEvent onBreak => m_OnBreak;
-
-        private MotionChecker _motionChecker;
-        private PunchaleMovement _punchaleMovement;
+        
+        private PunchaleMovement _punchableMovement;
         
         private ChildTriggerChecker _childTriggerChecker;
         public EnumTypes.Motion correctMotion = EnumTypes.Motion.None;
-        private void Awake()
+        
+        public void Init()
         {
-            _motionChecker = GetComponent<MotionChecker>();
-            _punchaleMovement = GetComponent<PunchaleMovement>();
+            _punchableMovement = GetComponent<PunchaleMovement>();
             
             if (_childTriggerChecker == null)
             {
@@ -50,12 +49,11 @@ namespace UnityEngine.XR.Content.Interaction
                 correctMotion = _childTriggerChecker.handMotion;
             }
         }
-
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
         public void InitBreakable()
         {
+            Debug.Log("Init 코드 추가해야 됨.");
             m_Destroyed = false;
-            _motionChecker._isTriggered = false;
         }
 
         public void MotionSucceed(Transform handTransform) // Breakable.IsHit의 파라미터 전달하기 위함.
@@ -72,7 +70,7 @@ namespace UnityEngine.XR.Content.Interaction
             brokenVersion.GetComponent<BreakController>().IsHit(handTransform.forward);
             if(GameManager.Score != null) GameManager.Score.ScoringPunch(this.gameObject, true);
 
-            _punchaleMovement.EndInteraction();
+            _punchableMovement.EndInteraction();
         }
         public void MotionSucceed(EnumTypes.Motion motion) // Breakable.IsHit의 파라미터 전달하기 위함.
         {
@@ -88,7 +86,7 @@ namespace UnityEngine.XR.Content.Interaction
             brokenVersion.GetComponent<BreakController>().IsHit(motion);
             if(GameManager.Score != null) GameManager.Score.ScoringPunch(this.gameObject, true);
 
-            _punchaleMovement.EndInteraction();
+            _punchableMovement.EndInteraction();
         }
         public void MotionSucceed() // Breakable.IsHit의 파라미터 전달하기 위함.
         {
@@ -104,7 +102,7 @@ namespace UnityEngine.XR.Content.Interaction
             brokenVersion.GetComponent<BreakController>().IsHit();
             if(GameManager.Score != null) GameManager.Score.ScoringPunch(this.gameObject, true);
 
-            _punchaleMovement.EndInteraction();
+            _punchableMovement.EndInteraction();
         }
         public void MotionFailed(Transform handTransform)
         {
@@ -122,7 +120,7 @@ namespace UnityEngine.XR.Content.Interaction
             // GameManager.Player.MinusPlayerLifeValue();
             GameManager.Score.ScoringPunch(this.gameObject, false);
 
-            _punchaleMovement.EndInteraction();
+            _punchableMovement.EndInteraction();
         }
         public void MotionFailed()
         {
@@ -140,15 +138,17 @@ namespace UnityEngine.XR.Content.Interaction
             // GameManager.Player.MinusPlayerLifeValue();
             GameManager.Score.ScoringPunch(this.gameObject, false);
 
-            _punchaleMovement.EndInteraction();
+            _punchableMovement.EndInteraction();
         }
         
         private void OnTriggerEnter(Collider other)
         {
+#if UNITY_EDITOR
             if (GameManager.Instance != null)
             {
                 if(GameManager.Instance.currentGameState == GameState.Waving) return;
             }
+#endif
             if (m_Destroyed)
                 return;
             // Motion Checker OnTriggerEnter와 연결해야 함.
@@ -178,9 +178,7 @@ namespace UnityEngine.XR.Content.Interaction
         {
             // 추가 조건 검사. 프레임 사이에 콜라이더를 지나 자식의 콜라이더에 트리거되지 않았을 경우를 대비한 메서드
             bool isRightPosition = false;
-        
-        
-        
+
             return isRightPosition;
         }
     }

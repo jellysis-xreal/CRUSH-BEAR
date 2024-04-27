@@ -5,13 +5,14 @@ using EnumTypes;
 using UnityEngine;
 using UnityEngine.XR.Content.Interaction;
 
-public class PunchaleMovement : MonoBehaviour
+public class PunchableMovement : MonoBehaviour
 {
     // TODO : Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")]
     public int arrivalBoxNum = 0; // 목표인 Box index number
     public float arriveTime; // Node Instantiate
     public uint beatNum;
+    public uint typeIndex;
 
     [Header("other Variable (AUTO)")] 
     private Vector3 targetPosition;

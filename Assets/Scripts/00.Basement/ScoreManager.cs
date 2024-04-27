@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.PlayerLoop;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 // Player의 Interaction event를 확인하고,
 // Perfect/Good/Bad의 점수를 판별합니다
@@ -37,6 +38,8 @@ public class ScoreManager : MonoBehaviour
     private AttachHandNoGrab RAttachNoGrab;
     private AttachHandNoGrab LAttachNoGrab;
 
+    private SliderController sliderController; //
+
     // [Header("Score UI")] 
     // [SerializeField] private TextMeshProUGUI scoreText;
     // [SerializeField] private TextMesh scoreText_mesh;
@@ -47,7 +50,7 @@ public class ScoreManager : MonoBehaviour
         Bad,
         Failed
     }
-    
+
     public void Init()
     {
         Debug.Log("Initialize ScoreManager");
@@ -67,7 +70,7 @@ public class ScoreManager : MonoBehaviour
     public void Scoring(GameObject target)
     {
         if (target.GetComponent<BaseObject>().IsItScored()) return; // Object의 중복 scoring을 방지한다.
-        
+
         InteractionType targetType = target.GetComponent<BaseObject>().InteractionType;
         scoreType score;
 
@@ -158,8 +161,11 @@ public class ScoreManager : MonoBehaviour
 
     public void ScoringPunch(GameObject target, bool isPerpect)
     {
+        GameObject sliderControllerObject = GameObject.Find("SliderController"); //
+        sliderController = sliderControllerObject.GetComponent<SliderController>();
+
         scoreType score;
-        if(isPerpect) score = scoreType.Perfect;
+        if (isPerpect) score = scoreType.Perfect;
         else
         {
             score = scoreType.Bad;
@@ -167,11 +173,17 @@ public class ScoreManager : MonoBehaviour
             if(GameManager.Wave.currenWaveNum > 1) GameManager.Player.MinusPlayerLifeValue(); // 임시
         }
 
-        //target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
         SetScoreEffect(score, target.transform);
         GameManager.Sound.PlayEffect_Punch();
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
+        //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ControllerSpeed + LHand.ControllerSpeed);
+        //Debug.Log("====yujin[DEBUG] ScoringPunch PunchGauge 오른손 속도: " + RHand.ControllerSpeed);
+        //Debug.Log("====yujin[DEBUG] ScoringPunch PunchGauge 왼손 속도: " + LHand.ControllerSpeed);
+
+        float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed) + 1;
+        Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
+        sliderController.SetPunchSliderSpeed(mPunchSpeed);
     }
 
     private void setTXT()
@@ -250,7 +262,7 @@ public class ScoreManager : MonoBehaviour
             
             // 햅틱 효과
             GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
-            GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
+            GameManager.Player.DecreaseLeftHaptic(0.2f, 0.1f);
         }
         else if (score == scoreType.Failed)
         {
@@ -259,7 +271,7 @@ public class ScoreManager : MonoBehaviour
             
             // 햅틱 효과
             GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
-            GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
+            GameManager.Player.IncreaseLeftHaptic(0.2f, 0.2f);
         }
     }
 }

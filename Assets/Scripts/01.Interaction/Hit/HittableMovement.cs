@@ -202,11 +202,14 @@ public class HittableMovement : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision other)
-    {          
-        // FOR DEBUG
-        //Debug.Log("[DEBUG]" + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
-        
-        if (curState == toppingState.interacable && !other.gameObject.CompareTag("Plane"))
+    {
+        CanInteractTopping();
+        Debug.Log("[DEBUGGING]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
+                  "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
+
+        if (other.gameObject.CompareTag("Plane")) return;
+
+        if (IsInteractable() || curState == toppingState.interacable)
         {
             // FOR DEBUG
             //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
@@ -218,6 +221,8 @@ public class HittableMovement : MonoBehaviour
             if (!other.transform.TryGetComponent(out Rigidbody body))
                 return;
 
+            //DOTween.KillAll();
+            
             // hitter의 side 색과 일치한 topping일 경우
             InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
             if (colSide == sideType)
@@ -236,13 +241,21 @@ public class HittableMovement : MonoBehaviour
 
             // Controller / Hand_R/L의 HandData에서
             // 속도 값 받아와서 Hit force로 사용함
-            var parent = other.transform.parent.parent.parent;
-            float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
-            
-            // 충돌 지점 기준으로 날아가게
-            Vector3 dir = other.contacts[0].normal.normalized;
-            _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
-            _rigidbody.useGravity = true;
+            // var parent = other.transform.parent.parent.parent;
+            // float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
+            //
+            // // 충돌 지점 기준으로 날아가게
+            // Vector3 dir = other.contacts[0].normal.normalized + Vector3.up;
+            // Vector3 playerDir = (_player.transform.position - this.transform.position) + Vector3.up;
+            //
+            // float angle = Vector3.Angle(dir, playerDir);
+            // if (angle <= 40.0f)
+            //     _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
+            // else
+            //     // 플레이어 앞쪽으로 날아가게
+            //     _rigidbody.AddForce(playerDir * hitForce, ForceMode.Impulse);
+            //
+            // _rigidbody.useGravity = true;
             
             // For Debug
             // Debug.Log("[SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name + "와 충돌함. 따라서 " + IsRight);
@@ -322,18 +335,26 @@ public class HittableMovement : MonoBehaviour
         return false;
     }
 
+    private bool IsInteractable()
+    {
+        _curDistance = (this.transform.position - _player.transform.position).sqrMagnitude;
+        if (_curDistance <= distancePlayer)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     private void CanInteractTopping()
     {
         // refrigerator로 향하는 것이 아니라면(아직 인터렉션을 하지 않았다면), 토핑과 상호작용할 수 있는 상황인지 체크한다.
 
         // Player와의 거리가 distancePlayer만큼 다가오면 활성화되도록.
-        _curDistance = (this.transform.position - _player.transform.position).sqrMagnitude;
-        //Debug.Log(_curDistance);
-        if (_curDistance <= distancePlayer)
-        {
-            //Debug.Log("[DEBUG] 충돌 가능합니다.");
+        if (IsInteractable())
             curState = toppingState.interacable;
-        }
         else
             curState = toppingState.uninteracable;
     }
@@ -408,7 +429,7 @@ public class HittableMovement : MonoBehaviour
             case toppingState.refrigerator:
                 if (!_isHitted)
                 {
-                    //GoToRefrigerator();
+                    GoToRefrigerator();
                     StartCoroutine(ExplodeAfterSeconds(0.5f));
                     _isNotHitted = false;
                     _isHitted = true;

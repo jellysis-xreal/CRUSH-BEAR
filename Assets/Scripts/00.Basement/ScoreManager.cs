@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.PlayerLoop;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // Player의 Interaction event를 확인하고,
@@ -153,9 +154,12 @@ public class ScoreManager : MonoBehaviour
         }
         
         target.GetComponent<BaseObject>().SetScoreBool();
-        AddScore(score);
-        SetScoreEffect(score, target.transform);
         GameManager.Sound.PlayEffect_ToastHit();
+        if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+        {
+            AddScore(score);
+            SetScoreEffect(score, target.transform);    
+        }
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 

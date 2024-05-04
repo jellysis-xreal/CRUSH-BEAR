@@ -9,13 +9,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Sequence = DG.Tweening.Sequence;
 
-public class HittableMovement : MonoBehaviour
+public class HittableMovementTutorial : MonoBehaviour
 {
     // TODO: 해당 Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")] 
     public int arrivalBoxNum = 0; // 목표인 Box index number
     [SerializeField]
-    private uint beatNum;
     public InteractionSide sideType = InteractionSide.Red;
     private float moveTime = 3.3f; // 토핑의 이동 속도를 결정함
     private float popTime = 0.1f; // 토핑의 점프 시간을 결정함
@@ -24,8 +23,9 @@ public class HittableMovement : MonoBehaviour
     [Header("other Variable (AUTO)")] 
     [SerializeField] private GameObject refrigerator;
     [SerializeField] private toppingState curState = toppingState.idle;
-    private float distancePlayer = 3.5f;
-    private GameObject _player;
+    public float distancePlayer = 3.5f;
+    public GameObject player;
+    public Transform startTransform;
     private BaseObject _baseObject;
     private SkinnedMeshRenderer _meshRenderer;
 
@@ -46,7 +46,8 @@ public class HittableMovement : MonoBehaviour
     private bool _isHitted = false; 
     private bool _isNotHitted = false;
     private bool _goTo = false;
-
+    
+    [Space] [Header("Test")] public Transform arrivalBoxTransform;
     private enum toppingState
     {
         idle,           // 토핑이 생성되었으나, 아직 움직이지 않는 상태
@@ -60,8 +61,13 @@ public class HittableMovement : MonoBehaviour
     {
         _baseObject = GetComponent<BaseObject>();
         _rigidbody = GetComponent<Rigidbody>();
-        _player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player");
         _meshRenderer = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+    }
+    
+    private void Update()
+    {
+        // CanInteractTopping();
     }
 
     /// <summary>
@@ -70,27 +76,49 @@ public class HittableMovement : MonoBehaviour
     /// </summary>
     /// <param name="arrivalBox">arrival area의 index</param>
     /// <param name="arriveTime">arrival time</param>
-
-    public void InitializeTopping(NodeInfo node)
+    
+    [ContextMenu("Tennis")]
+    public void InitializeTopping(TutorialTennisType hand, float startTime)
     {
-        arrivalBoxNum = node.arrivalBoxNum;
-        beatNum = node.beatNum;
-        sideType = node.sideType;
+        // 왼쪽부터 도착 위치 1, 3, 4, 2
+        // 빨 파 파 빨
+        // 왼손이고 빨간색이면 1번, 파란색이면 3번 (인덱스는 - 1 하기 :))
+        // 왼손이고 빨간색이면 2번, 파란색이면 4번
 
-        shootStandard = GameManager.Instance.Metronome.shootStandard;
-        popTime = (float)GameManager.Instance.Metronome.secondsPerBeat;
-        moveTime = popTime * (shootStandard - 1);
+        popTime = 1f;
+        moveTime = 5f;
         InitiateVariable();
-        _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
-        _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+
+        if (hand == TutorialTennisType.LeftHand)
+        {
+            arrivalBoxNum = (sideType == InteractionSide.Red)?  0 : 2; 
+            _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+            _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        }
+        else if (hand == TutorialTennisType.RightHand)
+        {
+            arrivalBoxNum = (sideType == InteractionSide.Red)? 1 : 3; 
+            _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+            _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        }
+        // _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum); // arrivalBoxTransform.position; 
+        // _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum); // startTransform.position;
         InitializeBeforeStart();
 
         _isInit = true;
-        GameManager.Instance.Metronome.BindEvent(UpdateToppingState);
-        GameManager.Instance.Metronome.BindEvent(RemoveTopping);
-        Debug.Log(beatNum + "번 노드 만들어짐");
+
+        StartCoroutine(TennisRoutine(startTime));
     }
 
+    IEnumerator TennisRoutine(float startTime)
+    {
+        // 지연 시간
+        yield return new WaitForSeconds(startTime);
+
+        yield return StartCoroutine(MoveToPlayer());
+
+        GoToRefrigerator();
+    }
     private void InitiateVariable()
     {
         refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
@@ -118,18 +146,18 @@ public class HittableMovement : MonoBehaviour
     private void InitializeBeforeStart()
     {
         this.transform.position = _startBoxPos;
-        this.transform.LookAt(GameManager.Player.player.transform);
+        this.transform.LookAt(arrivalBoxTransform);
 
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
         _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
     }
 
-    public void MoveToPlayer()
+    public IEnumerator MoveToPlayer()
     {
         //float timeElapsed = arriveTime - _moveToppingTime;
         Vector3 firstPos = transform.position;
 
-        this.transform.LookAt(_player.transform);
+        this.transform.LookAt(player.transform);
 
         Sequence sequence = DOTween.Sequence();
         
@@ -159,27 +187,8 @@ public class HittableMovement : MonoBehaviour
 
         sequence.Append(tweenJump).Append(tweenMove);
         sequence.Play();
-    }
-
-    public void MoveToPlayerAtMiddle()
-    {
-        Vector3 firstPos = transform.position;
-        transform.LookAt(_player.transform);
-        Vector3 upVector = transform.up.normalized * 4.0f;
-        Vector3 forwardVector = transform.forward.normalized * 5.0f;
-        Tween tweenMove = transform.DOPath(new[]
-            {
-                new Vector3(firstPos.x, firstPos.y, firstPos.z),
-                new Vector3(firstPos.x, firstPos.y, firstPos.z) + upVector + forwardVector,
-                new Vector3(_arrivalBoxPos.x, _arrivalBoxPos.y, _arrivalBoxPos.z)
-            },
-            moveTime,
-            PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint);
-
-        float elapsedTime = (shootStandard - 1 - beatNum) * (float)GameManager.Instance.Metronome.secondsPerBeat;
-        transform.position = tweenMove.PathGetPoint(elapsedTime);
-
-        tweenMove.Play();
+        
+        yield return new WaitForSeconds(popTime + moveTime + 0.5f);
     }
     public void GoToRefrigerator()
     {
@@ -204,6 +213,7 @@ public class HittableMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        if(_isHitted) return;
         CanInteractTopping();
         Debug.Log("[DEBUGGING]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
                   "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
@@ -214,7 +224,7 @@ public class HittableMovement : MonoBehaviour
         {
             // FOR DEBUG
             //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
-            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 현재 비트는 " + beatNum);
+            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 ");
             
             bool IsRight = false;
 
@@ -226,6 +236,7 @@ public class HittableMovement : MonoBehaviour
             
             // hitter의 side 색과 일치한 topping일 경우
             InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
+            Debug.Log($"hitter Side {colSide}");
             if (colSide == sideType)
             {
                 IsRight = true;
@@ -240,30 +251,24 @@ public class HittableMovement : MonoBehaviour
                     //Debug.Log("[DEBUG] 예외가 아니었군");
             }
 
-            // Controller / Hand_R/L의 HandData에서
-            // 속도 값 받아와서 Hit force로 사용함
-            // var parent = other.transform.parent.parent.parent;
-            // float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
-            //
-            // // 충돌 지점 기준으로 날아가게
-            // Vector3 dir = other.contacts[0].normal.normalized + Vector3.up;
-            // Vector3 playerDir = (_player.transform.position - this.transform.position) + Vector3.up;
-            //
-            // float angle = Vector3.Angle(dir, playerDir);
-            // if (angle <= 40.0f)
-            //     _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
-            // else
-            //     // 플레이어 앞쪽으로 날아가게
-            //     _rigidbody.AddForce(playerDir * hitForce, ForceMode.Impulse);
-            //
-            // _rigidbody.useGravity = true;
-            
-            // For Debug
-            // Debug.Log("[SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name + "와 충돌함. 따라서 " + IsRight);
-            
+            _isHitted = true;
+            if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+            {
+                if (IsRight)
+                {
+                    Debug.Log("[Tennis] Succced");
+                    GameManager.TutorialTennis.processedNumber++;
+                    GameManager.TutorialTennis.succeedNumber++;
+                    GameManager.Score.ScoringHit(this.gameObject, IsRight);
+                }
+                else
+                {
+                    Debug.Log("[Tennis] Failed");
+                    GameManager.TutorialTennis.processedNumber++;
+                    GameManager.Score.ScoringHit(this.gameObject, IsRight);
+                }
+            }
             // Set Score & State
-            
-            GameManager.Score.ScoringHit(this.gameObject, IsRight); 
             curState = toppingState.refrigerator;
         }
         else
@@ -339,7 +344,7 @@ public class HittableMovement : MonoBehaviour
 
     private bool IsInteractable()
     {
-        _curDistance = (this.transform.position - _player.transform.position).sqrMagnitude;
+        _curDistance = (this.transform.position - player.transform.position).sqrMagnitude;
         if (_curDistance <= distancePlayer)
         {
             return true;
@@ -349,7 +354,6 @@ public class HittableMovement : MonoBehaviour
             return false;
         }
     }
-    
     private void CanInteractTopping()
     {
         // refrigerator로 향하는 것이 아니라면(아직 인터렉션을 하지 않았다면), 토핑과 상호작용할 수 있는 상황인지 체크한다.
@@ -379,6 +383,7 @@ public class HittableMovement : MonoBehaviour
 
     private void UnactiveObject()
     {
+        GameManager.TutorialTennis.processedNumber++;
         this.gameObject.SetActive(false);
         
         InitateBoolean();
@@ -393,67 +398,7 @@ public class HittableMovement : MonoBehaviour
     {
         burstEffect.SetActive(false);
         _meshRenderer.enabled = true;
+        _isHitted = false;
     }
 
-    private void UpdateToppingState(int beat)
-    {
-        switch (curState)
-        {
-            case toppingState.idle:
-                if (beatNum == beat + shootStandard)
-                {
-                    Debug.Log(beatNum + "번 노드 날아감");
-                    curState = toppingState.uninteracable;
-                    MoveToPlayer();
-                    _isMoved = true;
-                }
-                else if (beatNum < beat + shootStandard)
-                {
-                    curState = toppingState.uninteracable;
-                    MoveToPlayerAtMiddle();
-                    _isMoved = true;
-                    // 혹시 중간 지점에서 시작할 때 이미 interactable이 되는 구간을 지나왔다면 보정함.
-                    CanInteractTopping();
-                }
-                break;
-
-            case toppingState.uninteracable:
-                if (_isMoved)
-                    CanInteractTopping();
-                break;
-
-            case toppingState.interacable:
-                // 중력의 영향을 받되, 천천히 떨어질 수 있도록 함
-                _rigidbody.useGravity = true;
-                //_rigidbody.AddForce(0, 0, +1.0f);
-                break;
-
-            case toppingState.refrigerator:
-                if (!_isHitted)
-                {
-                    GoToRefrigerator();
-                    StartCoroutine(ExplodeAfterSeconds(0.5f));
-                    _isNotHitted = false;
-                    _isHitted = true;
-                }
-
-                if (this.gameObject.activeSelf == true && _isNotHitted && !_goTo)
-                {
-                    GoToRefrigerator();
-                    _goTo = true;
-                }
-                
-                break;
-        }
-    }
-
-    private void RemoveTopping(int beat)
-    {
-        if (beat >= beatNum + 1 && _isMoved)
-        {
-            //Debug.Log("처리되지 못함");
-            curState = toppingState.refrigerator;
-            _isNotHitted = true;
-        }
-    }
 }

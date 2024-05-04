@@ -136,8 +136,9 @@ public class PlayerManager : MonoBehaviour
         player.SetActive(false);
         //IK_player.SetActive(false);
     }
-    
-    // Haptic
+    // ===================================
+    // =========== Haptic 진동 =========== 
+    // ===================================
     // 기본 진동
     public void ActiveRightHaptic(float amplitude, float duration)
     {

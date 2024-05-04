@@ -739,6 +739,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291289161}
   m_Mesh: {fileID: -208009409528337055, guid: 10f184265e70d574fb7666cd156c79d7, type: 3}
+--- !u!1 &292791370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 292791371}
+  m_Layer: 0
+  m_Name: leftHandRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &292791371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292791370}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2073231612}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &335796749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -851,11 +882,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1086346543879555026, guid: 2d613827c4db3fa41947292677dd679b,
         type: 3}
+    - target: {fileID: 6152105025754469532, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: m_Name
+      value: Tutorial Punch Manager
+      objectReference: {fileID: 0}
     - target: {fileID: 6495474336882641048, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
       propertyPath: _tutorial
       value: 
       objectReference: {fileID: 154343749}
+    - target: {fileID: 6495474336882641048, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: tutorialPunch
+      value: 
+      objectReference: {fileID: 154343749}
+    - target: {fileID: 6495474336882641048, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: tutorialTennis
+      value: 
+      objectReference: {fileID: 2073231613}
     - target: {fileID: 6725875270303160479, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
       propertyPath: _toppingArea.Array.size
@@ -928,7 +974,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 9016859143390974980, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2073231612}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edd7cf9d19d624e43b5b202abab35608, type: 3}
 --- !u!1 &335796750 stripped
@@ -937,6 +987,43 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 335796749}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &335796751 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9016859143390974980, guid: edd7cf9d19d624e43b5b202abab35608,
+    type: 3}
+  m_PrefabInstance: {fileID: 335796749}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &348416385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 348416386}
+  m_Layer: 0
+  m_Name: rightHandRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &348416386
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348416385}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2073231612}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &383604727
 GameObject:
   m_ObjectHideFlags: 0
@@ -5409,6 +5496,64 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959688033}
   m_Mesh: {fileID: -735947113639830320, guid: 10f184265e70d574fb7666cd156c79d7, type: 3}
+--- !u!1 &2073231611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2073231612}
+  - component: {fileID: 2073231613}
+  m_Layer: 0
+  m_Name: Tutorial Tennis Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2073231612
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073231611}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.43999994, y: 15.59, z: 22.34}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 292791371}
+  - {fileID: 348416386}
+  m_Father: {fileID: 335796751}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073231613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073231611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb34abb8eb23a5f40907b0ea2211b9e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialTennisType: 0
+  tennisPrefabs:
+  - {fileID: 7316578390627877693, guid: e8df0f8cac06b0548b43ef117d197bf3, type: 3}
+  - {fileID: 1299475217588371555, guid: c17d32b2b42134c4c84f80bbe4f5cfc0, type: 3}
+  - {fileID: 6385131919391849816, guid: b634d53659a236c49938ddc838368730, type: 3}
+  - {fileID: 4600889075278095963, guid: 4bcfed3d281240345ab3cc84e64454b4, type: 3}
+  leftHandGameObjects: []
+  rightHandGameObjects: []
+  leftHandRootGameObject: {fileID: 292791370}
+  rightHandRootGameObject: {fileID: 348416385}
+  succeedNumber: 0
+  processedNumber: 0
 --- !u!1 &2138121145
 GameObject:
   m_ObjectHideFlags: 0
@@ -5979,7 +6124,8 @@ MonoBehaviour:
   _player: {fileID: 2232107207713922785}
   _wave: {fileID: 4036048639663962311}
   _sound: {fileID: 7946371323369344673}
-  _tutorial: {fileID: 0}
+  tutorialPunch: {fileID: 0}
+  tutorialTennis: {fileID: 0}
   _metronome: {fileID: 0}
   currentGameState: 0
 --- !u!33 &827463844565670508

@@ -54,8 +54,13 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
-    [SerializeField] private TutorialManager _tutorial = new TutorialManager();
-    public static TutorialManager Tutorial { get { return Instance._tutorial; } }
+    
+    [SerializeField] private TutorialPunchManager tutorialPunch = new TutorialPunchManager();
+    public static TutorialPunchManager TutorialPunch { get { return Instance.tutorialPunch; } }
+    
+    [SerializeField] private TutorialTennisManager tutorialTennis = new TutorialTennisManager();
+    public static TutorialTennisManager TutorialTennis { get { return Instance.tutorialTennis; } }
+    
     [SerializeField] private Metronome _metronome;
     public Metronome Metronome { get { return _metronome; } }
     //+------------------------//
@@ -77,7 +82,7 @@ public class GameManager : MonoBehaviour
             InitLobby();
             StartCoroutine(LoadWaveScene());
         }
-        //Test();
+        // Test();
     }
 
     // 게임 상태를 변경하고 이벤트를 호출하는 함수
@@ -241,6 +246,7 @@ public class GameManager : MonoBehaviour
         // 이 밑으로 진행할 Test 코드를 입력한 후, Start 함수에 가서 Test의 주석 처리를 해제하면 됩니다.
         // Toast 치기 개발으로 잠시 테스트 - 240108 minha
         // _wave.Test();
+        
     }
 
     IEnumerator LoadWaveScene()
@@ -269,9 +275,17 @@ public class GameManager : MonoBehaviour
     {
         if (scene.buildIndex == 3)
         {
+            /*// Tennis
+            Wave.SetWaveType(WaveType.Hitting);
+            Wave.SetWaveTutorial();
+            Player.Init();
+            tutorialTennis.Init();
+            _score.Init();*/
+            // Punch
             GameManager.Wave.SetWaveType(WaveType.Punching);
             GameManager.Wave.SetWaveTutorial();
-            _tutorial.Init();
+            Player.Init();
+            tutorialPunch.Init();
         }
         SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
     }

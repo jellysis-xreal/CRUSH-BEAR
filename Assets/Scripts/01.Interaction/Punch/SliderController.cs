@@ -8,19 +8,26 @@ public class SliderController : MonoBehaviour
     public Slider mySlider;
     public TextMeshProUGUI sliderText;
 
-    private float maxSliderAmount = 10.0f;
+    private float maxSliderAmount = 7.5f; // 최대 값 10*3/4로 수정
     private float smoothSpeed = 10.0f;  // 슬라이더 값이 변경되는 속도
     public float targetValue;  // 목표 슬라이더 값
 
     private float SliderWidth = 140f; // 슬라이더 width 값
-
 
     public Image sliderFillImage;  // 슬라이더의 색상을 변경할 Image 컴포넌트 참조
     public float highestValue = 0f;  // 최대 속도 변수
 
     public RectTransform highest_RectTransform;
     public RectTransform slider_RectTransform;
-    public GameObject highestPointMarker; // 화살표 게임 오브젝트
+    public RectTransform currentValue_RectTransform;
+    public GameObject highestPointMarker; // 최대값 화살표
+    public GameObject currentValueMarker; // 현재값 화살표
+
+    [Header("Slider Colors")]
+    [SerializeField] private Color lowColor = Color.yellow; // 30% 이하 색상
+    [SerializeField] private Color midColor = new Color(1f, 0.5f, 0f); // 30%-70% 색상
+    [SerializeField] private Color highColor = Color.red; // 70% 이상 색상
+
     void Start()
     {
         if (mySlider != null)
@@ -32,7 +39,8 @@ public class SliderController : MonoBehaviour
             UpdateSliderText(mySlider.value);
             sliderFillImage = mySlider.fillRect.GetComponent<Image>();  // 슬라이더의 Fill Image
 
-            highest_RectTransform = highestPointMarker.GetComponent<RectTransform>();
+            //highest_RectTransform = highestPointMarker.GetComponent<RectTransform>();
+            currentValue_RectTransform = currentValueMarker.GetComponent<RectTransform>(); // 현재 값 화살표 초기화
 
             slider_RectTransform = mySlider.GetComponent<RectTransform>();
             SliderWidth = slider_RectTransform.rect.width;
@@ -57,29 +65,29 @@ public class SliderController : MonoBehaviour
         }
         UpdateSliderText(mySlider.value);
         UpdateSliderColor(mySlider.value / maxSliderAmount);
-        UpdateHighestValue(mySlider.value);
+        //UpdateHighestValue(mySlider.value);// 최대값 표시 안하기로 함
+        UpdateCurrentValueMarker();
     }
     private void UpdateSliderText(float value)
     {
         if (sliderText != null)
         {
-            float localValue = value;
-            sliderText.text = localValue.ToString("0.00");
+            sliderText.text = value.ToString("0.0");
         }
     }
     private void UpdateSliderColor(float percentage)
     {
         if (percentage < 0.3f)
         {
-            sliderFillImage.color = Color.yellow;  // 30% 이하일 때 노랑
+            sliderFillImage.color = lowColor;  // 30% 이하
         }
         else if (percentage < 0.7f)
         {
-            sliderFillImage.color = new Color(1f, 0.5f, 0f);  // 30%~70%일 때 주황
+            sliderFillImage.color = midColor;  // 30%~70%
         }
         else
         {
-            sliderFillImage.color = Color.red;  // 70% 이상일 때 빨강
+            sliderFillImage.color = highColor;  // 70% 이상
         }
     }
 
@@ -100,6 +108,16 @@ public class SliderController : MonoBehaviour
             float markerPositionX = normalizedHighestValue * SliderWidth;
             Vector3 markerPosition = new Vector3(markerPositionX, 0,0);
             highest_RectTransform.anchoredPosition3D = markerPosition;
+        }
+    }
+    private void UpdateCurrentValueMarker()
+    {
+        if (currentValueMarker != null && mySlider != null)
+        {
+            float normalizedCurrentValue = mySlider.value / maxSliderAmount;
+            float markerPositionX = normalizedCurrentValue * SliderWidth;
+            Vector3 markerPosition = new Vector3(markerPositionX, 0, 0);
+            currentValue_RectTransform.anchoredPosition3D = markerPosition;
         }
     }
 

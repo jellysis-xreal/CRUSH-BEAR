@@ -42,7 +42,7 @@ public class Metronome : MonoBehaviour
                 lastbeat += secondsPerBeat;
                 isBeated = true;
                 PlaySound();
-                Debug.LogError($"{currentBeat}비트!");
+                Debug.LogWarning($"{currentBeat}비트!");
             }
             yield return null;
         }

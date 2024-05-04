@@ -36,7 +36,20 @@ namespace EnumTypes
         Punching,
         Hitting
     }
-    
+    public enum TutorialPunchType
+    {
+        Zap,
+        Hook,
+        UpperCut,
+        Clear
+    }
+
+    public enum TutorialTennisType
+    {
+        LeftHand,
+        RightHand,
+        Clear
+    }
     // XR origin의 두 controller 하위에 붙은
     // Hitter의 하위 자식과 동일하게 naming!
     public enum InteractionSide

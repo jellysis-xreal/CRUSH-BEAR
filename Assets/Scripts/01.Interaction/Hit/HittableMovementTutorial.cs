@@ -156,27 +156,6 @@ public class HittableMovementTutorial : MonoBehaviour
         sequence.Append(tweenJump).Append(tweenMove);
         sequence.Play();
     }
-
-    public void MoveToPlayerAtMiddle()
-    {
-        Vector3 firstPos = transform.position;
-        transform.LookAt(_player.transform);
-        Vector3 upVector = transform.up.normalized * 4.0f;
-        Vector3 forwardVector = transform.forward.normalized * 5.0f;
-        Tween tweenMove = transform.DOPath(new[]
-            {
-                new Vector3(firstPos.x, firstPos.y, firstPos.z),
-                new Vector3(firstPos.x, firstPos.y, firstPos.z) + upVector + forwardVector,
-                new Vector3(_arrivalBoxPos.x, _arrivalBoxPos.y, _arrivalBoxPos.z)
-            },
-            moveTime,
-            PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint);
-
-        // float elapsedTime = (shootStandard - 1 - beatNum) * (float)GameManager.Instance.Metronome.secondsPerBeat;
-        // transform.position = tweenMove.PathGetPoint(elapsedTime);
-
-        tweenMove.Play();
-    }
     public void GoToRefrigerator()
     {
         Vector3 firstPos = transform.position;

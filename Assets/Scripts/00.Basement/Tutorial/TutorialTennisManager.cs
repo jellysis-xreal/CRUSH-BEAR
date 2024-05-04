@@ -87,14 +87,14 @@ public class TutorialTennisManager : MonoBehaviour
         Debug.Log("Routine Start");
         switch (tutorialTennisType)
         {
-            case TutorialTennisType.LeftHand:
+            /*case TutorialTennisType.LeftHand:
                 for (int i = 0; i < leftHandGameObjects.Length; i++)
                     leftHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);        
                 break;
             case TutorialTennisType.RightHand:
                 for (int i = 0; i < rightHandGameObjects.Length; i++)
                     rightHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
-                break;
+                break;*/
         }
 
         yield return StartCoroutine(WaitUntilProcessedNumberMatchSix());

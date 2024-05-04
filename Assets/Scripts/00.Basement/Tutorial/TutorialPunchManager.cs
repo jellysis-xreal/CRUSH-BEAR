@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using EnumTypes;
 public class TutorialPunchManager : MonoBehaviour
 {
-    public TutorialType tutorialType;
-    private Dictionary<TutorialType, bool> tutorialClearData = new Dictionary<TutorialType, bool>();
+    public TutorialPunchType tutorialPunchType;
+    private Dictionary<TutorialPunchType, bool> tutorialClearData = new Dictionary<TutorialPunchType, bool>();
 
     public GameObject[] punchPrefab; // 완성된 형태의 펀치 프리팹
     public GameObject[] zapGameObjects;
@@ -22,17 +22,17 @@ public class TutorialPunchManager : MonoBehaviour
 
     public void Init()
     {
-        InitTutorialData();
+        InitPunchTutorialData();
         InitPunchGameObjectPool();
         StartTutorialPunchRoutine();
     }
 
-    private void InitTutorialData()
+    private void InitPunchTutorialData()
     {
-        tutorialType = TutorialType.Zap;
-        tutorialClearData.Add(TutorialType.Zap, false);
-        tutorialClearData.Add(TutorialType.Hook, false);
-        tutorialClearData.Add(TutorialType.UpperCut, false);
+        tutorialPunchType = TutorialPunchType.Zap;
+        tutorialClearData.Add(TutorialPunchType.Zap, false);
+        tutorialClearData.Add(TutorialPunchType.Hook, false);
+        tutorialClearData.Add(TutorialPunchType.UpperCut, false);
     }
 
     private void InitPunchGameObjectPool()
@@ -52,14 +52,14 @@ public class TutorialPunchManager : MonoBehaviour
         }
     }
     
-    public TutorialType GetNonClearTutorialType()
+    public TutorialPunchType GetNonClearTutorialType()
     {
-        foreach (KeyValuePair<TutorialType,bool> keyValuePair in tutorialClearData)
+        foreach (KeyValuePair<TutorialPunchType,bool> keyValuePair in tutorialClearData)
         {
             Debug.Log($"Type {keyValuePair.Key}, isClear : {keyValuePair.Value}");
             if (!keyValuePair.Value) return keyValuePair.Key;
         }
-        return TutorialType.Clear;
+        return TutorialPunchType.Clear;
     }
 
     public void StartTutorialPunchRoutine()
@@ -69,60 +69,60 @@ public class TutorialPunchManager : MonoBehaviour
     IEnumerator TutorialPunchRoutine()
     {
         Debug.Log("Start Tutorial Routine");
-        tutorialType = GetNonClearTutorialType();
+        tutorialPunchType = GetNonClearTutorialType();
         // 튜토리얼 타입에 따라
         // 레프트 잽, 라이트 잽 각 2번
         // 레프트 훅, 라이트 훅 각 2번
         // 레프트 어퍼컷, 라이트 어퍼컷 각 2번 
-        while (tutorialType != TutorialType.Clear)
+        while (tutorialPunchType != TutorialPunchType.Clear)
         {
-            yield return StartCoroutine(RoutineByPunchType(tutorialType));
+            yield return StartCoroutine(RoutineByPunchType(tutorialPunchType));
             
             // 루틴 끝내고 게임 클리어 확인
-            tutorialType = GetNonClearTutorialType();
+            tutorialPunchType = GetNonClearTutorialType();
         }
 
         Debug.Log("[Tutorial] All Routine Clear~!");
         yield return null;
     }
 
-    IEnumerator RoutineByPunchType(TutorialType tutorialType)
+    IEnumerator RoutineByPunchType(TutorialPunchType tutorialPunchType)
     {
         // PunchableMovementTutorial Init        
         Debug.Log("Routine Start");
-        switch (tutorialType)
+        switch (tutorialPunchType)
         {
-            case TutorialType.Zap:
+            case TutorialPunchType.Zap:
                 for (int i = 0; i < zapGameObjects.Length; i++)
                     zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);        
                 break;
-            case TutorialType.Hook:
+            case TutorialPunchType.Hook:
                 for (int i = 0; i < hookGameObjects.Length; i++)
                     hookGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
                 break;
-            case TutorialType.UpperCut:
+            case TutorialPunchType.UpperCut:
                 for (int i = 0; i < upperCutGameObjects.Length; i++)
                     upperCutGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
                 break;
         }
 
         yield return StartCoroutine(WaitUntilProcessedNumberMatchSix());
-        Debug.Log($"[Tutorial] Punch Type {tutorialType} End! You succeed {succeedNumber} Times.");
+        Debug.Log($"[Tutorial] Punch Type {tutorialPunchType} End! You succeed {succeedNumber} Times.");
                 
         // 성공 개수 체크, 실패하면 성공 개수 초기화
         if (succeedNumber == 6)
         {
-            Debug.Log($"[Tutorial] You Succeed In {tutorialType}!");
-            switch (tutorialType)
+            Debug.Log($"[Tutorial] You Succeed In {tutorialPunchType}!");
+            switch (tutorialPunchType)
             {
-                case TutorialType.Zap:
-                    tutorialClearData[TutorialType.Zap] = true;            
+                case TutorialPunchType.Zap:
+                    tutorialClearData[TutorialPunchType.Zap] = true;            
                     break;
-                case TutorialType.Hook:
-                    tutorialClearData[TutorialType.Hook] = true;
+                case TutorialPunchType.Hook:
+                    tutorialClearData[TutorialPunchType.Hook] = true;
                     break;
-                case TutorialType.UpperCut:
-                    tutorialClearData[TutorialType.UpperCut] = true;
+                case TutorialPunchType.UpperCut:
+                    tutorialClearData[TutorialPunchType.UpperCut] = true;
                     break;
             }
 
@@ -131,7 +131,7 @@ public class TutorialPunchManager : MonoBehaviour
         }
         else
         {
-            Debug.Log($"[Tutorial] You Failed In {tutorialType}! Try Again!!");
+            Debug.Log($"[Tutorial] You Failed In {tutorialPunchType}! Try Again!!");
             succeedNumber = 0;
             processedNumber = 0;
         }
@@ -155,12 +155,4 @@ public class TutorialPunchManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) succeedNumber++;
         if (Input.GetKeyDown(KeyCode.W)) processedNumber++;
     }
-}
-
-public enum TutorialType
-{
-    Zap,
-    Hook,
-    UpperCut,
-    Clear
 }

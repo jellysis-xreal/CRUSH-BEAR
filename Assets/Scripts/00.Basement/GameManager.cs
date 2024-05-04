@@ -54,8 +54,13 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
+    
     [SerializeField] private TutorialPunchManager tutorialPunch = new TutorialPunchManager();
     public static TutorialPunchManager TutorialPunch { get { return Instance.tutorialPunch; } }
+    
+    [SerializeField] private TutorialTennisManager tutorialTennis = new TutorialTennisManager();
+    public static TutorialTennisManager TutorialTennis { get { return Instance.tutorialTennis; } }
+    
     [SerializeField] private Metronome _metronome;
     public Metronome Metronome { get { return _metronome; } }
     //+------------------------//
@@ -269,9 +274,13 @@ public class GameManager : MonoBehaviour
     {
         if (scene.buildIndex == 3)
         {
+            GameManager.Wave.SetWaveType(WaveType.Hitting);
+            GameManager.Wave.SetWaveTutorial();
+            tutorialTennis.Init();
+            /*// Punch
             GameManager.Wave.SetWaveType(WaveType.Punching);
             GameManager.Wave.SetWaveTutorial();
-            tutorialPunch.Init();
+            tutorialPunch.Init();*/
         }
         SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
     }

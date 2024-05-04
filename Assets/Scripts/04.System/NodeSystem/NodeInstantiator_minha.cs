@@ -299,16 +299,15 @@ public class NodeInstantiator_minha : MonoBehaviour
                     punchToppingPool[i].SetActive(true);
                     
                     // PunchableMovement 초기화
-                    PunchaleMovement punchaleMovement = punchToppingPool[i].GetComponent<PunchaleMovement>();
-                    punchaleMovement.transform.position = tempNodeInfo.spawnPosition;
-                    punchaleMovement.beatNum = tempNodeInfo.beatNum;
-                    StartCoroutine(punchaleMovement.InitializeToppingRoutine(tempNodeInfo));
-                    
-                    // Breakable 초기화
-                    punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                    PunchableMovement punchableMovement = punchToppingPool[i].GetComponent<PunchableMovement>();
+                    punchableMovement.transform.position = tempNodeInfo.spawnPosition;
+                    punchableMovement.beatNum = tempNodeInfo.beatNum;
+                    StartCoroutine(punchableMovement.InitializeToppingRoutine(tempNodeInfo));
 
-                    SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchaleMovement);
-                    
+                    // Breakable 초기화
+                    SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchableMovement);
+                    punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                   
                     break;
                 }
                     
@@ -324,13 +323,14 @@ public class NodeInstantiator_minha : MonoBehaviour
                 punchToppingPool[i].SetActive(true);
                 
                 // PunchableMovement 초기화
-                PunchaleMovement movement = punchToppingPool[i].GetComponent<PunchaleMovement>();
+                PunchableMovement movement = punchToppingPool[i].GetComponent<PunchableMovement>();
                 movement.transform.position = tempNodeInfo.spawnPosition;
                 movement.beatNum = tempNodeInfo.beatNum;
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
 
+                SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, movement);
                 punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
-                
+
                 break;
             }
             else if(wave == WaveType.Hitting)
@@ -352,8 +352,9 @@ public class NodeInstantiator_minha : MonoBehaviour
     }
     
     // tempNodeInfo.sideType,tempNodeInfo.punchTypeIndex에 따라 해당하는 오브젝트 풀을 반환함. 
-    void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchaleMovement movement)
+    void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchableMovement movement)
     {
+        // [Punch] 오브젝트 풀의 재사용성을 높이기 위해, 각 쿠키의 요소를 동적으로 변경 
         if (movement.typeIndex != 0)
         {
             // 이미 존재하면 prevTypeIndex와 typeIndex를 비교하고 삭제, 생성
@@ -363,12 +364,17 @@ public class NodeInstantiator_minha : MonoBehaviour
             {
                 movement.typeIndex = typeIndex;
                 
-                // 자식 게임오브젝트 삭제
-                Transform[] allChildrenExcludingThis = transform.GetComponentsInChildren<Transform>(true).Where(t => t != transform).ToArray();
+                // 쿠키 원본은 유지, UI, Image(자식 게임오브젝트) 삭제
+                Transform[] allChildrenExcludingThis 
+                    = punchGameObject.transform.GetComponentsInChildren<Transform>(true)
+                        .Where(t => t != punchGameObject.transform).ToArray();
                 foreach (var childTransform in allChildrenExcludingThis)
+                {
+                    Debug.Log($"destroy {childTransform.gameObject}");
                     Destroy(childTransform.gameObject);
+                }
                         
-                    // typeIndex에 맞는 자식 게임오브젝트 생성
+                // typeIndex에 맞는 자식 게임오브젝트 생성
                 Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
                 switch (typeIndex)
                 {
@@ -453,86 +459,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     {
         Debug.Log("Init Punch Topping Pool");
         int poolSize = 20;
-        
-        /*if (punchLeftZapPool.Length == 0)
-        {
-            punchLeftZapPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[0];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchLeftZapPool[i] = node;
-                punchLeftZapPool[i].name = "Punch_LeftZap" + i;
-            }
-        }
-        if (punchLeftHookPool.Length == 0)
-        {
-            punchLeftHookPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[1];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchLeftHookPool[i] = node;
-                punchLeftHookPool[i].name = "Punch_LeftHook" + i;
-            }
-        }
-        if (punchLeftUpperCutPool.Length == 0)
-        {
-            punchLeftUpperCutPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[2];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchLeftUpperCutPool[i] = node;
-                punchLeftUpperCutPool[i].name = "Punch_LeftUpperCut" + i;
-            }
-        }
-        if (punchRightZapPool.Length == 0)
-        {
-            punchRightZapPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[3];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchRightZapPool[i] = node;
-                punchRightZapPool[i].name = "Punch_RightZap" + i;
-            }
-        }
-        if (punchRightHookPool.Length == 0)
-        {
-            punchRightHookPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[4];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchRightHookPool[i] = node;
-                punchRightHookPool[i].name = "Punch_RightHook" + i;
-            }
-        }
-        if (punchRightUpperCutPool.Length == 0)
-        {
-            punchRightUpperCutPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
-            {
-                GameObject topping = PunchTopping[5];
-                GameObject node = Instantiate(topping);
-                node.SetActive(false);
-                DontDestroyOnLoad(node);
-                punchRightUpperCutPool[i] = node;
-                punchRightUpperCutPool[i].name = "Punch_RightUpperCut" + i;
-            }
-        }*/
-        
+
         if (punchToppingPool.Length == 0)
         {
             punchToppingPool = new GameObject[poolSize];

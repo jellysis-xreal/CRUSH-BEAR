@@ -35,7 +35,7 @@ public class WaveManager : MonoBehaviour
     public uint waveMusicGUID; // 현재 세팅된 Music의 GUID
     public DataManager.MusicData CurMusicData; // 현재 세팅된 Music data
 
-    [Header("----+ setting +----")] 
+    [Header("----+ setting +----")]
     //[SerializeField] private GameObject RightInteraction;
     //[SerializeField] private GameObject LeftInteraction;
     [SerializeField] private NodeInstantiator_minha nodeInstantiator;
@@ -64,21 +64,13 @@ public class WaveManager : MonoBehaviour
         End
     }
 
-
     public void Init()
     {
         Debug.Log("Initialize WaveManager");
 
         // Wave Num
         waveTime = 0.0f;
-
-        // Player Manager로 변수 이동
-        // RightInteraction = Utils.FindChildByRecursion(GameManager.Player.RightController.transform, "Interaction")
-        //     .gameObject;
-        // LeftInteraction = Utils.FindChildByRecursion(GameManager.Player.LeftController.transform, "Interaction")
-        //     .gameObject;
-
-
+        
         // Topping이 생성될 위치 초기화. **Hierarchy 주의**
         for (int i = 0; _toppingArea.Count < waveTypeNum && i < waveTypeNum; i++)
         {
@@ -119,19 +111,13 @@ public class WaveManager : MonoBehaviour
         return CurArrive.GetChild(index).transform.position;
     }
 
-    private WaveType GetRandomWave()
+    public Transform GetWaveScoreUI()
     {
-        WaveType temp;
-        // 진행하던 wave와 중복되지 않도록 random하게 돌림
-        do
-        {
-            temp = (WaveType)Random.Range(0, 3);
-        } while (temp != currentWave);
-
-        return temp;
+        int TypeNum = (int)currentWave;
+        return nodeArrivalUI.transform.GetChild(TypeNum).GetChild(0);
     }
-
-    private void SetWavePlayer()
+    
+    public void SetWavePlayer()
     {
         GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
         GameManager.Player.RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
@@ -165,7 +151,14 @@ public class WaveManager : MonoBehaviour
             indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
         indicatorController.SetWaveIndicator(currenWaveNum, beforeWave, currentWave);
     }
-    
+
+    public void SetWaveTutorial()
+    {
+        nodeArrivalArea.transform.GetChild(0).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild(1).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild(2).gameObject.SetActive(false);
+        nodeArrivalArea.transform.GetChild((int)currentWave).gameObject.SetActive(true);
+    }
     public void FinishWavePlay()
     {
         int TypeNum = (int)currentWave;
@@ -176,9 +169,6 @@ public class WaveManager : MonoBehaviour
         
         // PlayScene Node UI 설정
         GameManager.Player.FinishSceneUI();
-        /*nodeArrivalUI.transform.GetChild(0).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(1).gameObject.SetActive(false);
-        nodeArrivalUI.transform.GetChild(2).gameObject.SetActive(false);*/
     }
     
     // Fixedupdate -> 프레임
@@ -253,6 +243,7 @@ public class WaveManager : MonoBehaviour
         CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
         Debug.Log($"[Wave] : received Music Data. Music GUID {CurMusicData.GUID}");
         _oneBeat = 60.0f / CurMusicData.BPM;
+        GameManager.Instance.Metronome.secondsPerBeat = _oneBeat;
         _beat = _oneBeat;
 
         beforeWave = currentWave;
@@ -276,12 +267,14 @@ public class WaveManager : MonoBehaviour
             //[XMC]Debug.Log("[WAVE] Wave Pause");
             // Wave 진행을 일시정지 시킵니다.
             SetIsPause(true);
-            // _isPause = true;
-            // Time.timeScale = 0;
         }
         
     }
 
+    public void SetWaveType(WaveType waveType)
+    {
+        currentWave = waveType;
+    }
     [ContextMenu("DEBUG/ContinueWave()")] //TODO: For Test, 이후 제거하기
     public void ContinueWave(WaveState waveState)
     {
@@ -354,6 +347,7 @@ public class WaveManager : MonoBehaviour
     {
         //[XMC]Debug.Log($"[Wave] State : Playing -> Waiting Wait {sec}s. (이제 Wave 끝났다? 다음 Wave 시작 전 혹은 게임 종료 전 대기 시간) ");
 
+        GameManager.Instance.Metronome.SetGameEnd();
         // CMS: Count down starts
         // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여2
         int idx = (int)currentWave;
@@ -403,7 +397,8 @@ public class WaveManager : MonoBehaviour
         Debug.Log("[WAVE] Wave Start");
         currentState = WaveState.Playing;
         waveTime = 0.0f;
-        GameManager.Sound.PlayWaveMusic(waveMusicGUID); //음악 start
+        // 음악 시작 및 메트로놈 작동!
+        GameManager.Instance.Metronome.Init(CurMusicData.BPM, waveMusicGUID);
         // 노드는 Time.timeScale == 1일 경우 자동으로 Update 됨.
     }
 
@@ -490,11 +485,4 @@ public class WaveManager : MonoBehaviour
             _beat += _oneBeat;
         }
     }
-
-    [ContextMenu("TimeScale 1")]
-    private void ddd()
-    {
-        Time.timeScale = 1;
-    }
-    
 }

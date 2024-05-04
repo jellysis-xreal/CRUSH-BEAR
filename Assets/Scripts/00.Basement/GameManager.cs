@@ -54,6 +54,15 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
+    
+    [SerializeField] private TutorialPunchManager tutorialPunch = new TutorialPunchManager();
+    public static TutorialPunchManager TutorialPunch { get { return Instance.tutorialPunch; } }
+    
+    [SerializeField] private TutorialTennisManager tutorialTennis = new TutorialTennisManager();
+    public static TutorialTennisManager TutorialTennis { get { return Instance.tutorialTennis; } }
+    
+    [SerializeField] private Metronome _metronome;
+    public Metronome Metronome { get { return _metronome; } }
     //+------------------------//
     
     
@@ -73,7 +82,7 @@ public class GameManager : MonoBehaviour
             InitLobby();
             StartCoroutine(LoadWaveScene());
         }
-        //Test();
+        // Test();
     }
 
     // 게임 상태를 변경하고 이벤트를 호출하는 함수
@@ -108,14 +117,16 @@ public class GameManager : MonoBehaviour
                 
                 Sound.PlayMusic_Lobby(false); //Effect & Sound
                 Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()
-
                 break;
             
             case GameState.Ending:
                 _player.InActivePlayer();
                 Sound.PlayEffectMusic_GameWin();
                 SceneManager.LoadScene("02.EndingCutScene");
-                
+                break;
+            
+            case GameState.Tutorial:
+                InitTutorial();
                 break;
         }
     }
@@ -146,7 +157,12 @@ public class GameManager : MonoBehaviour
     {
         SetGameState(GameState.Lobby);
     }
-    
+
+    [ContextMenu("DEBUG/Tutorial")]
+    public void LobbyToTutorial()
+    {
+        SetGameState(GameState.Tutorial);
+    }
     private void InitLobby()
     {
         if (instance == null)
@@ -187,7 +203,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void InitTutorial()
+    {
+        if (instance != null)
+        {
+            Debug.Log("Init GameManager Tutorial Scene");
+            //+-------- Managers Init() +--------//
+            SceneManager.sceneLoaded += OnTutorialSceneLoaded;
+            SceneManager.LoadScene(3);
+        }
+        else
+        {
+            Debug.Log("GameManager instance is null");
+        }
+    }
     public void InitPlay()
     {
         if (instance != null)
@@ -217,6 +246,7 @@ public class GameManager : MonoBehaviour
         // 이 밑으로 진행할 Test 코드를 입력한 후, Start 함수에 가서 Test의 주석 처리를 해제하면 됩니다.
         // Toast 치기 개발으로 잠시 테스트 - 240108 minha
         // _wave.Test();
+        
     }
 
     IEnumerator LoadWaveScene()
@@ -241,4 +271,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnTutorialSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex == 3)
+        {
+            /*// Tennis
+            Wave.SetWaveType(WaveType.Hitting);
+            Wave.SetWaveTutorial();
+            Player.Init();
+            tutorialTennis.Init();
+            _score.Init();*/
+            // Punch
+            GameManager.Wave.SetWaveType(WaveType.Punching);
+            GameManager.Wave.SetWaveTutorial();
+            Player.Init();
+            tutorialPunch.Init();
+        }
+        SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
+    }
 }

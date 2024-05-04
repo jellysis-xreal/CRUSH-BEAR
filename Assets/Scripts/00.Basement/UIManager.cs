@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public GameObject floatingUIPrefab;
+    
+    // Score Floating Text UI Pool
+    private List<GameObject> _scoreFloatingTextPool = new List<GameObject>(5);
+    
     int _order = 10;
 
     bool ray = false;
@@ -18,9 +23,10 @@ public class UIManager : MonoBehaviour
 
     public void Start()
     {
+        //InitializeFloatingTextPool();
         player = GameObject.FindWithTag("MainCamera");
     }
-
+    
     public GameObject Root
     {
         get
@@ -32,6 +38,40 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // private void InitializeFloatingTextPool()
+    // {
+    //     for (int i = 0; i < 5; i++)
+    //     {
+    //         GameObject floatingUI = Instantiate(floatingUIPrefab);
+    //         floatingUI.SetActive(false);
+    //         _scoreFloatingTextPool.Add(floatingUI);
+    //     }
+    // }
+    
+    public void RequestFloatingUI(float value)
+    {
+        Transform setTransform = GameManager.Wave.GetWaveScoreUI();
+        
+        if (_scoreFloatingTextPool.Count < 7)
+        {
+            GameObject UI = Instantiate(floatingUIPrefab);
+            UI.SetActive(false);
+            _scoreFloatingTextPool.Add(UI);
+        }
+        
+        foreach (GameObject floatingUI in _scoreFloatingTextPool)
+        {
+            if (!floatingUI.activeInHierarchy)
+            {
+                floatingUI.transform.position = setTransform.position;
+                floatingUI.transform.rotation = setTransform.rotation;
+                floatingUI.GetComponent<TextMesh>().text= value.ToString();
+                floatingUI.SetActive(true);
+                return;
+            }
+        }
+    }
+    
     public void SetCanvas(GameObject go, bool sort = true)
     {
         Canvas canvas = Utils.GetOrAddComponent<Canvas>(go);

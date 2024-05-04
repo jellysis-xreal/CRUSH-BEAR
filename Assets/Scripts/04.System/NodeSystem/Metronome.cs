@@ -12,7 +12,7 @@ public class Metronome : MonoBehaviour
     bool isBeated;
     bool isPlaying;
     public int currentBeat;
-    public int shootStandard = 7; // 노트를 몇 BPM 전에 발사하는 지, 그 기준.
+    public int shootStandard; // 노트를 몇 BPM 전에 발사하는 지, 그 기준.
 
     [SerializeField] private AudioSource testSound;
     private event Action<int> onBeat;
@@ -25,6 +25,7 @@ public class Metronome : MonoBehaviour
         secondsPerBeat = 60 / bpm;
         isPlaying = true;
         currentBeat = 0;
+        shootStandard = (int) bpm / 13;
         StartCoroutine(CheckBeat());
     }
 

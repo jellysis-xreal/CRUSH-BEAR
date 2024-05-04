@@ -18,11 +18,18 @@ public class TutorialTennisManager : MonoBehaviour
     public int succeedNumber = 0;
     public int processedNumber = 0;
 
+    /*private void Start()
+    {
+        Init();
+    }*/
+
     public void Init()
     {
         InitTennisTutorialData();
         InitTennisGameObjectPool();
         StartTennisTutorialRoutine();
+        GameManager.Wave.currentWave = WaveType.Hitting;
+        GameManager.Wave.SetWavePlayer();
     }
 
     private void InitTennisTutorialData()
@@ -34,14 +41,12 @@ public class TutorialTennisManager : MonoBehaviour
 
     private void InitTennisGameObjectPool()
     {
-        int prefabArrayLength = 6; // 게임 오브젝트 사이즈 6, left 3개 right 3개씩 들어감.
+        int prefabArrayLength = 6; // 게임 오브젝트 사이즈 6, Red 3개 Blue 3개씩 들어감.
         
         leftHandGameObjects = new GameObject[6];
         rightHandGameObjects = new GameObject[6];
         for (int i = 0; i < prefabArrayLength; i++)
         {
-            GameObject gameObject = Instantiate(tennisPrefabs[i % 2]);
-            Debug.Log(gameObject.name);
             leftHandGameObjects[i] = Instantiate(tennisPrefabs[i % 2], leftHandRootGameObject.transform); // i에 따라 1, 2번 프리팹
             rightHandGameObjects[i] = Instantiate(tennisPrefabs[i % 2 + 2], rightHandRootGameObject.transform); // i에 따라 3, 4번 프리팹
         }
@@ -85,16 +90,21 @@ public class TutorialTennisManager : MonoBehaviour
     {
         // HittableMovementTutorial Init        
         Debug.Log("Routine Start");
+
+        ResetGameObjectActive();
+        
         switch (tutorialTennisType)
         {
-            /*case TutorialTennisType.LeftHand:
+            case TutorialTennisType.LeftHand:
                 for (int i = 0; i < leftHandGameObjects.Length; i++)
-                    leftHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);        
+                    leftHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
+                        InitializeTopping(tutorialTennisType, 3 + 2f * i);        
                 break;
             case TutorialTennisType.RightHand:
                 for (int i = 0; i < rightHandGameObjects.Length; i++)
-                    rightHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
-                break;*/
+                    rightHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
+                        InitializeTopping(tutorialTennisType, 3 + 2f * i);
+                break;
         }
 
         yield return StartCoroutine(WaitUntilProcessedNumberMatchSix());
@@ -127,6 +137,21 @@ public class TutorialTennisManager : MonoBehaviour
         yield return null;
     }
 
+    private void ResetGameObjectActive()
+    {
+        // 꺼진 오브젝트 활성화
+        for (int i = 0; i < rightHandRootGameObject.transform.childCount; i++)
+        {
+            Transform t = rightHandRootGameObject.transform.GetChild(i);
+            if(!t.gameObject.activeSelf) t.gameObject.SetActive(true);
+        }
+        for (int i = 0; i < leftHandRootGameObject.transform.childCount; i++)
+        {
+            Transform t = leftHandRootGameObject.transform.GetChild(i);
+            if(!t.gameObject.activeSelf) t.gameObject.SetActive(true);
+        }
+        
+    }
     IEnumerator WaitUntilProcessedNumberMatchSix()
     {
         while (processedNumber < 6)

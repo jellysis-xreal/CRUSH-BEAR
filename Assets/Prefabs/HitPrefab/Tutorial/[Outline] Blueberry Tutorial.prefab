@@ -198,10 +198,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrivalBoxNum: 0
-  sideType: 0
+  sideType: 1
   burstEffect: {fileID: 2180852071807932606}
   refrigerator: {fileID: 0}
   curState: 0
+  player: {fileID: 0}
+  startTransform: {fileID: 0}
+  arrivalBoxTransform: {fileID: 0}
 --- !u!95 &1816161832703219340
 Animator:
   serializedVersion: 5

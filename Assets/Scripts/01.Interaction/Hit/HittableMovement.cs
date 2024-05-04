@@ -5,6 +5,7 @@ using UnityEngine;
 using EnumTypes;
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Sequence = DG.Tweening.Sequence;
 
@@ -261,7 +262,8 @@ public class HittableMovement : MonoBehaviour
             // Debug.Log("[SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name + "와 충돌함. 따라서 " + IsRight);
             
             // Set Score & State
-            GameManager.Score.ScoringHit(this.gameObject, IsRight);
+            
+            GameManager.Score.ScoringHit(this.gameObject, IsRight); 
             curState = toppingState.refrigerator;
         }
         else

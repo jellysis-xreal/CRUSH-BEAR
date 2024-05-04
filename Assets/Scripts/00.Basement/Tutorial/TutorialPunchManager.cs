@@ -25,6 +25,8 @@ public class TutorialPunchManager : MonoBehaviour
         InitPunchTutorialData();
         InitPunchGameObjectPool();
         StartTutorialPunchRoutine();
+        GameManager.Wave.currentWave = WaveType.Punching;
+        GameManager.Wave.SetWavePlayer();
     }
 
     private void InitPunchTutorialData()

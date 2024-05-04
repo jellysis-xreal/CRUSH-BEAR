@@ -539,10 +539,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrivalBoxNum: 0
-  sideType: 0
+  sideType: 1
   burstEffect: {fileID: 6551701217300081270}
   refrigerator: {fileID: 0}
   curState: 0
+  player: {fileID: 0}
+  startTransform: {fileID: 0}
+  arrivalBoxTransform: {fileID: 0}
 --- !u!136 &3229780100913805310
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 using EnumTypes;
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Sequence = DG.Tweening.Sequence;
 
@@ -22,8 +23,9 @@ public class HittableMovementTutorial : MonoBehaviour
     [Header("other Variable (AUTO)")] 
     [SerializeField] private GameObject refrigerator;
     [SerializeField] private toppingState curState = toppingState.idle;
-    private float distancePlayer = 3.5f;
-    private GameObject _player;
+    public float distancePlayer = 3.5f;
+    public GameObject player;
+    public Transform startTransform;
     private BaseObject _baseObject;
     private SkinnedMeshRenderer _meshRenderer;
 
@@ -44,7 +46,8 @@ public class HittableMovementTutorial : MonoBehaviour
     private bool _isHitted = false; 
     private bool _isNotHitted = false;
     private bool _goTo = false;
-
+    
+    [Space] [Header("Test")] public Transform arrivalBoxTransform;
     private enum toppingState
     {
         idle,           // 토핑이 생성되었으나, 아직 움직이지 않는 상태
@@ -58,8 +61,13 @@ public class HittableMovementTutorial : MonoBehaviour
     {
         _baseObject = GetComponent<BaseObject>();
         _rigidbody = GetComponent<Rigidbody>();
-        _player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player");
         _meshRenderer = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+    }
+    
+    private void Update()
+    {
+        // CanInteractTopping();
     }
 
     /// <summary>
@@ -68,25 +76,49 @@ public class HittableMovementTutorial : MonoBehaviour
     /// </summary>
     /// <param name="arrivalBox">arrival area의 index</param>
     /// <param name="arriveTime">arrival time</param>
-
-    public void InitializeTopping(NodeInfo node)
+    
+    [ContextMenu("Tennis")]
+    public void InitializeTopping(TutorialTennisType hand, float startTime)
     {
-        arrivalBoxNum = node.arrivalBoxNum;
-        // beatNum = node.beatNum;
-        sideType = node.sideType;
+        // 왼쪽부터 도착 위치 1, 3, 4, 2
+        // 빨 파 파 빨
+        // 왼손이고 빨간색이면 1번, 파란색이면 3번 (인덱스는 - 1 하기 :))
+        // 왼손이고 빨간색이면 2번, 파란색이면 4번
 
-        shootStandard = GameManager.Instance.Metronome.shootStandard;
-        popTime = (float)GameManager.Instance.Metronome.secondsPerBeat;
-        moveTime = popTime * (shootStandard - 1);
+        popTime = 1f;
+        moveTime = 5f;
         InitiateVariable();
-        _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
-        _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+
+        if (hand == TutorialTennisType.LeftHand)
+        {
+            arrivalBoxNum = (sideType == InteractionSide.Red)?  0 : 2; 
+            _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+            _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        }
+        else if (hand == TutorialTennisType.RightHand)
+        {
+            arrivalBoxNum = (sideType == InteractionSide.Red)? 1 : 3; 
+            _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+            _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        }
+        // _arrivalBoxPos = GameManager.Wave.GetArrivalPosition(arrivalBoxNum); // arrivalBoxTransform.position; 
+        // _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum); // startTransform.position;
         InitializeBeforeStart();
 
         _isInit = true;
-        // Debug.Log(beatNum + "번 노드 만들어짐");
+
+        StartCoroutine(TennisRoutine(startTime));
     }
 
+    IEnumerator TennisRoutine(float startTime)
+    {
+        // 지연 시간
+        yield return new WaitForSeconds(startTime);
+
+        yield return StartCoroutine(MoveToPlayer());
+
+        GoToRefrigerator();
+    }
     private void InitiateVariable()
     {
         refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
@@ -114,18 +146,18 @@ public class HittableMovementTutorial : MonoBehaviour
     private void InitializeBeforeStart()
     {
         this.transform.position = _startBoxPos;
-        this.transform.LookAt(GameManager.Player.player.transform);
+        this.transform.LookAt(arrivalBoxTransform);
 
         _rigidbody.velocity = new Vector3(0f, 0f, 0f);
         _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
     }
 
-    public void MoveToPlayer()
+    public IEnumerator MoveToPlayer()
     {
         //float timeElapsed = arriveTime - _moveToppingTime;
         Vector3 firstPos = transform.position;
 
-        this.transform.LookAt(_player.transform);
+        this.transform.LookAt(player.transform);
 
         Sequence sequence = DOTween.Sequence();
         
@@ -155,6 +187,8 @@ public class HittableMovementTutorial : MonoBehaviour
 
         sequence.Append(tweenJump).Append(tweenMove);
         sequence.Play();
+        
+        yield return new WaitForSeconds(popTime + moveTime + 0.5f);
     }
     public void GoToRefrigerator()
     {
@@ -179,6 +213,7 @@ public class HittableMovementTutorial : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        if(_isHitted) return;
         CanInteractTopping();
         Debug.Log("[DEBUGGING]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
                   "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
@@ -189,7 +224,7 @@ public class HittableMovementTutorial : MonoBehaviour
         {
             // FOR DEBUG
             //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
-            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime);
+            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 ");
             
             bool IsRight = false;
 
@@ -201,6 +236,7 @@ public class HittableMovementTutorial : MonoBehaviour
             
             // hitter의 side 색과 일치한 topping일 경우
             InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
+            Debug.Log($"hitter Side {colSide}");
             if (colSide == sideType)
             {
                 IsRight = true;
@@ -215,6 +251,23 @@ public class HittableMovementTutorial : MonoBehaviour
                     //Debug.Log("[DEBUG] 예외가 아니었군");
             }
 
+            _isHitted = true;
+            if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+            {
+                if (IsRight)
+                {
+                    Debug.Log("[Tennis] Succced");
+                    GameManager.TutorialTennis.processedNumber++;
+                    GameManager.TutorialTennis.succeedNumber++;
+                    GameManager.Score.ScoringHit(this.gameObject, IsRight);
+                }
+                else
+                {
+                    Debug.Log("[Tennis] Failed");
+                    GameManager.TutorialTennis.processedNumber++;
+                    GameManager.Score.ScoringHit(this.gameObject, IsRight);
+                }
+            }
             // Set Score & State
             curState = toppingState.refrigerator;
         }
@@ -291,7 +344,7 @@ public class HittableMovementTutorial : MonoBehaviour
 
     private bool IsInteractable()
     {
-        _curDistance = (this.transform.position - _player.transform.position).sqrMagnitude;
+        _curDistance = (this.transform.position - player.transform.position).sqrMagnitude;
         if (_curDistance <= distancePlayer)
         {
             return true;
@@ -330,6 +383,7 @@ public class HittableMovementTutorial : MonoBehaviour
 
     private void UnactiveObject()
     {
+        GameManager.TutorialTennis.processedNumber++;
         this.gameObject.SetActive(false);
         
         InitateBoolean();
@@ -344,6 +398,7 @@ public class HittableMovementTutorial : MonoBehaviour
     {
         burstEffect.SetActive(false);
         _meshRenderer.enabled = true;
+        _isHitted = false;
     }
 
 }

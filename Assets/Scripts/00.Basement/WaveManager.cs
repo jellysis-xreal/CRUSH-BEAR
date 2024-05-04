@@ -117,7 +117,7 @@ public class WaveManager : MonoBehaviour
         return nodeArrivalUI.transform.GetChild(TypeNum).GetChild(0);
     }
     
-    private void SetWavePlayer()
+    public void SetWavePlayer()
     {
         GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
         GameManager.Player.RightInteraction.transform.GetChild(1).gameObject.SetActive(false);

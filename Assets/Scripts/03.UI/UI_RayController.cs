@@ -21,8 +21,11 @@ public class UI_RayController : MonoBehaviour
 
     void Update()
     {
-        ray_left.SetActive(GameManager.UI.IsRayOn());
-        ray_right.SetActive(GameManager.UI.IsRayOn());
+        if (GameManager.Instance != null)
+        {
+            ray_left.SetActive(GameManager.UI.IsRayOn());
+            ray_right.SetActive(GameManager.UI.IsRayOn());    
+        }
     }
 
     private void OnMyActionTriggered(InputAction.CallbackContext context)

@@ -75,8 +75,8 @@ namespace UnityEngine.XR.Content.Interaction
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
                 Debug.Log("[Tutorial Punch] Succeed");
-                GameManager.Tutorial.processedNumber++; 
-                GameManager.Tutorial.succeedNumber++;
+                GameManager.TutorialPunch.processedNumber++; 
+                GameManager.TutorialPunch.succeedNumber++;
                 // GameManager.Instnace.Tutorial.processedNumber++
                 // GameManager.Score.ScoringPunch(this.gameObject, true);
                 _punchableMovement.EndInteraction();
@@ -108,7 +108,7 @@ namespace UnityEngine.XR.Content.Interaction
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
                 Debug.Log("[Tutorial Punch] Fail");
-                GameManager.Tutorial.processedNumber++;
+                GameManager.TutorialPunch.processedNumber++;
                 GameManager.Score.ScoringPunch(this.gameObject, true);
                 _punchableMovement.EndInteraction();
             }

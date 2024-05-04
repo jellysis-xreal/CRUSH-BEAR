@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialManager : MonoBehaviour
+public class TutorialPunchManager : MonoBehaviour
 {
     public TutorialType tutorialType;
     private Dictionary<TutorialType, bool> tutorialClearData = new Dictionary<TutorialType, bool>();

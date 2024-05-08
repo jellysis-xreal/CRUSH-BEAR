@@ -432,7 +432,8 @@ public class HittableMovement : MonoBehaviour
                 if (!_isHitted)
                 {
                     GoToRefrigerator();
-                    StartCoroutine(ExplodeAfterSeconds(0.5f));
+                    if (this.gameObject.activeSelf == true)
+                        StartCoroutine(ExplodeAfterSeconds(0.5f));
                     _isNotHitted = false;
                     _isHitted = true;
                 }

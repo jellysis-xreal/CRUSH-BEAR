@@ -5,7 +5,7 @@ using EnumTypes;
 using UnityEngine;
 using UnityEngine.XR.Content.Interaction;
 
-public class PunchableMovement : MonoBehaviour
+public class PunchableMovement : MonoBehaviour, IPunchableMovement
 {
     // TODO : Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")]
@@ -40,6 +40,10 @@ public class PunchableMovement : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
+    public void StartMovement()
+    {
+        
+    }
   
     public IEnumerator InitializeToppingRoutine(NodeInfo node)
     {
@@ -84,8 +88,6 @@ public class PunchableMovement : MonoBehaviour
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
 
-        _breakable.m_Destroyed = false;
-        
         StartCoroutine(ActiveTime(1f));
     }
 
@@ -101,15 +103,16 @@ public class PunchableMovement : MonoBehaviour
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
 
-        _breakable.m_Destroyed = false;
+        // _breakable.m_Destroyed = false;
         
         StartCoroutine(ActiveTime(1f));
     }
     private IEnumerator ActiveTime(float coolTime)
     {
         yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
-        _meshRenderer.enabled = true;
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
+        _breakable.m_Destroyed = false;
+        _meshRenderer.enabled = true;
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -36,7 +36,7 @@ namespace UnityEngine.XR.Content.Interaction
         /// </summary>
         public BreakEvent onBreak => m_OnBreak;
         
-        private IPunchableMovement _punchableMovement;
+        [SerializeField] public IPunchableMovement _punchableMovement;
         
         public ChildTriggerChecker _childTriggerChecker;
         public EnumTypes.Motion correctMotion = EnumTypes.Motion.None;
@@ -46,13 +46,13 @@ namespace UnityEngine.XR.Content.Interaction
         {
             if(_punchableMovement == null)
                 _punchableMovement = GetComponent<IPunchableMovement>();
-           
-            
+
+            Debug.Log(_punchableMovement != null);
             _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
             correctMotion = _childTriggerChecker.handMotion;
             
             
-            Debug.Log($"[Motion] {gameObject.name} {_childTriggerChecker.transform.name}");
+            // Debug.Log($"[Motion] {gameObject.name} {_childTriggerChecker.transform.name}");
             /*if (_childTriggerChecker == null)
             {
                 
@@ -122,31 +122,37 @@ namespace UnityEngine.XR.Content.Interaction
         
         private void OnTriggerEnter(Collider other)
         {
+            //Debug.Log($"Motion Trigger 1 {other.transform.name}");
 #if UNITY_EDITOR
-            if (GameManager.Instance != null)
+            /*if (GameManager.Instance != null)
             {
                 if(GameManager.Instance.currentGameState == GameState.Waving) return;
-            }
+            }*/
 #endif
             if (m_Destroyed)
                 return;
             // Motion Checker OnTriggerEnter와 연결해야 함.
 
+            // Debug.Log("Motion Trigger 2");
+
             if (other.CompareTag("Destroyer"))
             {
+                Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.isTriggered}");
+
                 if (_childTriggerChecker.isTriggered)
                 {
                     MotionSucceed(correctMotion);
-                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
+                    Debug.Log("Motion succeed! (child.isTriggered True!)");
                 }
                 else if(CheckAdditionalCondition())
                 {
                     MotionSucceed(correctMotion);
-                    //Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
+                    Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
                 }
                 else
                 {
                     MotionFailed();
+                    Debug.Log("Motion Failed! (child.isTriggered True!)");
                 }
             }
         }

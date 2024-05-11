@@ -294,7 +294,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                         // 이미 setactive(true)인 상태인 오브젝트면 = 이미 활성화돼서 초기화되면 안되는 상태일 경우는 다음 인덱스로 넘어감.
                         continue; 
                     }
-                    Debug.Log($"[Node Maker] Dequeue {punchToppingPool[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                    // Debug.Log($"[Node Maker] Dequeue {punchToppingPool[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
                     
                     punchToppingPool[i].SetActive(true);
                     
@@ -318,7 +318,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 {
                     continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                 }
-                Debug.Log($"[Node Maker] Dequeue {punchToppingPool[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
+                // Debug.Log($"[Node Maker] Dequeue {punchToppingPool[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
 
                 punchToppingPool[i].SetActive(true);
                 
@@ -355,7 +355,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchableMovement movement)
     {
         
-        Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type");
+        // Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type");
         // [Punch] 오브젝트 풀의 재사용성을 높이기 위해, 각 쿠키의 요소를 동적으로 변경 
         if (movement.typeIndex != 0)
         {
@@ -397,14 +397,14 @@ public class NodeInstantiator_minha : MonoBehaviour
                         .Where(t => t != punchGameObject.transform).ToArray();
                 foreach (var childTransform in allChildrenExcludingThis)
                 {
-                    Debug.Log($"[Motion] {punchGameObject.name} destroy {childTransform.gameObject}");
+                    // Debug.Log($"[Motion] {punchGameObject.name} destroy {childTransform.gameObject}");
                     childTransform.parent = null;
                     Destroy(childTransform.gameObject);
                 }
                         
                 // typeIndex에 맞는 자식 게임오브젝트 생성
                 // TODO : 펀치 타입에 따라 rotation 설정 childCollider를 할당하고 오브젝트의 rotation을 바꿈
-                Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type  typeIndex : {typeIndex}");
+                // Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type  typeIndex : {typeIndex}");
                 switch (typeIndex)
                 {
                     case 1: // 레프트 잽
@@ -442,7 +442,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         else if (movement.typeIndex == 0)
         {
             movement.typeIndex = typeIndex;
-            Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type  typeIndex : {typeIndex}");
+            // Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type  typeIndex : {typeIndex}");
             switch (typeIndex)
             {
                 case 1:

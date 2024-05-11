@@ -155,7 +155,7 @@ public class ScoreManager : MonoBehaviour
         
         target.GetComponent<BaseObject>().SetScoreBool();
         GameManager.Sound.PlayEffect_ToastHit();
-        if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+        if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
             AddScore(score);
             SetScoreEffect(score, target.transform);    

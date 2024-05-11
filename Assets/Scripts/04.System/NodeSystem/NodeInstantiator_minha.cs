@@ -306,7 +306,7 @@ public class NodeInstantiator_minha : MonoBehaviour
 
                     // Breakable 초기화
                     SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchableMovement);
-                    punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                    // punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
                    
                     break;
                 }
@@ -329,7 +329,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
 
                 SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, movement);
-                punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
+                // punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
 
                 break;
             }
@@ -354,12 +354,39 @@ public class NodeInstantiator_minha : MonoBehaviour
     // tempNodeInfo.sideType,tempNodeInfo.punchTypeIndex에 따라 해당하는 오브젝트 풀을 반환함. 
     void SetPunchType(GameObject punchGameObject, uint typeIndex, PunchableMovement movement)
     {
+        
+        Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type");
         // [Punch] 오브젝트 풀의 재사용성을 높이기 위해, 각 쿠키의 요소를 동적으로 변경 
         if (movement.typeIndex != 0)
         {
             // 이미 존재하면 prevTypeIndex와 typeIndex를 비교하고 삭제, 생성
             // 추후 콜라이더는 위치 조정만 하는 방향으로 수정
-            if (movement.typeIndex == typeIndex) return;
+            if (movement.typeIndex == typeIndex)
+            {
+                switch (typeIndex)
+                {
+                    case 1: // 레프트 잽
+                        punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+                        break;
+                    case 2: // 레프트 훅
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                        break;
+                    case 3: // 레프트 어퍼컷
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                        break;
+                    case 4: // 라이트 잽
+                        punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+                        break;
+                    case 5: // 라이트 훅
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
+                        break;
+                    case 6: // 라이트 어퍼컷
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                        break;
+                    default:
+                        break;
+                }
+            }
             else
             {
                 movement.typeIndex = typeIndex;
@@ -370,76 +397,85 @@ public class NodeInstantiator_minha : MonoBehaviour
                         .Where(t => t != punchGameObject.transform).ToArray();
                 foreach (var childTransform in allChildrenExcludingThis)
                 {
-                    Debug.Log($"destroy {childTransform.gameObject}");
+                    Debug.Log($"[Motion] {punchGameObject.name} destroy {childTransform.gameObject}");
+                    childTransform.parent = null;
                     Destroy(childTransform.gameObject);
                 }
                         
                 // typeIndex에 맞는 자식 게임오브젝트 생성
-                Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
+                // TODO : 펀치 타입에 따라 rotation 설정 childCollider를 할당하고 오브젝트의 rotation을 바꿈
+                Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type  typeIndex : {typeIndex}");
                 switch (typeIndex)
                 {
-                    case 1:
-                        Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform);
+                    case 1: // 레프트 잽
+                        Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                        punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
                         break;
-                    case 2:
-                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
-                        Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform);
+                    case 2: // 레프트 훅
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                        Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform); 
                         break;
-                    case 3:
-                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    case 3: // 레프트 어퍼컷
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                         Instantiate(cookieDirectionPrefabs[1], punchGameObject.transform);
                         break;
-                    case 4:
-                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    case 4: // 라이트 잽
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                        punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
                         break;
-                    case 5:
-                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    case 5: // 라이트 훅
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
                         Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
                         break;
-                    case 6:
-                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    case 6: // 라이트 어퍼컷
+                        Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                         Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
                         break;
                     default:
                         break;
-                }  
-                return;
+                }
             }
 
         }
         else if (movement.typeIndex == 0)
         {
             movement.typeIndex = typeIndex;
-            Debug.Log($"Set Punch Type {punchGameObject.name} typeIndex : {typeIndex}");
+            Debug.Log($"[Motion] {punchGameObject.name} Set Punch Type  typeIndex : {typeIndex}");
             switch (typeIndex)
             {
                 case 1:
-                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                    punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
                     break;
                 case 2:
-                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
-                    Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform);
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                    punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                    Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform); 
                     break;
                 case 3:
-                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                     Instantiate(cookieDirectionPrefabs[1], punchGameObject.transform);
                     break;
                 case 4:
-                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                    punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
                     break;
                 case 5:
-                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                    punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
                     Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
                     break;
                 case 6:
-                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform);
+                    Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                     Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
                     break;
                 default:
                     break;
             }    
         }
-        
+        punchGameObject.GetComponent<Breakable>().InitBreakable();
         
         // typeIndex에 해당하는 콜라이더와 방향 UI가 이미 존재하면 생성하지 않는다.
         // 타입에 맞는 UI와 콜라이더를 자식으로 붙임. 
@@ -466,7 +502,7 @@ public class NodeInstantiator_minha : MonoBehaviour
             for (int i = 0; i < poolSize; i++)
             {
                 // 쿠키 프리팹 랜덤 생성 (타입 지정되지 않은 상태)
-                GameObject topping = cookiePrefabs[Random.Range(0, 4)];
+                GameObject topping = cookiePrefabs[Random.Range(0, 3)];
                 GameObject node = Instantiate(topping);
                 node.SetActive(false);
 

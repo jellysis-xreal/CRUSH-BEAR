@@ -46,6 +46,7 @@ public class PunchableMovement : MonoBehaviour
         _isArrivalAreaHit = false;
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
+        transform.rotation = Quaternion.identity;
         
         Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
         Debug.Log($"[Punch] Init {transform.name} ");

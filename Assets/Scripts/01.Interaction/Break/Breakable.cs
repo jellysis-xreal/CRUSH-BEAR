@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine.Events;
 using EnumTypes;
 using UnityEngine.SceneManagement;
@@ -37,7 +38,7 @@ namespace UnityEngine.XR.Content.Interaction
         
         private IPunchableMovement _punchableMovement;
         
-        private ChildTriggerChecker _childTriggerChecker;
+        public ChildTriggerChecker _childTriggerChecker;
         public EnumTypes.Motion correctMotion = EnumTypes.Motion.None;
         
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
@@ -45,12 +46,17 @@ namespace UnityEngine.XR.Content.Interaction
         {
             if(_punchableMovement == null)
                 _punchableMovement = GetComponent<IPunchableMovement>();
+           
             
-            if (_childTriggerChecker == null)
+            _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
+            correctMotion = _childTriggerChecker.handMotion;
+            
+            
+            Debug.Log($"[Motion] {gameObject.name} {_childTriggerChecker.transform.name}");
+            /*if (_childTriggerChecker == null)
             {
-                _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
-                correctMotion = _childTriggerChecker.handMotion;
-            }
+                
+            }*/
             
             m_Destroyed = false;
         }

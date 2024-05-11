@@ -35,7 +35,7 @@ public class EndingCutscene : TimeLineController
     }
     public void InitSetting()
     {
-        Debug.Log("½ÇÇàµÊ");
+        //Debug.Log("½ÇÇàµÊ");
         SetObjectPosition(bannerTransform, new Vector3(0, 0.4f, 0), new Vector3(-30, 180, 0));
         SetObjectPosition(startCookie.transform, new Vector3(0, -0.1f, -0.4f), new Vector3(-60, 180, 0));
         Breakable breakable = startCookie.GetComponent<Breakable>();

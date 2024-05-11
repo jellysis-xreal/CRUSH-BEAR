@@ -39,7 +39,7 @@ public class HandStateManager : MonoBehaviour
         if (collision.gameObject.CompareTag("Projectile"))
         {
             moveToPlayer = collision.gameObject.GetComponent<MoveToPlayer>();
-            Debug.Log("moveToPlayer Cache is "+ moveToPlayer+" Vector3 "+recentDirection);
+            //Debug.Log("moveToPlayer Cache is "+ moveToPlayer+" Vector3 "+recentDirection);
             moveToPlayer.ReflectionMove(recentDirection * punchPower);
         }
     }

@@ -45,7 +45,7 @@ public class UI_Lobby : UI_Base
 
     public void OnButtonClicked_Exit(PointerEventData data)
     {
-        Debug.Log("quit");
+        //Debug.Log("quit");
         Application.Quit();
     }
 

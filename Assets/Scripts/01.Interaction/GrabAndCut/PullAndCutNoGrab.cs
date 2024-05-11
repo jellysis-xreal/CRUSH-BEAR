@@ -263,7 +263,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
     {
         if (!isPrimaryHandAttached && !isSecondaryHandAttached)
         {
-            Debug.Log($"primary Attach Hand: {handTransform.name} ");
+            //Debug.Log($"primary Attach Hand: {handTransform.name} ");
             primaryAttachHandTransform = handTransform;
             _primaryInteractor = handTransform.GetComponent<XRDirectInteractor>();
             _primaryAttach = handTransform.GetComponent<AttachHandNoGrab>();
@@ -272,7 +272,7 @@ public class PullAndCutNoGrab : MonoBehaviour // Pose -> Transform으로 바꾸�
         }
         else if ((isPrimaryHandAttached && !isSecondaryHandAttached) || (!isPrimaryHandAttached && isSecondaryHandAttached))
         {
-            Debug.Log($"secondary Attach Hand: {handTransform.name} ");
+            //Debug.Log($"secondary Attach Hand: {handTransform.name} ");
             secondaryAttachHandTransform = handTransform;
             _secondaryInteractor = handTransform.GetComponent<XRDirectInteractor>();
             _secondaryAttach = handTransform.GetComponent<AttachHandNoGrab>();

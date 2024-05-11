@@ -60,7 +60,7 @@ namespace UnityEngine.XR.Content.Interaction
             if (m_Destroyed)
                 return;
 
-            Debug.Log("Motion Succeed!");
+            //Debug.Log("Motion Succeed!");
             
             m_Destroyed = true;
             var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
@@ -74,7 +74,7 @@ namespace UnityEngine.XR.Content.Interaction
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
-                Debug.Log("[Tutorial Punch] Succeed");
+                //Debug.Log("[Tutorial Punch] Succeed");
                 GameManager.TutorialPunch.processedNumber++; 
                 GameManager.TutorialPunch.succeedNumber++;
                 // GameManager.Instnace.Tutorial.processedNumber++
@@ -107,7 +107,7 @@ namespace UnityEngine.XR.Content.Interaction
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
-                Debug.Log("[Tutorial Punch] Fail");
+                //Debug.Log("[Tutorial Punch] Fail");
                 GameManager.TutorialPunch.processedNumber++;
                 GameManager.Score.ScoringPunch(this.gameObject, true);
                 _punchableMovement.EndInteraction();
@@ -131,12 +131,12 @@ namespace UnityEngine.XR.Content.Interaction
                 if (_childTriggerChecker.isTriggered)
                 {
                     MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!)");
+                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
                 }
                 else if(CheckAdditionalCondition())
                 {
                     MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
+                    //Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
                 }
                 else
                 {

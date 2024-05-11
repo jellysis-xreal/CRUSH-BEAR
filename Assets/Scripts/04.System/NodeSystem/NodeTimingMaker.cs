@@ -43,7 +43,7 @@ public class NodeTimingMaker : MonoBehaviour
             timeData += nodeTimes[i].ToString() + " ";
         }
 
-        Debug.Log(timeData);
-        Debug.Log(nodeTimes.Count);
+        //Debug.Log(timeData);
+        //Debug.Log(nodeTimes.Count);
     }
 }

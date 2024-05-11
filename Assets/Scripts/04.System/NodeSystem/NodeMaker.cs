@@ -23,7 +23,7 @@ public class NodeMaker : MonoBehaviour
         {
             string jsonData = ObjectToJson(settingNodeInfos[i].nodeInfo); //nodeInfos[i]);
             CreateOneNodeJsonFile(Application.dataPath, stageDataName[i], jsonData);
-            Debug.Log($"Path : {Application.dataPath}, jsonData length : {jsonData.Length}  "+jsonData);    
+            //Debug.Log($"Path : {Application.dataPath}, jsonData length : {jsonData.Length}  "+jsonData);    
         }
         
         // 생성 완료 후 Node Load 하기
@@ -40,7 +40,7 @@ public class NodeMaker : MonoBehaviour
         for (int i = 0; i < settingNodeInfos.Length; i++)
         {
             stageDataName[i] = $"Stage{stageNum}_Node{i}";
-            Debug.Log(stageDataName[i]);
+            //Debug.Log(stageDataName[i]);
         }
     }
 

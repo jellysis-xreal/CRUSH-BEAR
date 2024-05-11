@@ -60,7 +60,7 @@ public class NodeInstantiator_minha : MonoBehaviour
     {
         // topping pool 생성해줌.
         // Wave가 처음 실행될 때, 한번 초기화 진행하는 것임
-        Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]"); //[XMC]
+        //Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]"); //[XMC]
         _musicDataIndex = 0;
 
         InitializeNodeAndPool();
@@ -202,7 +202,7 @@ public class NodeInstantiator_minha : MonoBehaviour
         {
             // NodeInfoToMusicData(wave); 
             // isWaveFinished = true;
-            Debug.Log("Error 더이상 Enqueue할 data없음."); //[XMC]
+            //Debug.Log("Error 더이상 Enqueue할 data없음."); //[XMC]
             StopCoroutine(_curWaveCoroutine);
             return;
             throw;
@@ -236,7 +236,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                     temp.punchTypeIndex = nodes[i]; 
                     
                     _nodeQueue.Enqueue(temp);
-                    Debug.Log($"[Node Maker] Enqueue! {wave} {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
+                    //Debug.Log($"[Node Maker] Enqueue! {wave} {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
                     // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
                 }
 

@@ -5,6 +5,7 @@ using Unity.XR.CoreUtils;
 using UnityEngine;
 using EnumTypes;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.PlayerLoop;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -24,37 +25,46 @@ public class ScoreManager : MonoBehaviour
     public TextMesh[] scoreText_mesh = new TextMesh[3];
     public TMP_Text[] comboText = new TMP_Text[3];
     
+    [Space(20f)]
+    
     [Header("setting(auto)")] 
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject RightController;
     [SerializeField] private GameObject LeftController;
     [SerializeField] private HandData RHand;
     [SerializeField] private HandData LHand;
-    [SerializeField] private GameObject Perfect_VFX;
-    [SerializeField] private GameObject Good_VFX;
-    [SerializeField] private GameObject Bad_VFX;
+    
+    
+    [Space(20f)]
+
+    [Header("Prefab Setting")] 
+    public GameObject Score_Perfect_UI;
+    public GameObject Score_Good_UI;
+    public GameObject Score_Bad_UI;
+    public GameObject Score_Failed_UI;
+    
+    public GameObject Score_Perfect_VFX;
+    public GameObject Score_Good_VFX;
+    public GameObject Score_Bad_VFX;
+    
+    [Space(20f)]
+    
+    [Header("Object Pooling")]
+    [SerializeField] private List<GameObject> effectPool = new List<GameObject>();
+    [SerializeField] private List<GameObject> vfxPool = new List<GameObject>();
     
     private float standardSpeed;
     private Vector3 RbeforePos, LbeforePos;
     private AttachHandNoGrab RAttachNoGrab;
     private AttachHandNoGrab LAttachNoGrab;
 
-    private SliderController sliderController; //
-
-    // [Header("Score UI")] 
-    // [SerializeField] private TextMeshProUGUI scoreText;
-    // [SerializeField] private TextMesh scoreText_mesh;
-    private enum scoreType
-    {
-        Perfect,
-        Good,
-        Bad,
-        Failed
-    }
+    private SliderController sliderController;
+    
 
     public void Init()
     {
         Debug.Log("Initialize ScoreManager");
+        
         player = GameObject.FindWithTag("Player");
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
@@ -63,8 +73,6 @@ public class ScoreManager : MonoBehaviour
         LHand = LeftController.transform.GetChild(0).GetComponent<HandData>();
 
         standardSpeed = maxSpeed * 0.6f;
-
-        Perfect_VFX = Resources.Load("VFX/FireWorkCelebrationEffect02") as GameObject;
     }
 
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
@@ -130,6 +138,7 @@ public class ScoreManager : MonoBehaviour
         target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
         SetScoreEffect(score, target.transform);
+        
         Debug.Log(target.name + "의 점수는 " + score);
     }
 
@@ -155,7 +164,7 @@ public class ScoreManager : MonoBehaviour
         
         target.GetComponent<BaseObject>().SetScoreBool();
         GameManager.Sound.PlayEffect_ToastHit();
-        if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+        if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
             AddScore(score);
             SetScoreEffect(score, target.transform);    
@@ -233,51 +242,155 @@ public class ScoreManager : MonoBehaviour
         GameManager.UI.RequestFloatingUI(value);
     }
 
-    private void SetScoreEffect(scoreType score, Transform transform)
+    private void SetScoreEffect(scoreType score, Transform effectPos)
     {
         GameObject effect;
         
+        // Perfect, Good, Bad UI Effect
+        // effect 객체를 요청할 때마다 풀에서 사용 가능한 객체를 반환하도록 변경
+        effect = GetPooledEffect(score);
+        if (effect == null)
+        {
+            // 사용 가능한 객체가 없으면 새로운 객체를 생성하고 풀에 추가
+            effect = CreateNewEffect(score);
+            effectPool.Add(effect);
+        }
+        effect.transform.position = effectPos.position;
+        effect.SetActive(true);
+        StartCoroutine(DisableAfterSeconds(effect, 1.0f));
+
+        
+        // Perfect, Good, Bad VFX Effect
+        // [240511] TODO- 점수에 따른 효과
+        // VFX 자체의 부하가 심하다고 판단하여 우선 사용하지 않음
+        // GameObject obj = GetPooledVFX(score);
+        // if (obj == null)
+        // {
+        //     obj = CreateNewVFX(score);
+        //     vfxPool.Add(obj);
+        // }
+        // obj.transform.position = effectPos.position;
+        // obj.SetActive(true);
+        // StartCoroutine(DisableAfterSeconds(obj, 2.0f));
+        
+        // Haptic Effect
+        switch (score)
+        {
+            case scoreType.Perfect:
+                GameManager.Player.ActiveRightHaptic(0.9f, 0.1f);
+                GameManager.Player.ActiveLeftHaptic(0.9f, 0.1f);
+                break;
+
+            case scoreType.Good:
+                GameManager.Player.ActiveRightHaptic(0.6f, 0.1f);
+                GameManager.Player.ActiveLeftHaptic(0.6f, 0.1f);
+                break;
+
+            case scoreType.Bad:
+                GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
+                GameManager.Player.DecreaseLeftHaptic(0.2f, 0.1f);
+                break;
+            case scoreType.Failed:
+                GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
+                GameManager.Player.IncreaseLeftHaptic(0.2f, 0.2f);
+                break;
+        }
+
         if (score == scoreType.Perfect)
         {
-            // Perfect! 글자
-            effect = Resources.Load("Prefabs/Effects/Score_perfect") as GameObject;
-            Instantiate(effect, transform.position, Quaternion.identity);
-            
-            // 햅틱 효과
-            GameManager.Player.ActiveRightHaptic(0.9f, 0.1f);
-            GameManager.Player.ActiveLeftHaptic(0.9f, 0.1f);
-            
             // 점수에 따른 효과
-            GameObject obj = Instantiate(Perfect_VFX, transform.position, Quaternion.identity);
-            Destroy(obj, 2.0f);
+            //GameObject obj = Instantiate(Perfect_VFX, effectPos.position, Quaternion.identity);
+            //Destroy(obj, 2.0f);
         }
-        else if (score == scoreType.Good)
+        
+    }
+    
+    private GameObject GetPooledEffect(scoreType score)
+    {
+        foreach (var effect in effectPool)
         {
-            effect = Resources.Load("Prefabs/Effects/Score_good") as GameObject;
-            Instantiate(effect, transform.position, Quaternion.identity);
-            
-            // 햅틱 효과
-            GameManager.Player.ActiveRightHaptic(0.6f, 0.1f);
-            GameManager.Player.ActiveLeftHaptic(0.6f, 0.1f);
-            
+            var effectScript = effect.GetComponent<ScoreEffect>();
+            if (!effect.activeInHierarchy
+                && effectScript != null
+                && effectScript.scoreType == score)
+            {
+                return effect;
+            }
         }
-        else if (score == scoreType.Bad)
+
+        return null;
+    }
+    
+    private GameObject GetPooledVFX(scoreType score)
+    {
+        foreach (var vfx in vfxPool)
         {
-            effect = Resources.Load("Prefabs/Effects/Score_bad") as GameObject;
-            Instantiate(effect, transform.position, Quaternion.identity);
-            
-            // 햅틱 효과
-            GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
-            GameManager.Player.DecreaseLeftHaptic(0.2f, 0.1f);
+            if (!vfx.activeInHierarchy
+                && vfx.name == score.ToString())
+            {
+                return vfx;
+            }
         }
-        else if (score == scoreType.Failed)
+
+        return null;
+    }
+
+    private GameObject CreateNewEffect(scoreType score)
+    {
+        GameObject effect = null;
+
+        switch (score)
         {
-            effect = Resources.Load("Prefabs/Effects/Score_Failed") as GameObject;
-            Instantiate(effect, transform.position, Quaternion.identity);
-            
-            // 햅틱 효과
-            GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
-            GameManager.Player.IncreaseLeftHaptic(0.2f, 0.2f);
+            case scoreType.Perfect:
+                effect = Score_Perfect_UI;
+                break;
+            case scoreType.Good:
+                effect = Score_Good_UI;
+                break;
+            case scoreType.Bad:
+                effect = Score_Bad_UI;
+                break;
+            case scoreType.Failed:
+                effect = Score_Failed_UI;
+                break;
         }
+
+        if (effect != null)
+        {
+            effect = Instantiate(effect);
+            effect.name = score.ToString();
+            effect.SetActive(false);
+        }
+
+        return effect;
+    }
+    
+    private GameObject CreateNewVFX(scoreType score)
+    {
+        GameObject vfx = null;
+
+        // [240511] TODO: 우선 정해진 VFX가 없으므로 Perfect만 사용
+        vfx = Score_Perfect_VFX;
+        // switch (score)
+        // {
+        //     case scoreType.Perfect:
+        //         vfx = Score_Perfect_VFX;
+        //         break;
+        // }
+
+        if (vfx != null)
+        {
+            vfx = Instantiate(vfx);
+            vfx.name = score.ToString();
+            vfx.SetActive(false);
+        }
+
+        return vfx;
+    }
+    
+    private IEnumerator DisableAfterSeconds(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
     }
 }

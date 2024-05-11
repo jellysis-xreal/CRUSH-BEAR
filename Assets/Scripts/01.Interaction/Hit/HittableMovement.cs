@@ -88,7 +88,7 @@ public class HittableMovement : MonoBehaviour
         _isInit = true;
         GameManager.Instance.Metronome.BindEvent(UpdateToppingState);
         GameManager.Instance.Metronome.BindEvent(RemoveTopping);
-        Debug.Log(beatNum + "번 노드 만들어짐");
+        //Debug.Log(beatNum + "번 노드 만들어짐");
     }
 
     private void InitiateVariable()

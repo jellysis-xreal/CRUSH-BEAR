@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour
     public void SetCanvas(GameObject go, bool sort = true)
     {
         Canvas canvas = Utils.GetOrAddComponent<Canvas>(go);
-        Debug.Log("[TEST] Canvas");
+        //Debug.Log("[TEST] Canvas");
         canvas.renderMode = RenderMode.WorldSpace;
         canvas.overrideSorting = true;
 
@@ -132,7 +132,7 @@ public class UIManager : MonoBehaviour
 
         if (_popupStack.Peek() != popup)
         {
-            Debug.Log("Close Popup Failed");
+            Debug.Log("[ERROR] Close Popup Failed");
             return;
         }
 

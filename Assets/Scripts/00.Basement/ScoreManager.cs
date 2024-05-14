@@ -58,8 +58,9 @@ public class ScoreManager : MonoBehaviour
     private AttachHandNoGrab RAttachNoGrab;
     private AttachHandNoGrab LAttachNoGrab;
 
-    private SliderController sliderController;
-    
+    //private SliderController sliderController;
+    private CircleGaugeController circleGaugeController;
+
 
     public void Init()
     {
@@ -73,6 +74,15 @@ public class ScoreManager : MonoBehaviour
         LHand = LeftController.transform.GetChild(0).GetComponent<HandData>();
 
         standardSpeed = maxSpeed * 0.6f;
+
+        GameObject circleGaugeControllerObject = GameObject.Find("CircleGaugeController"); //
+        if (circleGaugeControllerObject == null)
+        {
+            Debug.Log("circleGaugeControllerObject == null");
+            return;
+        }
+        circleGaugeController = circleGaugeControllerObject.GetComponent<CircleGaugeController>();
+
     }
 
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
@@ -174,9 +184,21 @@ public class ScoreManager : MonoBehaviour
 
     public void ScoringPunch(GameObject target, bool isPerpect)
     {
-        GameObject sliderControllerObject = GameObject.Find("SliderController"); //
-        if(sliderControllerObject == null) return;
-        sliderController = sliderControllerObject.GetComponent<SliderController>();
+        //GameObject sliderControllerObject = GameObject.Find("SliderController"); //
+        //if (sliderControllerObject == null)
+        //{
+        //    Debug.Log("sliderControllerObject == null");
+        //    return;
+        //}
+        //sliderController = sliderControllerObject.GetComponent<SliderController>();
+
+        //GameObject circleGaugeControllerObject = GameObject.Find("CircleGaugeController"); //
+        //if (circleGaugeControllerObject == null)
+        //{
+        //    Debug.Log("circleGaugeControllerObject == null");
+        //    return;
+        //}
+        //circleGaugeController = circleGaugeControllerObject.GetComponent<CircleGaugeController>();
 
         scoreType score;
         if (isPerpect) score = scoreType.Perfect;
@@ -197,7 +219,8 @@ public class ScoreManager : MonoBehaviour
 
         float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed) + 1;
         Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
-        sliderController.SetPunchSliderSpeed(mPunchSpeed);
+        //sliderController.SetPunchSliderSpeed(mPunchSpeed);
+        circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
     }
 
     private void setTXT()

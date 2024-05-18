@@ -5,11 +5,13 @@ using UnityEngine.XR.Interaction.Toolkit;
 using XRController = UnityEngine.InputSystem.XR.XRController;
 using System;
 using EnumTypes;
+using UnityEngine.UI;
 
 [System.Serializable] // 반드시 필요
 public class HeartsArray // 행에 해당되는 이름
 {
-    public GameObject[] hearts = new GameObject[5];
+    //public GameObject[] hearts = new GameObject[5];
+    public Image[] hearts = new Image[5];
 }
 
 public class PlayerManager : MonoBehaviour
@@ -29,7 +31,11 @@ public class PlayerManager : MonoBehaviour
     public GameObject[] score_G = new GameObject[3];
     public ParticleSystem minusPrefab;
 
-    
+    [Header("New Heart Sprite")]
+    [SerializeField]
+    public Sprite newHeartSprite; // 목숨 감소 하트 이미지
+
+
     [Header("Hearts (auto)")] public HeartsArray[] HeartGameObjects = new HeartsArray[3];
 
     public void Init()
@@ -66,11 +72,18 @@ public class PlayerManager : MonoBehaviour
         Debug.Log($"WaveTypeCount : {WaveTypeCount}");
         for (int i = 0; i < WaveTypeCount; i++)
         {
+            /*
             HeartGameObjects[i].hearts[0] = score_G[i].transform.GetChild(0).gameObject;
             HeartGameObjects[i].hearts[1] = score_G[i].transform.GetChild(1).gameObject;
             HeartGameObjects[i].hearts[2] = score_G[i].transform.GetChild(2).gameObject;
             HeartGameObjects[i].hearts[3] = score_G[i].transform.GetChild(3).gameObject;
             HeartGameObjects[i].hearts[4] = score_G[i].transform.GetChild(4).gameObject;
+            */
+            HeartGameObjects[i].hearts[0] = score_G[i].transform.GetChild(0).GetComponent<Image>();
+            HeartGameObjects[i].hearts[1] = score_G[i].transform.GetChild(1).GetComponent<Image>();
+            HeartGameObjects[i].hearts[2] = score_G[i].transform.GetChild(2).GetComponent<Image>();
+            HeartGameObjects[i].hearts[3] = score_G[i].transform.GetChild(3).GetComponent<Image>();
+            HeartGameObjects[i].hearts[4] = score_G[i].transform.GetChild(4).GetComponent<Image>();
             Debug.Log("[TEST] hearts init " + i.ToString());
         }
     }
@@ -105,9 +118,17 @@ public class PlayerManager : MonoBehaviour
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;
         for (int i = 0; i < WaveTypeCount; i++)
         {
+            // 목숨 감소 하트 이미지로 변경
+            HeartGameObjects[i].hearts[playerLifeValue - 1].sprite = newHeartSprite;
+
+            // 파티클 효과 위치 설정 및 재생
+            minusPrefab.transform.position = HeartGameObjects[(int)GameManager.Wave.currentWave].hearts[playerLifeValue - 1].transform.position;
+            minusPrefab.Play();
+            /*
             HeartGameObjects[i].hearts[playerLifeValue - 1].GetComponent<MeshRenderer>().material.color = Color.black;
             minusPrefab.transform.position = HeartGameObjects[(int)GameManager.Wave.currentWave].hearts[playerLifeValue - 1].transform.position;
             minusPrefab.Play();
+            */
         }
     }
 

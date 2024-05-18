@@ -82,7 +82,12 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     public void EndInteraction()
     {
         _meshRenderer.enabled = false;
-        if(spriteRenderer != null) spriteRenderer.enabled = false; 
+        if(spriteRenderer != null) spriteRenderer.enabled = false;
+        else if(transform.childCount == 2)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            spriteRenderer.enabled = false;
+        }
         
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;
@@ -97,7 +102,11 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         Debug.Log("trigger arrival");
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
-        
+        else if(transform.childCount == 2)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            spriteRenderer.enabled = false;
+        }
         _isArrivalAreaHit = false;
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;

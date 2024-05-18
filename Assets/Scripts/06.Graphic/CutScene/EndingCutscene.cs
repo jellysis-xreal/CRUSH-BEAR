@@ -15,7 +15,7 @@ public class EndingCutscene : TimeLineController
     [SerializeField]
     private float offset;
     [SerializeField]
-    private GameObject playerObject, startCookie, particle, smoke, cutsceneCookie, shatteredCutsceneCookie, shakeInfo, endingCredit; // startCookie
+    private GameObject playerObject, startCookie, particle, smoke, cutsceneCookie, shatteredCutsceneCookie, creditRoom, endingCredit; // startCookie
     [SerializeField]
     private Renderer fadeOutPanel;
     [SerializeField]
@@ -24,11 +24,13 @@ public class EndingCutscene : TimeLineController
 
     private bool isCutsceneStarted;
     private int currentPosition;
+    private float totalShakeAmount;
     private float shakeAmount;
-
+    private double startTime;
 
     private const float CAMERA_OFFSET = 1.1176f;
-    private const int CUTSCENE_PASS_THRESHOLD = 5;
+    private const float PUNCH_PASS_THRESHOLD = 0.5f;
+    private const int CUTSCENE_PASS_THRESHOLD = 7;
     private void Awake()
     {
         InitSetting();
@@ -39,11 +41,12 @@ public class EndingCutscene : TimeLineController
         SetObjectPosition(bannerTransform, new Vector3(0, 0.4f, 0), new Vector3(-30, 180, 0));
         SetObjectPosition(startCookie.transform, new Vector3(0, -0.1f, -0.4f), new Vector3(-60, 180, 0));
         Breakable breakable = startCookie.GetComponent<Breakable>();
+        breakable.InitBreakable();
         breakable.onBreak.AddListener(StartCutScene);
         director = GetComponent<PlayableDirector>();
         isCutsceneStarted = false;
         fadeOutPanel.material.color = new Color(0, 0, 0, 0);
-        shakeInfo.SetActive(false);
+        creditRoom.SetActive(false);
     }
 
     private void SetObjectPosition(Transform transform, Vector3 positionOffset, Vector3 rotationOffset)
@@ -73,15 +76,17 @@ public class EndingCutscene : TimeLineController
 
     public void StartShakeCutscene()
     {
+        startTime = director.time;
+        StopCoroutine(UpdateShakeInput());
         StartCoroutine(UpdateShakeInput());
     }
 
     public void CheckShakeCount()
     {
-        if (shakeAmount >= CUTSCENE_PASS_THRESHOLD)
-            shakeAmount = 0f;
+        if (totalShakeAmount < CUTSCENE_PASS_THRESHOLD)
+            director.time = startTime;
         else
-            StartCoroutine(UpdateShake());
+            StopCoroutine(UpdateShakeInput());
     }
     public void InstantiateSmokeParticle()
     {
@@ -105,15 +110,6 @@ public class EndingCutscene : TimeLineController
             OnComplete(() => director.Play());
     }
 
-    public void ShakeInfo()
-    {
-        shakeInfo.SetActive(true);
-        Image image = shakeInfo.transform.GetChild(0).GetComponent<Image>();
-        DOTween.Sequence().
-            Append(shakeInfo.transform.DOShakePosition(2, 0.1f)).
-            Append(image.DOFade(0, 1f)).
-            Join(image.transform.GetChild(0).GetComponent<TextMeshProUGUI>().DOFade(0, 1f));
-    }
     private void ResetCameraPosition()
     {
         playerObject.transform.position = cameraPoints.GetChild(currentPosition).position - new Vector3(0, CAMERA_OFFSET, 0);
@@ -121,43 +117,34 @@ public class EndingCutscene : TimeLineController
     }
     private IEnumerator UpdateShakeInput()
     {
-        float previousLeftY = leftControllerTransform.position.y;
-        float previousRightY = rightControllerTransform.position.y;
+        float previousLeftZ = leftControllerTransform.position.z;
+        float previousRightZ = rightControllerTransform.position.z;
 
         while (true)
         {
-            CheckShake(ref previousLeftY, ref previousRightY);
+            CheckShake(ref previousLeftZ, ref previousRightZ);
+            if(shakeAmount > PUNCH_PASS_THRESHOLD)
+            {
+                Instantiate(shatteredCutsceneCookie, cutsceneCookie.transform).GetComponent<BreakController>().IsHit();
+                shakeAmount = 0;
+            }
             yield return null;
         }
     }
 
-    private IEnumerator UpdateShake()
+    private void CheckShake(ref float previousLeftZ, ref float previousRightZ)
     {
-        director.Pause();
-        float previousLeftY = leftControllerTransform.position.y;
-        float previousRightY = rightControllerTransform.position.y;
-
-        while (shakeAmount < CUTSCENE_PASS_THRESHOLD)
-        {
-            CheckShake(ref previousLeftY, ref previousRightY);
-            yield return null;
-        }
-        shakeAmount = 0;
-        director.Play();
-        Instantiate(shatteredCutsceneCookie, cutsceneCookie.transform);
-    }
-
-    private void CheckShake(ref float previousLeftY, ref float previousRightY)
-    {
-        shakeAmount += Mathf.Abs(leftControllerTransform.position.y - previousLeftY);
-        shakeAmount += Mathf.Abs(rightControllerTransform.position.y - previousRightY);
-        previousLeftY = leftControllerTransform.position.y;
-        previousRightY = rightControllerTransform.position.y;
+        float moveAmount = Mathf.Abs(leftControllerTransform.position.z - previousLeftZ) + Mathf.Abs(rightControllerTransform.position.z - previousRightZ);
+        totalShakeAmount += moveAmount;
+        shakeAmount += moveAmount;
+        previousLeftZ = leftControllerTransform.position.z;
+        previousRightZ = rightControllerTransform.position.z;
     }
 
     private void StartEnding()
     {
         fadeOutPanel.gameObject.SetActive(false);
+        creditRoom.SetActive(true);
         endingCredit.SetActive(true);
         RectTransform steproll = endingCredit.transform.GetChild(0).GetComponent<RectTransform>();
         steproll.DOLocalMoveY(2.5f, 40);

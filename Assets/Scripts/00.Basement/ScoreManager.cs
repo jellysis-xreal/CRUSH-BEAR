@@ -58,7 +58,6 @@ public class ScoreManager : MonoBehaviour
     private AttachHandNoGrab RAttachNoGrab;
     private AttachHandNoGrab LAttachNoGrab;
 
-    //private SliderController sliderController;
     private CircleGaugeController circleGaugeController;
 
 
@@ -212,11 +211,8 @@ public class ScoreManager : MonoBehaviour
         AddScore(score);
         SetScoreEffect(score, target.transform);
         GameManager.Sound.PlayEffect_Punch();
-        Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
+        //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ControllerSpeed + LHand.ControllerSpeed);
-        //Debug.Log("====yujin[DEBUG] ScoringPunch PunchGauge 오른손 속도: " + RHand.ControllerSpeed);
-        //Debug.Log("====yujin[DEBUG] ScoringPunch PunchGauge 왼손 속도: " + LHand.ControllerSpeed);
-
         float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed) + 1;
         Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);

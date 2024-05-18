@@ -228,7 +228,6 @@ public class GameManager : MonoBehaviour
             _player.Init();
             _wave.Init();
             _score.Init();
-            _combo.Init();
             //_player.PlaySceneUIInit();
             //_sound.Init();
             //_ui.Init();

@@ -436,14 +436,14 @@ public class HittableMovement : MonoBehaviour
                         StartCoroutine(ExplodeAfterSeconds(0.5f));
                     _isNotHitted = false;
                     _isHitted = true;
-                    Debug.Log("[DEBUG][JMH] "+this.gameObject.name+" 맞았다 Check");
+                    //Debug.Log("[DEBUG][JMH] "+this.gameObject.name+" 맞았다 Check");
                 }
 
                 if (this.gameObject.activeSelf == true && _isNotHitted && !_goTo)
                 {
                     GoToRefrigerator();
                     
-                    Debug.Log("[DEBUG][JMH] 처리되지 못한 토핑 처리됨");
+                    //Debug.Log("[DEBUG][JMH] 처리되지 못한 토핑 처리됨");
                     _goTo = true;
                 }
                 

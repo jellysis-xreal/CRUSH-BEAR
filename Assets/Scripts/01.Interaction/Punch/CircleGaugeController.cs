@@ -5,28 +5,34 @@ using UnityEngine;
 
 public class CircleGaugeController : MonoBehaviour
 {
-    public Transform circleTransform; // Circle Sprite의 Transform
+    public RectTransform circleRectTransform;
+    //public Transform circleTransform; // Circle Sprite의 Transform
     public TextMeshProUGUI sliderText;
 
-    private float maxScaleAmount = 7.0f; // 최대 스케일
-    private float minScaleAmount = 1.0f; // 최소 스케일
+    private float maxScaleAmount = 6.7f; // 최대 Width/Height
+    private float minScaleAmount = 0.0f; // 최소 Width/Height
+    //private float maxScaleAmount = 7.0f; // 최대 스케일
+    //private float minScaleAmount = 1.0f; // 최소 스케일
     private float smoothSpeed = 10.0f;   // 스케일 변경 속도
     public float targetValue;            // 목표 스케일 값
     private bool isTargetSet = false;    // 목표 스케일 값이 설정되었는지 여부
 
     void Start()
     {
-        if (circleTransform != null)
+        if (circleRectTransform != null)
         {
-            circleTransform.localScale = new Vector3(minScaleAmount, minScaleAmount, 1f); // 시작 스케일 설정
+            circleRectTransform.sizeDelta = new Vector2(minScaleAmount, minScaleAmount); // 시작 크기 설정
+
+            //circleTransform.localScale = new Vector3(minScaleAmount, minScaleAmount, 1f); // 시작 스케일 설정
             //UpdateSliderText(minScaleAmount);
         }
     }
 
     void Update()
     {
-        Vector3 currentScale = circleTransform.localScale;
-        float currentValue = currentScale.x; // x축 스케일을 사용
+        float currentValue = circleRectTransform.sizeDelta.x; // Width 값을 사용
+        //Vector3 currentScale = circleTransform.localScale;
+        //float currentValue = currentScale.x; // x축 스케일을 사용
 
         if (isTargetSet)
         {
@@ -51,7 +57,9 @@ public class CircleGaugeController : MonoBehaviour
         }
 
         // 스케일 값 업데이트
-        circleTransform.localScale = new Vector3(currentValue, currentValue, 1f);
+        //circleTransform.localScale = new Vector3(currentValue, currentValue, 1f);
+        circleRectTransform.sizeDelta = new Vector2(currentValue, currentValue);
+        //UpdateSliderText(currentValue);
     }
 
     private void UpdateSliderText(float value)

@@ -47,7 +47,7 @@ namespace UnityEngine.XR.Content.Interaction
             if(_punchableMovement == null)
                 _punchableMovement = GetComponent<IPunchableMovement>();
 
-            Debug.Log(_punchableMovement != null);
+            //Debug.Log(_punchableMovement != null);
             _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
             correctMotion = _childTriggerChecker.handMotion;
             
@@ -137,23 +137,24 @@ namespace UnityEngine.XR.Content.Interaction
 
             if (other.CompareTag("Destroyer"))
             {
-                Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.isTriggered}");
+                Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
 
                 if (_childTriggerChecker.isTriggered)
                 {
                     MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!)");
-                }
-                else if(CheckAdditionalCondition())
-                {
-                    MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
+                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
                 }
                 else
                 {
+                    //Debug.Log("Motion Failed! (child.isTriggered True!)");
                     MotionFailed();
-                    Debug.Log("Motion Failed! (child.isTriggered True!)");
                 }
+                /*else if(CheckAdditionalCondition())
+                {
+                    MotionSucceed(correctMotion);
+                    Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
+                }*/
+                
             }
         }
         

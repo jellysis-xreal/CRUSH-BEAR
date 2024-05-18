@@ -52,8 +52,8 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         arriveTime = node.timeToReachPlayer;
         transform.rotation = Quaternion.identity;
         
-        Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
-        Debug.Log($"[Punch] Init {transform.name} ");
+        // Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
+        // Debug.Log($"[Punch] Init {transform.name} ");
         //cookieControl.Init(targetPosition);
         GameManager.Instance.Metronome.BindEvent(CheckBeat);
         _meshRenderer.enabled = true;
@@ -118,7 +118,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     {
         if (other.CompareTag("ArrivalArea"))
         {
-            Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
+            // Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
             // StartCoroutine(TriggeredMovement());
@@ -143,7 +143,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
             return;
         if(beatNum  == currentBeat + shootStandard)
         {
-            Debug.Log($"{currentBeat}번째 노드 생성됨");
+            // Debug.Log($"{currentBeat}번째 노드 생성됨");
             transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
         }
     }

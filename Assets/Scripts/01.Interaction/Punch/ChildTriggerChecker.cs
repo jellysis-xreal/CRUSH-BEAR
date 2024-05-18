@@ -11,7 +11,7 @@ public class ChildTriggerChecker : MonoBehaviour
     private IEnumerator ChangeIsTriggeredField()
     {
         isTriggered = true;
-        Debug.Log($"[Motion] {Time.time} {transform.root.name} is Triggered {isTriggered}");
+        Debug.Log($"[Motion] {((float)Time.time)} {transform.root.name} is Triggered {isTriggered}");
         yield return new WaitForSeconds(1f);
         isTriggered = false; // 1초 뒤 false로 초기화
         yield break;

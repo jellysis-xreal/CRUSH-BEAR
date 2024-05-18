@@ -24,11 +24,13 @@ public class EndingCutscene : TimeLineController
 
     private bool isCutsceneStarted;
     private int currentPosition;
+    private float totalShakeAmount;
     private float shakeAmount;
-
+    private double startTime;
 
     private const float CAMERA_OFFSET = 1.1176f;
-    private const int CUTSCENE_PASS_THRESHOLD = 5;
+    private const float PUNCH_PASS_THRESHOLD = 0.5f;
+    private const int CUTSCENE_PASS_THRESHOLD = 7;
     private void Awake()
     {
         InitSetting();
@@ -74,15 +76,17 @@ public class EndingCutscene : TimeLineController
 
     public void StartShakeCutscene()
     {
+        startTime = director.time;
+        StopCoroutine(UpdateShakeInput());
         StartCoroutine(UpdateShakeInput());
     }
 
     public void CheckShakeCount()
     {
-        if (shakeAmount >= CUTSCENE_PASS_THRESHOLD)
-            shakeAmount = 0f;
+        if (totalShakeAmount < CUTSCENE_PASS_THRESHOLD)
+            director.time = startTime;
         else
-            StartCoroutine(UpdateShake());
+            StopCoroutine(UpdateShakeInput());
     }
     public void InstantiateSmokeParticle()
     {
@@ -119,31 +123,20 @@ public class EndingCutscene : TimeLineController
         while (true)
         {
             CheckShake(ref previousLeftZ, ref previousRightZ);
+            if(shakeAmount > PUNCH_PASS_THRESHOLD)
+            {
+                Instantiate(shatteredCutsceneCookie, cutsceneCookie.transform).GetComponent<BreakController>().IsHit();
+                shakeAmount = 0;
+            }
             yield return null;
         }
-    }
-
-    private IEnumerator UpdateShake()
-    {
-        director.Pause();
-        float previousLeftZ = leftControllerTransform.position.z;
-        float previousRightZ = rightControllerTransform.position.z;
-
-        while (shakeAmount < CUTSCENE_PASS_THRESHOLD)
-        {
-            CheckShake(ref previousLeftZ, ref previousRightZ);
-            yield return null;
-        }
-        shakeAmount = 0;
-        director.Play();
-        Instantiate(shatteredCutsceneCookie, cutsceneCookie.transform).GetComponent<BreakController>().IsHit();
-
     }
 
     private void CheckShake(ref float previousLeftZ, ref float previousRightZ)
     {
-        shakeAmount += Mathf.Abs(leftControllerTransform.position.z - previousLeftZ);
-        shakeAmount += Mathf.Abs(rightControllerTransform.position.z - previousRightZ);
+        float moveAmount = Mathf.Abs(leftControllerTransform.position.z - previousLeftZ) + Mathf.Abs(rightControllerTransform.position.z - previousRightZ);
+        totalShakeAmount += moveAmount;
+        shakeAmount += moveAmount;
         previousLeftZ = leftControllerTransform.position.z;
         previousRightZ = rightControllerTransform.position.z;
     }

@@ -290,7 +290,7 @@ public class HittableMovement : MonoBehaviour
 
         if (type == sideType)
         {
-            if (thisHit.isTriggered && !UpOrDown(thisSide, type))
+            if (thisHit.isTriggered)
             {
                 Debug.Log("[SWING] 옳은 면에 맞았음");
                 return true;
@@ -325,13 +325,14 @@ public class HittableMovement : MonoBehaviour
 
         //오른손 법칙을 사용해보면 반시계 방향 >> 엄지의 방향이 양수 : 벽의 위에 부딪힘
         //오른손 법칙을 사용해보면 시계 방향 >> 엄지의 방향이 음수 : 벽의 아래에 부딪힘
-        if (Vector3.Cross(_col.transform.right, distVec).z > 0)
+        if (Vector3.Cross(_col.right, distVec).z > 0)
         {
-            Debug.Log("[SWING] " + type + "가 앞을 바라본다");
-            return true;
+            //Debug.Log("[SWING] " + type + "가 앞을 바라본다");
+            if (type == sideType)
+                return true;
         }
 
-        Debug.Log("[SWING] " + type + "가 뒤을 바라본다");
+        //Debug.Log("[SWING] " + type + "가 뒤을 바라본다");
         return false;
     }
 

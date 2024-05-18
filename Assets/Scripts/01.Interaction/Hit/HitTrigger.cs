@@ -6,7 +6,7 @@ using UnityEngine;
 public class HitTrigger : MonoBehaviour
 {
     public bool isTriggered;
-    
+
     private void OnTriggerEnter(Collider other)
     {
         isTriggered = true;

@@ -20,6 +20,7 @@ public class HittableMovement : MonoBehaviour
     private float moveTime = 3.3f; // 토핑의 이동 속도를 결정함
     private float popTime = 0.1f; // 토핑의 점프 시간을 결정함
     public GameObject burstEffect;
+    public bool Debugging = false;
     
     [Header("other Variable (AUTO)")] 
     [SerializeField] private GameObject refrigerator;
@@ -46,6 +47,7 @@ public class HittableMovement : MonoBehaviour
     private bool _isHitted = false; 
     private bool _isNotHitted = false;
     private bool _goTo = false;
+    
 
     private enum toppingState
     {
@@ -62,6 +64,9 @@ public class HittableMovement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _player = GameObject.FindWithTag("Player");
         _meshRenderer = transform.GetChild(0).GetComponent<MeshRenderer>();
+        
+        if (Debugging)
+            curState = toppingState.interacable;
     }
 
     /// <summary>
@@ -111,7 +116,7 @@ public class HittableMovement : MonoBehaviour
         _isHitted = false;      // 3) 막대에 의해 맞았나요?
         _isNotHitted = false;   // 6) Player의 막대를 통해 처리되지 못한 경우
         _goTo = false;          // 7) 냉장고로 향하는 코드를 1번 실행하기 위한 변수
-        
+
         StopCoroutine("ExplodeAfterSeconds");
     }
     
@@ -204,73 +209,69 @@ public class HittableMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        CanInteractTopping();
+        //Debug.Log("[DEBUG] " + this.transform.name + "이 " + other.transform.name + "와 충돌함. \n현재 상태는 " + curState);
+        if (_baseObject.IsItScored()) return;
+        if (other.gameObject.CompareTag("Plane")) return;
+        if (!Debugging)
+        {
+            CanInteractTopping();
+            if (!IsInteractable()) return;
+            if (curState != toppingState.interacable) return;
+        }
         // Debug.Log("[DEBUG][JMH]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
         //           "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
+        // FOR DEBUG
 
-        if (other.gameObject.CompareTag("Plane")) return;
+        //Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 현재 비트는 " + beatNum);
 
-        if (IsInteractable() || curState == toppingState.interacable)
-        {
-            // FOR DEBUG
-            //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
-            //Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 현재 비트는 " + beatNum);
-            
-            bool IsRight = false;
+        bool IsRight = false;
 
-            // 잘못 충돌한 예외 처리
-            if (!other.transform.TryGetComponent(out Rigidbody body))
-                return;
-
-            //DOTween.KillAll();
-            
-            // hitter의 side 색과 일치한 topping일 경우
-            InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
-            if (colSide == sideType)
-            {
-                IsRight = true;
-            }
-            else
-            {
-                // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
-                IsRight = IsRightJudgment(other, colSide); 
-                //if (IsRight) 
-                    //Debug.Log("[DEBUG] 예외 처리 성공");
-                //else
-                    //Debug.Log("[DEBUG] 예외가 아니었군");
-            }
-
-            // Controller / Hand_R/L의 HandData에서
-            // 속도 값 받아와서 Hit force로 사용함
-            // var parent = other.transform.parent.parent.parent;
-            // float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
-            //
-            // // 충돌 지점 기준으로 날아가게
-            // Vector3 dir = other.contacts[0].normal.normalized + Vector3.up;
-            // Vector3 playerDir = (_player.transform.position - this.transform.position) + Vector3.up;
-            //
-            // float angle = Vector3.Angle(dir, playerDir);
-            // if (angle <= 40.0f)
-            //     _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
-            // else
-            //     // 플레이어 앞쪽으로 날아가게
-            //     _rigidbody.AddForce(playerDir * hitForce, ForceMode.Impulse);
-            //
-            // _rigidbody.useGravity = true;
-            
-            // For Debug
-            // Debug.Log("[SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name + "와 충돌함. 따라서 " + IsRight);
-            
-            // Set Score & State
-            GameManager.Score.ScoringHit(this.gameObject, IsRight); 
-            curState = toppingState.refrigerator;
-        }
-        else
+        // 잘못 충돌한 예외 처리
+        if (!other.transform.TryGetComponent(out Rigidbody body))
             return;
+
+        //DOTween.KillAll();
+
+        // hitter의 side 색과 일치한 topping일 경우
+        InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
+
+        // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
+        IsRight = IsRightJudgment(other, colSide);
+        //if (IsRight)
+            //Debug.Log("[DEBUG] 맞아요");
+        //else
+            //Debug.Log("[DEBUG] 아니군요");
+
+        // Controller / Hand_R/L의 HandData에서
+        // 속도 값 받아와서 Hit force로 사용함
+        // var parent = other.transform.parent.parent.parent;
+        // float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
+        //
+        // // 충돌 지점 기준으로 날아가게
+        // Vector3 dir = other.contacts[0].normal.normalized + Vector3.up;
+        // Vector3 playerDir = (_player.transform.position - this.transform.position) + Vector3.up;
+        //
+        // float angle = Vector3.Angle(dir, playerDir);
+        // if (angle <= 40.0f)
+        //     _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
+        // else
+        //     // 플레이어 앞쪽으로 날아가게
+        //     _rigidbody.AddForce(playerDir * hitForce, ForceMode.Impulse);
+        //
+        // _rigidbody.useGravity = true;
+
+        // For Debug
+        Debug.Log("[SWING][SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name +
+                  "와 충돌함. 따라서 " + IsRight);
+
+        // Set Score & State
+        if (!Debugging) GameManager.Score.ScoringHit(this.gameObject, IsRight);
+        curState = toppingState.refrigerator;
     }
 
     private bool IsRightJudgment(Collision _col, InteractionSide type)
     {
+        Transform thisSide = _col.transform;
         Transform otherSide = _col.transform;
 
         switch (type)
@@ -284,55 +285,53 @@ public class HittableMovement : MonoBehaviour
                 break;
         }
 
-        if (otherSide.GetChild(0).TryGetComponent(out HitTrigger hit))
+        if (!thisSide.GetChild(0).TryGetComponent(out HitTrigger thisHit)) return false;
+        if (!otherSide.GetChild(0).TryGetComponent(out HitTrigger otherHit)) return false;
+
+        if (type == sideType)
         {
+            if (thisHit.isTriggered && !UpOrDown(thisSide, type))
+            {
+                Debug.Log("[SWING] 옳은 면에 맞았음");
+                return true;
+            }
+        }
+        else
+        {
+            if (otherHit.isTriggered && UpOrDown(otherSide, type))
+            {
+                Debug.Log("[SWING] 판정이 잘못되었었다. 옳음!");
+                return true;
+            }
+
             // Trigger되었다고 인식된 면과
             // 반대 면에서 Triggered라고 판단되어지면, return True 
-            if (hit.isTriggered)
-                return true;
-            else
+            if (thisHit.isTriggered && !otherHit.isTriggered)
+            {
+                Debug.Log("[SWING] 틀린 면으로 침");
                 return false;
+            }
         }
 
         return false;
     }
 
-    private bool UpOrDown(Collision _col, InteractionSide type)
+    private bool UpOrDown(Transform _col, InteractionSide type)
     {
         //오른면(초록색)에 존재하면, 위에 부딪혀야 정상적으로 감지 처리가 된 것
         //왼면(빨간색)에 존재하면, 아래에 부딪혀야 정상적으로 감지 처리가 된것
-        
+
         Vector3 distVec = transform.position - _col.transform.position;
-        
+
         //오른손 법칙을 사용해보면 반시계 방향 >> 엄지의 방향이 양수 : 벽의 위에 부딪힘
         //오른손 법칙을 사용해보면 시계 방향 >> 엄지의 방향이 음수 : 벽의 아래에 부딪힘
         if (Vector3.Cross(_col.transform.right, distVec).z > 0)
         {
-            //_col.transform.right는 충돌체의 오른쪽 방향벡터
-            //Debug.Log("Up : 벽의 위에 부딪힘");
-            switch (type)
-            {
-                case InteractionSide.Blue:
-                    //Debug.Log("[SWING] Up : 윗면에 부딪힘, 정상이 아님");
-                    return true;      //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
-                case InteractionSide.Red:
-                    //Debug.Log("[SWING] Up : 윗면에 부딪힘, 정상적으로 감지된 것");
-                    return false;   //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
-            }
-        }
-        else
-        {
-            switch (type)
-            {
-                case InteractionSide.Blue:
-                    //Debug.Log("[SWING] Down : 아래면에 부딪힘, 정상적으로 감지된 것");
-                    return false;      //정상적으로 감지가 된 것임. 따라서 Player가 잘못 친 것임
-                case InteractionSide.Red :
-                    //Debug.Log("[SWING] Down : 아래면에 부딪힘, 정상이 아님");
-                    return true;     //정상적으로 감지가 안된 것임. 따라서 Player는 맞은편으로 친 것임
-            }
+            Debug.Log("[SWING] " + type + "가 앞을 바라본다");
+            return true;
         }
 
+        Debug.Log("[SWING] " + type + "가 뒤을 바라본다");
         return false;
     }
 

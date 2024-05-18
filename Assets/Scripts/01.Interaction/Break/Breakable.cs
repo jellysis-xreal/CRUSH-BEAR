@@ -137,7 +137,7 @@ namespace UnityEngine.XR.Content.Interaction
 
             if (other.CompareTag("Destroyer"))
             {
-                Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
+                Debug.Log($"[Breakable] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
 
                 if (_childTriggerChecker.isTriggered)
                 {

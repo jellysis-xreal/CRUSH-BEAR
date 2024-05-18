@@ -22,7 +22,7 @@ public class NodeLoader : MonoBehaviour
         _nodeInstantiater = GetComponent<NodeInstantiater>();
         NamingJsonFileName();
         NodeInfoSend();
-        Debug.Log("OnEnable! Noad Loader");
+        //Debug.Log("OnEnable! Noad Loader");
     }
 
     // 불러들일 json file name을 정함.
@@ -32,7 +32,7 @@ public class NodeLoader : MonoBehaviour
         for (int i = 0; i < stageDataName.Length; i++)
         {
             stageDataName[i] = $"Stage{stageNum}_Node{i}";
-            Debug.Log(stageDataName[i]);
+            //Debug.Log(stageDataName[i]);
         }
     }
     

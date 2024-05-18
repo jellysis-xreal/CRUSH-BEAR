@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine.Events;
 using EnumTypes;
 using UnityEngine.SceneManagement;
@@ -35,9 +36,9 @@ namespace UnityEngine.XR.Content.Interaction
         /// </summary>
         public BreakEvent onBreak => m_OnBreak;
         
-        private IPunchableMovement _punchableMovement;
+        [SerializeField] public IPunchableMovement _punchableMovement;
         
-        private ChildTriggerChecker _childTriggerChecker;
+        public ChildTriggerChecker _childTriggerChecker;
         public EnumTypes.Motion correctMotion = EnumTypes.Motion.None;
         
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
@@ -45,12 +46,17 @@ namespace UnityEngine.XR.Content.Interaction
         {
             if(_punchableMovement == null)
                 _punchableMovement = GetComponent<IPunchableMovement>();
+
+            //Debug.Log(_punchableMovement != null);
+            _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
+            correctMotion = _childTriggerChecker.handMotion;
             
-            if (_childTriggerChecker == null)
+            
+            // Debug.Log($"[Motion] {gameObject.name} {_childTriggerChecker.transform.name}");
+            /*if (_childTriggerChecker == null)
             {
-                _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
-                correctMotion = _childTriggerChecker.handMotion;
-            }
+                
+            }*/
             
             m_Destroyed = false;
         }
@@ -60,7 +66,7 @@ namespace UnityEngine.XR.Content.Interaction
             if (m_Destroyed)
                 return;
 
-            Debug.Log("Motion Succeed!");
+            //Debug.Log("Motion Succeed!");
             
             m_Destroyed = true;
             var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
@@ -74,7 +80,7 @@ namespace UnityEngine.XR.Content.Interaction
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
-                Debug.Log("[Tutorial Punch] Succeed");
+                //Debug.Log("[Tutorial Punch] Succeed");
                 GameManager.TutorialPunch.processedNumber++; 
                 GameManager.TutorialPunch.succeedNumber++;
                 // GameManager.Instnace.Tutorial.processedNumber++
@@ -107,7 +113,7 @@ namespace UnityEngine.XR.Content.Interaction
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
-                Debug.Log("[Tutorial Punch] Fail");
+                //Debug.Log("[Tutorial Punch] Fail");
                 GameManager.TutorialPunch.processedNumber++;
                 GameManager.Score.ScoringPunch(this.gameObject, true);
                 _punchableMovement.EndInteraction();
@@ -116,32 +122,39 @@ namespace UnityEngine.XR.Content.Interaction
         
         private void OnTriggerEnter(Collider other)
         {
+            //Debug.Log($"Motion Trigger 1 {other.transform.name}");
 #if UNITY_EDITOR
-            if (GameManager.Instance != null)
+            /*if (GameManager.Instance != null)
             {
                 if(GameManager.Instance.currentGameState == GameState.Waving) return;
-            }
+            }*/
 #endif
             if (m_Destroyed)
                 return;
             // Motion Checker OnTriggerEnter와 연결해야 함.
 
+            // Debug.Log("Motion Trigger 2");
+
             if (other.CompareTag("Destroyer"))
             {
+                Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
+
                 if (_childTriggerChecker.isTriggered)
                 {
                     MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!)");
-                }
-                else if(CheckAdditionalCondition())
-                {
-                    MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
+                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
                 }
                 else
                 {
+                    //Debug.Log("Motion Failed! (child.isTriggered True!)");
                     MotionFailed();
                 }
+                /*else if(CheckAdditionalCondition())
+                {
+                    MotionSucceed(correctMotion);
+                    Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
+                }*/
+                
             }
         }
         

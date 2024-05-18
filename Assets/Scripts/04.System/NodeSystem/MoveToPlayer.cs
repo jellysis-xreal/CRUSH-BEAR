@@ -53,7 +53,7 @@ public class MoveToPlayer : MonoBehaviour
     
     public void ReflectionMove(Vector3 dir)
     {
-        Debug.Log("Reflection Moving, dir : "+dir);
+        //Debug.Log("Reflection Moving, dir : "+dir);
         isHit = true;
         _rigidbody.AddForce(dir,ForceMode.Impulse);
         //_rigidbody.AddForceAtPosition(dir, transform.position, ForceMode.Impulse);

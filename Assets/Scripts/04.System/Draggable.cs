@@ -31,7 +31,7 @@ public class Draggable : MonoBehaviour
             {
                 diaryController_.returned = false;
                 // Debug.Log("Global Position: " + transform.localPosition);
-                Debug.Log("[TEST] bookPage: " + diaryController_.bookPage.ToString());
+                //Debug.Log("[TEST] bookPage: " + diaryController_.bookPage.ToString());
                 transform.position = new Vector3(transformOrigin.x, transformOrigin.y, transformOrigin.z - maxZ);
                 diaryController_.nextPage();
             }

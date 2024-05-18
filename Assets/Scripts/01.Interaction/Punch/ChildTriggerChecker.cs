@@ -10,13 +10,15 @@ public class ChildTriggerChecker : MonoBehaviour
     public Motion handMotion = Motion.None;
     private IEnumerator ChangeIsTriggeredField()
     {
-        isTriggered = !isTriggered;
+        isTriggered = true;
+        Debug.Log($"[Motion] {((float)Time.time)} {transform.root.name} is Triggered {isTriggered}");
         yield return new WaitForSeconds(1f);
-        isTriggered = !isTriggered; // 1초 뒤 false로 초기화
+        isTriggered = false; // 1초 뒤 false로 초기화
         yield break;
     }
     private void OnTriggerEnter(Collider other)
     {
+        if(isTriggered) return;
         if (other.CompareTag("Destroyer")) StartCoroutine(ChangeIsTriggeredField());
     }
 }

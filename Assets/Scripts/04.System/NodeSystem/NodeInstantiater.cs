@@ -33,7 +33,7 @@ public class NodeInstantiater : MonoBehaviour
     }
     public void InstantiateNode(NodeInfo nodeInfo, string objectType, int objectNum)
     {
-        Debug.Log("objectType : "+objectType + "_indexToBeAdded : "+_indexToBeAdded);
+        //Debug.Log("objectType : "+objectType + "_indexToBeAdded : "+_indexToBeAdded);
         if (objectType == "Rip")
         {
             gameObjectsByStage[_indexToBeAdded] = Instantiate(ripObjects[objectNum], new Vector3(nodeInfo.posX, nodeInfo.posY, nodeInfo.posZ), Quaternion.identity);
@@ -134,14 +134,14 @@ public class NodeInstantiater : MonoBehaviour
                 .Where(item => item.Value == duplicateValue)
                 .Select(item => item.Index);
             
-            Debug.Log("Duplicate Value: " + duplicateValue);
+            //Debug.Log("Duplicate Value: " + duplicateValue);
             int newValue = duplicateValue;
             foreach (int index in indices)
             {
                 // 중복되는 인덱스의 값 수정하기
                 ascendingOrder[index] = newValue;
                 newValue++;
-                Debug.Log("Index: " + index);
+                //Debug.Log("Index: " + index);
             }
         }
     }

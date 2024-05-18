@@ -44,7 +44,7 @@ public class AttachHandNoGrab : MonoBehaviour
 
             moveToPlayer.enabled = false;
 
-            Debug.Log($"hand world Position {transform.position}");
+            //Debug.Log($"hand world Position {transform.position}");
             IsAttached = true;
         }
         else

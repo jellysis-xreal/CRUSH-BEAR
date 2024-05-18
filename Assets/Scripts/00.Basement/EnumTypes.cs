@@ -30,6 +30,14 @@ namespace EnumTypes
         Press
     }
 
+    public enum scoreType
+    {
+        Perfect,
+        Good,
+        Bad,
+        Failed
+    }
+    
     public enum WaveType
     {
         Shooting,

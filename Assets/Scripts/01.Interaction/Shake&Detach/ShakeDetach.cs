@@ -14,7 +14,7 @@ public class ShakeDetach : MonoBehaviour
     private Vector3 lastPosition;
     //public bool isAttached = false;
 
-    private float shakeThreshold = 0.05f; // ÄÁÆ®·Ñ·¯ÀÇ À§Ä¡°¡ ÀÌ °ª¸¸Å­ º¯È­ÇÒ ¶§ shakeCount¸¦ Áõ°¡½ÃÅ³ ¼ö ÀÖµµ·Ï ¼³Á¤
+    private float shakeThreshold = 0.05f; // ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ shakeCountï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å³ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,7 +24,7 @@ public class ShakeDetach : MonoBehaviour
             //grabInteractable.enabled = false;
             controllerTransform = other.transform;
             lastPosition = controllerTransform.position;
-            Debug.Log("Æ®·£½ºÆû ÀÎ½Ä");
+            //Debug.Log("Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½");
         }
     }
 
@@ -38,17 +38,17 @@ public class ShakeDetach : MonoBehaviour
             Vector3 currentPosition = controllerTransform.position;
             float deltaX = Mathf.Abs(currentPosition.x - lastPosition.x);
             float deltaY = Mathf.Abs(currentPosition.y - lastPosition.y);
-            Debug.Log("°ª ÀÎ½Ä");
+            Debug.Log("ï¿½ï¿½ ï¿½Î½ï¿½");
 
             if (deltaX >= shakeThreshold || deltaY >= shakeThreshold)
             {
                 shakeCount++;
-                Debug.Log("Ä«¿îÆ® Áõ°¡" + shakeCount);
+                Debug.Log("Ä«ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½" + shakeCount);
 
                 if (shakeCount >= 5)
                 {
                     Detach();
-                    Debug.Log("Detach ÇÔ¼ö ½ÇÇà");
+                    Debug.Log("Detach ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 }
             }
 
@@ -61,9 +61,9 @@ public class ShakeDetach : MonoBehaviour
     public void Detach()
     {
         isAttached = false;
-        //grabInteractable.enabled = true; // isAttached°¡ falseÀÏ ¶§ Grab °¡´ÉÇÏµµ·Ï ¼³Á¤
+        //grabInteractable.enabled = true; // isAttachedï¿½ï¿½ falseï¿½ï¿½ ï¿½ï¿½ Grab ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         controllerTransform = null;
-        shakeCount = 0; // Detach ÀÌÈÄ shakeCount¸¦ ÃÊ±âÈ­
+        shakeCount = 0; // Detach ï¿½ï¿½ï¿½ï¿½ shakeCountï¿½ï¿½ ï¿½Ê±ï¿½È­
        
     }
 }

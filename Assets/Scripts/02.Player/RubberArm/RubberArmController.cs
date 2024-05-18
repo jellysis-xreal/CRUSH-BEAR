@@ -52,7 +52,7 @@ public class RubberArmController : MonoBehaviour
 
         while (true)
         {
-            Debug.Log($"{name} Distance between body and hand : {Vector3.Distance(transform.position, bodyTransform.position)}");
+            //Debug.Log($"{name} Distance between body and hand : {Vector3.Distance(transform.position, bodyTransform.position)}");
             if (Vector3.Distance(transform.position, bodyTransform.position) < minimumDistanceToDetectBodyAndHand)
             {
                 //Debug.Log($"{name} // Set Start HandTransform");
@@ -62,7 +62,7 @@ public class RubberArmController : MonoBehaviour
             {
                 endHandPosition = transform.position;
                 float dist = Vector3.Distance(beginHandPosition, endHandPosition);
-                Debug.Log($"{name} dist : {dist}");
+                //Debug.Log($"{name} dist : {dist}");
                 if ( dist > maximumDistanceToDetectEachHand)
                 {
                     StartCoroutine(StretchRubberArm(dist, beginHandPosition, endHandPosition-beginHandPosition));

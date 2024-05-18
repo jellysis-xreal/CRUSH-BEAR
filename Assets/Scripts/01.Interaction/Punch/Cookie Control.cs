@@ -24,7 +24,7 @@ public class CookieControl : MonoBehaviour
         originalRotation = transform.rotation;
 
         // 객체를 360도 회전시키는 Tween을 시작
-        rotationTween = transform.DORotate(new Vector3(0, 0, 360), 10f, RotateMode.FastBeyond360)
+        rotationTween = transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 360), 10f, RotateMode.FastBeyond360)
             .SetLoops(-1, LoopType.Incremental)
             .SetEase(Ease.Linear);
     }
@@ -46,7 +46,7 @@ public class CookieControl : MonoBehaviour
         else if (distanceToPlayer >= stopDistance && !isRotating)
         {
             // 원래의 회전 값에서 360도 회전까지의 Tween을 시작
-            rotationTween = transform.DORotate(new Vector3(0, 0, 360), 10f, RotateMode.FastBeyond360)
+            rotationTween = transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z +  360), 10f, RotateMode.FastBeyond360)
                 .SetLoops(-1, LoopType.Incremental)
                 .SetEase(Ease.Linear);
             isRotating = true;

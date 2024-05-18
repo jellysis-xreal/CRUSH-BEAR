@@ -46,7 +46,7 @@ public class StretchTest : MonoBehaviour
         //actionBasedController.positionAction.DisableDirectAction();
         //inputAction = actionBasedController.positionAction.action; //new InputAction(actionBasedController.positionAction.action)
         // actionBasedController.positionAction.action.Dispose(); -> action 메모리 자체를 지워서 다른 입력도 안 받음.
-        Debug.Log("Stop Tracking Hand Position ");
+        //Debug.Log("Stop Tracking Hand Position ");
     }
     void StartTrackingHandPosition()
     {
@@ -54,9 +54,9 @@ public class StretchTest : MonoBehaviour
         actionBasedController.positionAction.action.Enable();
         // handModelTransform.localPosition = new Vector3(0.000000f, 0.000000f, 0.000000f);
         // handModelTransform.localPosition = Vector3.zero;
-        Debug.Log($"handModelTransform.localPosition : {handModelTransform.localPosition}");
+        //Debug.Log($"handModelTransform.localPosition : {handModelTransform.localPosition}");
         //actionBasedController.positionAction.action.actionMap.AddAction();
-        Debug.Log("Start Tracking Hand Position ");
+        //Debug.Log("Start Tracking Hand Position ");
         //StartCoroutine(DetectHandPositionChange());
     }
 }

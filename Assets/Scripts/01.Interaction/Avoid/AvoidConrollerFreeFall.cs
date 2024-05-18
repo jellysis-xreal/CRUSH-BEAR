@@ -39,7 +39,7 @@ public class AvoidConrollerFreeFall : MonoBehaviour
 
     public void Crashed()
     {
-        Debug.Log("[Test] Crashed!");
+        //Debug.Log("[Test] Crashed!");
         isHit = true;
         BearManager.instance.DecreaseHearts();
         Destroy(generatedWarningSign);

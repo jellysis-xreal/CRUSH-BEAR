@@ -5,7 +5,7 @@ using EnumTypes;
 using UnityEngine;
 using UnityEngine.XR.Content.Interaction;
 
-public class PunchableMovement : MonoBehaviour
+public class PunchableMovement : MonoBehaviour, IPunchableMovement
 {
     // TODO : Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")]
@@ -40,15 +40,20 @@ public class PunchableMovement : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
+    public void StartMovement()
+    {
+        
+    }
   
     public IEnumerator InitializeToppingRoutine(NodeInfo node)
     {
         _isArrivalAreaHit = false;
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
+        transform.rotation = Quaternion.identity;
         
-        Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
-        Debug.Log($"[Punch] Init {transform.name} ");
+        // Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
+        // Debug.Log($"[Punch] Init {transform.name} ");
         //cookieControl.Init(targetPosition);
         GameManager.Instance.Metronome.BindEvent(CheckBeat);
         _meshRenderer.enabled = true;
@@ -83,8 +88,6 @@ public class PunchableMovement : MonoBehaviour
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
 
-        _breakable.m_Destroyed = false;
-        
         StartCoroutine(ActiveTime(1f));
     }
 
@@ -100,21 +103,22 @@ public class PunchableMovement : MonoBehaviour
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
 
-        _breakable.m_Destroyed = false;
+        // _breakable.m_Destroyed = false;
         
         StartCoroutine(ActiveTime(1f));
     }
     private IEnumerator ActiveTime(float coolTime)
     {
         yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
-        _meshRenderer.enabled = true;
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
+        _breakable.m_Destroyed = false;
+        _meshRenderer.enabled = true;
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ArrivalArea"))
         {
-            Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
+            // Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
             // StartCoroutine(TriggeredMovement());
@@ -139,7 +143,7 @@ public class PunchableMovement : MonoBehaviour
             return;
         if(beatNum  == currentBeat + shootStandard)
         {
-            Debug.Log($"{currentBeat}번째 노드 생성됨");
+            // Debug.Log($"{currentBeat}번째 노드 생성됨");
             transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
         }
     }

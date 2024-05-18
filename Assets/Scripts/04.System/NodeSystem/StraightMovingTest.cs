@@ -40,7 +40,7 @@ public class StraightMovingTest : MonoBehaviour
         // 속도 = 거리 / 시간
         float time = timeToReachPlayer - generationTime;
         constantSpeed = Vector3.Distance(targetTransform.position, transform.position) / time;
-        Debug.Log($"constantSpeed : {constantSpeed}");
+        //Debug.Log($"constantSpeed : {constantSpeed}");
     }
     
     public void Init()

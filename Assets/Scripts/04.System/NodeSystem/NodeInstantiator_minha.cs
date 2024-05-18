@@ -369,19 +369,19 @@ public class NodeInstantiator_minha : MonoBehaviour
                         punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
                         break;
                     case 2: // 레프트 훅
-                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 330f, 90f);
                         break;
                     case 3: // 레프트 어퍼컷
-                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
                         break;
                     case 4: // 라이트 잽
                         punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
                         break;
                     case 5: // 라이트 훅
-                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 30f, 270f);
                         break;
                     case 6: // 라이트 어퍼컷
-                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
                         break;
                     default:
                         break;
@@ -413,11 +413,12 @@ public class NodeInstantiator_minha : MonoBehaviour
                         break;
                     case 2: // 레프트 훅
                         Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
-                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 330f, 90f);
                         Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform); 
                         break;
                     case 3: // 레프트 어퍼컷
                         Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
                         Instantiate(cookieDirectionPrefabs[1], punchGameObject.transform);
                         break;
                     case 4: // 라이트 잽
@@ -426,11 +427,12 @@ public class NodeInstantiator_minha : MonoBehaviour
                         break;
                     case 5: // 라이트 훅
                         Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
-                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(0f, 30f, 270f);
                         Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
                         break;
                     case 6: // 라이트 어퍼컷
                         Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
                         Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
                         break;
                     default:
@@ -451,11 +453,12 @@ public class NodeInstantiator_minha : MonoBehaviour
                     break;
                 case 2:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
-                    punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                    punchGameObject.transform.rotation = Quaternion.Euler(0f, 330f, 90f);
                     Instantiate(cookieDirectionPrefabs[0], punchGameObject.transform); 
                     break;
                 case 3:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                    punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
                     Instantiate(cookieDirectionPrefabs[1], punchGameObject.transform);
                     break;
                 case 4:
@@ -464,11 +467,12 @@ public class NodeInstantiator_minha : MonoBehaviour
                     break;
                 case 5:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
-                    punchGameObject.transform.rotation = Quaternion.Euler(0f, 0f, 270f);
+                    punchGameObject.transform.rotation = Quaternion.Euler(0f, 30f, 270f);
                     Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
                     break;
                 case 6:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
+                    punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
                     Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
                     break;
                 default:

@@ -60,7 +60,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         if (spriteRenderer != null) spriteRenderer.enabled = true;
 
         _rigidbody.WakeUp();
-        //this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
 
         dir = transform.position - targetPosition;

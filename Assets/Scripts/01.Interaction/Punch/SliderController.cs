@@ -91,7 +91,7 @@ public class SliderController : MonoBehaviour
         }
     }
 
-    private void UpdateHighestValue(float currentValue) 
+    private void UpdateHighestValue(float currentValue)
     {
         if (currentValue > highestValue)
         {
@@ -106,7 +106,7 @@ public class SliderController : MonoBehaviour
         {
             float normalizedHighestValue = highestValue / maxSliderAmount;
             float markerPositionX = normalizedHighestValue * SliderWidth;
-            Vector3 markerPosition = new Vector3(markerPositionX, 0,0);
+            Vector3 markerPosition = new Vector3(markerPositionX, 0, 0);
             highest_RectTransform.anchoredPosition3D = markerPosition;
         }
     }
@@ -124,7 +124,7 @@ public class SliderController : MonoBehaviour
     public void ResetHighest() // 게임 시작 시 초기화
     {
         highestValue = 0f;
-        highest_RectTransform.anchoredPosition3D = new Vector3(0,0,0);
+        highest_RectTransform.anchoredPosition3D = new Vector3(0, 0, 0);
     }
 
 

@@ -18,7 +18,7 @@ namespace UnityEngine.XR.Content.Interaction
         }
 
         [SerializeField] [Tooltip("The 'broken' version of this object.")]
-        GameObject m_BrokenVersion;
+        protected GameObject m_BrokenVersion;
 
         [SerializeField] [Tooltip("The tag a collider must have to cause this object to break.")]
         string m_ColliderTag = "Destroyer";
@@ -73,6 +73,7 @@ namespace UnityEngine.XR.Content.Interaction
 
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
             brokenVersion.GetComponent<BreakController>().IsHit(motion);
+            
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 GameManager.Score.ScoringPunch(this.gameObject, true);
@@ -120,7 +121,7 @@ namespace UnityEngine.XR.Content.Interaction
             }
         }
         
-        private void OnTriggerEnter(Collider other)
+        public virtual void OnTriggerEnter(Collider other)
         {
             //Debug.Log($"Motion Trigger 1 {other.transform.name}");
 #if UNITY_EDITOR

@@ -27,7 +27,7 @@ public class HittableMovement : MonoBehaviour
     private float distancePlayer = 3.5f;
     private GameObject _player;
     private BaseObject _baseObject;
-    private SkinnedMeshRenderer _meshRenderer;
+    private MeshRenderer _meshRenderer;
 
     //토핑이 움직이기 위한 변수
     private Rigidbody _rigidbody;
@@ -61,7 +61,7 @@ public class HittableMovement : MonoBehaviour
         _baseObject = GetComponent<BaseObject>();
         _rigidbody = GetComponent<Rigidbody>();
         _player = GameObject.FindWithTag("Player");
-        _meshRenderer = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+        _meshRenderer = transform.GetChild(0).GetComponent<MeshRenderer>();
     }
 
     /// <summary>
@@ -205,8 +205,8 @@ public class HittableMovement : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         CanInteractTopping();
-        Debug.Log("[DEBUGGING]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
-                  "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
+        // Debug.Log("[DEBUG][JMH]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
+        //           "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
 
         if (other.gameObject.CompareTag("Plane")) return;
 
@@ -214,7 +214,7 @@ public class HittableMovement : MonoBehaviour
         {
             // FOR DEBUG
             //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
-            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 현재 비트는 " + beatNum);
+            //Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 현재 비트는 " + beatNum);
             
             bool IsRight = false;
 
@@ -262,7 +262,6 @@ public class HittableMovement : MonoBehaviour
             // Debug.Log("[SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name + "와 충돌함. 따라서 " + IsRight);
             
             // Set Score & State
-            
             GameManager.Score.ScoringHit(this.gameObject, IsRight); 
             curState = toppingState.refrigerator;
         }
@@ -392,6 +391,8 @@ public class HittableMovement : MonoBehaviour
     private void OnEnable()
     {
         burstEffect.SetActive(false);
+        if (_meshRenderer == null)
+            _meshRenderer = transform.GetChild(0).GetComponent<MeshRenderer>();
         _meshRenderer.enabled = true;
     }
 
@@ -423,24 +424,26 @@ public class HittableMovement : MonoBehaviour
                 break;
 
             case toppingState.interacable:
-                // 중력의 영향을 받되, 천천히 떨어질 수 있도록 함
                 _rigidbody.useGravity = true;
-                //_rigidbody.AddForce(0, 0, +1.0f);
                 break;
 
             case toppingState.refrigerator:
-                if (!_isHitted)
+                if (this.gameObject.activeSelf == true &&!_isHitted && !_isNotHitted)
                 {
                     GoToRefrigerator();
+                    
                     if (this.gameObject.activeSelf == true)
                         StartCoroutine(ExplodeAfterSeconds(0.5f));
                     _isNotHitted = false;
                     _isHitted = true;
+                    //Debug.Log("[DEBUG][JMH] "+this.gameObject.name+" 맞았다 Check");
                 }
 
                 if (this.gameObject.activeSelf == true && _isNotHitted && !_goTo)
                 {
                     GoToRefrigerator();
+                    
+                    //Debug.Log("[DEBUG][JMH] 처리되지 못한 토핑 처리됨");
                     _goTo = true;
                 }
                 

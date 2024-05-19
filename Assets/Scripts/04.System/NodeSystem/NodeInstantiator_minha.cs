@@ -506,7 +506,7 @@ public class NodeInstantiator_minha : MonoBehaviour
             for (int i = 0; i < poolSize; i++)
             {
                 // 쿠키 프리팹 랜덤 생성 (타입 지정되지 않은 상태)
-                GameObject topping = cookiePrefabs[Random.Range(0, 3)];
+                GameObject topping = cookiePrefabs[Random.Range(0, 2)];
                 GameObject node = Instantiate(topping);
                 node.SetActive(false);
 

@@ -63,7 +63,8 @@ public class UIManager : MonoBehaviour
         {
             if (!floatingUI.activeInHierarchy)
             {
-                floatingUI.transform.position = setTransform.position;
+                Vector3 randomXYZ = new Vector3(UnityEngine.Random.value, UnityEngine.Random.value, 0.0f);
+                floatingUI.transform.position = setTransform.position + randomXYZ;
                 floatingUI.transform.rotation = setTransform.rotation;
                 floatingUI.GetComponent<TextMesh>().text= value.ToString();
                 floatingUI.SetActive(true);

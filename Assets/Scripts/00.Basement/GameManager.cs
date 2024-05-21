@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
-    
+
     [SerializeField] private TutorialPunchManager tutorialPunch = new TutorialPunchManager();
     public static TutorialPunchManager TutorialPunch { get { return Instance.tutorialPunch; } }
     
@@ -228,6 +228,7 @@ public class GameManager : MonoBehaviour
             _player.Init();
             _wave.Init();
             _score.Init();
+            _combo.Init();
             //_player.PlaySceneUIInit();
             //_sound.Init();
             //_ui.Init();

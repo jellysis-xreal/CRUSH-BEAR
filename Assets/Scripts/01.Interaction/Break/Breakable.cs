@@ -18,7 +18,7 @@ namespace UnityEngine.XR.Content.Interaction
         }
 
         [SerializeField] [Tooltip("The 'broken' version of this object.")]
-        protected GameObject m_BrokenVersion;
+        public GameObject m_BrokenVersion;
 
         [SerializeField] [Tooltip("The tag a collider must have to cause this object to break.")]
         string m_ColliderTag = "Destroyer";
@@ -73,7 +73,6 @@ namespace UnityEngine.XR.Content.Interaction
 
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
             brokenVersion.GetComponent<BreakController>().IsHit(motion);
-            
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 GameManager.Score.ScoringPunch(this.gameObject, true);
@@ -109,7 +108,7 @@ namespace UnityEngine.XR.Content.Interaction
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 GameManager.Score.ScoringPunch(this.gameObject, false);
-                // GameManager.Player.MinusPlayerLifeValue();
+                GameManager.Player.MinusPlayerLifeValue();
                 _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
@@ -138,7 +137,7 @@ namespace UnityEngine.XR.Content.Interaction
 
             if (other.CompareTag("Destroyer"))
             {
-                Debug.Log($"[Breakable] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
+                // Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
 
                 if (_childTriggerChecker.isTriggered)
                 {

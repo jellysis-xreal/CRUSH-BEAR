@@ -198,7 +198,7 @@ public class ScoreManager : MonoBehaviour
         //    return;
         //}
         //circleGaugeController = circleGaugeControllerObject.GetComponent<CircleGaugeController>();
-
+        Debug.Log("Scoring Punch");
         scoreType score;
         if (isPerpect) score = scoreType.Perfect;
         else
@@ -214,7 +214,7 @@ public class ScoreManager : MonoBehaviour
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ControllerSpeed + LHand.ControllerSpeed);
         float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed) + 1;
-        Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
+        // Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);
         circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
     }

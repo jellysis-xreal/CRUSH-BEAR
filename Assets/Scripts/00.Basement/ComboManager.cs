@@ -11,17 +11,19 @@ public class ComboManager : MonoBehaviour
     // 플레이어의 인터랙션 결과에 따라 콤보 시스템을 업데이트하는 스크립트 
     public int comboValue = 0;
     public float comboValueFever = 0f;
-    public float comboMultiflier = 0f;
+    public int comboMultiflier = 0;
     public Coroutine comboCoroutine = null;
-    public Slider comboSlider;
-    public TextMeshPro comboMultiflierTMP;
-    public TMP_Text comboMultiflierTMPd;
-    public TMP_Text comboValueTMP;
+    public Slider comboSliderPunch;
+    public Slider comboSliderHitting;
+    public TMP_Text comboMultiflierPunch;
+    public TMP_Text comboMultiflierHitting;
+    public TMP_Text comboValueTMPPunch;
+    public TMP_Text comboValueTMPHitting;
     
-    public void GameStart()
+    public void Init()
     {
-        comboCoroutine = StartCoroutine(ComboRoutine());
         InitComboUI();
+        comboCoroutine = StartCoroutine(ComboRoutine());
     }
     public void GamePause()
     {
@@ -42,55 +44,51 @@ public class ComboManager : MonoBehaviour
     }
     public void ActionSucceed()
     {
-        comboValueFever += 0.05f;
         comboValue += 1;
-        
-        if(comboValueFever > 1f) comboValueFever = 1f;
+        comboValueTMPPunch.text = $"{comboValue}";
+        comboValueTMPHitting.text = $"{comboValue}";
     }
     public void ActionFailed()
     {
-        comboValueFever -= 0.05f;
         comboValue = 0;
-        if(comboValueFever < 0f) comboValueFever = 0f;
+        comboValueTMPPunch.text = $"{comboValue}";
+        comboValueTMPHitting.text = $"{comboValue}";
     }
     public void ActionMissed()
     {
-        comboValueFever -= 0.05f;
         comboValue = 0;
-        if(comboValueFever < 0f) comboValueFever = 0f;
     }
-
-    public void SetComboMultiflier(float value)
-    {
-        /* comboMultiflier = 1f;
-        if (value > 0.8f) comboMultiflier = 8f;
-        else if (value > 0.6f) comboMultiflier = 4f;
-        else if (value > 0.4f) comboMultiflier = 2f;
-        else comboMultiflier = 1f;
-
-        comboMultiflierTMPd.text = $"x {comboMultiflier}"; */
-        //comboValueTMP.text = $"Combo {comboValue}";
-        comboValueTMP.text = comboValue.ToString();
-    }
-
     public void InitComboUI()
     {
         // comboValueFever = 0f;
         // comboSlider.value = comboValueFever;
-        comboMultiflier = 1f;
-        comboMultiflierTMPd.text = $"x {comboMultiflier}";
+        comboMultiflier = 1;
+        comboMultiflierPunch.text = $"x {comboMultiflier}";
+        comboMultiflierHitting.text = $"x {comboMultiflier}";
     }
     IEnumerator ComboRoutine()
     {
-        float waitSecond = 0.1f;
+        Debug.Log("Combo Routine " + comboMultiflier);
+
+        float waitSecond = 0.5f;
         while (true)
         {
-            // comboValueFever -= Time.fixedDeltaTime * 0.5f;
-            // if(comboValueFever < 0f) comboValueFever = 0f;
-            // comboSlider.value = comboValueFever;
-            SetComboMultiflier(comboValueFever);
-            // Debug.Log($"update combo {comboValueFever} deltaTime {Time.deltaTime}");
-
+            comboMultiflier = comboValue / 10;
+            if (comboMultiflier > 3) comboMultiflier = 3;
+            if (comboMultiflier == 0)
+            {
+                comboMultiflierPunch.text = $"x1"; 
+                comboMultiflierHitting.text = $"x1"; 
+                comboSliderPunch.value = 1;
+                comboSliderHitting.value = 1;
+            }
+            else
+            {
+                comboMultiflierPunch.text = $"x{comboMultiflier + 1}";
+                comboMultiflierHitting.text = $"x{comboMultiflier + 1}";
+                comboSliderPunch.value = comboMultiflier + 1;
+                comboSliderHitting.value = comboMultiflier + 1;
+            }
             yield return new WaitForSeconds(waitSecond);
         }
     }

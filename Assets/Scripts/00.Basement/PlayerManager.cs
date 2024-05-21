@@ -122,8 +122,10 @@ public class PlayerManager : MonoBehaviour
             HeartGameObjects[i].hearts[playerLifeValue - 1].sprite = newHeartSprite;
 
             // 파티클 효과 위치 설정 및 재생
-            minusPrefab.transform.position = HeartGameObjects[(int)GameManager.Wave.currentWave].hearts[playerLifeValue - 1].transform.position;
-            minusPrefab.Play();
+            ParticleSystem ps = Instantiate(minusPrefab);
+            Debug.Log($"{(int)GameManager.Wave.currentWave}, {playerLifeValue - 1}");
+            ps.transform.position = HeartGameObjects[(int)GameManager.Wave.currentWave].hearts[playerLifeValue - 1].transform.position;
+            ps.Play();
             /*
             HeartGameObjects[i].hearts[playerLifeValue - 1].GetComponent<MeshRenderer>().material.color = Color.black;
             minusPrefab.transform.position = HeartGameObjects[(int)GameManager.Wave.currentWave].hearts[playerLifeValue - 1].transform.position;
@@ -136,16 +138,10 @@ public class PlayerManager : MonoBehaviour
     public void MinusPlayerLifeValue()
     {
         //  || GameManager.Wave.currenWaveNum <= 2 <- XMC용 튜토리얼
-        if (playerLifeValue == 0 || GameManager.Wave.currenWaveNum <= 2) return;
-        
-        /*for (int i = HeartGameObjects.Length - 1; i >= 0 ; i--)
-        {
-            HeartGameObjects[i].activeSelf
-        }*/
-        // 3 - 1 = 2 2번 인덱스 꺼야댐
+        if (playerLifeValue == 0) return;
+        // if (playerLifeValue == 0 || GameManager.Wave.currenWaveNum <= 2) return;
+
         SetHearts(playerLifeValue);
-        // HeartGameObjects[0].hearts[playerLifeValue - 1].GetComponent<MeshRenderer>().material.color = Color.gray;
-        // HeartGameObjects[playerLifeValue - 1].SetActive(false);
         playerLifeValue--;
          
         Debug.Log("Attack Success player HP -1");

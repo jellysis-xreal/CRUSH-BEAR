@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
 using UnityEngine.Serialization;
+using UnityEngine.U2D;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour
@@ -12,6 +15,7 @@ public class WaveManager : MonoBehaviour
     [Header("----+ Wave Setting +----")] 
     public uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
     public WaveType firstWaveType = WaveType.Punching;
+    public SpriteAtlas waveSpriteAtlas;
     
     [Header("----+ Wave Information +----")] 
     // [SerializeField] private uint currenWaveNum = 0; // Wave number
@@ -42,6 +46,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject nodeArrivalArea;
     [SerializeField] private GameObject nodeArrivalUI;
     [SerializeField] public GameObject[] timerCanvas;
+    [SerializeField] public GameObject[] waveUICanvas;
     private int countdownTime = 4;
     private TextMesh timer;
 
@@ -147,6 +152,8 @@ public class WaveManager : MonoBehaviour
         GameManager.Player.PlaySceneUIInit(TypeNum);
         
         // Wave indicator 세팅
+        waveUICanvas[TypeNum].GetComponent<Image>().sprite = waveSpriteAtlas.GetSprite("Wave_"+currenWaveNum.ToString());
+        
         if (indicatorController == null)
             indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
         indicatorController.SetWaveIndicator(currenWaveNum, beforeWave, currentWave);

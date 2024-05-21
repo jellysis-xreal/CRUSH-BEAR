@@ -13,6 +13,7 @@ public class WaveManager : MonoBehaviour
 {
     [FormerlySerializedAs("waveNum")]
     [Header("----+ Wave Setting +----")] 
+    public WaveDifficulty waveDifficulty = WaveDifficulty.Easy;
     public uint endWaveNum = 0; // 진행할 웨이브 전체 숫자.
     public WaveType firstWaveType = WaveType.Punching;
     public SpriteAtlas waveSpriteAtlas;
@@ -68,6 +69,12 @@ public class WaveManager : MonoBehaviour
         Pause,
         End
     }
+    
+    public enum WaveDifficulty
+    {
+        Easy,
+        Hard
+    }
 
     public void Init()
     {
@@ -90,6 +97,22 @@ public class WaveManager : MonoBehaviour
         nodeArrivalUI = transform.GetChild(2).gameObject;
 
         _IsManagerInit = true;
+        
+        // 난이도 설정
+        switch (waveDifficulty)
+        {
+            case WaveDifficulty.Easy:
+                currenWaveNum = 0;
+                endWaveNum = 2;
+                waveMusicGUID = 0;
+                break;
+            
+            case WaveDifficulty.Hard:
+                currenWaveNum = 2;
+                endWaveNum = 4;
+                waveMusicGUID = 2;
+                break;
+        }
     }
     
     public WaveType GetWaveType()
@@ -244,6 +267,7 @@ public class WaveManager : MonoBehaviour
 
         if (currenWaveNum > endWaveNum)
             return;
+        
         waveMusicGUID++;
         // 음악 세팅
         // waveMusicGUID = 1; // TODO: 임시로 GUID 1번으로 세팅

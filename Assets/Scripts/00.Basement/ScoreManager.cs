@@ -225,9 +225,9 @@ public class ScoreManager : MonoBehaviour
         scoreText_mesh[1].text = TotalScore.ToString();
         scoreText_mesh[2].text = TotalScore.ToString();
 
-        comboText[0].text = "COMBO\n" + GameManager.Combo.comboValue.ToString();
-        comboText[1].text = "COMBO\n" + GameManager.Combo.comboValue.ToString();
-        comboText[2].text = "COMBO\n" + GameManager.Combo.comboValue.ToString();
+        comboText[0].text = GameManager.Combo.comboValue.ToString();
+        comboText[1].text = GameManager.Combo.comboValue.ToString();
+        comboText[2].text = GameManager.Combo.comboValue.ToString();
     }
 
     private void AddScore(scoreType score)

@@ -69,7 +69,8 @@ public class ComboManager : MonoBehaviour
         else comboMultiflier = 1f;
 
         comboMultiflierTMPd.text = $"x {comboMultiflier}"; */
-        comboValueTMP.text = $"Combo {comboValue}";
+        //comboValueTMP.text = $"Combo {comboValue}";
+        comboValueTMP.text = comboValue.ToString();
     }
 
     public void InitComboUI()

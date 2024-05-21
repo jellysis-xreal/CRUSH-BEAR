@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21549852, g: 0.27394038, b: 0.16814694, a: 1}
+  m_IndirectSpecularColor: {r: 0.21550298, g: 0.27394462, b: 0.16814935, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -951,6 +951,11 @@ PrefabInstance:
     - target: {fileID: 2405695666893471419, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4356051692884835041, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4516383287528989789, guid: edd7cf9d19d624e43b5b202abab35608,
@@ -25681,6 +25686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endWaveNum: 3
   firstWaveType: 2
+  waveSpriteAtlas: {fileID: 0}
   currenWaveNum: 0
   currentWave: 2
   waveTime: 0
@@ -25704,6 +25710,7 @@ MonoBehaviour:
   - {fileID: 8864424539658092226}
   - {fileID: 515945452651710598}
   - {fileID: 833089347997082727}
+  waveUICanvas: []
   _toppingArea: []
   indicatorController: {fileID: 0}
 --- !u!23 &4043197196316881643

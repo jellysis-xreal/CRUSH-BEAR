@@ -306,8 +306,8 @@ public class NodeInstantiator_minha : MonoBehaviour
 
                     // Breakable 초기화
                     SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchableMovement);
+                    punchToppingPool[i].GetComponent<CookieControl>().Init();
                     // punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
-                   
                     break;
                 }
                     
@@ -329,6 +329,7 @@ public class NodeInstantiator_minha : MonoBehaviour
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
 
                 SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, movement);
+                punchToppingPool[i].GetComponent<CookieControl>().Init();
                 // punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
 
                 break;

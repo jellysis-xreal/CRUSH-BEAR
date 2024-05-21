@@ -123,7 +123,7 @@ public class PlayerManager : MonoBehaviour
 
             // 파티클 효과 위치 설정 및 재생
             ParticleSystem ps = Instantiate(minusPrefab);
-            Debug.Log($"{(int)GameManager.Wave.currentWave}, {playerLifeValue - 1}");
+            Debug.Log($"ps exist? {ps != null} {(int)GameManager.Wave.currentWave}, {playerLifeValue - 1}");
             ps.transform.position = HeartGameObjects[(int)GameManager.Wave.currentWave].hearts[playerLifeValue - 1].transform.position;
             ps.Play();
             /*

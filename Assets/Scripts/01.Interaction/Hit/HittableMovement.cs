@@ -244,25 +244,23 @@ public class HittableMovement : MonoBehaviour
 
         // Controller / Hand_R/L의 HandData에서
         // 속도 값 받아와서 Hit force로 사용함
-        // var parent = other.transform.parent.parent.parent;
-        // float hitForce = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed * 5.0f;
-        //
-        // // 충돌 지점 기준으로 날아가게
-        // Vector3 dir = other.contacts[0].normal.normalized + Vector3.up;
-        // Vector3 playerDir = (_player.transform.position - this.transform.position) + Vector3.up;
-        //
-        // float angle = Vector3.Angle(dir, playerDir);
-        // if (angle <= 40.0f)
-        //     _rigidbody.AddForce(dir * hitForce, ForceMode.Impulse);
-        // else
-        //     // 플레이어 앞쪽으로 날아가게
-        //     _rigidbody.AddForce(playerDir * hitForce, ForceMode.Impulse);
-        //
-        // _rigidbody.useGravity = true;
+        var parent = other.transform.parent.parent.parent;
+        float forceMagnitude = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed;
+        Debug.Log(forceMagnitude);
+        forceMagnitude = Mathf.Clamp(forceMagnitude, 4.0f, 8.0f);
+        
+        // // 충돌 지점 기준으로 날아가
+        Vector3 refrigeratorPosition = refrigerator.transform.position;
+        Vector3 directionToRefrigerator = (refrigeratorPosition - transform.position).normalized;
+        directionToRefrigerator.y += 0.3f;
+
+        // 계산한 방향으로 힘을 가합니다.
+        _rigidbody.useGravity = true;
+        _rigidbody.AddForce(directionToRefrigerator * forceMagnitude, ForceMode.Impulse);
 
         // For Debug
-        Debug.Log("[SWING][SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name +
-                  "와 충돌함. 따라서 " + IsRight);
+        //Debug.Log("[SWING][SCORE] " + this.transform.name + "의 Side는 " + sideType + ", " + other.transform.name +
+        //          "와 충돌함. 따라서 " + IsRight);
 
         // Set Score & State
         if (!Debugging) GameManager.Score.ScoringHit(this.gameObject, IsRight);

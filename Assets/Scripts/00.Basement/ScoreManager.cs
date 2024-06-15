@@ -213,10 +213,18 @@ public class ScoreManager : MonoBehaviour
         GameManager.Sound.PlayEffect_Punch();
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ControllerSpeed + LHand.ControllerSpeed);
-        float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed) + 1;
+        float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed);
         // Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);
-        circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
+
+        // 원형 슬라이더 값 설정
+        if (score == scoreType.Perfect)
+        {
+            circleGaugeController.SetPunchSliderSpeed(circleGaugeController.maxScaleAmount);
+        } else
+        {
+            circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
+        }
     }
 
     private void setTXT()
@@ -246,6 +254,8 @@ public class ScoreManager : MonoBehaviour
                 break;
             
             case scoreType.Bad:
+                //GameManager.Combo.ActionSucceed(); // [SYJ] 임시 게이지 테스트
+                //value = 50; // [SYJ] 임시 게이지 테스트
                 GameManager.Combo.ActionFailed(); // 목숨깎여야함
                 value = 0;
                 break;

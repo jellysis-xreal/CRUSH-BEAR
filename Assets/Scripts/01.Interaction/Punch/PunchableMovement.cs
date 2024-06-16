@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using DG.Tweening;
 using EnumTypes;
 using UnityEngine;
@@ -32,12 +33,13 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     private MeshRenderer _meshRenderer;
     public SpriteRenderer spriteRenderer; 
     private Breakable _breakable;
-
+    private CookieControl _cookieControl;
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _breakable = GetComponent<Breakable>();
         _meshRenderer = GetComponent<MeshRenderer>();
+        _cookieControl = GetComponent<CookieControl>();
     }
 
     public void StartMovement()
@@ -71,6 +73,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
             Debug.Log($"{beatNum}번째 노드 생성됨");
             yield return new WaitUntil(() => GameManager.Instance.Metronome.IsBeated());
             transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
+            // _cookieControl.Init();
         }
         else
             transform.position = dir;
@@ -98,8 +101,10 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 
     IEnumerator TriggerArrivalAreaEndInteraction()
     {
+        yield return new WaitForSeconds(0.05f);
+        transform.DOMoveZ(-2, 1);
+        // Debug.Log("trigger arrival");
         yield return new WaitForSeconds(1f);
-        Debug.Log("trigger arrival");
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
         else if(transform.childCount == 2)
@@ -107,6 +112,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             spriteRenderer.enabled = false;
         }
+
         _isArrivalAreaHit = false;
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;
@@ -154,6 +160,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         {
             // Debug.Log($"{currentBeat}번째 노드 생성됨");
             transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
+            _cookieControl.Init();
         }
     }
 

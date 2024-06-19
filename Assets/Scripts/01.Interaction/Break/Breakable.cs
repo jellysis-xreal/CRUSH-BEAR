@@ -47,16 +47,8 @@ namespace UnityEngine.XR.Content.Interaction
             if(_punchableMovement == null)
                 _punchableMovement = GetComponent<IPunchableMovement>();
 
-            //Debug.Log(_punchableMovement != null);
             _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
             correctMotion = _childTriggerChecker.handMotion;
-            
-            
-            // Debug.Log($"[Motion] {gameObject.name} {_childTriggerChecker.transform.name}");
-            /*if (_childTriggerChecker == null)
-            {
-                
-            }*/
             
             m_Destroyed = false;
         }
@@ -72,10 +64,13 @@ namespace UnityEngine.XR.Content.Interaction
             var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
 
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
+            
+            // TODO : 컨트롤러 속도로 전달
             brokenVersion.GetComponent<BreakController>().IsHit(motion);
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
-                GameManager.Score.ScoringPunch(this.gameObject, true);
+                
+                GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion);
                 _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
@@ -142,12 +137,12 @@ namespace UnityEngine.XR.Content.Interaction
                 if (_childTriggerChecker.isTriggered)
                 {
                     MotionSucceed(correctMotion);
-                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
+                    Debug.Log("Motion succeed! (child.isTriggered True!)");
                 }
                 else
                 {
-                    //Debug.Log("Motion Failed! (child.isTriggered True!)");
                     MotionFailed();
+                    Debug.Log("Motion Failed!");
                 }
                 /*else if(CheckAdditionalCondition())
                 {

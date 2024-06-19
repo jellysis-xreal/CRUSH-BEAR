@@ -17,30 +17,21 @@ public class CookieControl : MonoBehaviour
     {
         this.playerPosition = targetPosition;
     }
-    void Start()
-    {
-        stopDistance = 7f;
-        // 원래의 회전 값을 저장
-        originalRotation = transform.rotation;
-
-        // 객체를 360도 회전시키는 Tween을 시작
-        rotationTween = transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 360), 10f, RotateMode.FastBeyond360)
-            .SetLoops(-1, LoopType.Incremental)
-            .SetEase(Ease.Linear);
-    }
 
     public void Init()
     {
+        if(rotationTween != null) rotationTween.Kill();
+        
         stopDistance = 7f;
         // 원래의 회전 값을 저장
         originalRotation = transform.rotation;
 
         // 객체를 360도 회전시키는 Tween을 시작
-        rotationTween = transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 360), 10f, RotateMode.FastBeyond360)
-            .SetLoops(-1, LoopType.Incremental)
+        rotationTween = transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 360), 2f, RotateMode.FastBeyond360)
+            //.SetLoops(-1, LoopType.Incremental)
             .SetEase(Ease.Linear);
 
-        StartCoroutine(RotationRoutine());
+        // StartCoroutine(RotationRoutine());
     }
     IEnumerator RotationRoutine()
     {

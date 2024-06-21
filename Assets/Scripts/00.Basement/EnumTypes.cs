@@ -34,6 +34,7 @@ namespace EnumTypes
     {
         Perfect,
         Good,
+        Weak,
         Bad,
         Failed
     }

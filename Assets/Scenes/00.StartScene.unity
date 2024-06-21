@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21550298, g: 0.27394462, b: 0.16814935, a: 1}
+  m_IndirectSpecularColor: {r: 0.21549852, g: 0.27394038, b: 0.16814694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -953,6 +953,12 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4238132764207855061, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: Score_Weak_UI
+      value: 
+      objectReference: {fileID: 1524116189711889920, guid: 6eb4a6ca65b29864d92ffa31959d9566,
+        type: 3}
     - target: {fileID: 4356051692884835041, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
       propertyPath: m_IsActive
@@ -29467,6 +29473,7 @@ MonoBehaviour:
   LHand: {fileID: 0}
   Score_Perfect_UI: {fileID: 0}
   Score_Good_UI: {fileID: 0}
+  Score_Weak_UI: {fileID: 0}
   Score_Bad_UI: {fileID: 0}
   Score_Failed_UI: {fileID: 0}
   Score_Perfect_VFX: {fileID: 0}

@@ -12,6 +12,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Motion = EnumTypes.Motion;
 
 // Player의 Interaction event를 확인하고,
 // Perfect/Good/Bad의 점수를 판별합니다
@@ -40,6 +41,7 @@ public class ScoreManager : MonoBehaviour
     [Header("Prefab Setting")] 
     public GameObject Score_Perfect_UI;
     public GameObject Score_Good_UI;
+    public GameObject Score_Weak_UI;
     public GameObject Score_Bad_UI;
     public GameObject Score_Failed_UI;
     
@@ -181,33 +183,35 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
-    public void ScoringPunch(GameObject target, bool isPerpect)
+    public void ScoringPunch(GameObject target, bool isPerpect, EnumTypes.Motion motion = Motion.None)
     {
-        //GameObject sliderControllerObject = GameObject.Find("SliderController"); //
-        //if (sliderControllerObject == null)
-        //{
-        //    Debug.Log("sliderControllerObject == null");
-        //    return;
-        //}
-        //sliderController = sliderControllerObject.GetComponent<SliderController>();
-
-        //GameObject circleGaugeControllerObject = GameObject.Find("CircleGaugeController"); //
-        //if (circleGaugeControllerObject == null)
-        //{
-        //    Debug.Log("circleGaugeControllerObject == null");
-        //    return;
-        //}
-        //circleGaugeController = circleGaugeControllerObject.GetComponent<CircleGaugeController>();
-        Debug.Log("Scoring Punch");
-        scoreType score;
-        if (isPerpect) score = scoreType.Perfect;
+        scoreType score = scoreType.Bad;
+        
+        // 0 ~ 1 : Weak
+        // 1 ~ 2 : Good
+        // 2이상  : Perfect
+        if (isPerpect)
+        {
+            if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut)
+            {
+                if (LHand.ControllerSpeed < 1) score = scoreType.Weak;
+                else if (LHand.ControllerSpeed < 2) score = scoreType.Good;
+                else if (LHand.ControllerSpeed > 2) score = scoreType.Perfect;
+            }
+            else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut)
+            {
+                if (LHand.ControllerSpeed < 1) score = scoreType.Weak;
+                else if (LHand.ControllerSpeed < 2) score = scoreType.Good;
+                else if (LHand.ControllerSpeed > 2) score = scoreType.Perfect;
+            }
+        }
         else
         {
             score = scoreType.Bad;
             
             if(GameManager.Wave.currenWaveNum > 1) GameManager.Player.MinusPlayerLifeValue(); // 임시
         }
-
+        Debug.Log("Scoring Punch " + score);
         AddScore(score);
         SetScoreEffect(score, target.transform);
         GameManager.Sound.PlayEffect_Punch();
@@ -252,7 +256,10 @@ public class ScoreManager : MonoBehaviour
                 GameManager.Combo.ActionSucceed();
                 value= 50;
                 break;
-            
+            case scoreType.Weak:
+                GameManager.Combo.ActionSucceed();
+                value= 20;
+                break;
             case scoreType.Bad:
                 //GameManager.Combo.ActionSucceed(); // [SYJ] 임시 게이지 테스트
                 //value = 50; // [SYJ] 임시 게이지 테스트
@@ -314,7 +321,13 @@ public class ScoreManager : MonoBehaviour
                 GameManager.Player.ActiveRightHaptic(0.6f, 0.1f);
                 GameManager.Player.ActiveLeftHaptic(0.6f, 0.1f);
                 break;
+            
+            case scoreType.Weak:
+                GameManager.Player.ActiveRightHaptic(0.4f, 0.1f);
+                GameManager.Player.ActiveLeftHaptic(0.4f, 0.1f);
+                break;
 
+            
             case scoreType.Bad:
                 GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
                 GameManager.Player.DecreaseLeftHaptic(0.2f, 0.1f);
@@ -375,6 +388,9 @@ public class ScoreManager : MonoBehaviour
                 break;
             case scoreType.Good:
                 effect = Score_Good_UI;
+                break;
+            case scoreType.Weak:
+                effect = Score_Weak_UI;
                 break;
             case scoreType.Bad:
                 effect = Score_Bad_UI;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
@@ -27,15 +28,12 @@ public class HandData : MonoBehaviour
     public Vector3 ControllerVector;
     
     private Vector3 beforePos;
-    
-    
-    void Start()
+
+    private void Awake()
     {
         Controller = transform.parent.gameObject;
-        //AttachNoGrab = Controller.GetComponent<AttachHandNoGrab>();
         ControllerInput = GetComponent<AnimateHandOnInput>().grabAnimationAction;
     }
-
     private void Update()
     {
         updateControllerSpeed();

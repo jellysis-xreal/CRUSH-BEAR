@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class ComboManager : MonoBehaviour
 {
     // 플레이어의 인터랙션 결과에 따라 콤보 시스템을 업데이트하는 스크립트 
-    public int comboValue = 0;
+    public int comboValue = 0; // 현재 콤보
+    public int comboPercent = 0;
     public float comboValueFever = 0f;
     public int comboMultiflier = 0;
     public Coroutine comboCoroutine = null;
@@ -38,7 +39,7 @@ public class ComboManager : MonoBehaviour
         if (comboCoroutine != null)
         {
             StopCoroutine(comboCoroutine);
-            InitComboUI();
+            InitComboUI(); // 초기화
         }
         else Debug.Log("Coroutine is null");
     }
@@ -74,21 +75,34 @@ public class ComboManager : MonoBehaviour
         while (true)
         {
             comboMultiflier = comboValue / 10;
-            if (comboMultiflier > 3) comboMultiflier = 3;
+            //comboPercent = comboValue % 10;
+            if (comboMultiflier > 3)
+            {
+                comboMultiflier = 3;
+                comboPercent = 9;
+            }
+            else
+            {
+                comboPercent = comboValue % 10;
+            }
+
             if (comboMultiflier == 0)
             {
                 comboMultiflierPunch.text = $"x1"; 
-                comboMultiflierHitting.text = $"x1"; 
-                comboSliderPunch.value = 1;
-                comboSliderHitting.value = 1;
+                comboMultiflierHitting.text = $"x1";
+                //comboSliderPunch.value = 1;
+                //comboSliderHitting.value = 1;
             }
             else
             {
                 comboMultiflierPunch.text = $"x{comboMultiflier + 1}";
                 comboMultiflierHitting.text = $"x{comboMultiflier + 1}";
-                comboSliderPunch.value = comboMultiflier + 1;
-                comboSliderHitting.value = comboMultiflier + 1;
+                //comboSliderPunch.value = comboMultiflier + 1;
+                //comboSliderHitting.value = comboMultiflier + 1;
             }
+            comboSliderPunch.value = comboPercent;
+            comboSliderHitting.value = comboPercent;
+
             yield return new WaitForSeconds(waitSecond);
         }
     }

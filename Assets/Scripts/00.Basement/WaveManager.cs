@@ -59,6 +59,10 @@ public class WaveManager : MonoBehaviour
     public IndicatorController indicatorController;
     private bool _isPause = false;
     private bool _IsManagerInit = false;
+    
+    // controller speed setting을 위함
+    private float _curSettingTime = 0.0f;
+    private float _settingTime = 10.0f;
 
     // wave 전환을 위한 변수
     public enum WaveState
@@ -96,8 +100,6 @@ public class WaveManager : MonoBehaviour
         // Topping이 이동하는 Arrival UI 초기화. **Hierarchy 주의**
         nodeArrivalUI = transform.GetChild(2).gameObject;
 
-        _IsManagerInit = true;
-        
         // 난이도 설정
         switch (waveDifficulty)
         {
@@ -204,7 +206,15 @@ public class WaveManager : MonoBehaviour
     // Fixedupdate -> 프레임
     private void Update() // 프레임에 의존적
     {
-        // Debug.Log("Time scale" +Time.timeScale);
+        if (_curSettingTime < _settingTime)
+        {
+            _curSettingTime += Time.deltaTime;
+        }
+        else if (!_IsManagerInit)
+        {
+            _IsManagerInit = true;
+        }
+
         // 현재 Wave manager가 작동하는 상황이라면, Wave State를 업데이트 합니다.
         if (GameManager.Instance.currentGameState == GameState.Waving && _IsManagerInit)
         {

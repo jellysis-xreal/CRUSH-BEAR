@@ -94,7 +94,7 @@ public class ScoreManager : MonoBehaviour
         
         target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
-        SetScoreEffect(score, target.transform);
+        SetScoreEffect(score, target.transform.position);
         
         //Debug.Log(target.name + "의 점수는 " + score);
     }
@@ -140,9 +140,21 @@ public class ScoreManager : MonoBehaviour
     public void ScoringMiss(GameObject target)
     {
         scoreType score = scoreType.Miss;
-        
         AddScore(score);
-        SetScoreEffect(score, target.transform);   
+        
+        if (player == null)
+            player = GameObject.FindWithTag("Player");
+        
+        // 플레이어의 위치와 방향을 가져옵니다.
+        Vector3 playerPosition = player.transform.position;
+        Vector3 playerDirection = player.transform.forward;
+        
+        Vector3 rightDirection = Quaternion.Euler(0, 90, 0) * playerDirection;
+        
+        float distance = 2.0f; 
+        Vector3 targetPosition = playerPosition + rightDirection * distance;
+        
+        SetScoreEffect(score, targetPosition);   
     }
     
     public void ScoringHit(GameObject target, bool IsRightSide)
@@ -167,7 +179,7 @@ public class ScoreManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
             AddScore(score);
-            SetScoreEffect(score, target.transform);    
+            SetScoreEffect(score, target.transform.position);    
         }
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
@@ -193,7 +205,7 @@ public class ScoreManager : MonoBehaviour
         }
         Debug.Log("Scoring Punch " + score);
         AddScore(score);
-        SetScoreEffect(score, target.transform);
+        SetScoreEffect(score, target.transform.position);
         GameManager.Sound.PlayEffect_Punch();
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
@@ -261,7 +273,7 @@ public class ScoreManager : MonoBehaviour
         GameManager.UI.RequestFloatingUI(value);
     }
 
-    private void SetScoreEffect(scoreType score, Transform effectPos)
+    private void SetScoreEffect(scoreType score, Vector3 effectPos)
     {
         GameObject effect;
         
@@ -274,7 +286,7 @@ public class ScoreManager : MonoBehaviour
             effect = CreateNewEffect(score);
             effectPool.Add(effect);
         }
-        effect.transform.position = effectPos.position;
+        effect.transform.position = effectPos;
         effect.SetActive(true);
         StartCoroutine(DisableAfterSeconds(effect, 1.0f));
 

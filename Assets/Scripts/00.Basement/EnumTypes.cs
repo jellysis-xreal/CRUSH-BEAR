@@ -73,6 +73,6 @@ namespace EnumTypes
     }
     public enum Motion
     {
-        LeftZap, RightZap, LeftHook, RightHook, LeftUpperCut, RightUpperCut, None
+        LeftZap, RightZap, LeftHook, RightHook, LeftUpperCut, RightUpperCut, LeftLowerCut, RightLowerCut, None
     }
 }

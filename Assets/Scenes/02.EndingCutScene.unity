@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.49103916, g: 0.4023781, b: 0.74797845, a: 1}
+  m_IndirectSpecularColor: {r: 0.49128014, g: 0.4028442, b: 0.7481048, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3154,11 +3154,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1549882252580415758, guid: e4d3c508bd7d4f145acd823869941171,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e20209d8de855344c959b22153122755, type: 2}
     - target: {fileID: 5351675954120094299, guid: e4d3c508bd7d4f145acd823869941171,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3214,18 +3209,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Break_squareCookie
       objectReference: {fileID: 0}
-    - target: {fileID: 7064904311140301579, guid: e4d3c508bd7d4f145acd823869941171,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9049527943639675407, guid: e4d3c508bd7d4f145acd823869941171,
-        type: 3}
-      propertyPath: m_Destroyed
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8237542127231973106, guid: e4d3c508bd7d4f145acd823869941171, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -18458,6 +18442,9 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
+  maxSpeed: 0
+  perfectThresholdSpeed: 0
+  goodThresholdSpeed: 0
   ControllerType: 0
   ControllerSpeed: 0
   ControllerVector: {x: 0, y: 0, z: 0}
@@ -22215,6 +22202,9 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
+  maxSpeed: 0
+  perfectThresholdSpeed: 0
+  goodThresholdSpeed: 0
   ControllerType: 0
   ControllerSpeed: 0
   ControllerVector: {x: 0, y: 0, z: 0}

@@ -212,6 +212,7 @@ public class WaveManager : MonoBehaviour
         }
         else if (!_IsManagerInit)
         {
+            GameObject.FindWithTag("SettingUI").SetActive(false);
             _IsManagerInit = true;
         }
 

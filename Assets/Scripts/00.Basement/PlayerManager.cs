@@ -142,6 +142,7 @@ public class PlayerManager : MonoBehaviour
         // if (playerLifeValue == 0 || GameManager.Wave.currenWaveNum <= 2) return;
 
         SetHearts(playerLifeValue);
+        
         playerLifeValue--;
          
         Debug.Log("Attack Success player HP -1");

@@ -88,71 +88,15 @@ public class ScoreManager : MonoBehaviour
     }
 
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
-    // [240622] 해당 인터렉션 방법 사용하지 않고 있음
-    public void Scoring(GameObject target)
+    public void Scoring(GameObject target, scoreType score)
     {
         if (target.GetComponent<BaseObject>().IsItScored()) return; // Object의 중복 scoring을 방지한다.
-
-        InteractionType targetType = target.GetComponent<BaseObject>().InteractionType;
-        scoreType score;
-
-        switch (targetType)
-        {
-            case InteractionType.Break:
-                if (targetType == RHand.ControllerType)
-                {
-                    if (RHand.ControllerSpeed > standardSpeed)
-                        score = scoreType.Perfect;
-                    else
-                        score = scoreType.Good;
-                }
-                else if (targetType == LHand.ControllerType)
-                {
-                    if (LHand.ControllerSpeed > standardSpeed)
-                        score = scoreType.Perfect;
-                    else
-                        score = scoreType.Good;
-                }
-                else
-                {
-                    score = scoreType.Bad;
-                    // TODO: player 몸에 붙게 처리 + 목숨 -1
-                    Destroy(target, 0.5f);
-                }
-
-                break;
-
-            case InteractionType.Tear:
-                if (RHand.ControllerType == InteractionType.Tear && LHand.ControllerType == InteractionType.Tear)
-                {
-                    if (RHand.ControllerSpeed > standardSpeed || LHand.ControllerSpeed > standardSpeed)
-                        score = scoreType.Perfect;
-                    else
-                        score = scoreType.Good;
-                }
-                else
-                {
-                    score = scoreType.Bad;
-                    // TODO: player 몸에 붙게 처리 + 목숨 -1
-                    Destroy(target, 0.5f);
-                }
-                break;
-
-            default:
-            {
-                score = scoreType.Bad;
-                // TODO: player 몸에 붙게 처리 + 목숨 -1
-                Destroy(target, 0.5f);
-                break;
-            }
-                
-        }
-
+        
         target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
         SetScoreEffect(score, target.transform);
         
-        Debug.Log(target.name + "의 점수는 " + score);
+        //Debug.Log(target.name + "의 점수는 " + score);
     }
 
     private scoreType ScoreByControllerSpeed(uint targetHand)
@@ -192,6 +136,14 @@ public class ScoreManager : MonoBehaviour
 
         return resultScore;
     }
+
+    public void ScoringMiss(GameObject target)
+    {
+        scoreType score = scoreType.Miss;
+        
+        AddScore(score);
+        SetScoreEffect(score, target.transform);   
+    }
     
     public void ScoringHit(GameObject target, bool IsRightSide)
     {
@@ -217,7 +169,7 @@ public class ScoreManager : MonoBehaviour
             AddScore(score);
             SetScoreEffect(score, target.transform);    
         }
-        Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
+        //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
     public void ScoringPunch(GameObject target, bool isPerpect, EnumTypes.Motion motion = Motion.None)

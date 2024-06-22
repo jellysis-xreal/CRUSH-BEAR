@@ -278,7 +278,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         {
             // 플레이어 공격 성공 처리
             jumpTween.Kill();
-            GameManager.Player.MinusPlayerLifeValue();
+            //GameManager.Player.MinusPlayerLifeValue();
             gameObject.SetActive(false);
         }
         if (other.CompareTag("TriggerPad"))
@@ -286,7 +286,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
             // 뒤에 존재하는 곰돌이 공격 성공 처리
             Debug.Log($"{gameObject.name} Trigger Pad");
             jumpTween.Kill();
-            GameManager.Player.MinusPlayerLifeValue();
+            //GameManager.Player.MinusPlayerLifeValue();
             other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
             this.enabled = false;
             // gameObject.SetActive(false);

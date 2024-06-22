@@ -46,8 +46,8 @@ public class HandData : MonoBehaviour
     private void Update()
     {
         if (_currentSettingTime < settingTime)
-        {
-            Debug.Log($"[JMH][HandData] SettingTime: {_currentSettingTime}");
+        { 
+            //Debug.Log($"[JMH][HandData] SettingTime: {_currentSettingTime}");
             QueueControllerSpeed();
             _currentSettingTime += Time.deltaTime;
         }
@@ -114,6 +114,12 @@ public class HandData : MonoBehaviour
         }
         maxSpeed /= 10;
         
+        // Player가 제대로 흔들지 못했을 경우, 진행을 위한 속도 설정
+        if (maxSpeed < 1.0f)
+        {
+            maxSpeed = 3.2f;
+        }
+
         perfectThresholdSpeed = maxSpeed * 0.6f;
         goodThresholdSpeed = maxSpeed * 0.2f;
             

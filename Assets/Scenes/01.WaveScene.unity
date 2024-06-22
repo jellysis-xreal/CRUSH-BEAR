@@ -3242,7 +3242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &666396497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10287,6 +10287,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1285368795033935065, guid: e2d876d86b59b0241b1eba0907084e2e,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
+    - target: {fileID: 1285368795033935065, guid: e2d876d86b59b0241b1eba0907084e2e,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1285368795033935065, guid: e2d876d86b59b0241b1eba0907084e2e,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1817109246639923345, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
       propertyPath: m_Pivot.x

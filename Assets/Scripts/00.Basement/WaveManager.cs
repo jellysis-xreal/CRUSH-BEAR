@@ -49,7 +49,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] public GameObject[] timerCanvas;
     [SerializeField] public GameObject[] waveUICanvas;
     private int countdownTime = 4;
-    private TextMesh timer;
+    private TextToImage timer;
 
     // 기획에 따른 변수
     private int waveTypeNum = 3; // Wave Type 종류의 갯수
@@ -71,7 +71,8 @@ public class WaveManager : MonoBehaviour
         Waiting,    //잠시 대기 중
         Playing,     //Wave 진행 중
         Pause,
-        End
+        End,
+        CheckResult
     }
     
     public enum WaveDifficulty
@@ -161,6 +162,20 @@ public class WaveManager : MonoBehaviour
         //[XMC]Debug.Log($"TypeNum : {TypeNum}");
         GameManager.Player.RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
         GameManager.Player.LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
+    }
+
+    public void SetWavePlayer(WaveType type)
+    {
+        GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
+        GameManager.Player.RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
+        GameManager.Player.RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
+
+        GameManager.Player.LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
+        GameManager.Player.LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
+        GameManager.Player.LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        
+        GameManager.Player.RightInteraction.transform.GetChild((int)type).gameObject.SetActive(true);
+        GameManager.Player.LeftInteraction.transform.GetChild((int)type).gameObject.SetActive(true);
     }
 
     private void SetWavePlay()
@@ -355,27 +370,29 @@ public class WaveManager : MonoBehaviour
     {
         //[XMC]Debug.Log($"[Wave] State : Waiting -> Playing Wait {sec}s. (이제 Wave 시작한다? 세팅 후에 게임 시작 전 대기 시간을 가짐. 플레이어 준비 시간.) ");
 
-                // CMS: Count down starts
+        // CMS: Count down starts
         // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여2
+        GameManager.Score.setTXT();
         int idx = (int)currentWave;
         countdownTime = sec;
 
         timerCanvas[idx].SetActive(true);
+        timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMesh>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
 
         while(countdownTime > 0)
         {
             GameManager.Sound.PlayEffect_Countdown(countdownTime, true);
             if (countdownTime == 1)
             {
-                timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
+                timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(false) ; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
                 
             }
             else
             {
-                timer.text = (countdownTime - 1).ToString();
+                timer.ChangeTextToImage(countdownTime - 1);
             }
             yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
@@ -393,15 +410,25 @@ public class WaveManager : MonoBehaviour
         //[XMC]Debug.Log($"[Wave] State : Playing -> Waiting Wait {sec}s. (이제 Wave 끝났다? 다음 Wave 시작 전 혹은 게임 종료 전 대기 시간) ");
 
         GameManager.Instance.Metronome.SetGameEnd();
+        
+        // 게임 종료 시, Wave 종료 UI 호출
+        if (currenWaveNum + 1 > endWaveNum)
+        {
+            SetResultUI();
+            waveState = WaveState.CheckResult;
+            yield return null;
+        }
+
         // CMS: Count down starts
         // CMS TODO: 이거 WaitBefore After 합쳐도 되면 중복이라 합치고 싶은데 확인 부탁드려여2
         int idx = (int)currentWave;
         countdownTime = sec;
 
         timerCanvas[idx].SetActive(true);
+        timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMesh>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
 
         while(countdownTime > 0)
         {
@@ -412,13 +439,12 @@ public class WaveManager : MonoBehaviour
             {
                 //timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
             }
-            else timer.text = (countdownTime - 1).ToString();
+            else timer.ChangeTextToImage(countdownTime - 1);
             yield return new WaitForSecondsRealtime(0f); // TODO: 임시로... 240216 JMH
             countdownTime--;
         }
         timerCanvas[idx].SetActive(false);
         // CMS: Count down ends
-
 
         CallContinueSetting(waveState);
         _waitAfterPlayingCoroutine = null;
@@ -459,9 +485,20 @@ public class WaveManager : MonoBehaviour
         // 모든 웨이브가 종료되었을 때 호출.
         currentState = WaveState.End;
         Debug.Log("[WAVE] 게임 종료!");
-
-        GameManager.Instance.WaveToEnding();
         nodeInstantiator.FinishAllWaveNode();
+        GameManager.Instance.WaveToEnding();
+    }
+    
+    private void SetResultUI()
+    {
+        // 결과 저장
+        // 결과 UI 호출
+        SetWavePlayer(WaveType.Punching); // Player 주먹으로 변경
+        
+        UI_Results result = GameObject.FindWithTag("ResultUI").GetComponent<UI_Results>();
+        result.SettingValues(GameManager.Score.TotalScore, GameManager.Player.playerLifeValue, currenWaveNum-1);
+        result.ShowResults();
+        //DontDestroyOnLoad(result);
     }
     
     public void SetIsPause(bool pause)
@@ -482,14 +519,15 @@ public class WaveManager : MonoBehaviour
         //[XMC]Debug.Log("[Wave] : Countdown To Start");
         int idx = (int)currentWave;
         timerCanvas[idx].SetActive(true);
+        timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMesh>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
 
         while(countdownTime > 0)
         {   
-            if (countdownTime == 1) {timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);}
-            else timer.text = (countdownTime - 1).ToString();
+            if (countdownTime == 1) { timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(false); timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);}
+            else timer.ChangeTextToImage(countdownTime - 1);
             yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
         }

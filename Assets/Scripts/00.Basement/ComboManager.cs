@@ -16,10 +16,9 @@ public class ComboManager : MonoBehaviour
     public Coroutine comboCoroutine = null;
     public Slider comboSliderPunch;
     public Slider comboSliderHitting;
-    public TMP_Text comboMultiflierPunch;
-    public TMP_Text comboMultiflierHitting;
-    public TMP_Text comboValueTMPPunch;
-    public TMP_Text comboValueTMPHitting;
+    public Transform[] comboMultiflierTransform;
+    private ComboText comboMultiflierPunch, comboMultiflierHitting;
+
     
     public void Init()
     {
@@ -46,14 +45,10 @@ public class ComboManager : MonoBehaviour
     public void ActionSucceed()
     {
         comboValue += 1;
-        comboValueTMPPunch.text = $"{comboValue}";
-        comboValueTMPHitting.text = $"{comboValue}";
     }
     public void ActionFailed()
     {
         comboValue = 0;
-        comboValueTMPPunch.text = $"{comboValue}";
-        comboValueTMPHitting.text = $"{comboValue}";
     }
     public void ActionMissed()
     {
@@ -63,9 +58,11 @@ public class ComboManager : MonoBehaviour
     {
         // comboValueFever = 0f;
         // comboSlider.value = comboValueFever;
+        comboMultiflierPunch = comboMultiflierTransform[0].GetComponent<ComboText>();
+        comboMultiflierHitting = comboMultiflierTransform[1].GetComponent<ComboText>();
         comboMultiflier = 1;
-        comboMultiflierPunch.text = $"x {comboMultiflier}";
-        comboMultiflierHitting.text = $"x {comboMultiflier}";
+        comboMultiflierPunch.ChangeTextToImage(comboMultiflier);
+        comboMultiflierHitting.ChangeTextToImage(comboMultiflier);
     }
     IEnumerator ComboRoutine()
     {
@@ -88,17 +85,16 @@ public class ComboManager : MonoBehaviour
 
             if (comboMultiflier == 0)
             {
-                comboMultiflierPunch.text = $"x1"; 
-                comboMultiflierHitting.text = $"x1";
-                //comboSliderPunch.value = 1;
-                //comboSliderHitting.value = 1;
+                comboMultiflierPunch.ChangeTextToImage(comboMultiflier + 1);
+                comboMultiflierHitting.ChangeTextToImage(comboMultiflier + 1);
+                comboSliderHitting.value = 1;
             }
             else
             {
-                comboMultiflierPunch.text = $"x{comboMultiflier + 1}";
-                comboMultiflierHitting.text = $"x{comboMultiflier + 1}";
-                //comboSliderPunch.value = comboMultiflier + 1;
-                //comboSliderHitting.value = comboMultiflier + 1;
+                comboMultiflierPunch.ChangeTextToImage(comboMultiflier + 1);
+                comboMultiflierHitting.ChangeTextToImage(comboMultiflier + 1);
+                comboSliderPunch.value = comboMultiflier + 1;
+                comboSliderHitting.value = comboMultiflier + 1;
             }
             comboSliderPunch.value = comboPercent;
             comboSliderHitting.value = comboPercent;

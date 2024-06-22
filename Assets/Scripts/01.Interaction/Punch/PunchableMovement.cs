@@ -112,8 +112,8 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             spriteRenderer.enabled = false;
         }
-
-        _isArrivalAreaHit = false;
+        if(!_breakable.m_Destroyed) GameManager.Score.ScoringMiss(this.gameObject);
+        
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
@@ -131,24 +131,12 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("ArrivalArea"))
+        if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
-            // Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
+            Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
             // StartCoroutine(TriggeredMovement());
-        }
-        if (other.CompareTag("TriggerPad"))
-        {
-            // 뒤에 존재하는 곰돌이 공격 성공 처리
-            // Debug.Log($"{gameObject.name} Trigger Pad");
-            //Debug.Log($"End Interaction {gameObject.name} Trigger Trigger Pad {other.name}");
-
-            _isArrivalAreaHit = true;
-            StartCoroutine(TriggerArrivalAreaEndInteraction());
-            // StartCoroutine(TriggeredMovement());
-            // GameManager.Player.MinusPlayerLifeValue();
-            // other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
         }
     }
 

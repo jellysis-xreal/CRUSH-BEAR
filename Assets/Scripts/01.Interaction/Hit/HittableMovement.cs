@@ -20,7 +20,7 @@ public class HittableMovement : MonoBehaviour
     private float moveTime = 3.3f; // 토핑의 이동 속도를 결정함
     private float popTime = 0.1f; // 토핑의 점프 시간을 결정함
     public GameObject burstEffect;
-    public bool Debugging = false;
+    private bool Debugging = false;
     
     [Header("other Variable (AUTO)")] 
     [SerializeField] private GameObject refrigerator;
@@ -218,10 +218,10 @@ public class HittableMovement : MonoBehaviour
             if (!IsInteractable()) return;
             if (curState != toppingState.interacable) return;
         }
+        
+        // FOR DEBUG
         // Debug.Log("[DEBUG][JMH]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
         //           "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
-        // FOR DEBUG
-
         //Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 " + GameManager.Wave.waveTime + ", 현재 비트는 " + beatNum);
 
         bool IsRight = false;
@@ -230,20 +230,13 @@ public class HittableMovement : MonoBehaviour
         if (!other.transform.TryGetComponent(out Rigidbody body))
             return;
 
-        //DOTween.KillAll();
-
         // hitter의 side 색과 일치한 topping일 경우
         InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
 
         // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
         IsRight = IsRightJudgment(other, colSide);
-        //if (IsRight)
-            //Debug.Log("[DEBUG] 맞아요");
-        //else
-            //Debug.Log("[DEBUG] 아니군요");
 
-        // Controller / Hand_R/L의 HandData에서
-        // 속도 값 받아와서 Hit force로 사용함
+        // Controller / Hand_R/L의 HandData에서 속도 값 받아와서 Hit force로 사용함
         var parent = other.transform.parent.parent.parent;
         float forceMagnitude = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed;
         Debug.Log(forceMagnitude);
@@ -264,6 +257,7 @@ public class HittableMovement : MonoBehaviour
 
         // Set Score & State
         if (!Debugging) GameManager.Score.ScoringHit(this.gameObject, IsRight);
+        _baseObject.SetScoreBool();
         curState = toppingState.refrigerator;
     }
 
@@ -401,7 +395,7 @@ public class HittableMovement : MonoBehaviour
             case toppingState.idle:
                 if (beatNum == beat + shootStandard)
                 {
-                    Debug.Log(beatNum + "번 노드 날아감");
+                    //Debug.Log(beatNum + "번 노드 날아감");
                     curState = toppingState.uninteracable;
                     MoveToPlayer();
                     _isMoved = true;
@@ -439,9 +433,10 @@ public class HittableMovement : MonoBehaviour
 
                 if (this.gameObject.activeSelf == true && _isNotHitted && !_goTo)
                 {
+                    //Debug.Log("[DEBUG][JMH] 처리되지 못한 토핑 처리됨");
+                    if (!_baseObject.IsItScored()) GameManager.Score.ScoringMiss(this.gameObject);
                     GoToRefrigerator();
                     
-                    //Debug.Log("[DEBUG][JMH] 처리되지 못한 토핑 처리됨");
                     _goTo = true;
                 }
                 

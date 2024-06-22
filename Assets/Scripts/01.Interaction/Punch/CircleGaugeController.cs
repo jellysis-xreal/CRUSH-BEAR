@@ -9,7 +9,7 @@ public class CircleGaugeController : MonoBehaviour
     //public Transform circleTransform; // Circle Sprite의 Transform
     public TextMeshProUGUI sliderText;
 
-    private float maxScaleAmount = 6.7f; // 최대 Width/Height
+    public float maxScaleAmount = 14.0f; // 최대 Width/Height
     private float minScaleAmount = 0.0f; // 최소 Width/Height
     //private float maxScaleAmount = 7.0f; // 최대 스케일
     //private float minScaleAmount = 1.0f; // 최소 스케일

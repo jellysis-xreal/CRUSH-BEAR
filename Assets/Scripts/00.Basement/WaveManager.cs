@@ -459,9 +459,22 @@ public class WaveManager : MonoBehaviour
         // 모든 웨이브가 종료되었을 때 호출.
         currentState = WaveState.End;
         Debug.Log("[WAVE] 게임 종료!");
-
-        GameManager.Instance.WaveToEnding();
         nodeInstantiator.FinishAllWaveNode();
+        
+        // 게임 종료 시, Wave 종료 UI 호출
+        SetResultUI();
+        
+        GameManager.Instance.WaveToEnding();
+    }
+    
+    private void SetResultUI()
+    {
+        // 결과 저장
+        // 결과 UI 호출
+        UI_Results result = GameObject.FindWithTag("ResultUI").GetComponent<UI_Results>();
+        result.SettingValues(GameManager.Score.TotalScore, GameManager.Player.playerLifeValue, currenWaveNum-1);
+        result.ShowResults();
+        DontDestroyOnLoad(result);
     }
     
     public void SetIsPause(bool pause)

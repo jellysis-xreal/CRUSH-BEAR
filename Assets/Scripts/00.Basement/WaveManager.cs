@@ -62,7 +62,7 @@ public class WaveManager : MonoBehaviour
     
     // controller speed setting을 위함
     private float _curSettingTime = 0.0f;
-    private float _settingTime = 10.0f;
+    private float _settingTime = 5.0f;
 
     // wave 전환을 위한 변수
     public enum WaveState
@@ -206,6 +206,9 @@ public class WaveManager : MonoBehaviour
     // Fixedupdate -> 프레임
     private void Update() // 프레임에 의존적
     {
+        if (GameManager.Instance.currentGameState != GameState.Waving)
+            return;
+        
         if (_curSettingTime < _settingTime)
         {
             _curSettingTime += Time.deltaTime;

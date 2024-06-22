@@ -75,6 +75,12 @@ public class BreakController : MonoBehaviour
             case Motion.RightUpperCut:
                 shatteredVector = new Vector3(0,1,1);
                 break;
+            case Motion.LeftLowerCut:
+                shatteredVector = new Vector3(0, -1, 1);
+                break;
+            case Motion.RightLowerCut:
+                shatteredVector = new Vector3(0, -1, 1);
+                break;
         }
         StartCoroutine(ShatteredMovement());
     }

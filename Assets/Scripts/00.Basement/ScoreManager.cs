@@ -24,9 +24,11 @@ public class ScoreManager : MonoBehaviour
     public float TotalScore;
     public Transform effectSpawn;
     [SerializeField] private float maxSpeed = 3.0f;
-    public TextMesh[] scoreText_mesh = new TextMesh[3];
-    public TMP_Text[] comboText = new TMP_Text[3];
-    
+    public Transform[] scoreText_Transform;
+    private TextToImage[] scoreText;
+    public Transform[] comboText_Transform;
+    private TextToImage[] comboText;
+
     [Space(20f)]
     
     [Header("setting(auto)")] 
@@ -82,6 +84,14 @@ public class ScoreManager : MonoBehaviour
         {
             Debug.Log("circleGaugeControllerObject == null");
             return;
+        }
+
+        scoreText = new TextToImage[scoreText_Transform.Length];
+        comboText = new TextToImage[comboText_Transform.Length];
+        for(int i = 0; i < scoreText.Length; ++i)
+        {
+            scoreText[i] = scoreText_Transform[i].GetComponent<TextToImage>();
+            comboText[i] = comboText_Transform[i].GetComponent<TextToImage>();
         }
         circleGaugeController = circleGaugeControllerObject.GetComponent<CircleGaugeController>();
 
@@ -193,10 +203,10 @@ public class ScoreManager : MonoBehaviour
         // 2이상  : Perfect
         if (isPerpect)
         {
-            if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut)
+            if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut || motion ==  Motion.LeftLowerCut)
                 score = ScoreByControllerSpeed(1); // Left hand
             
-            else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut)
+            else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
                 score = ScoreByControllerSpeed(0); // Right hand
         }
         else
@@ -223,15 +233,17 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    private void setTXT()
+    public void setTXT()
     {
-        scoreText_mesh[0].text = TotalScore.ToString();
-        scoreText_mesh[1].text = TotalScore.ToString();
-        scoreText_mesh[2].text = TotalScore.ToString();
+        foreach(var text in scoreText)
+        {
+            text.ChangeTextToImage((int)TotalScore);
+        }
 
-        comboText[0].text = GameManager.Combo.comboValue.ToString();
-        comboText[1].text = GameManager.Combo.comboValue.ToString();
-        comboText[2].text = GameManager.Combo.comboValue.ToString();
+        foreach (var text in comboText)
+        {
+            text.ChangeTextToImage(GameManager.Combo.comboValue);
+        }
     }
 
     private void AddScore(scoreType score)

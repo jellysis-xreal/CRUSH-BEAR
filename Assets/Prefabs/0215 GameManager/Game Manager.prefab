@@ -5034,10 +5034,7 @@ MonoBehaviour:
   comboMultiflier: 0
   comboSliderPunch: {fileID: 0}
   comboSliderHitting: {fileID: 0}
-  comboMultiflierPunch: {fileID: 0}
-  comboMultiflierHitting: {fileID: 0}
-  comboValueTMPPunch: {fileID: 0}
-  comboValueTMPHitting: {fileID: 0}
+  comboMultiflierTransform: []
 --- !u!1 &4187323693712497113
 GameObject:
   m_ObjectHideFlags: 0
@@ -7589,10 +7586,7 @@ MonoBehaviour:
   scoreText_Transform:
   - {fileID: 2981529679301839988}
   - {fileID: 8156172674821991546}
-  comboText:
-  - {fileID: 1898957498768065332}
-  - {fileID: 0}
-  - {fileID: 0}
+  comboText_Transform: []
   player: {fileID: 0}
   RightController: {fileID: 0}
   LeftController: {fileID: 0}
@@ -7602,7 +7596,6 @@ MonoBehaviour:
     type: 3}
   Score_Good_UI: {fileID: 1524116189711889920, guid: 94fe9518100053745b5df078571ba462,
     type: 3}
-  Score_Weak_UI: {fileID: 0}
   Score_Bad_UI: {fileID: 1524116189711889920, guid: 1ab76fc103ce44d499db5de7b9d5668c,
     type: 3}
   Score_Weak_UI: {fileID: 1524116189711889920, guid: 6eb4a6ca65b29864d92ffa31959d9566,
@@ -8261,6 +8254,8 @@ MonoBehaviour:
   - {fileID: 4972670813631818636, guid: bda7d23e2e8f0b04e9986e5e292541e7, type: 3}
   - {fileID: 7665932931620380348, guid: 137004aa787ce3449a677823df6910bc, type: 3}
   - {fileID: 1086346543879555026, guid: 2d613827c4db3fa41947292677dd679b, type: 3}
+  - {fileID: 4972670813631818636, guid: 4f29f5676bdaad54ba57dc335f2fd732, type: 3}
+  - {fileID: 1086346543879555026, guid: 7d50aad7bf39fda41a66c2eb4a5e2a5b, type: 3}
   childCollider:
   - {fileID: 8273888297628560613, guid: 46e1d39b546783443bc5320b56c0eef7, type: 3}
   - {fileID: 2948628450426176352, guid: 6fca985eb781c52418c5a5554fd5669f, type: 3}

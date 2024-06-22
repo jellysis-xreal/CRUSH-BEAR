@@ -103,7 +103,6 @@ namespace UnityEngine.XR.Content.Interaction
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 GameManager.Score.ScoringPunch(this.gameObject, false);
-                GameManager.Player.MinusPlayerLifeValue();
                 _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)

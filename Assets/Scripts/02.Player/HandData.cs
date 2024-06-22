@@ -20,7 +20,9 @@ public class HandData : MonoBehaviour
     [Header("setting(auto)")] 
     [SerializeField] private GameObject Controller;
     [SerializeField] private InputActionProperty ControllerInput;
-    //[SerializeField] private AttachHandNoGrab AttachNoGrab;
+    [SerializeField] private float maxSpeed = 0.0f;
+    [SerializeField] private float perfectThresholdSpeed = 0.0f;
+    [SerializeField] private float goodThresholdSpeed = 0.0f;
     
     [Header("playing value")] 
     public InteractionType ControllerType;
@@ -28,7 +30,14 @@ public class HandData : MonoBehaviour
     public Vector3 ControllerVector;
     
     private Vector3 beforePos;
+    private Vector3 currentPos;
 
+    private List<float> controllerSpeedQueue = new List<float>();
+    private float settingTime = 5.0f;
+    private float _currentSettingTime = 0.0f;
+    private bool isSet = false;
+    
+    
     private void Awake()
     {
         Controller = transform.parent.gameObject;
@@ -36,39 +45,85 @@ public class HandData : MonoBehaviour
     }
     private void Update()
     {
+        if (_currentSettingTime < settingTime)
+        { 
+            //Debug.Log($"[JMH][HandData] SettingTime: {_currentSettingTime}");
+            QueueControllerSpeed();
+            _currentSettingTime += Time.deltaTime;
+        }
+        else
+        {
+            if (!isSet)
+            {
+                SetControllerMaxSpeed();
+                isSet = true;
+            }
+        }
+
         updateControllerSpeed();
-        //updateControllerState();
     }
 
     private void updateControllerSpeed()
     {
-        Vector3 currentPos = Controller.transform.position;
+        currentPos = Controller.transform.position;
         ControllerSpeed = (beforePos - currentPos).magnitude / Time.deltaTime;
         ControllerVector = (beforePos - currentPos).normalized;
         beforePos = currentPos;
     }
     
-    // private void updateControllerState()
-    // {
-    //     float grabValue = ControllerInput.action.ReadValue<float>();
-    //     
-    //     // 손이 normal이라면 Idle state
-    //     if (grabValue < GrabValue)
-    //         ControllerType = InteractionType.Idle;
-    //
-    //     //양 손을 펼치고 있고 GrabAttached일 경우 Tear state
-    //     if (grabValue < GrabValue && AttachNoGrab.IsAttached)
-    //     {
-    //         ControllerType = InteractionType.Tear;
-    //     }
-    //
-    //     // 양 손이 Grab이라면 Break state
-    //     if (grabValue > GrabValue)
-    //         ControllerType = InteractionType.Break;
-    // }
     public bool IsMoveQuickly()
     {
         return ControllerSpeed > SpeedValue;
+    }
+
+    public float GetMaxSpeed()
+    {
+        return maxSpeed;
+    }
+
+    public float GetPerfectThreshold()
+    {
+        return perfectThresholdSpeed;
+    }
+    
+    public float GetGoodThreshold()
+    {
+        return goodThresholdSpeed;
+    }
+    
+    private void QueueControllerSpeed()
+    {
+        currentPos = Controller.transform.position;
+        ControllerSpeed = (beforePos - currentPos).magnitude / Time.deltaTime;
+        
+        // Add the current speed to the queue
+        controllerSpeedQueue.Add(ControllerSpeed);
+        
+        beforePos = currentPos;
+    }
+    
+    private void SetControllerMaxSpeed()
+    {
+        // Sort the list
+        controllerSpeedQueue.Reverse();
+        
+        // 상위 10개 값의 평균으로 구합니다.
+        for (int i = 0; i < 10; i++)
+        {
+            maxSpeed += controllerSpeedQueue[i];
+        }
+        maxSpeed /= 10;
+        
+        // Player가 제대로 흔들지 못했을 경우, 진행을 위한 속도 설정
+        if (maxSpeed < 1.0f)
+        {
+            maxSpeed = 3.2f;
+        }
+
+        perfectThresholdSpeed = maxSpeed * 0.6f;
+        goodThresholdSpeed = maxSpeed * 0.2f;
+            
+        Debug.Log($"[JMH][HandData] Set Max Speed: {maxSpeed:F5}");
     }
     
 }

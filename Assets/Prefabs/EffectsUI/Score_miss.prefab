@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5267358825884266181}
   - component: {fileID: 7471146129015867240}
   m_Layer: 0
-  m_Name: Perfect
+  m_Name: Miss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 76b13a19492cd8d408550c4b0daea4ea, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9986e9fa48e3d104d8488528fca157f4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 3311129628207259752}
   - component: {fileID: 7299197065228104025}
   m_Layer: 5
-  m_Name: Score_Failed
+  m_Name: Score_miss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &3311129628207259752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da0a43a7732bbd44394d2d5b6b05c6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreType: 3
+  scoreType: 4
   text: {fileID: 571459785957571536}
   duration: 1
   spriteRenderer: {fileID: 7471146129015867240}

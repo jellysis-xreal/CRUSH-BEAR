@@ -129,7 +129,7 @@ public class MeshCutter : MonoBehaviour
         if (other.gameObject.layer != 10)
             return;
         
-        GameManager.Score.Scoring(other.gameObject);
+        //GameManager.Score.Scoring(other.gameObject);
         
         _triggerExitTipPosition = _tip.transform.position;
 

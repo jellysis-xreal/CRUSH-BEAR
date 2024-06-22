@@ -65,7 +65,18 @@ public class UIManager : MonoBehaviour
             {
                 Vector3 randomXYZ = new Vector3(UnityEngine.Random.value, UnityEngine.Random.value, 0.0f);
                 floatingUI.transform.position = setTransform.position + randomXYZ;
-                floatingUI.transform.rotation = setTransform.rotation;
+
+                if (player != null)
+                {
+                    Vector3 directionToPlayer =  floatingUI.transform.position - player.transform.position;
+                    Quaternion rotationToPlayer = Quaternion.LookRotation(directionToPlayer);
+                    floatingUI.transform.rotation = rotationToPlayer;
+                }
+                else
+                {
+                    player = GameObject.FindWithTag("MainCamera");
+                }
+
                 floatingUI.GetComponent<TextMesh>().text= value.ToString();
                 floatingUI.SetActive(true);
                 return;

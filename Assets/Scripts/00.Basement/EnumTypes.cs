@@ -32,11 +32,11 @@ namespace EnumTypes
 
     public enum scoreType
     {
-        Perfect,
-        Good,
-        Weak,
-        Bad,
-        Failed
+        Perfect,    // 정확하게 충돌+속도 60% 이상 = 150점
+        Good,       // 정확한 방식+속도 20% 이상 = 100점
+        Weak,       // 정확한 방식+속도 20% 미만 = 20점, 목숨 유지
+        Bad,        // 부정확한 방식 = 0점, 목숨 1개 감소
+        Miss        // 피격을 하지 않은 경우 = 0점, 목숨 1개 감소
     }
     
     public enum WaveType

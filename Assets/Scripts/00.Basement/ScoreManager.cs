@@ -11,6 +11,7 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using Motion = EnumTypes.Motion;
 
@@ -41,9 +42,9 @@ public class ScoreManager : MonoBehaviour
     [Header("Prefab Setting")] 
     public GameObject Score_Perfect_UI;
     public GameObject Score_Good_UI;
-    public GameObject Score_Weak_UI;
     public GameObject Score_Bad_UI;
-    public GameObject Score_Failed_UI;
+    public GameObject Score_Weak_UI;
+    public GameObject Score_Miss_UI;
     
     public GameObject Score_Perfect_VFX;
     public GameObject Score_Good_VFX;
@@ -87,72 +88,75 @@ public class ScoreManager : MonoBehaviour
     }
 
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
-    public void Scoring(GameObject target)
+    public void Scoring(GameObject target, scoreType score)
     {
         if (target.GetComponent<BaseObject>().IsItScored()) return; // Object의 중복 scoring을 방지한다.
-
-        InteractionType targetType = target.GetComponent<BaseObject>().InteractionType;
-        scoreType score;
-
-        switch (targetType)
-        {
-            case InteractionType.Break:
-                if (targetType == RHand.ControllerType)
-                {
-                    if (RHand.ControllerSpeed > standardSpeed)
-                        score = scoreType.Perfect;
-                    else
-                        score = scoreType.Good;
-                }
-                else if (targetType == LHand.ControllerType)
-                {
-                    if (LHand.ControllerSpeed > standardSpeed)
-                        score = scoreType.Perfect;
-                    else
-                        score = scoreType.Good;
-                }
-                else
-                {
-                    score = scoreType.Bad;
-                    // TODO: player 몸에 붙게 처리 + 목숨 -1
-                    Destroy(target, 0.5f);
-                }
-
-                break;
-
-            case InteractionType.Tear:
-                if (RHand.ControllerType == InteractionType.Tear && LHand.ControllerType == InteractionType.Tear)
-                {
-                    if (RHand.ControllerSpeed > standardSpeed || LHand.ControllerSpeed > standardSpeed)
-                        score = scoreType.Perfect;
-                    else
-                        score = scoreType.Good;
-                }
-                else
-                {
-                    score = scoreType.Bad;
-                    // TODO: player 몸에 붙게 처리 + 목숨 -1
-                    Destroy(target, 0.5f);
-                }
-                break;
-
-            default:
-            {
-                score = scoreType.Bad;
-                // TODO: player 몸에 붙게 처리 + 목숨 -1
-                Destroy(target, 0.5f);
-                break;
-            }
-                
-        }
-
+        
         target.GetComponent<BaseObject>().SetScoreBool();
         AddScore(score);
-        SetScoreEffect(score, target.transform);
+        SetScoreEffect(score, target.transform.position);
         
-        Debug.Log(target.name + "의 점수는 " + score);
+        //Debug.Log(target.name + "의 점수는 " + score);
     }
 
+    private scoreType ScoreByControllerSpeed(uint targetHand)
+    {
+        // Perfect, Good, Weak 중
+        // 컨트롤러의 속도에 따라서 결정됩니다.
+        // targetHand : 0-Right, 1-Left, 2-both
+
+        scoreType resultScore = scoreType.Weak;
+
+        float perfect_threshold = RHand.GetPerfectThreshold();
+        float good_threshold = RHand.GetGoodThreshold();
+
+        switch (targetHand)
+        {
+            case 0:
+                if (RHand.ControllerSpeed >= perfect_threshold)
+                    resultScore = scoreType.Perfect;
+                else if (RHand.ControllerSpeed >= good_threshold)
+                    resultScore = scoreType.Good;
+                break;
+            
+            case 1:
+                if (LHand.ControllerSpeed >= perfect_threshold)
+                    resultScore = scoreType.Perfect;
+                else if (LHand.ControllerSpeed >= good_threshold)
+                    resultScore = scoreType.Good;
+                break;
+            
+            case 2:
+                if ((LHand.ControllerSpeed >= perfect_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
+                    resultScore = scoreType.Perfect;
+                else if ((LHand.ControllerSpeed >= good_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
+                    resultScore = scoreType.Good;
+                break;
+        }
+
+        return resultScore;
+    }
+
+    public void ScoringMiss(GameObject target)
+    {
+        scoreType score = scoreType.Miss;
+        AddScore(score);
+        
+        if (player == null)
+            player = GameObject.FindWithTag("Player");
+        
+        // 플레이어의 위치와 방향을 가져옵니다.
+        Vector3 playerPosition = player.transform.position;
+        Vector3 playerDirection = player.transform.forward;
+        
+        Vector3 rightDirection = Quaternion.Euler(0, 90, 0) * playerDirection;
+        
+        float distance = 2.0f; 
+        Vector3 targetPosition = playerPosition + rightDirection * distance;
+        
+        SetScoreEffect(score, targetPosition);   
+    }
+    
     public void ScoringHit(GameObject target, bool IsRightSide)
     {
         if (target.GetComponent<BaseObject>().IsItScored())
@@ -163,14 +167,11 @@ public class ScoreManager : MonoBehaviour
         if (!IsRightSide)
         {
             score = scoreType.Bad;
-            GameManager.Player.MinusPlayerLifeValue(); // 240216 수정함
         }
         else
         {
-            if (RHand.ControllerSpeed > standardSpeed || LHand.ControllerSpeed > standardSpeed)
-                score = scoreType.Perfect;
-            else
-                score = scoreType.Good;
+            // R, L
+            score = ScoreByControllerSpeed(2);
         }
         
         target.GetComponent<BaseObject>().SetScoreBool();
@@ -178,9 +179,9 @@ public class ScoreManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
             AddScore(score);
-            SetScoreEffect(score, target.transform);    
+            SetScoreEffect(score, target.transform.position);    
         }
-        Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
+        //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
     public void ScoringPunch(GameObject target, bool isPerpect, EnumTypes.Motion motion = Motion.None)
@@ -193,30 +194,21 @@ public class ScoreManager : MonoBehaviour
         if (isPerpect)
         {
             if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut)
-            {
-                if (LHand.ControllerSpeed < 1) score = scoreType.Weak;
-                else if (LHand.ControllerSpeed < 2) score = scoreType.Good;
-                else if (LHand.ControllerSpeed > 2) score = scoreType.Perfect;
-            }
+                score = ScoreByControllerSpeed(1); // Left hand
+            
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut)
-            {
-                if (LHand.ControllerSpeed < 1) score = scoreType.Weak;
-                else if (LHand.ControllerSpeed < 2) score = scoreType.Good;
-                else if (LHand.ControllerSpeed > 2) score = scoreType.Perfect;
-            }
+                score = ScoreByControllerSpeed(0); // Right hand
         }
         else
         {
-            score = scoreType.Bad;
-            
-            if(GameManager.Wave.currenWaveNum > 1) GameManager.Player.MinusPlayerLifeValue(); // 임시
+            score = scoreType.Bad; 
         }
         Debug.Log("Scoring Punch " + score);
         AddScore(score);
-        SetScoreEffect(score, target.transform);
+        SetScoreEffect(score, target.transform.position);
         GameManager.Sound.PlayEffect_Punch();
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
-        //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ControllerSpeed + LHand.ControllerSpeed);
+        //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
         float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed);
         // Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);
@@ -248,28 +240,31 @@ public class ScoreManager : MonoBehaviour
         switch (score)
         {
             case scoreType.Perfect:
+                // 정확하게 충돌+속도 60% 이상 = 150점
                 GameManager.Combo.ActionSucceed();
-                value = 100;
+                value = 150.0f;
                 break;
-            
             case scoreType.Good:
+                // 정확한 방식+속도 20% 이상 = 100점
                 GameManager.Combo.ActionSucceed();
-                value= 50;
+                value= 100.0f;
                 break;
             case scoreType.Weak:
+                // 정확한 방식+속도 20% 미만 = 20점, 목숨 유지
                 GameManager.Combo.ActionSucceed();
-                value= 20;
+                value= 20.0f;
                 break;
             case scoreType.Bad:
-                //GameManager.Combo.ActionSucceed(); // [SYJ] 임시 게이지 테스트
-                //value = 50; // [SYJ] 임시 게이지 테스트
-                GameManager.Combo.ActionFailed(); // 목숨깎여야함
-                value = 0;
+                // 부정확한 방식 = 0점, 목숨 1개 감소
+                GameManager.Combo.ActionFailed(); // 목숨 -1
+                GameManager.Player.MinusPlayerLifeValue();
+                value = 0.0f;
                 break;
-
-            case scoreType.Failed:
-                GameManager.Combo.ActionFailed(); // 목숨깎여야함
-                value = 0;
+            case scoreType.Miss:
+                // 피격을 하지 않은 경우 = 0점, 목숨 1개 감소
+                GameManager.Combo.ActionFailed(); // 목숨 -1
+                GameManager.Player.MinusPlayerLifeValue();
+                value = 0.0f;
                 break;
         }
 
@@ -278,7 +273,7 @@ public class ScoreManager : MonoBehaviour
         GameManager.UI.RequestFloatingUI(value);
     }
 
-    private void SetScoreEffect(scoreType score, Transform effectPos)
+    private void SetScoreEffect(scoreType score, Vector3 effectPos)
     {
         GameObject effect;
         
@@ -291,7 +286,7 @@ public class ScoreManager : MonoBehaviour
             effect = CreateNewEffect(score);
             effectPool.Add(effect);
         }
-        effect.transform.position = effectPos.position;
+        effect.transform.position = effectPos;
         effect.SetActive(true);
         StartCoroutine(DisableAfterSeconds(effect, 1.0f));
 
@@ -332,7 +327,7 @@ public class ScoreManager : MonoBehaviour
                 GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
                 GameManager.Player.DecreaseLeftHaptic(0.2f, 0.1f);
                 break;
-            case scoreType.Failed:
+            case scoreType.Miss:
                 GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
                 GameManager.Player.IncreaseLeftHaptic(0.2f, 0.2f);
                 break;
@@ -395,8 +390,8 @@ public class ScoreManager : MonoBehaviour
             case scoreType.Bad:
                 effect = Score_Bad_UI;
                 break;
-            case scoreType.Failed:
-                effect = Score_Failed_UI;
+            case scoreType.Miss:
+                effect = Score_Miss_UI;
                 break;
         }
 

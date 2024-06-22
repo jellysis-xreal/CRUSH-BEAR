@@ -41,9 +41,9 @@ public class ScoreManager : MonoBehaviour
     [Header("Prefab Setting")] 
     public GameObject Score_Perfect_UI;
     public GameObject Score_Good_UI;
-    public GameObject Score_Weak_UI;
     public GameObject Score_Bad_UI;
-    public GameObject Score_Failed_UI;
+    public GameObject Score_Weak_UI;
+    public GameObject Score_Miss_UI;
     
     public GameObject Score_Perfect_VFX;
     public GameObject Score_Good_VFX;
@@ -249,27 +249,27 @@ public class ScoreManager : MonoBehaviour
         {
             case scoreType.Perfect:
                 GameManager.Combo.ActionSucceed();
-                value = 100;
+                value = 150.0f;
                 break;
             
             case scoreType.Good:
                 GameManager.Combo.ActionSucceed();
-                value= 50;
+                value= 100.0f;
                 break;
             case scoreType.Weak:
                 GameManager.Combo.ActionSucceed();
-                value= 20;
+                value= 20.0f;
                 break;
             case scoreType.Bad:
                 //GameManager.Combo.ActionSucceed(); // [SYJ] 임시 게이지 테스트
                 //value = 50; // [SYJ] 임시 게이지 테스트
                 GameManager.Combo.ActionFailed(); // 목숨깎여야함
-                value = 0;
+                value = 0.0f;
                 break;
 
-            case scoreType.Failed:
+            case scoreType.Miss:
                 GameManager.Combo.ActionFailed(); // 목숨깎여야함
-                value = 0;
+                value = 0.0f;
                 break;
         }
 
@@ -332,7 +332,7 @@ public class ScoreManager : MonoBehaviour
                 GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
                 GameManager.Player.DecreaseLeftHaptic(0.2f, 0.1f);
                 break;
-            case scoreType.Failed:
+            case scoreType.Miss:
                 GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
                 GameManager.Player.IncreaseLeftHaptic(0.2f, 0.2f);
                 break;
@@ -395,8 +395,8 @@ public class ScoreManager : MonoBehaviour
             case scoreType.Bad:
                 effect = Score_Bad_UI;
                 break;
-            case scoreType.Failed:
-                effect = Score_Failed_UI;
+            case scoreType.Miss:
+                effect = Score_Miss_UI;
                 break;
         }
 

@@ -137,15 +137,23 @@ public class PlayerManager : MonoBehaviour
     // 처음에 3
     public void MinusPlayerLifeValue()
     {
-        //  || GameManager.Wave.currenWaveNum <= 2 <- XMC용 튜토리얼
-        if (playerLifeValue == 0) return;
-        // if (playerLifeValue == 0 || GameManager.Wave.currenWaveNum <= 2) return;
+        ////  || GameManager.Wave.currenWaveNum <= 2 <- XMC용 튜토리얼
+        //if (playerLifeValue == 0) return;
+        //// if (playerLifeValue == 0 || GameManager.Wave.currenWaveNum <= 2) return;
 
+        //SetHearts(playerLifeValue);
+
+        // [팝업스토어] SYJ 항상 목숨 1 이상 유지
+        if (playerLifeValue <= 1)
+        {
+            return;
+        }
         SetHearts(playerLifeValue);
-        
         playerLifeValue--;
-         
-        Debug.Log("Attack Success player HP -1");
+        Debug.Log($"After: playerLifeValue = {playerLifeValue}");
+
+        //playerLifeValue--;
+        //Debug.Log("Attack Success player HP -1");
     }
 
     // Ending Scene에서 main play 캐릭터 필요 없음

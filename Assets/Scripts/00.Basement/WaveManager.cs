@@ -128,10 +128,16 @@ public class WaveManager : MonoBehaviour
         //if (index < 0 || index > 3)
         //[XMC]Debug.Log("[ERROR] " + index);
         int TypeNum = (int)currentWave;
-        if(TypeNum >=0 && TypeNum <=3)
-            return _toppingArea[TypeNum].transform.GetChild(index).transform.position;
-        return Vector3.zero;
-    }
+        return _toppingArea[TypeNum].transform.GetChild(index).transform.position;
+
+        /*if (TypeNum >= 0 && TypeNum <= 3)
+        {
+        }
+        else
+        {
+            return Vector3.zero;
+        }*/
+    }   
 
     public Vector3 GetArrivalPosition(int index)
     {

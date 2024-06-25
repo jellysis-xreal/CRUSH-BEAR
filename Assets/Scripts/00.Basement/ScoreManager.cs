@@ -203,11 +203,17 @@ public class ScoreManager : MonoBehaviour
         // 2이상  : Perfect
         if (isPerpect)
         {
-            if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut || motion ==  Motion.LeftLowerCut)
+            if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut ||
+                motion == Motion.LeftLowerCut)
+            {
                 score = ScoreByControllerSpeed(1); // Left hand
-            
+                LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, LHand.ControllerSpeed);
+            }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
+            {
                 score = ScoreByControllerSpeed(0); // Right hand
+                LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, RHand.ControllerSpeed);
+            }
         }
         else
         {

@@ -1,24 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Results : MonoBehaviour
 {
+    [SerializeField] private Rank _rank;
+    
+    [Space(10)]
+    
     [Header("----+ UI +----")]
-    public GameObject ScoreUI;
+    public Image RankImage;
+    public Image NoteImage;
+    public TextMeshProUGUI ScoreUI;
+    public TextMeshProUGUI ComboUI;
+    public TextMeshProUGUI PerfectUI;
     public GameObject HeartUI;
-    public GameObject WaveUI;
     
     [Space(10)]
     
     [Header("----+ setting +----")]
-    public Sprite BlankHeart;
     public GameObject EndCookie;
 
-    public void SettingValues(float Score, int heart, uint Wave)
+    [Header("----+ sprites+----")]
+    public Sprite BlankHeart;
+    public List<Sprite> RankSprites;
+    public List<Sprite> NoteSprites;
+    
+ 
+    
+    private enum Rank
     {
-        ScoreUI.GetComponent<TMPro.TextMeshProUGUI>().text = $"{Score}";
-        WaveUI.GetComponent<TMPro.TextMeshProUGUI>().text = $"Wave : {Wave}";
+        S,
+        A,
+        B
+    }
+
+    private void ResultRank()
+    {
+        float score = GameManager.Score.TotalScore;
+        if (score >= 1000)
+        {
+            _rank = Rank.S;
+        }
+        else if (score >= 800)
+        {
+            _rank = Rank.A;
+        }
+        else
+        {
+            _rank = Rank.B;
+        }
+    }
+    
+    public void SettingValues(float Score, int heart)
+    {
+        ResultRank(); // Set _rank
+        RankImage.sprite = RankSprites[(int)_rank];
+        NoteImage.sprite = NoteSprites[(int)_rank];
+        
+        ScoreUI.text = $"{Score}";
+        ComboUI.text = $"{GameManager.Combo.comboValue}";
+        PerfectUI.text = $"{GameManager.Score.GetPerfectNum()}";
         
         for (int i = 4; i > heart; i--)
         {

@@ -11,6 +11,7 @@ public class DiaryAniController : MonoBehaviour
     public GameObject text1, text2, text3, text4;
     public bool returned = true;
     public Animator text_animation;
+    [SerializeField] private GameObject startNotice;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,7 @@ public class DiaryAniController : MonoBehaviour
         {
             case 0:
                 bookPage++;
+                startNotice.SetActive(false);
                 book_Anim.SetTrigger("next");
                 StartCoroutine(openPage());
                 break;

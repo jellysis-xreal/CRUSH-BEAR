@@ -34,7 +34,7 @@ public class Metronome : MonoBehaviour
         {
             isBeated = false;
             songPosition = AudioSettings.dspTime - songStartTime;
-            if (songPosition > lastbeat + secondsPerBeat)
+            if (songPosition > lastbeat + secondsPerBeat -0.05)
             {
                 currentBeat++;
                 onBeat?.Invoke(currentBeat); // 비트마다 호출되는 이벤트

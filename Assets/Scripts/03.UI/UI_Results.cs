@@ -39,12 +39,15 @@ public class UI_Results : MonoBehaviour
 
     private void ResultRank()
     {
+        float TotalScore = 1000; // TODO 임시. 정확한 숫자 확인해야함
         float score = GameManager.Score.TotalScore;
-        if (score >= 1000)
+        
+        // 전체 스코어의 90% 이상을 받으면 S, 80% 이상을 받으면 A, 그 외는 B
+        if (score >= (TotalScore * 0.9f))
         {
             _rank = Rank.S;
         }
-        else if (score >= 800)
+        else if (score >= (TotalScore * 0.8f))
         {
             _rank = Rank.A;
         }
@@ -61,7 +64,7 @@ public class UI_Results : MonoBehaviour
         NoteImage.sprite = NoteSprites[(int)_rank];
         
         ScoreUI.text = $"{Score}";
-        ComboUI.text = $"{GameManager.Combo.comboValue}";
+        ComboUI.text = $"{GameManager.Combo.GetMaxCombo()}";
         PerfectUI.text = $"{GameManager.Score.GetPerfectNum()}";
         
         for (int i = 4; i > heart; i--)

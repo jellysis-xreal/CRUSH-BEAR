@@ -19,6 +19,7 @@ public class ComboManager : MonoBehaviour
     public Transform[] comboMultiflierTransform;
     private ComboText comboMultiflierPunch, comboMultiflierHitting;
 
+    private uint maxCombo = 0;
     
     public void Init()
     {
@@ -48,6 +49,10 @@ public class ComboManager : MonoBehaviour
     }
     public void ActionFailed()
     {
+        if (maxCombo < comboValue)
+        {
+            maxCombo = (uint)comboValue;
+        }
         comboValue = 0;
     }
     public void ActionMissed()
@@ -91,6 +96,10 @@ public class ComboManager : MonoBehaviour
 
             yield return new WaitForSeconds(waitSecond);
         }
+    }
+    public uint GetMaxCombo()
+    {
+        return maxCombo;
     }
 
     private void Update()

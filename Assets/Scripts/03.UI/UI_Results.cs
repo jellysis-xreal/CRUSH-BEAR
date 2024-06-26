@@ -67,7 +67,7 @@ public class UI_Results : MonoBehaviour
         ComboUI.text = $"{GameManager.Combo.GetMaxCombo()}";
         PerfectUI.text = $"{GameManager.Score.GetPerfectNum()}";
         
-        for (int i = 4; i > heart; i--)
+        for (int i = 4; i >= heart; i--)
         {
             HeartUI.transform.GetChild(i).GetComponent<UnityEngine.UI.Image>().sprite = BlankHeart;
         }
@@ -81,7 +81,7 @@ public class UI_Results : MonoBehaviour
         Vector3 playerDirection = player.transform.forward;
 
         // 플레이어의 정면 방향으로 일정 거리만큼 이동한 위치를 계산합니다.
-        float distance = 6.0f; // 이 값은 원하는 대로 조정할 수 있습니다.
+        float distance = 7.5f; // 이 값은 원하는 대로 조정할 수 있습니다.
         Vector3 resultPosition = playerPosition + 
                                  (Vector3.up * 1.5f) + 
                                  (playerDirection * distance);
@@ -101,10 +101,15 @@ public class UI_Results : MonoBehaviour
         
         this.GetComponent<Canvas>().enabled = true;
 
+        // GameObject cookie = Instantiate(EndCookie,
+        //     playerPosition + playerDirection*0.3f,
+        //     Quaternion.Euler(0, yRotation, 0)
+        //     );
+        
         GameObject cookie = Instantiate(EndCookie,
             playerPosition + playerDirection*0.3f,
-            Quaternion.Euler(0, yRotation, 0)
-            );
+            Quaternion.Euler(0,0,90)
+        );
     }
     
 }

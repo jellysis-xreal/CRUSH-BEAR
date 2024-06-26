@@ -99,7 +99,7 @@ public class UI_Results : MonoBehaviour
         this.GetComponent<Canvas>().enabled = true;
 
         GameObject cookie = Instantiate(EndCookie,
-            playerPosition + playerDirection*1.3f,
+            playerPosition + playerDirection*0.3f,
             Quaternion.Euler(0, yRotation, 0)
             );
     }

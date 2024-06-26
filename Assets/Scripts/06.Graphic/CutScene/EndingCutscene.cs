@@ -38,11 +38,10 @@ public class EndingCutscene : TimeLineController
     public void InitSetting()
     {
         //Debug.Log("½ÇÇàµÊ");
-        SetObjectPosition(bannerTransform, new Vector3(0, 0.4f, 0), new Vector3(-30, 180, 0));
+        SetObjectPosition(bannerTransform, new Vector3(0, 0.6f, 0), new Vector3(-30, 180, 0));
         SetObjectPosition(startCookie.transform, new Vector3(0, -0.1f, -0.4f), new Vector3(-60, 180, 0));
-        Breakable breakable = startCookie.GetComponent<Breakable>();
-        breakable.InitBreakable();
-        breakable.onBreak.AddListener(StartCutScene);
+        CutsceneCookie breakable = startCookie.GetComponent<CutsceneCookie>();
+        breakable.InitBreakable(this);
         director = GetComponent<PlayableDirector>();
         isCutsceneStarted = false;
         fadeOutPanel.material.color = new Color(0, 0, 0, 0);
@@ -61,33 +60,6 @@ public class EndingCutscene : TimeLineController
                                               rotation.z + rotationOffset.z);
     }
 
-    // Temporary parameters to subscribe event OnBreak
-    public void StartCutScene(GameObject temp1, GameObject temp2)
-    {
-        if (isCutsceneStarted)
-            return;
-        startCookie.SetActive(false);
-        isCutsceneStarted = true;
-        playerObject.GetComponent<ActionBasedContinuousMoveProvider>().moveSpeed = 0;
-        bannerTransform.gameObject.SetActive(false);
-        particle.SetActive(false);
-        director.Play();
-    }
-
-    public void StartShakeCutscene()
-    {
-        startTime = director.time;
-        StopCoroutine(UpdateShakeInput());
-        StartCoroutine(UpdateShakeInput());
-    }
-
-    public void CheckShakeCount()
-    {
-        if (totalShakeAmount < CUTSCENE_PASS_THRESHOLD)
-            director.time = startTime;
-        else
-            StopCoroutine(UpdateShakeInput());
-    }
     public void InstantiateSmokeParticle()
     {
         Instantiate(smoke, cutsceneCookie.transform.position, Quaternion.identity);
@@ -100,45 +72,10 @@ public class EndingCutscene : TimeLineController
             OnComplete(StartEnding);
     }
 
-    public void SetCamera()
-    {
-        director.Pause();
-        DOTween.Sequence().
-            Append(fadeOutPanel.material.DOFade(1f, 0.4f)).
-            AppendCallback(() => ResetCameraPosition()).
-            Append(fadeOutPanel.material.DOFade(0f, 0.4f)).
-            OnComplete(() => director.Play());
-    }
-
     private void ResetCameraPosition()
     {
         playerObject.transform.position = cameraPoints.GetChild(currentPosition).position - new Vector3(0, CAMERA_OFFSET, 0);
         playerObject.transform.rotation = cameraPoints.GetChild(currentPosition++).rotation;
-    }
-    private IEnumerator UpdateShakeInput()
-    {
-        float previousLeftZ = leftControllerTransform.position.z;
-        float previousRightZ = rightControllerTransform.position.z;
-
-        while (true)
-        {
-            CheckShake(ref previousLeftZ, ref previousRightZ);
-            if(shakeAmount > PUNCH_PASS_THRESHOLD)
-            {
-                Instantiate(shatteredCutsceneCookie, cutsceneCookie.transform).GetComponent<BreakController>().IsHit();
-                shakeAmount = 0;
-            }
-            yield return null;
-        }
-    }
-
-    private void CheckShake(ref float previousLeftZ, ref float previousRightZ)
-    {
-        float moveAmount = Mathf.Abs(leftControllerTransform.position.z - previousLeftZ) + Mathf.Abs(rightControllerTransform.position.z - previousRightZ);
-        totalShakeAmount += moveAmount;
-        shakeAmount += moveAmount;
-        previousLeftZ = leftControllerTransform.position.z;
-        previousRightZ = rightControllerTransform.position.z;
     }
 
     private void StartEnding()

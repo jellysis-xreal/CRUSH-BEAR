@@ -25,6 +25,8 @@ public class LogDataManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
+
+        CreateUserData();
     }
 
     [Header("must Set User Info")]

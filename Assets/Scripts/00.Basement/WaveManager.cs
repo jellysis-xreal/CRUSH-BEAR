@@ -502,7 +502,7 @@ public class WaveManager : MonoBehaviour
         SetWavePlayer(WaveType.Punching); // Player 주먹으로 변경
         
         UI_Results result = GameObject.FindWithTag("ResultUI").GetComponent<UI_Results>();
-        result.SettingValues(GameManager.Score.TotalScore, GameManager.Player.playerLifeValue, currenWaveNum-1);
+        result.SettingValues(GameManager.Score.TotalScore, GameManager.Player.playerLifeValue);
         result.ShowResults();
         //DontDestroyOnLoad(result);
     }

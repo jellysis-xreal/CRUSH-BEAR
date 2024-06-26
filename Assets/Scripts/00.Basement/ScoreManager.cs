@@ -20,8 +20,11 @@ using Motion = EnumTypes.Motion;
 
 public class ScoreManager : MonoBehaviour
 {
-    [Header("setting value")]
+    [Header("Score value")]
     public float TotalScore;
+    [SerializeField] private uint PerfectNum;
+    
+    [Header("setting value")]
     public Transform effectSpawn;
     [SerializeField] private float maxSpeed = 3.0f;
     public Transform[] scoreText_Transform;
@@ -69,7 +72,7 @@ public class ScoreManager : MonoBehaviour
     public void Init()
     {
         Debug.Log("Initialize ScoreManager");
-        
+        PerfectNum = 0;
         player = GameObject.FindWithTag("Player");
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
@@ -97,6 +100,11 @@ public class ScoreManager : MonoBehaviour
 
     }
 
+    public uint GetPerfectNum()
+    {
+        return PerfectNum;
+    }
+    
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
     public void Scoring(GameObject target, scoreType score)
     {
@@ -261,6 +269,7 @@ public class ScoreManager : MonoBehaviour
                 // 정확하게 충돌+속도 60% 이상 = 150점
                 GameManager.Combo.ActionSucceed();
                 value = 150.0f;
+                PerfectNum++;
                 break;
             case scoreType.Good:
                 // 정확한 방식+속도 20% 이상 = 100점

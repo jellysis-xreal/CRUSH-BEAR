@@ -323,15 +323,15 @@ public class ScoreManager : MonoBehaviour
         // Perfect, Good, Bad VFX Effect
         // [240511] TODO- 점수에 따른 효과
         // VFX 자체의 부하가 심하다고 판단하여 우선 사용하지 않음
-        // GameObject obj = GetPooledVFX(score);
-        // if (obj == null)
-        // {
-        //     obj = CreateNewVFX(score);
-        //     vfxPool.Add(obj);
-        // }
-        // obj.transform.position = effectPos.position;
-        // obj.SetActive(true);
-        // StartCoroutine(DisableAfterSeconds(obj, 2.0f));
+        GameObject obj = GetPooledVFX(score);
+        if (obj == null)
+        {
+            obj = CreateNewVFX(score);
+            vfxPool.Add(obj);
+        }
+        //obj.transform.position = effectPos;
+        obj.SetActive(true);
+        StartCoroutine(DisableAfterSeconds(obj, 2.0f));
         
         // Haptic Effect
         switch (score)
@@ -439,13 +439,22 @@ public class ScoreManager : MonoBehaviour
         GameObject vfx = null;
 
         // [240511] TODO: 우선 정해진 VFX가 없으므로 Perfect만 사용
-        vfx = Score_Perfect_VFX;
-        // switch (score)
-        // {
-        //     case scoreType.Perfect:
-        //         vfx = Score_Perfect_VFX;
-        //         break;
-        // }
+        //vfx = Score_Perfect_VFX;
+        switch (score)
+        {
+            case scoreType.Perfect:
+                 vfx = Score_Perfect_VFX;
+                 break;
+            case scoreType.Good:
+                vfx = Score_Good_VFX;
+                break;
+            case scoreType.Bad:
+                vfx = Score_Good_VFX;
+                break;
+            case scoreType.Weak:
+                vfx = Score_Good_VFX;
+                break;
+        }
 
         if (vfx != null)
         {

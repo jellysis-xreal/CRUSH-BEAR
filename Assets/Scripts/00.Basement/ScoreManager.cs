@@ -20,8 +20,11 @@ using Motion = EnumTypes.Motion;
 
 public class ScoreManager : MonoBehaviour
 {
-    [Header("setting value")]
+    [Header("Score value")]
     public float TotalScore;
+    [SerializeField] private uint PerfectNum;
+    
+    [Header("setting value")]
     public Transform effectSpawn;
     [SerializeField] private float maxSpeed = 3.0f;
     public Transform[] scoreText_Transform;
@@ -69,7 +72,7 @@ public class ScoreManager : MonoBehaviour
     public void Init()
     {
         Debug.Log("Initialize ScoreManager");
-        
+        PerfectNum = 0;
         player = GameObject.FindWithTag("Player");
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
@@ -97,6 +100,11 @@ public class ScoreManager : MonoBehaviour
 
     }
 
+    public uint GetPerfectNum()
+    {
+        return PerfectNum;
+    }
+    
     // Collision 감지가 발생하면 점수를 산정하도록 했다.
     public void Scoring(GameObject target, scoreType score)
     {
@@ -155,11 +163,13 @@ public class ScoreManager : MonoBehaviour
         if (player == null)
             player = GameObject.FindWithTag("Player");
         
+        GameObject camera = GameObject.FindWithTag("MainCamera");
+        
         // 플레이어의 위치와 방향을 가져옵니다.
         Vector3 playerPosition = player.transform.position;
-        Vector3 playerDirection = player.transform.forward;
+        Vector3 playerDirection = camera.transform.forward;
         
-        Vector3 rightDirection = Quaternion.Euler(0, 90, 0) * playerDirection;
+        Vector3 rightDirection = Quaternion.Euler(0, 30, 0) * playerDirection;
         
         float distance = 2.0f; 
         Vector3 targetPosition = playerPosition + rightDirection * distance;
@@ -260,17 +270,18 @@ public class ScoreManager : MonoBehaviour
             case scoreType.Perfect:
                 // 정확하게 충돌+속도 60% 이상 = 150점
                 GameManager.Combo.ActionSucceed();
-                value = 150.0f;
+                value = 150.0f * GameManager.Combo.comboMultiflier;
+                PerfectNum++;
                 break;
             case scoreType.Good:
                 // 정확한 방식+속도 20% 이상 = 100점
                 GameManager.Combo.ActionSucceed();
-                value= 100.0f;
+                value= 100.0f * GameManager.Combo.comboMultiflier;
                 break;
             case scoreType.Weak:
                 // 정확한 방식+속도 20% 미만 = 20점, 목숨 유지
                 GameManager.Combo.ActionSucceed();
-                value= 20.0f;
+                value= 20.0f * GameManager.Combo.comboMultiflier;
                 break;
             case scoreType.Bad:
                 // 부정확한 방식 = 0점, 목숨 1개 감소

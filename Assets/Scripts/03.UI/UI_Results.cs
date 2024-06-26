@@ -1,24 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Results : MonoBehaviour
 {
+    [SerializeField] private Rank _rank;
+    
+    [Space(10)]
+    
     [Header("----+ UI +----")]
-    public GameObject ScoreUI;
+    public Image RankImage;
+    public Image NoteImage;
+    public TextMeshProUGUI ScoreUI;
+    public TextMeshProUGUI ComboUI;
+    public TextMeshProUGUI PerfectUI;
     public GameObject HeartUI;
-    public GameObject WaveUI;
     
     [Space(10)]
     
     [Header("----+ setting +----")]
-    public Sprite BlankHeart;
     public GameObject EndCookie;
 
-    public void SettingValues(float Score, int heart, uint Wave)
+    [Header("----+ sprites+----")]
+    public Sprite BlankHeart;
+    public List<Sprite> RankSprites;
+    public List<Sprite> NoteSprites;
+    
+ 
+    
+    private enum Rank
     {
-        ScoreUI.GetComponent<TMPro.TextMeshProUGUI>().text = $"{Score}";
-        WaveUI.GetComponent<TMPro.TextMeshProUGUI>().text = $"Wave : {Wave}";
+        S,
+        A,
+        B
+    }
+
+    private void ResultRank()
+    {
+        float TotalScore = 1000; // TODO 임시. 정확한 숫자 확인해야함
+        float score = GameManager.Score.TotalScore;
+        
+        // 전체 스코어의 90% 이상을 받으면 S, 80% 이상을 받으면 A, 그 외는 B
+        if (score >= (TotalScore * 0.9f))
+        {
+            _rank = Rank.S;
+        }
+        else if (score >= (TotalScore * 0.8f))
+        {
+            _rank = Rank.A;
+        }
+        else
+        {
+            _rank = Rank.B;
+        }
+    }
+    
+    public void SettingValues(float Score, int heart)
+    {
+        ResultRank(); // Set _rank
+        RankImage.sprite = RankSprites[(int)_rank];
+        NoteImage.sprite = NoteSprites[(int)_rank];
+        
+        ScoreUI.text = $"{Score}";
+        ComboUI.text = $"{GameManager.Combo.GetMaxCombo()}";
+        PerfectUI.text = $"{GameManager.Score.GetPerfectNum()}";
         
         for (int i = 4; i > heart; i--)
         {
@@ -55,7 +102,7 @@ public class UI_Results : MonoBehaviour
         this.GetComponent<Canvas>().enabled = true;
 
         GameObject cookie = Instantiate(EndCookie,
-            playerPosition + playerDirection*1.3f,
+            playerPosition + playerDirection*0.3f,
             Quaternion.Euler(0, yRotation, 0)
             );
     }

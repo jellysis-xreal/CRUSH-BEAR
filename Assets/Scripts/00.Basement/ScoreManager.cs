@@ -335,28 +335,28 @@ public class ScoreManager : MonoBehaviour
         switch (score)
         {
             case scoreType.Perfect:
-                GameManager.Player.ActiveRightHaptic(0.9f, 0.1f);
-                GameManager.Player.ActiveLeftHaptic(0.9f, 0.1f);
+                GameManager.Player.ActiveRightHaptic(0.95f, 0.15f);
+                GameManager.Player.ActiveLeftHaptic(0.95f, 0.15f);
                 break;
 
             case scoreType.Good:
-                GameManager.Player.ActiveRightHaptic(0.6f, 0.1f);
-                GameManager.Player.ActiveLeftHaptic(0.6f, 0.1f);
+                GameManager.Player.ActiveRightHaptic(0.7f, 0.15f);
+                GameManager.Player.ActiveLeftHaptic(0.7f, 0.15f);
                 break;
             
             case scoreType.Weak:
-                GameManager.Player.ActiveRightHaptic(0.4f, 0.1f);
-                GameManager.Player.ActiveLeftHaptic(0.4f, 0.1f);
+                GameManager.Player.ActiveRightHaptic(0.5f, 0.15f);
+                GameManager.Player.ActiveLeftHaptic(0.5f, 0.15f);
                 break;
 
             
             case scoreType.Bad:
-                GameManager.Player.DecreaseRightHaptic(0.2f, 0.1f);
-                GameManager.Player.DecreaseLeftHaptic(0.2f, 0.1f);
+                GameManager.Player.DecreaseRightHaptic(0.2f, 0.15f);
+                GameManager.Player.DecreaseLeftHaptic(0.2f, 0.15f);
                 break;
             case scoreType.Miss:
-                GameManager.Player.IncreaseRightHaptic(0.2f, 0.2f);
-                GameManager.Player.IncreaseLeftHaptic(0.2f, 0.2f);
+                GameManager.Player.IncreaseRightHaptic(0.2f, 0.15f);
+                GameManager.Player.IncreaseLeftHaptic(0.2f, 0.15f);
                 break;
         }
 

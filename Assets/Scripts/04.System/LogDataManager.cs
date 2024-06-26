@@ -39,8 +39,8 @@ public class LogDataManager : MonoBehaviour
     {
         if (userNumber > 0)
         {
-            string fileName = $"User{userNumber}_Data.csv";
-            filePath = Path.Combine(Application.dataPath, fileName);
+            string fileName = $"User{GetDataFileCount(Application.persistentDataPath) + 1}_Data.csv";
+            filePath = Path.Combine(Application.persistentDataPath, fileName);
             
             if (!File.Exists(filePath))
             {
@@ -96,5 +96,29 @@ public class LogDataManager : MonoBehaviour
 
         File.WriteAllLines(filePath, lines);
     }
+    // 지정된 경로의 "data"로 시작하는 파일 개수를 반환하는 메서드
+    public int GetDataFileCount(string path)
+    {
+        if (Directory.Exists(path))
+        {
+            // 지정된 경로의 모든 파일을 가져와 배열로 반환
+            string[] files = Directory.GetFiles(path);
 
+            // "data"로 시작하는 파일만 필터링
+            int dataFileCount = 0;
+            foreach (var file in files)
+            {
+                if (Path.GetFileName(file).StartsWith("User", StringComparison.OrdinalIgnoreCase))
+                {
+                    dataFileCount++;
+                }
+            }
+            
+            return dataFileCount;
+        }
+        else
+        {
+            throw new DirectoryNotFoundException($"The directory at path {path} does not exist.");
+        }
+    }
 }

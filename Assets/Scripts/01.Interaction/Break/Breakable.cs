@@ -29,7 +29,8 @@ namespace UnityEngine.XR.Content.Interaction
         BreakEvent m_OnBreak = new BreakEvent();
 
         public bool m_Destroyed = false;
-
+        public bool IsEndingCookie = false;
+        
         /// <summary>
         /// Events to fire when a matching object collides and break this object.
         /// The first parameter is the colliding object, the second parameter is the 'broken' version.
@@ -40,7 +41,7 @@ namespace UnityEngine.XR.Content.Interaction
         
         public ChildTriggerChecker _childTriggerChecker;
         public EnumTypes.Motion correctMotion = EnumTypes.Motion.None;
-        
+
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
         public void InitBreakable()
         {
@@ -116,6 +117,7 @@ namespace UnityEngine.XR.Content.Interaction
         
         public virtual void OnTriggerEnter(Collider other)
         {
+            
             //Debug.Log($"Motion Trigger 1 {other.transform.name}");
 #if UNITY_EDITOR
             /*if (GameManager.Instance != null)
@@ -132,7 +134,13 @@ namespace UnityEngine.XR.Content.Interaction
             if (other.CompareTag("Destroyer"))
             {
                 // Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
-
+                if (IsEndingCookie)
+                {
+                    Debug.Log("Ending Cookie Triggered!");
+                    // Ending Scene으로 간다
+                    GameManager.Instance.WaveToEnding();
+                }
+                
                 if (_childTriggerChecker.isTriggered)
                 {
                     MotionSucceed(correctMotion);
@@ -152,6 +160,7 @@ namespace UnityEngine.XR.Content.Interaction
             }
         }
         
+
         private bool CheckAdditionalCondition()
         {
             // 추가 조건 검사. 프레임 사이에 콜라이더를 지나 자식의 콜라이더에 트리거되지 않았을 경우를 대비한 메서드

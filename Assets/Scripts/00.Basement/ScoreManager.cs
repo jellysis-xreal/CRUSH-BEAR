@@ -163,11 +163,13 @@ public class ScoreManager : MonoBehaviour
         if (player == null)
             player = GameObject.FindWithTag("Player");
         
+        GameObject camera = GameObject.FindWithTag("MainCamera");
+        
         // 플레이어의 위치와 방향을 가져옵니다.
         Vector3 playerPosition = player.transform.position;
-        Vector3 playerDirection = player.transform.forward;
+        Vector3 playerDirection = camera.transform.forward;
         
-        Vector3 rightDirection = Quaternion.Euler(0, 90, 0) * playerDirection;
+        Vector3 rightDirection = Quaternion.Euler(0, 30, 0) * playerDirection;
         
         float distance = 2.0f; 
         Vector3 targetPosition = playerPosition + rightDirection * distance;

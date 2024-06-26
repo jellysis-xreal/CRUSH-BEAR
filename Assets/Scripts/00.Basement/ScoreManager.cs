@@ -268,18 +268,18 @@ public class ScoreManager : MonoBehaviour
             case scoreType.Perfect:
                 // 정확하게 충돌+속도 60% 이상 = 150점
                 GameManager.Combo.ActionSucceed();
-                value = 150.0f;
+                value = 150.0f * GameManager.Combo.comboMultiflier;
                 PerfectNum++;
                 break;
             case scoreType.Good:
                 // 정확한 방식+속도 20% 이상 = 100점
                 GameManager.Combo.ActionSucceed();
-                value= 100.0f;
+                value= 100.0f * GameManager.Combo.comboMultiflier;
                 break;
             case scoreType.Weak:
                 // 정확한 방식+속도 20% 미만 = 20점, 목숨 유지
                 GameManager.Combo.ActionSucceed();
-                value= 20.0f;
+                value= 20.0f * GameManager.Combo.comboMultiflier;
                 break;
             case scoreType.Bad:
                 // 부정확한 방식 = 0점, 목숨 1개 감소

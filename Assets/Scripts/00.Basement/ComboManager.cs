@@ -12,7 +12,7 @@ public class ComboManager : MonoBehaviour
     public int comboValue = 0; // 현재 콤보
     public int comboPercent = 0;
     public float comboValueFever = 0f;
-    public int comboMultiflier = 0;
+    public int comboMultiflier = 1;
     public Coroutine comboCoroutine = null;
     public Slider comboSliderPunch;
     public Slider comboSliderHitting;
@@ -71,11 +71,11 @@ public class ComboManager : MonoBehaviour
         float waitSecond = 0.5f;
         while (true)
         {
-            comboMultiflier = comboValue / 10;
-            //comboPercent = comboValue % 10;
-            if (comboMultiflier > 3)
+            comboMultiflier = (comboValue / 10) + 1;
+
+            if (comboMultiflier > 4)
             {
-                comboMultiflier = 3;
+                comboMultiflier = 4;
                 comboPercent = 9;
             }
             else
@@ -83,19 +83,9 @@ public class ComboManager : MonoBehaviour
                 comboPercent = comboValue % 10;
             }
 
-            if (comboMultiflier == 0)
-            {
-                comboMultiflierPunch.ChangeTextToImage(comboMultiflier + 1);
-                comboMultiflierHitting.ChangeTextToImage(comboMultiflier + 1);
-                comboSliderHitting.value = 1;
-            }
-            else
-            {
-                comboMultiflierPunch.ChangeTextToImage(comboMultiflier + 1);
-                comboMultiflierHitting.ChangeTextToImage(comboMultiflier + 1);
-                comboSliderPunch.value = comboMultiflier + 1;
-                comboSliderHitting.value = comboMultiflier + 1;
-            }
+            comboMultiflierPunch.ChangeTextToImage(comboMultiflier);
+            comboMultiflierHitting.ChangeTextToImage(comboMultiflier);
+
             comboSliderPunch.value = comboPercent;
             comboSliderHitting.value = comboPercent;
 

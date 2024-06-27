@@ -320,7 +320,7 @@ public class WaveManager : MonoBehaviour
         
         // TODO: Scene 내의 점수판, 조명, 노드 도착지점 세팅
         SetWavePlay();
-        
+        GameManager.Instance.Metronome.Init(CurMusicData.BPM, waveMusicGUID);
         nodeInstantiator.InitToppingPool(currentWave); //Topping Pool 세팅
     }
 
@@ -420,9 +420,10 @@ public class WaveManager : MonoBehaviour
         // 게임 종료 시, Wave 종료 UI 호출
         if (currenWaveNum + 1 > endWaveNum)
         {
-            SetResultUI();
-            waveState = WaveState.CheckResult;
-            yield return null;
+            _isPause = false;
+            Time.timeScale = 1;
+            EndGame();
+            yield break;
         }
 
         // CMS: Count down starts
@@ -474,8 +475,8 @@ public class WaveManager : MonoBehaviour
         Debug.Log("[WAVE] Wave Start");
         currentState = WaveState.Playing;
         waveTime = 0.0f;
-        // 음악 시작 및 메트로놈 작동!
-        GameManager.Instance.Metronome.Init(CurMusicData.BPM, waveMusicGUID);
+        // 음악 시작!
+        GameManager.Instance.Metronome.StartMusic();
         // 노드는 Time.timeScale == 1일 경우 자동으로 Update 됨.
     }
 
@@ -492,7 +493,7 @@ public class WaveManager : MonoBehaviour
         currentState = WaveState.End;
         Debug.Log("[WAVE] 게임 종료!");
         nodeInstantiator.FinishAllWaveNode();
-        GameManager.Instance.WaveToEnding();
+        SetResultUI();
     }
     
     private void SetResultUI()

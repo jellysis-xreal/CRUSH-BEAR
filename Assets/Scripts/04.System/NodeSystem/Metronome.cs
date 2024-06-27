@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Metronome : MonoBehaviour
 {
+    private uint musicGUID;
     double lastbeat;
     double songStartTime;
     double songPosition;
@@ -18,13 +19,18 @@ public class Metronome : MonoBehaviour
 
     public void Init(float bpm, uint musicGUID) // 웨이브 시작 시 해당 함수 호출!
     {
-        GameManager.Sound.PlayWaveMusic(musicGUID); //음악 start
-        songStartTime = AudioSettings.dspTime;
+        this.musicGUID = musicGUID;
         lastbeat = 0;
         secondsPerBeat = 60 / bpm;
-        isPlaying = true;
         currentBeat = 0;
         shootStandard = (int) bpm / 13;
+    }
+
+    public void StartMusic()
+    {
+        GameManager.Sound.PlayWaveMusic(musicGUID); //음악 start
+        songStartTime = AudioSettings.dspTime;
+        isPlaying = true;
         StartCoroutine(CheckBeat());
     }
 

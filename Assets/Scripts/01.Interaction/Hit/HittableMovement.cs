@@ -82,6 +82,7 @@ public class HittableMovement : MonoBehaviour
         beatNum = node.beatNum;
         sideType = node.sideType;
 
+
         shootStandard = GameManager.Instance.Metronome.shootStandard;
         popTime = (float)GameManager.Instance.Metronome.secondsPerBeat;
         moveTime = popTime * (shootStandard - 1);
@@ -93,7 +94,6 @@ public class HittableMovement : MonoBehaviour
         _isInit = true;
         GameManager.Instance.Metronome.BindEvent(UpdateToppingState);
         GameManager.Instance.Metronome.BindEvent(RemoveTopping);
-        //Debug.Log(beatNum + "번 노드 만들어짐");
     }
 
     private void InitiateVariable()
@@ -169,7 +169,24 @@ public class HittableMovement : MonoBehaviour
     public void MoveToPlayerAtMiddle()
     {
         Vector3 firstPos = transform.position;
-        transform.LookAt(_player.transform);
+
+        this.transform.LookAt(_player.transform);
+
+        Sequence sequence = DOTween.Sequence();
+
+        //Debug.Log(timeElapsed);
+        //Tween tweenJump = transform.DOJump(firstPos + new Vector3(0, 1.0f, 0), 2f, 1, popTime);
+
+        Tween tweenJump = transform.DOPath(new[]
+            {
+                new Vector3(firstPos.x, firstPos.y, firstPos.z),
+                new Vector3(firstPos.x, firstPos.y + 1.0f, firstPos.z),
+                new Vector3(firstPos.x, firstPos.y + 2.0f, firstPos.z)
+            },
+            popTime,
+            PathType.CatmullRom, PathMode.Full3D).Pause();
+
+        firstPos = transform.position;
         Vector3 upVector = transform.up.normalized * 4.0f;
         Vector3 forwardVector = transform.forward.normalized * 5.0f;
         Tween tweenMove = transform.DOPath(new[]
@@ -179,12 +196,11 @@ public class HittableMovement : MonoBehaviour
                 new Vector3(_arrivalBoxPos.x, _arrivalBoxPos.y, _arrivalBoxPos.z)
             },
             moveTime,
-            PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint);
+            PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint).Pause();
 
-        float elapsedTime = (shootStandard - 1 - beatNum) * (float)GameManager.Instance.Metronome.secondsPerBeat;
-        transform.position = tweenMove.PathGetPoint(elapsedTime);
-
-        tweenMove.Play();
+        sequence.Append(tweenJump).Append(tweenMove);
+        sequence.Goto(popTime * (shootStandard - beatNum));
+        sequence.Play();
     }
     public void GoToRefrigerator()
     {

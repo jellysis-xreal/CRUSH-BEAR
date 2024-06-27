@@ -10,6 +10,8 @@ public class TextToImage : MonoBehaviour
     protected RectTransform[] imageRectTransform;
     protected RectTransform rectTransform;
     protected Vector2 initialSize;
+    protected Vector2 standardImageSize;
+    protected Vector2 dotImageSize;
     protected bool isInitialized = false;
 
     public virtual int ChangeTextToImage(int someInt)
@@ -25,6 +27,8 @@ public class TextToImage : MonoBehaviour
             rectTransform = transform.GetComponent<RectTransform>();
             isInitialized = true;
             initialSize = rectTransform.sizeDelta;
+            standardImageSize = imageRectTransform[0].sizeDelta;
+            dotImageSize = new Vector2(standardImageSize.x * 0.375f, standardImageSize.y); ;
         }
 
         foreach (var image in textImage) 
@@ -61,13 +65,6 @@ public class TextToImage : MonoBehaviour
             //아스키코드 변환된 int값이 나와서 가장 최초의 값인 0의 아스키코드 값을 빼줌
             textImage[imageIndex].sprite = data.numberSprites[someIntToString[i] - '0'];
             imageIndex++;
-            if (someIntToString.Length - (i + 1) != 0 && (someIntToString.Length - (i + 1)) % 3 == 0)
-            {
-                textImage[imageIndex].sprite = data.comma;
-                textImage[imageIndex].gameObject.SetActive(true);
-                imageRectTransform[imageIndex].sizeDelta = new Vector2(imageRectTransform[i].sizeDelta.x * 0.4f, imageRectTransform[i].sizeDelta.y);
-                imageIndex++;
-            }
         }
         return imageIndex;
     }
@@ -76,9 +73,15 @@ public class TextToImage : MonoBehaviour
     {
         int intergerPart = (int)someFloat;
         int index = ChangeTextToImage(intergerPart);
+        foreach (var rect in imageRectTransform)
+        {
+            rect.sizeDelta = standardImageSize;
+        }
+        rectTransform.sizeDelta = imageRectTransform[0].sizeDelta * (index + 2);
         int decimalPoint = (int)((someFloat - intergerPart) * 10);
-        textImage[++index].gameObject.SetActive(true);
+        textImage[index].gameObject.SetActive(true);
         textImage[index].sprite = data.dot;
+        imageRectTransform[index].sizeDelta = dotImageSize;
         textImage[++index].gameObject.SetActive(true);
         textImage[index].sprite = data.numberSprites[decimalPoint];
         return index;

@@ -21,14 +21,13 @@ public class UI_Results : MonoBehaviour
     [Space(10)]
     
     [Header("----+ setting +----")]
-    public GameObject EndCookie;
+    //public GameObject EndCookie;
 
     [Header("----+ sprites+----")]
     public Sprite BlankHeart;
     public List<Sprite> RankSprites;
     public List<Sprite> NoteSprites;
     
- 
     
     private enum Rank
     {
@@ -55,6 +54,8 @@ public class UI_Results : MonoBehaviour
         {
             _rank = Rank.B;
         }
+
+        GetComponent<EndingController>().InitSetting();
     }
     
     public void SettingValues(float Score, int heart)
@@ -105,11 +106,6 @@ public class UI_Results : MonoBehaviour
         //     playerPosition + playerDirection*0.3f,
         //     Quaternion.Euler(0, yRotation, 0)
         //     );
-        
-        GameObject cookie = Instantiate(EndCookie,
-            playerPosition + playerDirection*0.3f,
-            Quaternion.Euler(0,0,90)
-        );
     }
     
 }

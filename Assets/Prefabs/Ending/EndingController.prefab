@@ -1,0 +1,219 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1583150522796627349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2202392298064445909}
+  - component: {fileID: 55811706751110403}
+  - component: {fileID: 466535141638008974}
+  - component: {fileID: 7108561750521985853}
+  m_Layer: 0
+  m_Name: EndingController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2202392298064445909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583150522796627349}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &55811706751110403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583150522796627349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9317ea44bf6af74782ed5b92545870a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bannerTransform: {fileID: 0}
+  offset: 1
+  playerObject: {fileID: 0}
+  startCookie: {fileID: 0}
+  particle: {fileID: 0}
+  creditRoom: {fileID: 0}
+  endingCredit: {fileID: 0}
+  fadeOutPanel: {fileID: 0}
+  cameraPoints: {fileID: 0}
+--- !u!320 &466535141638008974
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583150522796627349}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 8b8c1fa7a8974a944bc0de6b16d6032c, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 4354931622186657331, guid: 8b8c1fa7a8974a944bc0de6b16d6032c, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 5455651353303778177, guid: 8b8c1fa7a8974a944bc0de6b16d6032c, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 1979992415601317237, guid: 8b8c1fa7a8974a944bc0de6b16d6032c, type: 2}
+    value: {fileID: 7108561750521985853}
+  - key: {fileID: 440968315451132558, guid: 8b8c1fa7a8974a944bc0de6b16d6032c, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: -8246817991758889469, guid: 8b8c1fa7a8974a944bc0de6b16d6032c, type: 2}
+    value: {fileID: 7108561750521985853}
+  - key: {fileID: 0}
+    value: {fileID: 7108561750521985853}
+  m_ExposedReferences:
+    m_References:
+    - d918ea5132d0fc3468887ecc9fff0b92: {fileID: 0}
+    - f47c2f892def3fa40b0f90ed25ae38d0: {fileID: 0}
+    - dcb36ca7d468f924397b4fc8b722a193: {fileID: 0}
+    - ba9146dd9f39c1340a9558a2bc8d6602: {fileID: 0}
+    - cbf2be3cf69c095409feeca128b31fb9: {fileID: 0}
+    - a3f2ed8c0af041a4c8aa311579fefd1c: {fileID: 0}
+    - 12521cc03ae50e74da1bb4e0f7024181: {fileID: 0}
+    - 8045ec1f9c93e7549af2753b025e2219: {fileID: 0}
+    - 3c2fab1d2b3af7b4ea9bcef81879af68: {fileID: 0}
+--- !u!114 &7108561750521985853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583150522796627349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 66c669d5e8304d34cbf8105dbf474f92, type: 2}
+    - {fileID: 11400000, guid: 70733d5f075d19748bfc01783e1dec7e, type: 2}
+    - {fileID: 11400000, guid: 60ba7413298daa44f8b6cd633c43fa0a, type: 2}
+    - {fileID: 11400000, guid: 29270dc33d10d42418cbc1de5c414fea, type: 2}
+    - {fileID: 11400000, guid: 0849c4ccaf26f314bb2629e864696293, type: 2}
+    - {fileID: 11400000, guid: b0e3781e9e26e3f4499161fa68831817, type: 2}
+    - {fileID: 11400000, guid: b0fd64af3b592d3469f810cbac53a6ae, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 55811706751110403}
+          m_TargetAssemblyTypeName: EndingCutscene, Assembly-CSharp
+          m_MethodName: CheckShakeCount
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 55811706751110403}
+          m_TargetAssemblyTypeName: EndingCutscene, Assembly-CSharp
+          m_MethodName: StartShakeCutscene
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 55811706751110403}
+          m_TargetAssemblyTypeName: EndingCutscene, Assembly-CSharp
+          m_MethodName: StartEndingCredit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 55811706751110403}
+          m_TargetAssemblyTypeName: EndingCutscene, Assembly-CSharp
+          m_MethodName: SetCamera
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 55811706751110403}
+          m_TargetAssemblyTypeName: EndingCutscene, Assembly-CSharp
+          m_MethodName: InstantiateSmokeParticle
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 55811706751110403}
+          m_TargetAssemblyTypeName: EndingCutscene, Assembly-CSharp
+          m_MethodName: ShakeInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 55811706751110403}
+          m_TargetAssemblyTypeName: EndingCutscene, Assembly-CSharp
+          m_MethodName: ShakeInfo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2

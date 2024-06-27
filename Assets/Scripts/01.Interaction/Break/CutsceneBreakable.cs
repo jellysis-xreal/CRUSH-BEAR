@@ -5,15 +5,14 @@ using UnityEngine.XR.Content.Interaction;
 
 public class CutsceneCookie : MonoBehaviour
 {
-    private EndingCutscene cutscene;
+    private EndingController cutscene;
     private int tryBreak;
     private WaitForSeconds wait;
     private bool isWaiting;
     [SerializeField] private GameObject brokenCookiePrefab;
 
-    public void InitBreakable(EndingCutscene endingCutscene)
+    public void InitBreakable(EndingController endingCutscene)
     {
-
         isWaiting = false;
         cutscene = endingCutscene;
         tryBreak = 0;

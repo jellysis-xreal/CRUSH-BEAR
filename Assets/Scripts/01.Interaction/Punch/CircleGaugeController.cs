@@ -7,7 +7,7 @@ public class CircleGaugeController : MonoBehaviour
 {
     public RectTransform circleRectTransform;
     //public Transform circleTransform; // Circle Sprite의 Transform
-    public TextMeshProUGUI sliderText;
+    public TextToImage sliderText;
     //public TextToImage sliderText;// TextToImage 컴포넌트에 대한 참조
 
     public float maxScaleAmount = 14.0f; // 최대 Width/Height
@@ -23,10 +23,11 @@ public class CircleGaugeController : MonoBehaviour
         if (circleRectTransform != null)
         {
             circleRectTransform.sizeDelta = new Vector2(minScaleAmount, minScaleAmount); // 시작 크기 설정
-
             //circleTransform.localScale = new Vector3(minScaleAmount, minScaleAmount, 1f); // 시작 스케일 설정
             //UpdateSliderText(minScaleAmount);
         }
+        if(sliderText != null)
+            sliderText.ChangeTextToImage(0f);
     }
 
     void Update()
@@ -67,7 +68,7 @@ public class CircleGaugeController : MonoBehaviour
     {
         if (sliderText != null)
         {
-            sliderText.text = value.ToString("0.0");
+            sliderText.ChangeTextToImage(value);
             //sliderText.ChangeTextToImage(value);
         }
     }

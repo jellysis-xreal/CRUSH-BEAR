@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 7963136251142864032}
   - component: {fileID: 5669126442654187767}
   - component: {fileID: 7108173926567722126}
+  - component: {fileID: 2000135639094210344}
   m_Layer: 5
   m_Name: ResultUI
   m_TagString: Untagged
@@ -342,8 +343,6 @@ MonoBehaviour:
   ComboUI: {fileID: 4216977775969635303}
   PerfectUI: {fileID: 1824041265328706831}
   HeartUI: {fileID: 7950115091179793669}
-  EndCookie: {fileID: 7615801646956321778, guid: 25f73f8ea076ca245a842ec09adb385a,
-    type: 3}
   BlankHeart: {fileID: 21300000, guid: f4534c5cbb8a92b46b3ae26c75d4885b, type: 3}
   RankSprites:
   - {fileID: 21300000, guid: 1d488c4a312cde34e87e67e95966de9b, type: 3}
@@ -401,6 +400,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884917830574793638}
   m_CullTransparentMesh: 1
+--- !u!114 &2000135639094210344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884917830574793638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9317ea44bf6af74782ed5b92545870a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 0
+  playerObject: {fileID: 0}
+  startCookiePrefab: {fileID: 1625929949264886836, guid: e769ec8b4a09f0e4da88b188e51e25ce,
+    type: 3}
+  particle: {fileID: 0}
+  creditRoom: {fileID: 0}
+  endingCredit: {fileID: 0}
+  fadeOutPanel: {fileID: 0}
+  cameraPoints: {fileID: 0}
 --- !u!1 &2325868091995440337
 GameObject:
   m_ObjectHideFlags: 0

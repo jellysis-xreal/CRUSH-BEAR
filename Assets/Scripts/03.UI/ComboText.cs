@@ -51,22 +51,9 @@ public class ComboText : TextToImage
         for (int i = 0; i < someIntToString.Length; ++i)
         {
             textImage[imageIndex].gameObject.SetActive(true);
-            if (imageIndex != 0 && imageIndex % 3 == 0)
-            {
-                textImage[imageIndex].sprite = data.comma;
-                imageIndex++;
-                textImage[imageIndex].gameObject.SetActive(true);
-            }
-
             //아스키코드 변환된 int값이 나와서 가장 최초의 값인 0의 아스키코드 값을 빼줌
             textImage[imageIndex].sprite = data.numberSprites[someIntToString[i] - '0'];
             imageIndex++;
-        }
-
-        for (int i = 0; i < imageIndex; ++i)
-        {
-            if (i != 0 && i % 3 == 0)
-                imageRectTransform[i].sizeDelta = new Vector2(imageRectTransform[i].sizeDelta.x * 0.4f, imageRectTransform[i].sizeDelta.y);
         }
         return imageIndex;
     }

@@ -327,11 +327,15 @@ public class ScoreManager : MonoBehaviour
         if (obj == null)
         {
             obj = CreateNewVFX(score);
-            vfxPool.Add(obj);
+            if(obj != null)
+                vfxPool.Add(obj);
         }
         //obj.transform.position = effectPos;
-        obj.SetActive(true);
-        StartCoroutine(DisableAfterSeconds(obj, 2.0f));
+        if(obj != null)
+        {
+            obj.SetActive(true);
+            StartCoroutine(DisableAfterSeconds(obj, 2.0f));
+        }
         
         // Haptic Effect
         switch (score)
@@ -453,6 +457,8 @@ public class ScoreManager : MonoBehaviour
                 break;
             case scoreType.Weak:
                 vfx = Score_Good_VFX;
+                break;
+            default:
                 break;
         }
 

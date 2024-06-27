@@ -70,7 +70,6 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         if (beatNum < shootStandard)
         {
             transform.position = dir * beatNum / shootStandard;
-            Debug.Log($"{beatNum}번째 노드 생성됨");
             yield return new WaitUntil(() => GameManager.Instance.Metronome.IsBeated());
             transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
             // _cookieControl.Init();

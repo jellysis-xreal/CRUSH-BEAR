@@ -38,7 +38,7 @@ public class UI_Results : MonoBehaviour
 
     private void ResultRank()
     {
-        float TotalScore = 1000; // TODO 임시. 정확한 숫자 확인해야함
+        float TotalScore = 12000;
         float score = GameManager.Score.TotalScore;
         
         // 전체 스코어의 90% 이상을 받으면 S, 80% 이상을 받으면 A, 그 외는 B

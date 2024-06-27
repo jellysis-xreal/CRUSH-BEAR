@@ -76,7 +76,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         }
         else
             transform.position = dir;
-        yield return null;
+        yield break;
     }
 
     
@@ -100,9 +100,6 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 
     IEnumerator TriggerArrivalAreaEndInteraction()
     {
-        yield return new WaitForSeconds(0.05f);
-        transform.DOMoveZ(-2, 1);
-        // Debug.Log("trigger arrival");
         yield return new WaitForSeconds(1f);
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
@@ -146,6 +143,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         if(beatNum  == currentBeat + shootStandard)
         {
             // Debug.Log($"{currentBeat}번째 노드 생성됨");
+            Debug.Log(beatNum + "번 노드 생성위치 : " + transform.position);
             transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
             _cookieControl.Init();
         }

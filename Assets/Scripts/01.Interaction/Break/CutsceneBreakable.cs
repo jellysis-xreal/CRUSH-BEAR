@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Content.Interaction;
 
 public class CutsceneCookie : MonoBehaviour
 {
@@ -9,6 +7,7 @@ public class CutsceneCookie : MonoBehaviour
     private int tryBreak;
     private WaitForSeconds wait;
     private bool isWaiting;
+    private AudioSource audioSource;
     [SerializeField] private GameObject brokenCookiePrefab;
 
     public void InitBreakable(EndingController endingCutscene)
@@ -16,6 +15,7 @@ public class CutsceneCookie : MonoBehaviour
         isWaiting = false;
         cutscene = endingCutscene;
         tryBreak = 0;
+        audioSource = GetComponent<AudioSource>();
         wait = new WaitForSeconds(0.1f);
     }
     public void OnTriggerEnter(Collider other)
@@ -28,6 +28,7 @@ public class CutsceneCookie : MonoBehaviour
             var brokenVersion = Instantiate(brokenCookiePrefab, transform.position, transform.rotation);
             brokenVersion.GetComponent<BreakController>().IsHit();
             StartCoroutine(StopBreak());
+            audioSource.Play();
             tryBreak++;
         }
 

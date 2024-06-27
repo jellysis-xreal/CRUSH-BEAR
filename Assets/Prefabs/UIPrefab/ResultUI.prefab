@@ -287,7 +287,7 @@ RectTransform:
   m_GameObject: {fileID: 1884917830574793638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -4.71}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8788285, y: 0.8788285, z: 0.8788285}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1568616975452381614}
@@ -298,7 +298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.1099854}
+  m_AnchoredPosition: {x: 0, y: 0.55999756}
   m_SizeDelta: {x: 20.48, y: 16.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6184381315348867013
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5669126442654187767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,9 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: 0
-  playerObject: {fileID: 0}
-  startCookiePrefab: {fileID: 1625929949264886836, guid: e769ec8b4a09f0e4da88b188e51e25ce,
-    type: 3}
+  startCookie: {fileID: 0}
   particle: {fileID: 0}
   creditRoom: {fileID: 0}
   endingCredit: {fileID: 0}

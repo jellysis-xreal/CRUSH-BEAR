@@ -39,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4998355, g: 0.40970474, b: 0.7609073, a: 1}
+  m_IndirectSpecularColor: {r: 0.21624622, g: 0.2745233, b: 0.16830845, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5123,94 +5123,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 137.423, y: 22.8478}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &1388922397
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556043405190218584, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7967522441461098249, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: head.vrTarget
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7967522441461098249, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: leftHand.vrTarget
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7967522441461098249, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: rightHand.vrTarget
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8874839143954693677, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_Name
-      value: XR Bear IK(save_231201_minha)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8874839143954693677, guid: 9849d709e20a7224eb8fea9c698676e2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9849d709e20a7224eb8fea9c698676e2, type: 3}
 --- !u!1 &1396217243
 GameObject:
   m_ObjectHideFlags: 0
@@ -6274,7 +6186,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1929059073}
-  - component: {fileID: 1929059072}
   - component: {fileID: 1929059074}
   m_Layer: 0
   m_Name: Wave Indicator
@@ -6283,30 +6194,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1929059072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1929059071}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ae4df1e620863b4b90727cf677e0ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicBPM: 143
-  scaleObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  transformObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  originScales: []
-  originDeformers: []
 --- !u!4 &1929059073
 Transform:
   m_ObjectHideFlags: 0
@@ -6554,7 +6441,6 @@ GameObject:
   - component: {fileID: 2098718897}
   - component: {fileID: 2098718896}
   - component: {fileID: 2098718895}
-  - component: {fileID: 2098718894}
   m_Layer: 0
   m_Name: TriggerPad
   m_TagString: TriggerPad
@@ -6562,19 +6448,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2098718894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098718893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2faea6b1c78d294ebeef966993a8d7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bearAnimators: []
 --- !u!65 &2098718895
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6711,7 +6584,6 @@ SceneRoots:
   - {fileID: 1929059073}
   - {fileID: 1548037546}
   - {fileID: 108319666}
-  - {fileID: 1388922397}
   - {fileID: 2098718897}
   - {fileID: 698054109}
   - {fileID: 1533652343}

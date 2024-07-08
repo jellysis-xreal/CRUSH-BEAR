@@ -63,8 +63,6 @@ public class ScoreManager : MonoBehaviour
     
     private float standardSpeed;
     private Vector3 RbeforePos, LbeforePos;
-    private AttachHandNoGrab RAttachNoGrab;
-    private AttachHandNoGrab LAttachNoGrab;
 
     private CircleGaugeController circleGaugeController;
 

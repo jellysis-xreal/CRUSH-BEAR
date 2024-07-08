@@ -287,7 +287,6 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
             Debug.Log($"{gameObject.name} Trigger Pad");
             jumpTween.Kill();
             //GameManager.Player.MinusPlayerLifeValue();
-            other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
             this.enabled = false;
             // gameObject.SetActive(false);
         }

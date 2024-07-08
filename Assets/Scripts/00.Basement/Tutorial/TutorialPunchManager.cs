@@ -5,6 +5,75 @@ using UnityEngine;
 using EnumTypes;
 public class TutorialPunchManager : MonoBehaviour
 {
+    #region Tutorial Manager
+
+
+
+    public IEnumerator SpawnAndHandleCookie()
+    {
+        // TODO : 생성 코드
+        GameObject gameObjectd = new GameObject();
+        // 부숴질 때 까지 대기
+        yield return new WaitUntil((() => (gameObjectd.activeSelf == false)));
+    }
+
+    public IEnumerator SpawnAndHandle2CookiesZap()
+    {
+        // TODO : 생성 코드, 캐싱
+        Debug.Log("쿠키(잽) 두 개 생성");
+        
+        yield return new WaitForSeconds(10f);
+
+        Debug.Log("쿠키 두 개 인터랙션 시간 종료");
+    }
+
+    public bool CheckCookiesDestroyed()
+    {
+        // TODO : Spawn And Handle Cookies Zap에서 생성된 쿠키 오브젝트 두 개가 성공적으로 인터랙션됐는지 감지하는 코드 
+        return false;
+    }
+
+    public int GetPerfectScoreNumberOfCookie()
+    {
+        // TODO : 인터랙션한 쿠키 중 퍼펙트 개수를 반환하는 코드;
+        return 0;
+    }
+    public bool CheckCookiesDestroyedAndPerfect()
+    {
+        // TODO : RoutineByPunchType에서 생성된 오브젝트의 점수가 퍼펙트 3회 이상인 경우 true 반환하는 코드 
+        return false;
+    }
+    
+    public IEnumerator ZapRoutine()
+    {
+        // PunchableMovementTutorial Init        
+        Debug.Log("Routine Start");
+        for (int i = 0; i < zapGameObjects.Length; i++)
+            zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
+
+        yield return StartCoroutine(WaitUntilProcessedNumberMatchSix());
+        Debug.Log($"[Tutorial] Punch Type {tutorialPunchType} End! You succeed {succeedNumber} Times.");
+                
+        // 성공 개수 체크, 실패하면 성공 개수 초기화
+        if (succeedNumber == 6)
+        {
+            Debug.Log($"[Tutorial] You Succeed In {tutorialPunchType}!");
+            tutorialClearData[TutorialPunchType.Zap] = true;
+            succeedNumber = 0;
+            processedNumber = 0;
+        }
+        else
+        {
+            Debug.Log($"[Tutorial] You Failed In {tutorialPunchType}! Try Again!!");
+            succeedNumber = 0;
+            processedNumber = 0;
+        }
+
+        yield return null;
+    }
+    #endregion
+    
+    #region Tutorial Basic
     public TutorialPunchType tutorialPunchType;
     private Dictionary<TutorialPunchType, bool> tutorialClearData = new Dictionary<TutorialPunchType, bool>();
 
@@ -12,16 +81,18 @@ public class TutorialPunchManager : MonoBehaviour
     public GameObject[] zapGameObjects;
     public GameObject[] hookGameObjects;
     public GameObject[] upperCutGameObjects;
+    public GameObject[] lowerCutGameObjects;
 
     public GameObject zapRootGameObject;
     public GameObject hookRootGameObject;
     public GameObject upperCutRootGameObject;
+    public GameObject lowerCutRootGameObject;
     
     public int succeedNumber = 0;
     public int processedNumber = 0;
-
     public void Init()
     {
+        Debug.Log("Tutorial Initialize");
         InitPunchTutorialData();
         InitPunchGameObjectPool();
         StartTutorialPunchRoutine();
@@ -88,7 +159,7 @@ public class TutorialPunchManager : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator RoutineByPunchType(TutorialPunchType tutorialPunchType)
+    public IEnumerator RoutineByPunchType(TutorialPunchType tutorialPunchType)
     {
         // PunchableMovementTutorial Init        
         Debug.Log("Routine Start");
@@ -151,7 +222,7 @@ public class TutorialPunchManager : MonoBehaviour
         Debug.Log("Out");
         yield return null;
     }
-
+    #endregion
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q)) succeedNumber++;

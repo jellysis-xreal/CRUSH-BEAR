@@ -253,6 +253,7 @@ public class ScoreManager : MonoBehaviour
 
     public void setTXT()
     {
+        if(scoreText == null) return;
         foreach(var text in scoreText)
         {
             text.ChangeTextToImage((int)TotalScore);

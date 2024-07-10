@@ -152,7 +152,7 @@ public class TutorialManager : MonoBehaviour
         {
             yield return StartCoroutine(GameManager.TutorialPunch.ZapRoutine());
 
-            if (GameManager.TutorialPunch.CheckCookiesDestroyedAndPerfect())
+            if (GameManager.TutorialPunch.Check4CookiesInteractionSucceed())
             {
                 Debug.Log("Phase 8 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출

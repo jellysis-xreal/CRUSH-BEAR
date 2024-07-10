@@ -205,7 +205,8 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-            // TODO : 
+            GameManager.TutorialTennis.scores.Add(score);
+            GameManager.TutorialTennis.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
         }
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }

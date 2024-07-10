@@ -222,21 +222,12 @@ public class ScoreManager : MonoBehaviour
             {
                 score = ScoreByControllerSpeed(1); // Left hand
                 LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, LHand.ControllerSpeed);
-                if (SceneManager.GetActiveScene().name == "03.TutorialScene")
-                {
-                    GameManager.TutorialPunch.scores.Add(score);
-                    GameManager.TutorialPunch.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
-                }
             }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
             {
                 score = ScoreByControllerSpeed(0); // Right hand
                 LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, RHand.ControllerSpeed);
-                if (SceneManager.GetActiveScene().name == "03.TutorialScene")
-                {
-                    GameManager.TutorialPunch.scores.Add(score);
-                    GameManager.TutorialPunch.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
-                }
+                
             }
         }
         else
@@ -250,6 +241,11 @@ public class ScoreManager : MonoBehaviour
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
         float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed);
+        if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+        {
+            GameManager.TutorialPunch.scores.Add(score);
+            GameManager.TutorialPunch.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
+        }
         // Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);
 

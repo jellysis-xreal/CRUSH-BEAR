@@ -114,10 +114,23 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 6 시작!");
         // Phase 6 동작을 구현합니다.
         // Dialogue : 쿠키를 세게 칠 수록 좋은 점수를 받을 수 있어! 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!  
-        
-        yield return new WaitUntil((() => GameManager.TutorialPunch.GetPerfectScoreNumberOfCookie() == 3));
-        
-        Debug.Log("Phase 6 완료!");
+        while (true)
+        {
+            // 두 개의 쿠키를 날리기
+            yield return StartCoroutine(GameManager.TutorialPunch.ZapRoutine());
+
+            // 두 개의 쿠키를 성공적으로 부셨는지 확인
+            if (GameManager.TutorialPunch.GetPerfectScoreNumberOfCookie() >= 3)
+            {
+                Debug.Log("Phase 6 완료!");
+                break; // 조건이 충족되면 반복을 종료하고 Phase4를 탈출
+            }
+            else
+            {
+                Debug.Log("Phase 6 조건 미충족 - 다시 시도");
+                yield return StartCoroutine(Phase4_1());
+            }
+        }
     }
 
     private IEnumerator Phase7()

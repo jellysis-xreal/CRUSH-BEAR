@@ -7,12 +7,13 @@ public class TutorialPunchManager : MonoBehaviour
 {
     #region Tutorial Manager
 
-    // scoreType[] 
+    public List<scoreType> scores = new List<scoreType>();
+    public List<float> speeds = new List<float>();
 
     public IEnumerator SpawnAndHandleCookie()
     {
         // TODO : 생성 코드
-        zapGameObjects[0].transform.position = new Vector3(0, 1f, 0.5f);
+        zapGameObjects[0].transform.position = new Vector3(0, 1f, 1f);
         // 부숴질 때 까지 대기
         yield return new WaitUntil((() => (zapGameObjects[0].activeSelf == false)));
     }
@@ -50,28 +51,13 @@ public class TutorialPunchManager : MonoBehaviour
     public IEnumerator ZapRoutine()
     {
         // PunchableMovementTutorial Init        
-        Debug.Log("Routine Start");
+        Debug.Log("Zap Routine Start");
         for (int i = 0; i < zapGameObjects.Length; i++)
             zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
 
         yield return StartCoroutine(WaitUntilProcessedNumberMatchSix());
         Debug.Log($"[Tutorial] Punch Type {tutorialPunchType} End! You succeed {succeedNumber} Times.");
-                
-        // 성공 개수 체크, 실패하면 성공 개수 초기화
-        if (succeedNumber == 6)
-        {
-            Debug.Log($"[Tutorial] You Succeed In {tutorialPunchType}!");
-            tutorialClearData[TutorialPunchType.Zap] = true;
-            succeedNumber = 0;
-            processedNumber = 0;
-        }
-        else
-        {
-            Debug.Log($"[Tutorial] You Failed In {tutorialPunchType}! Try Again!!");
-            succeedNumber = 0;
-            processedNumber = 0;
-        }
-
+        
         yield return null;
     }
     #endregion

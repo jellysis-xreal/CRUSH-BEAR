@@ -224,11 +224,21 @@ public class ScoreManager : MonoBehaviour
             {
                 score = ScoreByControllerSpeed(1); // Left hand
                 LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, LHand.ControllerSpeed);
+                if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+                {
+                    GameManager.TutorialPunch.scores.Add(score);
+                    GameManager.TutorialPunch.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
+                }
             }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
             {
                 score = ScoreByControllerSpeed(0); // Right hand
                 LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, RHand.ControllerSpeed);
+                if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+                {
+                    GameManager.TutorialPunch.scores.Add(score);
+                    GameManager.TutorialPunch.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
+                }
             }
         }
         else

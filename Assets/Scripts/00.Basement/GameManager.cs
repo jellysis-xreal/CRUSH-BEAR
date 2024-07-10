@@ -295,6 +295,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Tutorial Scene Loaded");
             GameManager.Wave.SetWaveType(WaveType.Punching);
             GameManager.Wave.SetWaveTutorial();
+            _score.Init();
             Player.Init();
             // tutorialPunch.Init();
             tutorialManager.Init();

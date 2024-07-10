@@ -203,6 +203,10 @@ public class ScoreManager : MonoBehaviour
             AddScore(score);
             SetScoreEffect(score, target.transform.position);    
         }
+        else
+        {
+            // TODO : 
+        }
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 

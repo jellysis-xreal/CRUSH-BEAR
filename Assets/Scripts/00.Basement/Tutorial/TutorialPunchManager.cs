@@ -7,21 +7,23 @@ public class TutorialPunchManager : MonoBehaviour
 {
     #region Tutorial Manager
 
-
+    // scoreType[] 
 
     public IEnumerator SpawnAndHandleCookie()
     {
         // TODO : 생성 코드
-        GameObject gameObjectd = new GameObject();
+        zapGameObjects[0].transform.position = new Vector3(0, 1f, 0.5f);
         // 부숴질 때 까지 대기
-        yield return new WaitUntil((() => (gameObjectd.activeSelf == false)));
+        yield return new WaitUntil((() => (zapGameObjects[0].activeSelf == false)));
     }
 
     public IEnumerator SpawnAndHandle2CookiesZap()
     {
         // TODO : 생성 코드, 캐싱
         Debug.Log("쿠키(잽) 두 개 생성");
-        
+        zapGameObjects[0].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(0, 3 + 2f * 1);        
+        zapGameObjects[1].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(1, 3 + 2f * 2);
+
         yield return new WaitForSeconds(10f);
 
         Debug.Log("쿠키 두 개 인터랙션 시간 종료");
@@ -29,7 +31,8 @@ public class TutorialPunchManager : MonoBehaviour
 
     public bool CheckCookiesDestroyed()
     {
-        // TODO : Spawn And Handle Cookies Zap에서 생성된 쿠키 오브젝트 두 개가 성공적으로 인터랙션됐는지 감지하는 코드 
+        // TODO : Spawn And Handle Cookies Zap에서 생성된 쿠키 오브젝트 두 개가 성공적으로 인터랙션됐는지 감지하는 코드
+        if (!zapGameObjects[0].activeSelf && !zapGameObjects[1].activeSelf) return true;
         return false;
     }
 
@@ -95,7 +98,7 @@ public class TutorialPunchManager : MonoBehaviour
         Debug.Log("Tutorial Initialize");
         InitPunchTutorialData();
         InitPunchGameObjectPool();
-        StartTutorialPunchRoutine();
+        // StartTutorialPunchRoutine();
         GameManager.Wave.currentWave = WaveType.Punching;
         GameManager.Wave.SetWavePlayer();
     }

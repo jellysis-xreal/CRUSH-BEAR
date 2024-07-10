@@ -31626,7 +31626,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1929059073}
-  - component: {fileID: 1929059072}
   - component: {fileID: 1929059074}
   m_Layer: 0
   m_Name: Wave Indicator
@@ -31635,30 +31634,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1929059072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1929059071}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ae4df1e620863b4b90727cf677e0ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicBPM: 143
-  scaleObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  transformObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  originScales: []
-  originDeformers: []
 --- !u!4 &1929059073
 Transform:
   m_ObjectHideFlags: 0
@@ -33755,7 +33730,6 @@ GameObject:
   - component: {fileID: 2098718897}
   - component: {fileID: 2098718896}
   - component: {fileID: 2098718895}
-  - component: {fileID: 2098718894}
   m_Layer: 0
   m_Name: TriggerPad
   m_TagString: TriggerPad
@@ -33763,19 +33737,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2098718894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098718893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2faea6b1c78d294ebeef966993a8d7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bearAnimators: []
 --- !u!65 &2098718895
 BoxCollider:
   m_ObjectHideFlags: 0

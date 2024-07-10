@@ -5,6 +5,9 @@ using UnityEngine;
 using EnumTypes;
 public class TutorialTennisManager : MonoBehaviour
 {
+    public List<scoreType> scores = new List<scoreType>();
+    public List<float> speeds = new List<float>();
+    
     public TutorialTennisType tutorialTennisType;
     private Dictionary<TutorialTennisType, bool> tutorialClearData = new Dictionary<TutorialTennisType, bool>();
 
@@ -17,8 +20,30 @@ public class TutorialTennisManager : MonoBehaviour
 
     public int succeedNumber = 0;
     public int processedNumber = 0;
-
-    public scoreType[] scores;
+    public int GetPerfectScoreNumberOfTennis()
+    {
+        // TODO : 인터랙션한 쿠키 중 퍼펙트 개수를 반환하는 코드;
+        int num = 0;
+        int startIndex = scores.Count - 1; 
+        for (int i = startIndex; i > startIndex - tennisPrefabs.Length; i--)
+        {
+            if (scores[i] == scoreType.Perfect) num++;
+        }
+        Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - tennisPrefabs.Length}");
+        return num;
+    }
+    public bool Check4FruitsInteractionSucceed()
+    {
+        // TODO :(왼손) 라이트 훅 → (왼손) 잽 → (오른손) 어퍼컷 → (오른손) 잽
+        // 최근 4개의 점수가 Bad, Miss가 아닌 경우에 true 반환
+        
+        int startIndex = scores.Count - 1; 
+        for (int i = startIndex; i > startIndex - 4; i--)
+        {
+            if (scores[i] == scoreType.Miss || scores[i] == scoreType.Bad) return false;
+        }
+        return true;
+    }
     /*private void Start()
     {
         Init();

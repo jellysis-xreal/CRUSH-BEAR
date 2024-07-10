@@ -40,7 +40,14 @@ public class TutorialPunchManager : MonoBehaviour
     public int GetPerfectScoreNumberOfCookie()
     {
         // TODO : 인터랙션한 쿠키 중 퍼펙트 개수를 반환하는 코드;
-        return 0;
+        int num = 0;
+        int startIndex = scores.Count - 1; 
+        for (int i = startIndex; i > startIndex - zapGameObjects.Length; i--)
+        {
+            if (scores[i] == scoreType.Perfect) num++;
+        }
+        Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - zapGameObjects.Length}");
+        return num;
     }
     public bool CheckCookiesDestroyedAndPerfect()
     {
@@ -52,6 +59,8 @@ public class TutorialPunchManager : MonoBehaviour
     {
         // PunchableMovementTutorial Init        
         Debug.Log("Zap Routine Start");
+        ResetVariable();
+        
         for (int i = 0; i < zapGameObjects.Length; i++)
             zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
 
@@ -201,14 +210,18 @@ public class TutorialPunchManager : MonoBehaviour
         yield return null;
     }
 
+    void ResetVariable()
+    {
+        processedNumber = 0;
+        succeedNumber = 0;
+    }
     IEnumerator WaitUntilProcessedNumberMatchSix()
     {
         while (processedNumber < 6)
         {
             yield return null;
         }
-
-        Debug.Log("Out");
+        yield return new WaitForSeconds(5f);
         yield return null;
     }
     #endregion

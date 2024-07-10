@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private Metronome _metronome;
     public Metronome Metronome { get { return _metronome; } }
+
+    private SaveManager _save = new SaveManager();
+    public SaveManager Save { get { return _save; } }
     //+------------------------//
     
     

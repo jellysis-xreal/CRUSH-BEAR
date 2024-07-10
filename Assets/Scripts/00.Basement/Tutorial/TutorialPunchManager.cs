@@ -49,10 +49,17 @@ public class TutorialPunchManager : MonoBehaviour
         Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - zapGameObjects.Length}");
         return num;
     }
-    public bool CheckCookiesDestroyedAndPerfect()
+    public bool Check4CookiesInteractionSucceed()
     {
-        // TODO : RoutineByPunchType에서 생성된 오브젝트의 점수가 퍼펙트 3회 이상인 경우 true 반환하는 코드 
-        return false;
+        // TODO :(왼손) 라이트 훅 → (왼손) 잽 → (오른손) 어퍼컷 → (오른손) 잽
+        // 최근 4개의 점수가 Bad, Miss가 아닌 경우에 true 반환
+        
+        int startIndex = scores.Count - 1; 
+        for (int i = startIndex; i > startIndex - 4; i--)
+        {
+            if (scores[i] == scoreType.Miss || scores[i] == scoreType.Bad) return false;
+        }
+        return true;
     }
     
     public IEnumerator ZapRoutine()
@@ -68,6 +75,16 @@ public class TutorialPunchManager : MonoBehaviour
         Debug.Log($"[Tutorial] Punch Type {tutorialPunchType} End! You succeed {succeedNumber} Times.");
         
         yield return null;
+    }
+
+    public IEnumerator Phase8Routine()
+    {
+        // TODO :(왼손) 라이트 훅 → (왼손) 잽 → (오른손) 어퍼컷 → (오른손) 잽 생성
+
+        Debug.Log("Zap Routine Start");
+        ResetVariable();
+        
+        
     }
     #endregion
     

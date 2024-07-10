@@ -52,6 +52,8 @@ public class TutorialManager : MonoBehaviour
         // Phase 2 동작을 구현합니다.
         // Dialogue: 눈 앞의 쿠키를 부수면 시작할게
         // TODO : 눈 앞의 쿠키가 부숴지는지 감지하는 기능
+        
+        GameManager.TutorialPunch.Init();
         yield return StartCoroutine(GameManager.TutorialPunch.SpawnAndHandleCookie());
         Debug.Log("Phase 2 완료!");
     }
@@ -186,7 +188,7 @@ public class TutorialManager : MonoBehaviour
         {
             yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
 
-            if (GameManager.TutorialTennis.CheckCookiesDestroyedAndPerfect())
+            if (GameManager.TutorialTennis.GetNonClearTutorialType() == TutorialTennisType.Clear)
             {
                 Debug.Log("Phase 12 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출
@@ -197,7 +199,7 @@ public class TutorialManager : MonoBehaviour
                 yield return StartCoroutine(Phase4_1());
             }
         }
-        Debug.Log("Phase 8 완료!");
+        Debug.Log("Phase 12 완료!");
     }
     private IEnumerator Phase13()
     {

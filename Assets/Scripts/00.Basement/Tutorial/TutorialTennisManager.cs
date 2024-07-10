@@ -18,6 +18,7 @@ public class TutorialTennisManager : MonoBehaviour
     public int succeedNumber = 0;
     public int processedNumber = 0;
 
+    public scoreType[] scores;
     /*private void Start()
     {
         Init();
@@ -26,8 +27,8 @@ public class TutorialTennisManager : MonoBehaviour
     public void InitializeTennis()
     {
         InitTennisTutorialData();
-        // InitTennisGameObjectPool();
-        InitTennisGameObject();
+        InitTennisGameObjectPool();
+        // InitTennisGameObject();
         GameManager.Wave.currentWave = WaveType.Hitting;
         GameManager.Wave.SetWavePlayer();
         // StartTennisTutorialRoutine();
@@ -112,7 +113,7 @@ public class TutorialTennisManager : MonoBehaviour
                 break;
         }
 
-        yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(2));
+        yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber());
         Debug.Log($"[Tutorial] Tennis Type {tutorialTennisType} End! You succeed {succeedNumber} Times.");
                 
         // 성공 개수 체크, 실패하면 성공 개수 초기화

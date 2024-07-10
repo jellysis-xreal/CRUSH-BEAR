@@ -79,12 +79,21 @@ public class TutorialPunchManager : MonoBehaviour
 
     public IEnumerator Phase8Routine()
     {
-        // TODO :(왼손) 라이트 훅 → (왼손) 잽 → (오른손) 어퍼컷 → (오른손) 잽 생성
+        // TODO :(왼손) 훅 → (왼손) 잽 → (오른손) 어퍼컷 → (오른손) 잽 생성
 
         Debug.Log("Zap Routine Start");
         ResetVariable();
         
-        
+        // 레프트 훅 : hookGameObjects[0]
+        // 레프트 잽 : zapGameObjects[0]
+        // 라이트 어퍼컷 : upperCutGameObjects[1]
+        // 라이트 잽 : zapGameObjects[1]
+        hookGameObjects[0].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(0, 3 + 2f * 1);
+        zapGameObjects[0].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(0, 3 + 2f * 2);
+        upperCutGameObjects[1].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(3, 3 + 2f * 3);
+        zapGameObjects[1].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(1, 3 + 2f * 4);
+
+        yield return StartCoroutine(WaitUntilProcessedNumber(4));
     }
     #endregion
     
@@ -240,6 +249,15 @@ public class TutorialPunchManager : MonoBehaviour
         }
         yield return new WaitForSeconds(5f);
         yield return null;
+    }
+
+    IEnumerator WaitUntilProcessedNumber(int num)
+    {
+        while (processedNumber < num)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(5f);
     }
     #endregion
     private void Update()

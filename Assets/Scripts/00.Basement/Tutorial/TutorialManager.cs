@@ -150,7 +150,7 @@ public class TutorialManager : MonoBehaviour
         // 예: 쿠키를 두 번 이상 perfect로 치기
         while (true)
         {
-            yield return StartCoroutine(GameManager.TutorialPunch.ZapRoutine());
+            yield return StartCoroutine(GameManager.TutorialPunch.Phase8Routine());
 
             if (GameManager.TutorialPunch.Check4CookiesInteractionSucceed())
             {

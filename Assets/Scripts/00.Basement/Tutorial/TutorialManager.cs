@@ -180,8 +180,23 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Phase 12 시작!");
         // Phase 12 동작을 구현합니다.
-        // 예: 쿠키를 두 번 이상 perfect로 치기
-        yield return new WaitForSeconds(2f); // 예시: 2초 대기
+        // Dialouge : 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
+        GameManager.TutorialTennis.InitializeTennis();
+        while (true)
+        {
+            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
+
+            if (GameManager.TutorialTennis.CheckCookiesDestroyedAndPerfect())
+            {
+                Debug.Log("Phase 12 완료!");
+                break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출
+            }
+            else
+            {
+                Debug.Log("Phase128 조건 미충족 - 다시 시도");
+                yield return StartCoroutine(Phase4_1());
+            }
+        }
         Debug.Log("Phase 8 완료!");
     }
     private IEnumerator Phase13()

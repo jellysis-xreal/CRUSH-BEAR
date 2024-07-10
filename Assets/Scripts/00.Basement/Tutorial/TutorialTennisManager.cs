@@ -23,13 +23,14 @@ public class TutorialTennisManager : MonoBehaviour
         Init();
     }*/
 
-    public void Init()
+    public void InitializeTennis()
     {
         InitTennisTutorialData();
-        InitTennisGameObjectPool();
-        StartTennisTutorialRoutine();
+        // InitTennisGameObjectPool();
+        InitTennisGameObject();
         GameManager.Wave.currentWave = WaveType.Hitting;
         GameManager.Wave.SetWavePlayer();
+        // StartTennisTutorialRoutine();
     }
 
     private void InitTennisTutorialData()
@@ -51,7 +52,14 @@ public class TutorialTennisManager : MonoBehaviour
             rightHandGameObjects[i] = Instantiate(tennisPrefabs[i % 2 + 2], rightHandRootGameObject.transform); // i에 따라 3, 4번 프리팹
         }
     }
-    
+
+    private void InitTennisGameObject()
+    {
+        leftHandGameObjects = new GameObject[1];
+        rightHandGameObjects = new GameObject[1];
+        leftHandGameObjects[0] = Instantiate(tennisPrefabs[0], leftHandRootGameObject.transform); // i에 따라 1, 2번 프리팹
+        rightHandGameObjects[0] = Instantiate(tennisPrefabs[2], rightHandRootGameObject.transform); // i에 따라 3, 4번 프리팹 
+    }
     public TutorialTennisType GetNonClearTutorialType()
     {
         foreach (KeyValuePair<TutorialTennisType,bool> keyValuePair in tutorialClearData)
@@ -66,14 +74,11 @@ public class TutorialTennisManager : MonoBehaviour
     {
         StartCoroutine(TennisTutorialRoutine());
     }
-    IEnumerator TennisTutorialRoutine()
+    public IEnumerator TennisTutorialRoutine()
     {
         Debug.Log("Start Tutorial Routine");
         tutorialTennisType = GetNonClearTutorialType();
-        // 튜토리얼 타입에 따라
-        // 레프트 잽, 라이트 잽 각 2번
-        // 레프트 훅, 라이트 훅 각 2번
-        // 레프트 어퍼컷, 라이트 어퍼컷 각 2번 
+        
         while (tutorialTennisType != TutorialTennisType.Clear)
         {
             yield return StartCoroutine(RoutineByTennisType(tutorialTennisType));
@@ -107,7 +112,7 @@ public class TutorialTennisManager : MonoBehaviour
                 break;
         }
 
-        yield return StartCoroutine(WaitUntilProcessedNumberMatchSix());
+        yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(2));
         Debug.Log($"[Tutorial] Tennis Type {tutorialTennisType} End! You succeed {succeedNumber} Times.");
                 
         // 성공 개수 체크, 실패하면 성공 개수 초기화
@@ -123,7 +128,6 @@ public class TutorialTennisManager : MonoBehaviour
                     tutorialClearData[TutorialTennisType.RightHand] = true;
                     break;
             }
-
             succeedNumber = 0;
             processedNumber = 0;
         }
@@ -152,9 +156,9 @@ public class TutorialTennisManager : MonoBehaviour
         }
         
     }
-    IEnumerator WaitUntilProcessedNumberMatchSix()
+    IEnumerator WaitUntilProcessedMatchTotalNumber(int totalNum = 6)
     {
-        while (processedNumber < 6)
+        while (processedNumber < totalNum)
         {
             yield return null;
         }

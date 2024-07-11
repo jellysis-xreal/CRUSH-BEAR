@@ -16,7 +16,7 @@ public class AttackPlayer : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Init Attack");
+        //Debug.Log("Init Attack");
         _meshRenderer = GetComponent<MeshRenderer>();
         _playerBodyTransform = GameObject.FindWithTag("body").transform;
     }

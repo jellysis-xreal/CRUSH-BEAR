@@ -94,7 +94,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
 
     IEnumerator JumpRoutineAreaIndex7to9()
     {
-        Debug.Log("step 1 7 to 9");
+        //Debug.Log("step 1 7 to 9");
         float firstStepTime = 1f;
         JumpStep1(firstStepTime);
         yield return new WaitForSeconds(firstStepTime);
@@ -127,8 +127,8 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         _rigidbody = GetComponent<Rigidbody>();
         _objectArrivalAreaManager = GameObject.FindWithTag("ArrivalAreaParent").GetComponent<ObjectArrivalAreaManager>();
         planeTransform = GameObject.FindWithTag("Plane").transform;
-        Debug.Log("arrivalAreaIndex " + arrivalAreaIndex);
-        Debug.Log("_objectArrivalAreaManager" + _objectArrivalAreaManager != null);
+        //Debug.Log("arrivalAreaIndex " + arrivalAreaIndex);
+        //Debug.Log("_objectArrivalAreaManager" + _objectArrivalAreaManager != null);
 
         _areaTransform = _objectArrivalAreaManager.arrivalAreas[arrivalAreaIndex-1];
         jumpHeight = _areaTransform.position.y - transform.position.y;
@@ -136,7 +136,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     
     private void JumpToTarget1To6Transform()
     {
-        Debug.Log("Jump Step 2 1 to 6 Start");
+        //Debug.Log("Jump Step 2 1 to 6 Start");
         // 플레이어 거리까지 점프 수 계산
         // (플레이어, 오브젝트 간 거리)와 점프하는 폭으로 
         transform.LookAt(_areaTransform);
@@ -159,7 +159,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     }
     private void JumpStep2ToTarget7To9Transform()
     {
-        Debug.Log("Jump Step 2 7 to 9 Start");
+        //Debug.Log("Jump Step 2 7 to 9 Start");
         // 플레이어 거리까지 점프 수 계산
         // (플레이어, 오브젝트 간 거리)와 점프하는 폭으로 
         transform.LookAt(_areaTransform);
@@ -185,7 +185,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     private bool PredictCheckablePosition()
     {
         int remainJumpNumberOfTimes = totalJumpNumberOfTimes - _jumpedNumberOfTimes; 
-        Debug.Log($"remainJumpNumberOfTimes : {remainJumpNumberOfTimes}");
+        //Debug.Log($"remainJumpNumberOfTimes : {remainJumpNumberOfTimes}");
         if ((arrivalAreaIndex > 6 && arrivalAreaIndex <= 9) && remainJumpNumberOfTimes == 1)
         {
             jumpTween.Kill();
@@ -242,7 +242,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
 
     private void JumpStep3ToTarget7To9Transform()
     {
-        Debug.Log("Jump Step 3 7 to 9 Start");
+        //Debug.Log("Jump Step 3 7 to 9 Start");
         transform.LookAt(_areaTransform);
 
         Vector3 nextDir = new Vector3(_areaTransform.position.x - transform.position.x,
@@ -264,7 +264,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
         _jumpedNumberOfTimes += 1;
         if(_checkablePositionList.Count > 0) _checkablePositionList.Clear();
 
-        Debug.Log($"totalJumpNumberOfTimes <= _jumpedNumberOfTimes {totalJumpNumberOfTimes <= _jumpedNumberOfTimes}, jumpTween {jumpTween != null}");
+        //Debug.Log($"totalJumpNumberOfTimes <= _jumpedNumberOfTimes {totalJumpNumberOfTimes <= _jumpedNumberOfTimes}, jumpTween {jumpTween != null}");
         if(totalJumpNumberOfTimes <= _jumpedNumberOfTimes) jumpTween.Kill();
     }
     private void OnTriggerEnter(Collider other)

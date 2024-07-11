@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 using UnityEngine.XR.Content.Interaction;
 using Random = UnityEngine.Random;
 
-public class NodeInstantiator_minha : MonoBehaviour
+public class NodeInstantiator : MonoBehaviour
 {
     // Refactoring Punch Topping
     public List<GameObject> cookiePrefabs;          // 방향에 따르지 않는 랜덤한 쿠키

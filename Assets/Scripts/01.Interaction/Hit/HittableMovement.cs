@@ -466,7 +466,12 @@ public class HittableMovement : MonoBehaviour
                 if (this.gameObject.activeSelf == true && _isNotHitted && !_goTo)
                 {
                     //Debug.Log("[DEBUG][JMH] 처리되지 못한 토핑 처리됨");
-                    if (!_baseObject.IsItScored()) GameManager.Score.ScoringMiss(this.gameObject);
+                    if (!_baseObject.IsItScored())
+                    {
+                        GameManager.Score.ScoringMiss(this.gameObject);
+                        _baseObject.SetScoreBool();
+                    }
+
                     GoToRefrigerator();
                     
                     _goTo = true;

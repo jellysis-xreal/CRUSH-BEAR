@@ -158,6 +158,10 @@ public class ScoreManager : MonoBehaviour
         scoreType score = scoreType.Miss;
         AddScore(score);
         
+        // Swing은 뒤로 넘어간 오브젝트 miss 처리
+        if (GameManager.Wave.GetWaveType() == WaveType.Hitting)
+            target.GetComponent<BaseObject>().SetScoreBool();
+
         if (player == null)
             player = GameObject.FindWithTag("Player");
         

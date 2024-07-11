@@ -244,12 +244,12 @@ public class HittableMovement : MonoBehaviour
         //Debug.Log("[DEBUG] " + this.transform.name + "이 " + other.transform.name + "와 충돌함. \n현재 상태는 " + curState);
         if (_baseObject.IsItScored()) return;
         if (other.gameObject.CompareTag("Plane")) return;
-        if (!Debugging)
-        {
-            CanInteractTopping();
-            if (!IsInteractable()) return;
-            //if (curState != toppingState.interacable) return;
-        }
+        // if (!Debugging)
+        // {
+        //     CanInteractTopping();
+        //     if (!IsInteractable()) return;
+        //     if (curState != toppingState.interacable) return;
+        // }
         
         // FOR DEBUG
         // Debug.Log("[DEBUG][JMH]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +

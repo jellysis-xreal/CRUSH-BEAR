@@ -32,11 +32,11 @@ public class StageUI : MonoBehaviour
             background.color = Color.white;
             bearImage.color = Color.white;
             title.text = stageData[ID].stageName;
-            // ÇöÀç ¹öÆ°À¸·Î µÇ¾î ÀÖÀ¸³ª, ÄíÅ°·Î º¯°æ ¿¹Á¤ 
+            // í˜„ìž¬ ë²„íŠ¼ìœ¼ë¡œ ë˜ì–´ ìžˆìœ¼ë‚˜, ì¿ í‚¤ë¡œ ë³€ê²½ ì˜ˆì • 
             stageStart.onClick.RemoveAllListeners();
             stageStart.onClick.AddListener(() => StartStage(stageData[ID]));
             score.text = temp.currentScore.ToString();
-            // ÇöÀç Á¡¼ö ºñ±³ÇØ¼­ ·©Å© »êÁ¤
+            // í˜„ìž¬ ì ìˆ˜ ë¹„êµí•´ì„œ ëž­í¬ ì‚°ì •
             float rankScore = temp.currentScore[ID] / (float)stageData[ID].maxScore;
 
             if (rankScore > 0.9f)

@@ -63,7 +63,7 @@ public class TextToImage : MonoBehaviour
         for(int i = 0; i < someIntToString.Length; ++i)
         {
             textImage[imageIndex].gameObject.SetActive(true);          
-            //¾Æ½ºÅ°ÄÚµå º¯È¯µÈ int°ªÀÌ ³ª¿Í¼­ °¡Àå ÃÖÃÊÀÇ °ªÀÎ 0ÀÇ ¾Æ½ºÅ°ÄÚµå °ªÀ» »©ÁÜ
+            //ì•„ìŠ¤í‚¤ì½”ë“œ ë³€í™˜ëœ intê°’ì´ ë‚˜ì™€ì„œ ê°€ìž¥ ìµœì´ˆì˜ ê°’ì¸ 0ì˜ ì•„ìŠ¤í‚¤ì½”ë“œ ê°’ì„ ë¹¼ì¤Œ
             textImage[imageIndex].sprite = data.numberSprites[someIntToString[i] - '0'];
             imageIndex++;
         }

@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Draggable : MonoBehaviour
 {
     // [SerializeField] 
-    private float minZ = 0.0f;
+    //private float minZ = 0.0f;
     // [SerializeField] 
     private float maxZ = 0.04f;
 

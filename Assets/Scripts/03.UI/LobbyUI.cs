@@ -8,9 +8,9 @@ public class LobbyUI : MonoBehaviour
 {
     [SerializeField] private StageUI[] stageUI;
     [SerializeField] private StageData[] stageData;
-    // Ãâ½Ã±îÁö ±â´É±¸ÇöÀ» ÇÏÁö´Â ¾ÊÀ» »ý°¢. ´Ù¸¸ ¹Ì¸® ¸¸µé¾î ³õ¾ÒÀ½ 0¹øÀ» ¿ÞÂÊ, 1¹øÀ» ¿À¸¥ÂÊÀ¸·Î ÇÒ ¿¹Á¤
+    // ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½É±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½Ù¸ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     [SerializeField] private Button[] arrowButtons;
-    private int currentIndex;
+    //private int currentIndex;
 
     private void Awake()
     {
@@ -18,8 +18,8 @@ public class LobbyUI : MonoBehaviour
     }
     public void InitSettings()
     {
-        //ÃßÈÄ °ÔÀÓ ½ÃÀÛÇÒ ¶§·Î º¯°æ¿¹Á¤.
-        currentIndex = 0;
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½æ¿¹ï¿½ï¿½.
+        //currentIndex = 0;
         GameManager.Instance.Save.LoadSaveData();
         for(int i = 0; i < stageUI.Length; ++i)
         {

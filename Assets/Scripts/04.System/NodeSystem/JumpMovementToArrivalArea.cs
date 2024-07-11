@@ -17,7 +17,7 @@ public class JumpMovementToArrivalArea : MonoBehaviour, IMovement
     public int totalJumpNumberOfTimes = 10; // area에 도달하기 까지 chd 점프할 횟수 n
     public Vector3 lastPositon;// 점프할 때 마다 마지막 떨어질 포지션 계산 다시해야 함.
     public int _jumpedNumberOfTimes = 0; // 생성된 이후로 점프한 횟수
-    private int _distanceToNum = 0;
+    //private int _distanceToNum = 0;
     public float jumpHeight = 0; // ObjectArrivalArea[index].transform.position.y와 동기화
     private List<Vector3> _checkablePositionList = new List<Vector3>(); // 최대 점프 지점, 낙하 지점
     #endregion

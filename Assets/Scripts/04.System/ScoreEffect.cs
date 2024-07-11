@@ -14,7 +14,7 @@ public class ScoreEffect : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     private float firstY;
      private Camera cameraToLookAt;
-    private bool _isActive = false;
+    //private bool _isActive = false;
     
     // Start is called before the first frame update
     void Start()

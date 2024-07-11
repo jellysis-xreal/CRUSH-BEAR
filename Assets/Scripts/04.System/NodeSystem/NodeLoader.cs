@@ -71,6 +71,7 @@ public class NodeLoader : MonoBehaviour
             }
             catch (Exception e)
             {
+                //Debug.Log(e.ToString());
                 break;                
                 throw;
             }

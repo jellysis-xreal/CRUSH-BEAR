@@ -24,7 +24,7 @@ public class AttackPlayer : MonoBehaviour
     public void DirectionAttack()
     {
         float attackPrepareDuration = 1f;
-        float attackingTime = 1f;
+        //float attackingTime = 1f;
         
         Shake(attackPrepareDuration);
         

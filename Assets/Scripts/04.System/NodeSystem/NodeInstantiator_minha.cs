@@ -203,6 +203,7 @@ public class NodeInstantiator_minha : MonoBehaviour
             // NodeInfoToMusicData(wave); 
             // isWaveFinished = true;
             //Debug.Log("Error 더이상 Enqueue할 data없음."); //[XMC]
+            //Debug.Log(e.ToString());
             StopCoroutine(_curWaveCoroutine);
             return;
             throw;

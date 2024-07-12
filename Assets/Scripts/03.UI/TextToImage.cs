@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(HorizontalLayoutGroup))]
 public class TextToImage : MonoBehaviour
 {
-    protected SpriteData data;
+    [SerializeField] protected SpriteData data;
     protected Image[] textImage;
     [SerializeField] protected float targetWidth, targetHeight;
     protected RectTransform[] imageRectTransform;
@@ -18,7 +18,6 @@ public class TextToImage : MonoBehaviour
     {
         if(!isInitialized)
         {
-            data = Resources.Load<SpriteData>("SpriteData");
             textImage = transform.GetComponentsInChildren<Image>();
             imageRectTransform = new RectTransform[textImage.Length];
             for(int i = 0; i < imageRectTransform.Length; ++i)
@@ -87,4 +86,13 @@ public class TextToImage : MonoBehaviour
         textImage[index].sprite = data.numberSprites[decimalPoint];
         return index;
     }
+}
+
+[CreateAssetMenu(fileName = "SpriteData", menuName = "ScriptableObjects/SpriteData", order = 1)]
+public class SpriteData : ScriptableObject
+{
+    public Sprite[] numberSprites;
+    public Sprite comma;
+    public Sprite dot;
+    public Sprite x;
 }

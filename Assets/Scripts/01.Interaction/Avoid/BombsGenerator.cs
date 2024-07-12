@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BombsGenerator : MonoBehaviour
+{
+
+    float ranInterval = 1.0f;
+    float totalTime = 0;
+    float nextGenTime = 0;
+    public GameObject bombs;
+    public GameObject player;
+    public Transform playerTransform;
+
+    void Start()
+    {
+        player = GameObject.FindWithTag("MainCamera");
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        totalTime += Time.deltaTime;
+
+        if (nextGenTime < totalTime){
+            GenerateBombs();
+            ranInterval = Random.Range(5.0f, 7.0f);
+            nextGenTime += ranInterval;
+        }
+    }
+
+    private void GenerateBombs()
+    {
+        playerTransform = player.transform;
+        float randomX = Random.Range(-2f, 2f);
+        float randomZ = 5f;
+        float randomY = 3f;
+
+        Vector3 randomPosition = new Vector3(randomX, randomY, randomZ);
+        randomPosition = playerTransform.position + randomPosition;
+
+        Instantiate(bombs, randomPosition, Quaternion.identity);
+    }
+}

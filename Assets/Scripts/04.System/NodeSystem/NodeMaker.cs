@@ -39,7 +39,7 @@ public class NodeMaker : MonoBehaviour
         stageDataName = new string[settingNodeInfos.Length];
         for (int i = 0; i < settingNodeInfos.Length; i++)
         {
-            stageDataName[i] = $"StageData{stageNum}_Node{i}";
+            stageDataName[i] = $"Stage{stageNum}_Node{i}";
             //Debug.Log(stageDataName[i]);
         }
     }

@@ -211,9 +211,73 @@ public class HittableMovementTutorial : MonoBehaviour
         };
     }
 
+    //private void OnCollisionEnter(Collision other)
+    //{
+    //    if(_isHitted) return;
+    //    CanInteractTopping();
+    //    Debug.Log("[DEBUGGING]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
+    //              "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
+
+    //    if (other.gameObject.CompareTag("Plane")) return;
+
+    //    if (IsInteractable() || curState == toppingState.interacable)
+    //    {
+    //        // FOR DEBUG
+    //        //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
+    //        Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 ");
+
+    //        bool IsRight = false;
+
+    //        // 잘못 충돌한 예외 처리
+    //        if (!other.transform.TryGetComponent(out Rigidbody body))
+    //            return;
+
+    //        //DOTween.KillAll();
+
+    //        // hitter의 side 색과 일치한 topping일 경우
+    //        InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
+    //        Debug.Log($"hitter Side {colSide}");
+    //        if (colSide == sideType)
+    //        {
+    //            IsRight = true;
+    //        }
+    //        else
+    //        {
+    //            // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
+    //            IsRight = IsRightJudgment(other, colSide); 
+    //            //if (IsRight) 
+    //                //Debug.Log("[DEBUG] 예외 처리 성공");
+    //            //else
+    //                //Debug.Log("[DEBUG] 예외가 아니었군");
+    //        }
+
+    //        _isHitted = true;
+    //        if (SceneManager.GetActiveScene().name == "03.TutorialScene")
+    //        {
+    //            if (IsRight)
+    //            {
+    //                Debug.Log("[Tennis] Succced");
+    //                GameManager.TutorialTennis.processedNumber++;
+    //                GameManager.TutorialTennis.succeedNumber++;
+    //                GameManager.Score.ScoringHit(this.gameObject, IsRight);
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("[Tennis] Failed");
+    //                GameManager.TutorialTennis.processedNumber++;
+    //                GameManager.Score.ScoringHit(this.gameObject, IsRight);
+    //            }
+    //        }
+    //        // Set Score & State
+    //        curState = toppingState.refrigerator;
+    //    }
+    //    else
+    //        return;
+    //}
+
     private void OnCollisionEnter(Collision other)
     {
-        if(_isHitted) return;
+        if (_isHitted) return;
         CanInteractTopping();
         Debug.Log("[DEBUGGING]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
                   "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
@@ -222,19 +286,12 @@ public class HittableMovementTutorial : MonoBehaviour
 
         if (IsInteractable() || curState == toppingState.interacable)
         {
-            // FOR DEBUG
-            //Debug.Log("[DEBUG] " + this.transform.name + "이 "+ other.transform.name+ "와 충돌함. \n현재 상태는 " + curState);
-            Debug.Log("[DEBUG] "+this.transform.name + "의 충돌 감지 시간은 ");
-            
+            Debug.Log("[DEBUG] " + this.transform.name + "의 충돌 감지 시간은 ");
             bool IsRight = false;
 
-            // 잘못 충돌한 예외 처리
             if (!other.transform.TryGetComponent(out Rigidbody body))
                 return;
 
-            //DOTween.KillAll();
-            
-            // hitter의 side 색과 일치한 topping일 경우
             InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
             Debug.Log($"hitter Side {colSide}");
             if (colSide == sideType)
@@ -243,37 +300,31 @@ public class HittableMovementTutorial : MonoBehaviour
             }
             else
             {
-                // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
-                IsRight = IsRightJudgment(other, colSide); 
-                //if (IsRight) 
-                    //Debug.Log("[DEBUG] 예외 처리 성공");
-                //else
-                    //Debug.Log("[DEBUG] 예외가 아니었군");
+                IsRight = IsRightJudgment(other, colSide);
             }
 
             _isHitted = true;
             if (SceneManager.GetActiveScene().name == "03.TutorialScene")
             {
+                GameManager.TutorialTennis.processedNumber++;
                 if (IsRight)
                 {
-                    Debug.Log("[Tennis] Succced");
-                    GameManager.TutorialTennis.processedNumber++;
+                    Debug.Log("[Tennis] Succeeded");
                     GameManager.TutorialTennis.succeedNumber++;
-                    GameManager.Score.ScoringHit(this.gameObject, IsRight);
                 }
                 else
                 {
                     Debug.Log("[Tennis] Failed");
-                    GameManager.TutorialTennis.processedNumber++;
-                    GameManager.Score.ScoringHit(this.gameObject, IsRight);
                 }
+                GameManager.Score.ScoringHit(this.gameObject, IsRight);
             }
-            // Set Score & State
             curState = toppingState.refrigerator;
         }
         else
             return;
     }
+
+
 
     private bool IsRightJudgment(Collision _col, InteractionSide type)
     {

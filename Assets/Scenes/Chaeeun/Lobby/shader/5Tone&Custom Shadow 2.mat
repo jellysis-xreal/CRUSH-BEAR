@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 5Tone&Custom Shadow 2
+  m_Shader: {fileID: 4800000, guid: e88aeddd2ef1f934d805981244872e27, type: 3}
+  m_Parent: {fileID: 2100000, guid: 5599cc68b15386d4d86f9513a8c843b0, type: 2}
+  m_ModifiedSerializedProperties: 16
+  m_ValidKeywords:
+  - _HALFTONESHAPE_DOT
+  - _RECEIVE_SHADOWS_OFF
+  - _TOON_SHADING_ON
+  m_InvalidKeywords:
+  - _RECEIVESHADOWS_OFF
+  - _STEPVIARAMPTEXTURE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - SRPDEFAULTUNLIT
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _RampTex:
+        m_Texture: {fileID: 2800000, guid: 74c09d795d5e35c4da0e38e0440b62f3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ReceiveShadows: 0
+    m_Colors:
+    - _BaseColor: {r: 0.9843137, g: 0.5929637, b: 0.56078434, a: 1}
+    - _ShadowColor: {r: 0.26760694, g: 0.21960774, b: 0.6509804, a: 1}
+  m_BuildTextureStacks: []

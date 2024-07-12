@@ -113,6 +113,7 @@ public class straightMovingToArrivalArea : MonoBehaviour, IMovement
             // 뒤에 존재하는 곰돌이 공격 성공 처리
             Debug.Log($"{gameObject.name} Trigger Pad");
             GameManager.Player.MinusPlayerLifeValue();
+            other.GetComponent<BGBearManager>().MissNodeProcessing(this.gameObject);
             this.enabled = false;
         }
     }

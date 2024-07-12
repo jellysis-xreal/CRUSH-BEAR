@@ -188,8 +188,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Destroyed: 0
+  IsEndingCookie: 0
   _childTriggerChecker: {fileID: 0}
-  correctMotion: 6
+  correctMotion: 0
 --- !u!114 &4774524489940193852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,7 +239,7 @@ PrefabInstance:
     - target: {fileID: 7432516465005072250, guid: 46e1d39b546783443bc5320b56c0eef7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7432516465005072250, guid: 46e1d39b546783443bc5320b56c0eef7,
         type: 3}
@@ -279,6 +280,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7486118212849520260, guid: 46e1d39b546783443bc5320b56c0eef7,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7486118212849520260, guid: 46e1d39b546783443bc5320b56c0eef7,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7486118212849520260, guid: 46e1d39b546783443bc5320b56c0eef7,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8273888297628560613, guid: 46e1d39b546783443bc5320b56c0eef7,
         type: 3}

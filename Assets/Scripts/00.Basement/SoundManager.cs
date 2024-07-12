@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -216,10 +215,5 @@ public class SoundManager : MonoBehaviour
         yield return new WaitForSeconds(clipLength);
         source.clip = null;
         source.Stop();
-    }
-
-    public void SetMusic(StageData stage)
-    {
-        musicClips = stage.musicClips;
     }
 }

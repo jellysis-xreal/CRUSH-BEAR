@@ -7,7 +7,6 @@ public class ComboText : TextToImage
     {
         if (!isInitialized)
         {
-            data = Resources.Load<SpriteData>("SpriteData");
             textImage = transform.GetComponentsInChildren<Image>();
             imageRectTransform = new RectTransform[textImage.Length];
             for (int i = 0; i < imageRectTransform.Length; ++i)

@@ -31,7 +31,7 @@ public class NodeLoader : MonoBehaviour
         stageDataName = new string[FindEachStageDataLength()];
         for (int i = 0; i < stageDataName.Length; i++)
         {
-            stageDataName[i] = $"StageData{stageNum}_Node{i}";
+            stageDataName[i] = $"Stage{stageNum}_Node{i}";
             //Debug.Log(stageDataName[i]);
         }
     }
@@ -52,7 +52,7 @@ public class NodeLoader : MonoBehaviour
         _nodeInstantiater.InitArray(stageDataName.Length);
         for (int i = 0; i < stageDataName.Length; i++)
         {
-            NodeInfo info = LoadJsonFile<NodeInfo>(Application.dataPath, $"StageData{stageNum}_Node{i}");
+            NodeInfo info = LoadJsonFile<NodeInfo>(Application.dataPath, $"Stage{stageNum}_Node{i}");
             _nodeInstantiater.InstantiateNode(info, info.objectType, info.objectNum);
         }
         // NodeInfo에 맞게 Node 생성된 이후 설정한 generationTime 값에 따라 스테이지 시작 호출
@@ -65,7 +65,7 @@ public class NodeLoader : MonoBehaviour
         {
             try
             {
-                FileStream fileStream = new FileStream(string.Format("{0}/{1}.json", Application.dataPath, $"StageData{stageNum}_Node{length}"), FileMode.Open);
+                FileStream fileStream = new FileStream(string.Format("{0}/{1}.json", Application.dataPath, $"Stage{stageNum}_Node{length}"), FileMode.Open);
                 fileStream.Close();
                 length += 1;
             }

@@ -16,7 +16,7 @@ public class AttackPlayer : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Init Attack");
+        //Debug.Log("Init Attack");
         _meshRenderer = GetComponent<MeshRenderer>();
         _playerBodyTransform = GameObject.FindWithTag("body").transform;
     }
@@ -24,7 +24,7 @@ public class AttackPlayer : MonoBehaviour
     public void DirectionAttack()
     {
         float attackPrepareDuration = 1f;
-        float attackingTime = 1f;
+        //float attackingTime = 1f;
         
         Shake(attackPrepareDuration);
         

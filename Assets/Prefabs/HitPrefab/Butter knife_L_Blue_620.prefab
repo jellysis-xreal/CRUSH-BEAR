@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7988844757866928932}
   m_Layer: 0
   m_Name: Blue
-  m_TagString: Untagged
+  m_TagString: Hitter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,11 +96,11 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 1
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 2806218763840032170}
   m_Layer: 0
   m_Name: trigger
-  m_TagString: Untagged
+  m_TagString: Hitter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 2191075927448243216}
   m_Layer: 0
   m_Name: trigger
-  m_TagString: Untagged
+  m_TagString: Hitter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 5742859911867071617}
   m_Layer: 0
   m_Name: Blue
-  m_TagString: Untagged
+  m_TagString: Hitter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -594,7 +594,7 @@ BoxCollider:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 1
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1

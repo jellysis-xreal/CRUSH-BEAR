@@ -13,7 +13,7 @@ public class TutorialPunchManager : MonoBehaviour
     public IEnumerator SpawnAndHandleCookie()
     {
         // TODO : 생성 코드
-        zapGameObjects[0].transform.position = new Vector3(0, 1f, 1f);
+        zapGameObjects[0].transform.position = new Vector3(0, 1f, 1f); // SYJ
         // 부숴질 때 까지 대기
         yield return new WaitUntil((() => (zapGameObjects[0].activeSelf == false)));
     }

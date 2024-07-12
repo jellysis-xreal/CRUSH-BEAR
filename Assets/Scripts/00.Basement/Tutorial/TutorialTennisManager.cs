@@ -96,19 +96,109 @@ public class TutorialTennisManager : MonoBehaviour
         return TutorialTennisType.Clear;
     }
 
-    public void StartTennisTutorialRoutine()
+    public void StartTennisTutorialRoutine(int fruitCount)
     {
-        StartCoroutine(TennisTutorialRoutine());
+        StartCoroutine(TennisTutorialRoutine(fruitCount));
     }
-    public IEnumerator TennisTutorialRoutine()
+
+    //public void StartTennisTutorialRoutine()
+    //{
+    //    StartCoroutine(TennisTutorialRoutine());
+    //}
+    //public IEnumerator TennisTutorialRoutine()
+    //{
+    //    Debug.Log("Start Tutorial Routine");
+    //    tutorialTennisType = GetNonClearTutorialType();
+
+    //    while (tutorialTennisType != TutorialTennisType.Clear)
+    //    {
+    //        yield return StartCoroutine(RoutineByTennisType(tutorialTennisType));
+
+    //        // 루틴 끝내고 게임 클리어 확인
+    //        tutorialTennisType = GetNonClearTutorialType();
+    //    }
+
+    //    Debug.Log("[Tutorial] All Routine Clear~!");
+    //    yield return null;
+    //}
+
+    //IEnumerator RoutineByTennisType(TutorialTennisType tutorialTennisType)
+    //{
+    //    // HittableMovementTutorial Init        
+    //    Debug.Log("Routine Start");
+
+    //    ResetGameObjectActive();
+
+    //    switch (tutorialTennisType)
+    //    {
+    //        case TutorialTennisType.LeftHand:
+    //            for (int i = 0; i < leftHandGameObjects.Length; i++)
+    //                leftHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
+    //                    InitializeTopping(tutorialTennisType, 3 + 2f * i);        
+    //            break;
+    //        case TutorialTennisType.RightHand:
+    //            for (int i = 0; i < rightHandGameObjects.Length; i++)
+    //                rightHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
+    //                    InitializeTopping(tutorialTennisType, 3 + 2f * i);
+    //            break;
+    //    }
+
+    //    yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber());
+    //    Debug.Log($"[Tutorial] Tennis Type {tutorialTennisType} End! You succeed {succeedNumber} Times.");
+
+    //    // 성공 개수 체크, 실패하면 성공 개수 초기화
+    //    if (succeedNumber == 6)
+    //    {
+    //        Debug.Log($"[Tutorial] You Succeed In {tutorialTennisType}!");
+    //        switch (tutorialTennisType)
+    //        {
+    //            case TutorialTennisType.LeftHand:
+    //                tutorialClearData[TutorialTennisType.LeftHand] = true;            
+    //                break;
+    //            case TutorialTennisType.RightHand:
+    //                tutorialClearData[TutorialTennisType.RightHand] = true;
+    //                break;
+    //        }
+    //        succeedNumber = 0;
+    //        processedNumber = 0;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"[Tutorial] You Failed In {tutorialTennisType}! Try Again!!");
+    //        succeedNumber = 0;
+    //        processedNumber = 0;
+    //    }
+
+    //    yield return null;
+    //}
+
+
+
+    private void ResetGameObjectActive()
+    {
+        // 꺼진 오브젝트 활성화
+        for (int i = 0; i < rightHandRootGameObject.transform.childCount; i++)
+        {
+            Transform t = rightHandRootGameObject.transform.GetChild(i);
+            if(!t.gameObject.activeSelf) t.gameObject.SetActive(true);
+        }
+        for (int i = 0; i < leftHandRootGameObject.transform.childCount; i++)
+        {
+            Transform t = leftHandRootGameObject.transform.GetChild(i);
+            if(!t.gameObject.activeSelf) t.gameObject.SetActive(true);
+        }
+        
+    }
+    // 새로 추가한 코드
+    public IEnumerator TennisTutorialRoutine(int fruitCount)
     {
         Debug.Log("Start Tutorial Routine");
         tutorialTennisType = GetNonClearTutorialType();
-        
+
         while (tutorialTennisType != TutorialTennisType.Clear)
         {
-            yield return StartCoroutine(RoutineByTennisType(tutorialTennisType));
-            
+            yield return StartCoroutine(RoutineByTennisType(tutorialTennisType, fruitCount)); // 과일 생성 루틴 호출
+
             // 루틴 끝내고 게임 클리어 확인
             tutorialTennisType = GetNonClearTutorialType();
         }
@@ -117,38 +207,38 @@ public class TutorialTennisManager : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator RoutineByTennisType(TutorialTennisType tutorialTennisType)
+    IEnumerator RoutineByTennisType(TutorialTennisType tutorialTennisType, int fruitCount)
     {
         // HittableMovementTutorial Init        
         Debug.Log("Routine Start");
 
         ResetGameObjectActive();
-        
-        switch (tutorialTennisType)
+
+        for (int i = 0; i < fruitCount; i++)
         {
-            case TutorialTennisType.LeftHand:
-                for (int i = 0; i < leftHandGameObjects.Length; i++)
-                    leftHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
-                        InitializeTopping(tutorialTennisType, 3 + 2f * i);        
-                break;
-            case TutorialTennisType.RightHand:
-                for (int i = 0; i < rightHandGameObjects.Length; i++)
-                    rightHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
-                        InitializeTopping(tutorialTennisType, 3 + 2f * i);
-                break;
+            if (i % 2 == 0)
+            {
+                leftHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
+                    InitializeTopping(tutorialTennisType, 3 + 2f * i);
+            }
+            else
+            {
+                rightHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
+                    InitializeTopping(tutorialTennisType, 3 + 2f * i);
+            }
         }
 
-        yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber());
+        yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(fruitCount)); // 과일 처리될 때까지 대기
         Debug.Log($"[Tutorial] Tennis Type {tutorialTennisType} End! You succeed {succeedNumber} Times.");
-                
+
         // 성공 개수 체크, 실패하면 성공 개수 초기화
-        if (succeedNumber == 6)
+        if (succeedNumber == fruitCount)
         {
             Debug.Log($"[Tutorial] You Succeed In {tutorialTennisType}!");
             switch (tutorialTennisType)
             {
                 case TutorialTennisType.LeftHand:
-                    tutorialClearData[TutorialTennisType.LeftHand] = true;            
+                    tutorialClearData[TutorialTennisType.LeftHand] = true;
                     break;
                 case TutorialTennisType.RightHand:
                     tutorialClearData[TutorialTennisType.RightHand] = true;
@@ -167,22 +257,7 @@ public class TutorialTennisManager : MonoBehaviour
         yield return null;
     }
 
-    private void ResetGameObjectActive()
-    {
-        // 꺼진 오브젝트 활성화
-        for (int i = 0; i < rightHandRootGameObject.transform.childCount; i++)
-        {
-            Transform t = rightHandRootGameObject.transform.GetChild(i);
-            if(!t.gameObject.activeSelf) t.gameObject.SetActive(true);
-        }
-        for (int i = 0; i < leftHandRootGameObject.transform.childCount; i++)
-        {
-            Transform t = leftHandRootGameObject.transform.GetChild(i);
-            if(!t.gameObject.activeSelf) t.gameObject.SetActive(true);
-        }
-        
-    }
-    IEnumerator WaitUntilProcessedMatchTotalNumber(int totalNum = 6)
+    IEnumerator WaitUntilProcessedMatchTotalNumber(int totalNum)
     {
         while (processedNumber < totalNum)
         {

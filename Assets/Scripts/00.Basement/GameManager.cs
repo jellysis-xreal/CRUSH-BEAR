@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour
     public SaveManager Save { get { return _save; } }
     //+------------------------//
     
-    
     // GameState 이벤트를 정의
     public delegate void GameStateChangedHandler(GameState newGameState);
     public static event GameStateChangedHandler OnGameStateChanged;
@@ -83,7 +82,7 @@ public class GameManager : MonoBehaviour
         {           
             SetGameState(GameState.Lobby);
             InitLobby();
-            StartCoroutine(LoadWaveScene());
+
         }
         // Test();
     }
@@ -184,17 +183,18 @@ public class GameManager : MonoBehaviour
             
             //+-------- GameManager Init +--------//
             currentGameState = GameState.Lobby;
-            
+
             //+-------- Managers Init() +--------//
-            
+
             //_score.Init();
             //_player.Init();
+
+            Save.LoadSaveData();
             _data.Init();
             //_wave.Init();
             _sound.Init();
             _ui.Init();
             _resource.Init();
-            
             // Effect & Sound
             Sound.PlayMusic_Lobby(true);
         }

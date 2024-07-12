@@ -6,28 +6,40 @@ using UnityEngine;
 
 public class SaveManager
 {
-    // 추후 이사하겠습니다~
-    private int stageNumber = 1;
     public SaveData data;
     private string saveFileName = "crushBearSave.json";
+    public bool isTutorialClear { get { return data.isUnlocked[0]; } }
     public void LoadSaveData()
     {
         string path = Application.persistentDataPath + "/" + saveFileName;
-
+        Debug.Log(path);
         if(File.Exists(path))
         {
             string jsonData = File.ReadAllText(path);
             data = JsonUtility.FromJson<SaveData>(jsonData);
+            Debug.Log("로드성공");
         }
         else
         {
+            int stageNumber = GameManager.Data.stageData.Length;
             data = new SaveData(stageNumber);
             SaveLoadData();
+            Debug.Log("파일 생성");
         }
     }
 
     public void SaveLoadData()
     {
+        string saveData = JsonUtility.ToJson(data, true);
+        string path = Application.persistentDataPath + "/" + saveFileName;
+        File.WriteAllText(path, saveData);
+    }
+
+    public void SaveLoadData(int ID, int currentScore)
+    {
+        int unlockID = GameManager.Data.stageData[ID].unlockID;
+        data.isUnlocked[unlockID] = true;
+        data.currentScore[ID] = currentScore;
         string saveData = JsonUtility.ToJson(data, true);
         string path = Application.persistentDataPath + "/" + saveFileName;
         File.WriteAllText(path, saveData);

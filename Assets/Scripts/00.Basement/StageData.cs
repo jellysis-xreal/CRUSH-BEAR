@@ -8,4 +8,5 @@ public class StageData : ScriptableObject
     [SerializeField] public string stageName;
     [SerializeField] public List<AudioClip> musicClips;
     [SerializeField] public int maxScore;
+    [SerializeField] public int unlockID;
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private LobbyUI lobbyUI;
     public GameObject floatingUIPrefab;
     
     // Score Floating Text UI Pool
@@ -19,6 +20,7 @@ public class UIManager : MonoBehaviour
 
     public void Init()
     {
+        lobbyUI.InitSettings();
     }
 
     public void Start()

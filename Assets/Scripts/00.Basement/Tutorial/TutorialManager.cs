@@ -9,6 +9,8 @@ public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private int phaseIndex;
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private TextMeshProUGUI dialogueText2;
+
     [SerializeField] private Animator aniPunch1;
     [SerializeField] private Animator aniPunch2;
     [SerializeField] private Animator aniSwing;
@@ -24,10 +26,11 @@ public class TutorialManager : MonoBehaviour
 
         // "dialogueTXT" 이름의 오브젝트를 찾기
         dialogueText = GameObject.Find("dialogueTXT")?.GetComponent<TextMeshProUGUI>();
+        dialogueText2 = FindInactiveObject("dialogueTXT2")?.GetComponent<TextMeshProUGUI>();
 
-        if (dialogueText == null)
+        if (dialogueText2 == null)
         {
-            Debug.LogError("Dialogue Text object with name 'dialogueTXT' not found");
+            Debug.LogError("Dialogue Text object with name 'dialogueTXT2' not found");
         }
 
         // "Tutorial-Ani01-punch1" 이름의 애니메이터를 찾기
@@ -180,14 +183,14 @@ public class TutorialManager : MonoBehaviour
         while (true)
         {
             // Dialogue : 쿠키를 세게 칠 수록 좋은 점수를 받을 수 있어! 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!
-            ShowDialogue("쿠키를 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!", 13f);
-            PlayAnimation(aniPunch1, 13f); // 애니메이션
+            ShowDialogue("쿠키를 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!", 10f);
+            PlayAnimation(aniPunch1, 10f); // 애니메이션
 
             // 두 개의 쿠키를 날리기
             yield return StartCoroutine(GameManager.TutorialPunch.ZapRoutine());
 
             // 두 개의 쿠키를 성공적으로 부셨는지 확인
-            if (GameManager.TutorialPunch.GetPerfectScoreNumberOfCookie() >= 3)
+            if (GameManager.TutorialPunch.GetPerfectScoreNumberOfCookie() >= 0) // 임시로 원래 3개
             {
                 Debug.Log("Phase 6 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase4를 탈출
@@ -226,16 +229,16 @@ public class TutorialManager : MonoBehaviour
 
             yield return StartCoroutine(GameManager.TutorialPunch.Phase8Routine());
 
-            if (GameManager.TutorialPunch.Check4CookiesInteractionSucceed())
-            {
+            //if (GameManager.TutorialPunch.Check4CookiesInteractionSucceed())
+            //{
                 Debug.Log("Phase 8 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출
-            }
-            else
-            {
-                Debug.Log("Phase 8 조건 미충족 - 다시 시도");
-                yield return StartCoroutine(Phase4_1());
-            }
+            //}
+            //else
+            //{
+            //    Debug.Log("Phase 8 조건 미충족 - 다시 시도");
+            //    yield return StartCoroutine(Phase4_1());
+            //}
         }
         Debug.Log("Phase 8 완료!");
     }
@@ -255,7 +258,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 10 시작!");
         // Phase 10 동작을 구현합니다.
         // Dialogue: 이번엔 몸을 틀어 냉장고 쪽을 바라봐줘
-        ShowDialogue("이번엔 몸을 오른쪽으로 틀어 냉장고 쪽을 바라봐줘", 10f);
+        ShowDialogue2("이번엔 몸을 오른쪽으로 틀어 냉장고 쪽을 바라봐줘", 10f);
 
         // Node_Punching_Rail을 비활성화하고 Node_Hitting_Rail을 활성화
         if (nodePunchingRail != null)
@@ -275,7 +278,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 11 시작!");
         // Phase 11 동작을 구현합니다.
         // Dialogue: 좋은데! 
-        ShowDialogue("좋은데!", 5f);
+        ShowDialogue2("좋은데!", 5f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
@@ -285,15 +288,15 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Phase 12 시작!");
         // Phase 12 동작을 구현합니다.
-        // Dialouge : 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
+        // Dialogue: 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
 
         GameManager.TutorialTennis.InitializeTennis();
         while (true)
         {
-            ShowDialogue("날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!", 10f);
+            ShowDialogue2("날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!", 10f);
             PlayAnimation(aniSwing, 10f); // 애니메이션
 
-            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
+            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine(2)); // 과일 2개 생성
 
             if (GameManager.TutorialTennis.GetNonClearTutorialType() == TutorialTennisType.Clear)
             {
@@ -302,18 +305,45 @@ public class TutorialManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Phase128 조건 미충족 - 다시 시도");
+                Debug.Log("Phase 12 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }
         Debug.Log("Phase 12 완료!");
     }
+    //private IEnumerator Phase12()
+    //{
+    //    Debug.Log("Phase 12 시작!");
+    //    // Phase 12 동작을 구현합니다.
+    //    // Dialouge : 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
+
+    //    GameManager.TutorialTennis.InitializeTennis();
+    //    while (true)
+    //    {
+    //        ShowDialogue2("날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!", 10f);
+    //        PlayAnimation(aniSwing, 10f); // 애니메이션
+
+    //        yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
+
+    //        if (GameManager.TutorialTennis.GetNonClearTutorialType() == TutorialTennisType.Clear)
+    //        {
+    //            Debug.Log("Phase 12 완료!");
+    //            break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Phase128 조건 미충족 - 다시 시도");
+    //            yield return StartCoroutine(Phase4_1());
+    //        }
+    //    }
+    //    Debug.Log("Phase 12 완료!");
+    //}
     private IEnumerator Phase13()
     {
         Debug.Log("Phase 13 시작!");
         // Phase 13 동작을 구현합니다.
         // 예: 잘했어!
-        ShowDialogue("잘했어!", 5f);
+        ShowDialogue2("잘했어!", 5f);
 
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
         Debug.Log("Phase 13 완료!");
@@ -326,12 +356,13 @@ public class TutorialManager : MonoBehaviour
         // 예:  perfect 이상의 가속도로 스윙 2회 이상 → 15로 이동
         // perfect 이상의 가속도로 스윙 2회 미만 → 14-1로 이동
 
+        GameManager.TutorialTennis.InitializeTennis();
         while (true)
         {
-            ShowDialogue("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙! ", 10f);
+            ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙! ", 10f);
             PlayAnimation(aniSwing, 10f); // 애니메이션
 
-            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
+            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine(4)); // 과일 4개 생성
 
             if (GameManager.TutorialTennis.GetPerfectScoreNumberOfTennis() >= 2)
             {
@@ -346,6 +377,35 @@ public class TutorialManager : MonoBehaviour
         }
         yield return StartCoroutine(Phase15());
     }
+
+
+    //private IEnumerator Phase14()
+    //{
+    //    Debug.Log("Phase 14 시작!");
+    //    // Phase 14 동작을 구현합니다.
+    //    // 예:  perfect 이상의 가속도로 스윙 2회 이상 → 15로 이동
+    //    // perfect 이상의 가속도로 스윙 2회 미만 → 14-1로 이동
+
+    //    while (true)
+    //    {
+    //        ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙! ", 10f);
+    //        PlayAnimation(aniSwing, 10f); // 애니메이션
+
+    //        yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
+
+    //        if (GameManager.TutorialTennis.GetPerfectScoreNumberOfTennis() >= 2)
+    //        {
+    //            Debug.Log("Phase 14 완료! Phase 15로 이동");
+    //            break; // 조건이 충족되면 반복을 종료하고 Phase 15로 이동
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Phase 14 조건 미충족 - Phase 14-1로 이동");
+    //            yield return StartCoroutine(Phase4_1());
+    //        }
+    //    }
+    //    yield return StartCoroutine(Phase15());
+    //}
 
     private IEnumerator Phase15()
     {
@@ -362,7 +422,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 16 시작!");
         // Phase 13 동작을 구현합니다.
         // 예: 이제 야수성을 키울 준비가 다 됐어! 열심히 훈련해서 멋진 곰이 되는 거야!
-        ShowDialogue("이제 야수성을 키울 준비가 다 됐어! \n 열심히 훈련해서 멋진 곰이 되는 거야!", 10f);
+        ShowDialogue2("이제 야수성을 키울 준비가 다 됐어! \n 열심히 훈련해서 멋진 곰이 되는 거야!", 10f);
 
         PlayAnimation(aniFighting, 10f); // 애니메이션
 
@@ -392,6 +452,27 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private void ShowDialogue2(string message, float duration)
+    {
+        Debug.Log("ShowDialogue2호출");
+
+        dialogueText2.text = message;
+
+        if (dialogueText2 != null)
+        {
+            // 텍스트를 즉시 활성화하고 메시지를 설정
+            dialogueText2.enabled = true;
+            dialogueText2.text = message;
+
+            // 10초 후 텍스트를 비활성화
+            StartCoroutine(HideDialogue2AfterDelay(duration));
+        }
+        else
+        {
+            Debug.LogWarning("Dialogue Text component is not assigned.");
+        }
+    }
+
     private IEnumerator HideDialogueAfterDelay(float delay)
     {
         Debug.Log("HideDialogueAfterDelay 호출");
@@ -399,29 +480,13 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         dialogueText.enabled = false; // 텍스트 비활성화
     }
+    private IEnumerator HideDialogue2AfterDelay(float delay)
+    {
+        Debug.Log("HideDialogueAfterDelay 호출");
 
-    //// 애니메이션 재생 메서드
-    //private void PlayAnimation(string animationName, float duration)
-    //{
-    //    Debug.Log($"Play Animation: {animationName}");
-
-    //    if (animator != null)
-    //    {
-    //        animator.gameObject.SetActive(true); // 애니메이션이 시작될 때 모델을 활성화
-    //        animator.Play(animationName);
-    //        StartCoroutine(StopAnimationAfterDelay(duration));
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("Animator component is not assigned.");
-    //    }
-    //}
-
-    //private IEnumerator StopAnimationAfterDelay(float delay)
-    //{
-    //    yield return new WaitForSeconds(delay);
-    //    animator.gameObject.SetActive(false); // 일정 시간 후 모델을 비활성화
-    //}
+        yield return new WaitForSeconds(delay);
+        dialogueText2.enabled = false; // 텍스트 비활성화
+    }
 
     // 애니메이션 재생 메서드
     private void PlayAnimation(Animator animator, float duration)

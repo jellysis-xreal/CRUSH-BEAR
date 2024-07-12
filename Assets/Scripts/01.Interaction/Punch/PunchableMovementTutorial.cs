@@ -39,9 +39,9 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
         parentTransform.gameObject.SetActive(false);
     }
 
-    public void InitiateVariable(int _arrivalBoxNum, float timeToReachPlayer)
+    public void InitiateVariable(int _arrivalBoxNum, float timeToReachPlayer) // 
     {
-        parentTransform.transform.position = new Vector3(0, 0, 10);
+        parentTransform.transform.position = new Vector3(0, 3, 25);
         arrivalBoxNum = _arrivalBoxNum;
         arriveTime = timeToReachPlayer;
 
@@ -69,7 +69,9 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
         _constantSpeed = Vector3.Distance(targetPosition, parentTransform.position) / arriveTime;
         moveDistance = Vector3.Distance(targetPosition, parentTransform.position);
         dir = (targetPosition - parentTransform.position).normalized;
-        
+
+        Debug.Log($"[SYJ] Movement started with speed: {_constantSpeed} and direction: {dir}");
+
         parentTransform.DOMove(targetPosition, arriveTime).SetEase(Ease.Linear);
         yield return null;
     }
@@ -82,6 +84,8 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
     // 손에 맞거나 뒤 trigger pad에 닿았을 경우 setActive(false)
     public void EndInteraction()
     {
+        Debug.Log("EndInteraction called");
+
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
         
@@ -96,7 +100,9 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
 
     IEnumerator TriggerArrivalAreaEndInteraction()
     {
-        _breakable.MotionFailed();
+        Debug.Log("TriggerArrivalAreaEndInteraction called");
+
+        _breakable.MotionFailed(); //
         yield return new WaitForSeconds(1f);
         Debug.Log("trigger arrival");
         _meshRenderer.enabled = false;
@@ -123,12 +129,13 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
     {
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
-            Debug.Log("Triggered "+other.gameObject.name);
+            Debug.Log("Triggered " + other.gameObject.name);
             _isArrivalAreaHit = true;
-            StartCoroutine(TriggerArrivalAreaEndInteraction());
+            StartCoroutine(TriggerArrivalAreaEndInteraction()); //
         }
         if (other.CompareTag("TriggerPad"))
         {
+            Debug.Log("Triggered TriggerPad " + other.gameObject.name);
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
         }

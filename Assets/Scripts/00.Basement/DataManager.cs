@@ -6,6 +6,7 @@ using UnityEngine;
 public class DataManager
 {
     public Dictionary<uint, MusicData> waveMusicData = new Dictionary<uint, MusicData>();
+    public StageData[] stageData;
 
     [Serializable]
     public struct MusicData
@@ -21,18 +22,20 @@ public class DataManager
 
     public void Init()
     {
+        LoadStage();
         Debug.Log("Initialize DataManager");
-        LoadInitialWaveData();
     }
 
     // csv 파일의 값들을 읽어 MusicData 구조체 내에 값을 저장한다. 추후 GameManager.Data.GetMusicData(uint index)로 노래에 대한 값들을 읽어온다.
-    private void LoadInitialWaveData()
+    public void LoadInitialWaveData(int stageID)
     {
+        waveMusicData.Clear();
+        GameManager.Wave.stageID = stageID;
         CSVImporter csvWave = new CSVImporter();
         foreach (var audioClip in GameManager.Sound.musicClips)
         {
             string music = audioClip.name;
-            if (!csvWave.OpenFile("Data/" + music))
+            if (!csvWave.OpenFile("Data/" + $"{stageData[stageID].stageName}/{music}"))
             {
                 Debug.Log("Read File Error");
                 return;
@@ -92,15 +95,14 @@ public class DataManager
         }
     }
 
+    private void LoadStage()
+    {
+        stageData = Resources.LoadAll<StageData>("Stage");
+    }
     public MusicData GetMusicData(uint id)
     {
+        Debug.Log(waveMusicData);
         Debug.Log("DataManager : [Done] Load music data " + "GUID : "+id+" Music Name :" +waveMusicData[id].MusicName);
         return waveMusicData[id];
     }
-
-    private void DebugNodeData()
-    {
-        
-    }
-
 }

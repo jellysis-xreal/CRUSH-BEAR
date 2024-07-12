@@ -46,9 +46,6 @@ public class PlayerManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         //IK_player = GameObject.FindWithTag("IKPlayer");
         
-        DontDestroyOnLoad(player);
-        //DontDestroyOnLoad(IK_player);
-        
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
         

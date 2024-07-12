@@ -39,6 +39,7 @@ public class WaveManager : MonoBehaviour
     [Header("----+ Music Information +----")] 
     public uint waveMusicGUID; // 현재 세팅된 Music의 GUID
     public DataManager.MusicData CurMusicData; // 현재 세팅된 Music data
+    public int stageID;
 
     [Header("----+ setting +----")]
     //[SerializeField] private GameObject RightInteraction;
@@ -50,6 +51,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] public GameObject[] waveUICanvas;
     private int countdownTime = 4;
     private TextToImage timer;
+
 
     // 기획에 따른 변수
     private int waveTypeNum = 3; // Wave Type 종류의 갯수
@@ -493,6 +495,7 @@ public class WaveManager : MonoBehaviour
         currentState = WaveState.End;
         Debug.Log("[WAVE] 게임 종료!");
         nodeInstantiator.FinishAllWaveNode();
+        GameManager.Instance.Save.SaveLoadData(stageID, (int)GameManager.Score.TotalScore);
         SetResultUI();
     }
     

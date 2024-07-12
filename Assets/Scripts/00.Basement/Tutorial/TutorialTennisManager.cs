@@ -197,6 +197,7 @@ public class TutorialTennisManager : MonoBehaviour
         {
             Debug.Log($"[Tutorial] You Failed In {tutorialTennisType}! Try Again!!");
         }
+        //yield return null;
     }
 
     private void ResetGameObjectActive()

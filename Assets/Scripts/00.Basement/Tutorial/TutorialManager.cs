@@ -184,7 +184,7 @@ public class TutorialManager : MonoBehaviour
         while (true)
         {
             // Dialogue : 쿠키를 세게 칠 수록 좋은 점수를 받을 수 있어! 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!
-            ShowDialogue("쿠키를 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!", 10f);
+            ShowDialogue("쿠키를 세게 칠 수록\n 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!", 10f);
             PlayAnimation(aniPunch1, 10f); // 애니메이션
 
             // 두 개의 쿠키를 날리기
@@ -223,7 +223,7 @@ public class TutorialManager : MonoBehaviour
         // 예: 쿠키를 두 번 이상 perfect로 치기
         while (true)
         {
-            ShowDialogue("이번엔 날아오는 쿠키 옆에 보이는 화살표 방향대로 쿠키를 쳐보자! \n 화살표가 없는 쿠키는 정면을 향해 펀치하면 돼!", 5f);
+            ShowDialogue("이번엔 날아오는 쿠키 옆에 보이는 \n 화살표 방향대로 쿠키를 쳐보자! \n 화살표가 없는 쿠키는 정면을 향해 펀치하면 돼!", 5f);
             PlayAnimation(aniPunch2, 10f); // 애니메이션
 
             yield return StartCoroutine(GameManager.TutorialPunch.Phase8Routine());
@@ -274,7 +274,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 11 시작!");
         // Phase 11 동작을 구현합니다.
         // Dialogue: 좋은데! 
-        ShowDialogue2("좋은데!", 5f);
+        ShowDialogue2("좋은데!", 2f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
@@ -354,29 +354,34 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Phase 14 시작!");
         // Phase 14 동작을 구현합니다.
-        // Dialouge : 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
+        // 예: perfect 이상의 가속도로 스윙 2회 이상 → 15로 이동
+        // perfect 이상의 가속도로 스윙 2회 미만 → 14-1로 이동
+        ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙!", 8f);
+        PlayAnimation(aniSwing, 8f); // 애니메이션
+        yield return new WaitForSeconds(8f); // 예시: 2초 대기
 
-        GameManager.TutorialTennis.InitializeTennis();
-        while (true)
-        {
-            ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙!", 10f);
-            PlayAnimation(aniSwing, 10f); // 애니메이션
+        //GameManager.TutorialTennis.InitializeTennis();
+        //while (true)
+        //{
+        //    ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙!", 10f);
+        //    PlayAnimation(aniSwing, 10f); // 애니메이션
 
-            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
+        //    yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
 
-            if (GameManager.TutorialTennis.CheckPhase12Criteria())
-            {
-                Debug.Log("Phase 14 완료!");
-                break; // 조건이 충족되면 반복을 종료하고 Phase12를 탈출
-            }
-            else
-            {
-                Debug.Log("Phase14 조건 미충족 - 다시 시도");
-                yield return StartCoroutine(Phase4_1());
-            }
-        }
-        Debug.Log("Phase 14 완료!");
+        //    if (GameManager.TutorialTennis.CheckPhase12Criteria())
+        //    {
+        //        Debug.Log("Phase 14 완료! Phase 15로 이동");
+        //        break; // 조건이 충족되면 반복을 종료하고 Phase 15로 이동
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Phase 14 조건 미충족 - Phase 14-1로 이동");
+        //        yield return StartCoroutine(Phase4_1());
+        //    }
+        //}
+        //yield return StartCoroutine(Phase15());
     }
+
 
 
     //private IEnumerator Phase14()

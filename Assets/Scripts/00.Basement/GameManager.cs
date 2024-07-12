@@ -55,19 +55,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
 
-    [SerializeField] private TutorialManager tutorialManager = new TutorialManager();
-    public static TutorialManager TutorialManager {get {return Instance.tutorialManager;}} 
-
     [SerializeField] private TutorialPunchManager tutorialPunch = new TutorialPunchManager();
     public static TutorialPunchManager TutorialPunch { get { return Instance.tutorialPunch; } }
     
     [SerializeField] private TutorialTennisManager tutorialTennis = new TutorialTennisManager();
     public static TutorialTennisManager TutorialTennis { get { return Instance.tutorialTennis; } }
     
-    
-    
     [SerializeField] private Metronome _metronome;
     public Metronome Metronome { get { return _metronome; } }
+
+    private SaveManager _save = new SaveManager();
+    public SaveManager Save { get { return _save; } }
     //+------------------------//
     
     // GameState 이벤트를 정의
@@ -79,11 +77,12 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("GameManager Start");                                     
+        Debug.Log("GameManager Start");
         if (currentGameState == GameState.Lobby)
         {           
             SetGameState(GameState.Lobby);
             InitLobby();
+
         }
         // Test();
     }
@@ -278,7 +277,6 @@ public class GameManager : MonoBehaviour
 
     void OnTutorialSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.buildIndex);
         if (scene.buildIndex == 3)
         {
             /*// Tennis
@@ -288,14 +286,10 @@ public class GameManager : MonoBehaviour
             tutorialTennis.Init();
             _score.Init();*/
             // Punch
-
-            Debug.Log("Tutorial Scene Loaded");
             GameManager.Wave.SetWaveType(WaveType.Punching);
             GameManager.Wave.SetWaveTutorial();
-            _score.Init();
             Player.Init();
-            // tutorialPunch.Init();
-            tutorialManager.Init();
+            tutorialPunch.Init();
         }
         SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
     }

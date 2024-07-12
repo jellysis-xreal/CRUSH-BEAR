@@ -156,8 +156,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Destroyed: 0
-  IsEndingCookie: 0
-  _childTriggerChecker: {fileID: 0}
   correctMotion: 6
 --- !u!114 &366712034925401827
 MonoBehaviour:
@@ -244,7 +242,7 @@ PrefabInstance:
     - target: {fileID: 5633448547117154375, guid: cf9c16d524432b54690ec38e5b23e98c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5633448547117154375, guid: cf9c16d524432b54690ec38e5b23e98c,
         type: 3}
@@ -285,21 +283,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8167406462225706706, guid: cf9c16d524432b54690ec38e5b23e98c,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8167406462225706706, guid: cf9c16d524432b54690ec38e5b23e98c,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8167406462225706706, guid: cf9c16d524432b54690ec38e5b23e98c,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

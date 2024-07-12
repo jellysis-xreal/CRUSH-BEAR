@@ -39,7 +39,7 @@ public class LogDataManager : MonoBehaviour
     {
         if (userNumber > 0)
         {
-            string fileName = $"User{GetDataFileCount(Application.persistentDataPath) + 1}_Data.csv";                                                                                                           
+            string fileName = $"User{GetDataFileCount(Application.persistentDataPath) + 1}_Data.csv";
             filePath = Path.Combine(Application.persistentDataPath, fileName);
             
             if (!File.Exists(filePath))

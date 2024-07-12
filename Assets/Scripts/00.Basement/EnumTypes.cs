@@ -50,7 +50,6 @@ namespace EnumTypes
         Zap,
         Hook,
         UpperCut,
-        LowerCut,
         Clear
     }
 

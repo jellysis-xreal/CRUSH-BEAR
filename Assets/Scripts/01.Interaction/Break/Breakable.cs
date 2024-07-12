@@ -4,8 +4,6 @@ using UnityEngine.Events;
 using EnumTypes;
 using UnityEngine.SceneManagement;
 using Motion = EnumTypes.Motion;
-using static UnityEngine.GraphicsBuffer;
-using UnityEngine.SocialPlatforms.Impl;
 
 namespace UnityEngine.XR.Content.Interaction
 {
@@ -78,9 +76,11 @@ namespace UnityEngine.XR.Content.Interaction
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
+                //Debug.Log("[Tutorial Punch] Succeed");
                 GameManager.TutorialPunch.processedNumber++; 
                 GameManager.TutorialPunch.succeedNumber++;
-                GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion);
+                // GameManager.Instnace.Tutorial.processedNumber++
+                // GameManager.Score.ScoringPunch(this.gameObject, true);
                 _punchableMovement.EndInteraction();
             }
             

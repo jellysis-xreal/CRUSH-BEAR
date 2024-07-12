@@ -63,8 +63,6 @@ public class ScoreManager : MonoBehaviour
     
     private float standardSpeed;
     private Vector3 RbeforePos, LbeforePos;
-    private AttachHandNoGrab RAttachNoGrab;
-    private AttachHandNoGrab LAttachNoGrab;
 
     private CircleGaugeController circleGaugeController;
 
@@ -122,18 +120,15 @@ public class ScoreManager : MonoBehaviour
         // Perfect, Good, Weak 중
         // 컨트롤러의 속도에 따라서 결정됩니다.
         // targetHand : 0-Right, 1-Left, 2-both
-        Debug.Log("ScoreByControllerSpeed");
+
         scoreType resultScore = scoreType.Weak;
 
         float perfect_threshold = RHand.GetPerfectThreshold();
         float good_threshold = RHand.GetGoodThreshold();
 
-        Debug.Log($"Perfect Threshold: {perfect_threshold}, Good Threshold: {good_threshold}");
-
         switch (targetHand)
         {
             case 0:
-                Debug.Log($"Right Hand Speed: {RHand.ControllerSpeed}");
                 if (RHand.ControllerSpeed >= perfect_threshold)
                     resultScore = scoreType.Perfect;
                 else if (RHand.ControllerSpeed >= good_threshold)
@@ -141,7 +136,6 @@ public class ScoreManager : MonoBehaviour
                 break;
             
             case 1:
-                Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
                 if (LHand.ControllerSpeed >= perfect_threshold)
                     resultScore = scoreType.Perfect;
                 else if (LHand.ControllerSpeed >= good_threshold)
@@ -149,14 +143,13 @@ public class ScoreManager : MonoBehaviour
                 break;
             
             case 2:
-                Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}, Right Hand Speed: {RHand.ControllerSpeed}");
                 if ((LHand.ControllerSpeed >= perfect_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
                     resultScore = scoreType.Perfect;
                 else if ((LHand.ControllerSpeed >= good_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
                     resultScore = scoreType.Good;
                 break;
         }
-        Debug.Log($"Result Score: {resultScore}");
+
         return resultScore;
     }
 
@@ -206,21 +199,10 @@ public class ScoreManager : MonoBehaviour
             AddScore(score);
             SetScoreEffect(score, target.transform.position);    
         }
-        else
-        {
-            GameManager.TutorialTennis.scores.Add(score);
-            GameManager.TutorialTennis.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
-            // 튜토리얼
-            if (score == scoreType.Perfect)
-            {
-                GameManager.TutorialTennis.succeedNumber++;
-            }
-            GameManager.TutorialTennis.processedNumber++;
-        }
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }
 
-    public void ScoringPunch(GameObject target, bool isPerpect, EnumTypes.Motion motion = Motion.None) // SYJ
+    public void ScoringPunch(GameObject target, bool isPerpect, EnumTypes.Motion motion = Motion.None)
     {
         scoreType score = scoreType.Bad;
         
@@ -234,14 +216,11 @@ public class ScoreManager : MonoBehaviour
             {
                 score = ScoreByControllerSpeed(1); // Left hand
                 LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, LHand.ControllerSpeed);
-                Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + LHand.ControllerSpeed);
             }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
             {
                 score = ScoreByControllerSpeed(0); // Right hand
                 LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, RHand.ControllerSpeed);
-                Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + RHand.ControllerSpeed);
-
             }
         }
         else
@@ -255,11 +234,6 @@ public class ScoreManager : MonoBehaviour
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
         float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed);
-        if (SceneManager.GetActiveScene().name == "03.TutorialScene")
-        {
-            GameManager.TutorialPunch.scores.Add(score);
-            GameManager.TutorialPunch.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
-        }
         // Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);
 
@@ -275,7 +249,6 @@ public class ScoreManager : MonoBehaviour
 
     public void setTXT()
     {
-        if(scoreText == null) return;
         foreach(var text in scoreText)
         {
             text.ChangeTextToImage((int)TotalScore);

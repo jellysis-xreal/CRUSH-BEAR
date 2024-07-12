@@ -4,6 +4,7 @@ using EnumTypes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class TutorialManager : MonoBehaviour
         aniPunch1 = FindAnimator("Tutorial-Ani01-punch1");
         aniPunch2 = FindAnimator("Tutorial-Ani02-punch2");
         aniSwing = FindAnimator("Tutorial-Ani03-swing");
-        aniFighting = FindAnimator("Tutorial-Ani03-fighting");
+        aniFighting = FindAnimator("Tutorial-Ani04-fighting");
 
         // "Node_Punching_Rail"과 "Node_Hitting_Rail" 오브젝트 찾기
         nodePunchingRail = GameObject.Find("Node_Punching_Rail");
@@ -190,7 +191,7 @@ public class TutorialManager : MonoBehaviour
             yield return StartCoroutine(GameManager.TutorialPunch.ZapRoutine());
 
             // 두 개의 쿠키를 성공적으로 부셨는지 확인
-            if (GameManager.TutorialPunch.GetPerfectScoreNumberOfCookie() >= 0) // 임시로 원래 3개
+            if (GameManager.TutorialPunch.GetPerfectScoreNumberOfCookie() >= 3) // 임시로 원래 3개
             {
                 Debug.Log("Phase 6 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase4를 탈출
@@ -220,8 +221,6 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 8 시작!");
         // Phase 8 동작을 구현합니다.
         // 예: 쿠키를 두 번 이상 perfect로 치기
-
-
         while (true)
         {
             ShowDialogue("이번엔 날아오는 쿠키 옆에 보이는 화살표 방향대로 쿠키를 쳐보자! \n 화살표가 없는 쿠키는 정면을 향해 펀치하면 돼!", 5f);
@@ -229,16 +228,13 @@ public class TutorialManager : MonoBehaviour
 
             yield return StartCoroutine(GameManager.TutorialPunch.Phase8Routine());
 
-            //if (GameManager.TutorialPunch.Check4CookiesInteractionSucceed())
-            //{
+            if (GameManager.TutorialPunch.Check4CookiesInteractionSucceed()){
                 Debug.Log("Phase 8 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출
-            //}
-            //else
-            //{
-            //    Debug.Log("Phase 8 조건 미충족 - 다시 시도");
-            //    yield return StartCoroutine(Phase4_1());
-            //}
+            }else{
+                Debug.Log("Phase 8 조건 미충족 - 다시 시도");
+                yield return StartCoroutine(Phase4_1());
+            }
         }
         Debug.Log("Phase 8 완료!");
     }
@@ -288,7 +284,7 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Phase 12 시작!");
         // Phase 12 동작을 구현합니다.
-        // Dialogue: 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
+        // Dialouge : 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
 
         GameManager.TutorialTennis.InitializeTennis();
         while (true)
@@ -296,16 +292,21 @@ public class TutorialManager : MonoBehaviour
             ShowDialogue2("날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!", 10f);
             PlayAnimation(aniSwing, 10f); // 애니메이션
 
-            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine(2)); // 과일 2개 생성
+            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
 
-            if (GameManager.TutorialTennis.GetNonClearTutorialType() == TutorialTennisType.Clear)
+            //if (GameManager.TutorialTennis.GetNonClearTutorialType() == TutorialTennisType.Clear)
+            //{
+            //    Debug.Log("Phase 12 완료!");
+            //    break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출
+            //}
+            if (GameManager.TutorialTennis.CheckPhase12Criteria())
             {
                 Debug.Log("Phase 12 완료!");
-                break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출
+                break; // 조건이 충족되면 반복을 종료하고 Phase12를 탈출
             }
             else
             {
-                Debug.Log("Phase 12 조건 미충족 - 다시 시도");
+                Debug.Log("Phase128 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }
@@ -353,29 +354,28 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Phase 14 시작!");
         // Phase 14 동작을 구현합니다.
-        // 예:  perfect 이상의 가속도로 스윙 2회 이상 → 15로 이동
-        // perfect 이상의 가속도로 스윙 2회 미만 → 14-1로 이동
+        // Dialouge : 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
 
         GameManager.TutorialTennis.InitializeTennis();
         while (true)
         {
-            ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙! ", 10f);
+            ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙!", 10f);
             PlayAnimation(aniSwing, 10f); // 애니메이션
 
-            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine(4)); // 과일 4개 생성
+            yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
 
-            if (GameManager.TutorialTennis.GetPerfectScoreNumberOfTennis() >= 2)
+            if (GameManager.TutorialTennis.CheckPhase12Criteria())
             {
-                Debug.Log("Phase 14 완료! Phase 15로 이동");
-                break; // 조건이 충족되면 반복을 종료하고 Phase 15로 이동
+                Debug.Log("Phase 14 완료!");
+                break; // 조건이 충족되면 반복을 종료하고 Phase12를 탈출
             }
             else
             {
-                Debug.Log("Phase 14 조건 미충족 - Phase 14-1로 이동");
+                Debug.Log("Phase14 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }
-        yield return StartCoroutine(Phase15());
+        Debug.Log("Phase 14 완료!");
     }
 
 
@@ -426,9 +426,11 @@ public class TutorialManager : MonoBehaviour
 
         PlayAnimation(aniFighting, 10f); // 애니메이션
 
-        // 로비로 이동
         yield return new WaitForSeconds(2f); // 예시: 2초 대기
         Debug.Log("Phase 16 완료!");
+
+        // 로비 씬으로 이동
+        SceneManager.LoadScene("00.StartScene");
     }
 
     private void ShowDialogue(string message, float duration)

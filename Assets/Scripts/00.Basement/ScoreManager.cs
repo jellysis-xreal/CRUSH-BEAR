@@ -212,6 +212,12 @@ public class ScoreManager : MonoBehaviour
         {
             GameManager.TutorialTennis.scores.Add(score);
             GameManager.TutorialTennis.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
+            // 튜토리얼
+            if (score == scoreType.Perfect)
+            {
+                GameManager.TutorialTennis.succeedNumber++;
+            }
+            GameManager.TutorialTennis.processedNumber++;
         }
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
     }

@@ -208,8 +208,7 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Phase 7 시작!");
         // Phase 7 동작을 구현합니다.
-        // Dialogue : 다시 한 번 해볼까? 
-        ShowDialogue("다시 한 번 해볼까?", 5f);
+        ShowDialogue("좋아!", 5f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기

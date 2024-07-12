@@ -4,6 +4,8 @@ using UnityEngine.Events;
 using EnumTypes;
 using UnityEngine.SceneManagement;
 using Motion = EnumTypes.Motion;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace UnityEngine.XR.Content.Interaction
 {
@@ -78,6 +80,7 @@ namespace UnityEngine.XR.Content.Interaction
             {
                 GameManager.TutorialPunch.processedNumber++; 
                 GameManager.TutorialPunch.succeedNumber++;
+                GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion);
                 _punchableMovement.EndInteraction();
             }
             

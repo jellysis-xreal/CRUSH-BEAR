@@ -67,7 +67,7 @@ public class ObjectArrivalAreaManager : MonoBehaviour
 
     private void HitWaveSet()
     {
-        //Transform _spawnTransform = NodeInstantiator_minha.HitSpawnTransform.transform;  
+        //Transform _spawnTransform = NodeInstantiator.HitSpawnTransform.transform;  
         //this.transform.LookAt(_spawnTransform);
 
         //Vector3 posVector = (_spawnTransform.position - IKplayerTransform.transform.position).normalized;

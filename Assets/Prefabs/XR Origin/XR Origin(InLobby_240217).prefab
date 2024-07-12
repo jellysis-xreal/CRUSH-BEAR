@@ -3189,7 +3189,6 @@ GameObject:
   - component: {fileID: 8468972223404295682}
   - component: {fileID: 3673155976709864214}
   - component: {fileID: 541244468968930782}
-  - component: {fileID: 7660765980003891205}
   - component: {fileID: 1261817126721546078}
   - component: {fileID: 2815783759502032862}
   m_Layer: 11
@@ -3756,21 +3755,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.06
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7660765980003891205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3338920856092256765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 917d3c03d40869240b6bdf5662957e48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attachTransform: {fileID: 3805545500976114341}
-  IsAttached: 0
-  HandDestoryer: {fileID: 4772012586471731551}
 --- !u!114 &1261817126721546078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7054,7 +7038,7 @@ MonoBehaviour:
   m_Camera: {fileID: 1601950900527107780}
   m_OriginBaseGameObject: {fileID: 6528773097538316530}
   m_CameraFloorOffsetObject: {fileID: 7580248647469493450}
-  m_RequestedTrackingOriginMode: 1
+  m_RequestedTrackingOriginMode: 2
   m_CameraYOffset: 0.84
 --- !u!114 &4458040930307087913
 MonoBehaviour:
@@ -9049,7 +9033,6 @@ GameObject:
   - component: {fileID: 8487694483977618501}
   - component: {fileID: 6957781754663906392}
   - component: {fileID: 8091759675818865581}
-  - component: {fileID: 403568633457848847}
   - component: {fileID: 179181538832023888}
   - component: {fileID: 5740409295403412199}
   - component: {fileID: 8314187148914527380}
@@ -9617,21 +9600,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.06
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &403568633457848847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8337731009817789354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 917d3c03d40869240b6bdf5662957e48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attachTransform: {fileID: 6146248783529514850}
-  IsAttached: 0
-  HandDestoryer: {fileID: 2041216619144462199}
 --- !u!114 &179181538832023888
 MonoBehaviour:
   m_ObjectHideFlags: 0

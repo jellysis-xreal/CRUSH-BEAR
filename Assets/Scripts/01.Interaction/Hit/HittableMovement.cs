@@ -3,10 +3,6 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using EnumTypes;
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using Sequence = DG.Tweening.Sequence;
 
 public class HittableMovement : MonoBehaviour
@@ -14,8 +10,7 @@ public class HittableMovement : MonoBehaviour
     // TODO: 해당 Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")] 
     public int arrivalBoxNum = 0; // 목표인 Box index number
-    [SerializeField]
-    private uint beatNum;
+    [SerializeField] private uint beatNum;
     public InteractionSide sideType = InteractionSide.Red;
     private float moveTime = 3.3f; // 토핑의 이동 속도를 결정함
     private float popTime = 0.1f; // 토핑의 점프 시간을 결정함
@@ -36,6 +31,7 @@ public class HittableMovement : MonoBehaviour
     private Vector3 _arrivalBoxPos;
     private Vector3 _startBoxPos;
     private int shootStandard;
+    private float _averageSpeed;
 
     //토핑이 맞은 후에 활용할 변수
     private float _inTime = 1.5f;
@@ -161,9 +157,29 @@ public class HittableMovement : MonoBehaviour
             },
             moveTime,
             PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint);
-
+        tweenMove.onComplete = () =>
+        {
+            IsToppingArrived(firstPos);
+        };
+        
         sequence.Append(tweenJump).Append(tweenMove);
         sequence.Play();
+    }
+
+    private void IsToppingArrived(Vector3 firstPos)
+    {
+        // Debug.Log("[JMH][DEBUG] " + this.transform.name + "이 도착함.");
+        
+        // 토핑이 점프하는 전체 거리를 계산합니다.
+        Vector3 jumpStartPos = new Vector3(firstPos.x, firstPos.y, firstPos.z);
+        Vector3 jumpEndPos = new Vector3(firstPos.x, firstPos.y + 2.0f, firstPos.z);
+        float jumpDistance = Vector3.Distance(jumpStartPos, jumpEndPos);
+
+        // 평균 속도를 계산합니다.
+        _averageSpeed = jumpDistance / moveTime;
+        _rigidbody.useGravity = true;
+        _rigidbody.AddForce(transform.forward * _averageSpeed * 10.0f, ForceMode.VelocityChange);
+        
     }
 
     public void MoveToPlayerAtMiddle()
@@ -228,12 +244,12 @@ public class HittableMovement : MonoBehaviour
         //Debug.Log("[DEBUG] " + this.transform.name + "이 " + other.transform.name + "와 충돌함. \n현재 상태는 " + curState);
         if (_baseObject.IsItScored()) return;
         if (other.gameObject.CompareTag("Plane")) return;
-        if (!Debugging)
-        {
-            CanInteractTopping();
-            if (!IsInteractable()) return;
-            if (curState != toppingState.interacable) return;
-        }
+        // if (!Debugging)
+        // {
+        //     CanInteractTopping();
+        //     if (!IsInteractable()) return;
+        //     if (curState != toppingState.interacable) return;
+        // }
         
         // FOR DEBUG
         // Debug.Log("[DEBUG][JMH]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
@@ -255,8 +271,8 @@ public class HittableMovement : MonoBehaviour
         // Controller / Hand_R/L의 HandData에서 속도 값 받아와서 Hit force로 사용함
         var parent = other.transform.parent.parent.parent;
         float forceMagnitude = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed;
-        Debug.Log(forceMagnitude);
-        forceMagnitude = Mathf.Clamp(forceMagnitude, 4.0f, 8.0f);
+        //Debug.Log(forceMagnitude);
+        forceMagnitude = Mathf.Clamp(forceMagnitude, 6.0f, 10.0f);
         
         // // 충돌 지점 기준으로 날아가
         Vector3 refrigeratorPosition = refrigerator.transform.position;
@@ -378,7 +394,7 @@ public class HittableMovement : MonoBehaviour
         vfx.Play();
 
         // ParticleSystem의 재생이 끝난 후에 GameObject를 비활성화
-        yield return new WaitForSeconds(vfx.duration);
+        yield return new WaitForSeconds(vfx.main.duration);
         vfx.Stop();
         burstEffect.SetActive(false);
         UnactiveObject();
@@ -450,7 +466,12 @@ public class HittableMovement : MonoBehaviour
                 if (this.gameObject.activeSelf == true && _isNotHitted && !_goTo)
                 {
                     //Debug.Log("[DEBUG][JMH] 처리되지 못한 토핑 처리됨");
-                    if (!_baseObject.IsItScored()) GameManager.Score.ScoringMiss(this.gameObject);
+                    if (!_baseObject.IsItScored())
+                    {
+                        GameManager.Score.ScoringMiss(this.gameObject);
+                        _baseObject.SetScoreBool();
+                    }
+
                     GoToRefrigerator();
                     
                     _goTo = true;

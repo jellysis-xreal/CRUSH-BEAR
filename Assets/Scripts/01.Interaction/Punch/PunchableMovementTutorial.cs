@@ -24,7 +24,7 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
     private float moveDistance = 0f;
     
     // 토핑이 맞은, 맞지 않은 후에 활용할 변수
-    //private bool _isHit = false;
+    private bool _isHit = false;
     private bool _isArrivalAreaHit = false; // 박스 트리거된 이후, 바로 직전의 움직임을 유지할 때 사용하는 변수
     private MeshRenderer _meshRenderer;
     public SpriteRenderer spriteRenderer; 

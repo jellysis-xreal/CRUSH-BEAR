@@ -131,7 +131,7 @@ namespace UnityEngine.XR.Content.Interaction
 
             // Debug.Log("Motion Trigger 2");
 
-            if (other.CompareTag(m_ColliderTag))
+            if (other.CompareTag("Destroyer"))
             {
                 // Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
                 if (IsEndingCookie)

@@ -40,12 +40,12 @@ public class HittableMovementTutorial : MonoBehaviour
     private float _inTime = 1.5f;
     
     // Bool 값
-    //private bool _isInit = false;
+    private bool _isInit = false;
     private float _curDistance;
     private bool _isMoved = false;
     private bool _isHitted = false; 
     private bool _isNotHitted = false;
-    //private bool _goTo = false;
+    private bool _goTo = false;
     
     [Space] [Header("Test")] public Transform arrivalBoxTransform;
     private enum toppingState
@@ -105,7 +105,7 @@ public class HittableMovementTutorial : MonoBehaviour
         // _startBoxPos = GameManager.Wave.GetSpawnPosition(arrivalBoxNum); // startTransform.position;
         InitializeBeforeStart();
 
-        //_isInit = true;
+        _isInit = true;
 
         StartCoroutine(TennisRoutine(startTime));
     }
@@ -134,11 +134,11 @@ public class HittableMovementTutorial : MonoBehaviour
     {
         _baseObject.InitScoreBool();
         
-        //_isInit = false;
+        _isInit = false;
         _isMoved = false;       // 2) Player를 향해 움직이고 있나요?
         _isHitted = false;      // 3) 막대에 의해 맞았나요?
         _isNotHitted = false;   // 6) Player의 막대를 통해 처리되지 못한 경우
-        //_goTo = false;          // 7) 냉장고로 향하는 코드를 1번 실행하기 위한 변수
+        _goTo = false;          // 7) 냉장고로 향하는 코드를 1번 실행하기 위한 변수
         
         StopCoroutine("ExplodeAfterSeconds");
     }
@@ -426,7 +426,7 @@ public class HittableMovementTutorial : MonoBehaviour
         vfx.Play();
 
         // ParticleSystem의 재생이 끝난 후에 GameObject를 비활성화
-        yield return new WaitForSeconds(vfx.main.duration);
+        yield return new WaitForSeconds(vfx.duration);
         vfx.Stop();
         burstEffect.SetActive(false);
         UnactiveObject();

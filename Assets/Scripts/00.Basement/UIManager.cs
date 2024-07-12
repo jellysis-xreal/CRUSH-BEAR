@@ -12,10 +12,10 @@ public class UIManager : MonoBehaviour
     
     int _order = 10;
 
-    private bool ray = false;
-
-    private Stack<UI_Popup> _popupStack;
-    UI_Scene _sceneUI;
+    bool ray = false;
+    
+    Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
+    UI_Scene _sceneUI = null;
     GameObject player;
 
     public void Init()
@@ -27,7 +27,6 @@ public class UIManager : MonoBehaviour
     {
         //InitializeFloatingTextPool();
         player = GameObject.FindWithTag("MainCamera");
-        _popupStack = new Stack<UI_Popup>();
     }
     
     public GameObject Root

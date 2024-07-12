@@ -15,7 +15,7 @@ public class HandData : MonoBehaviour
 
     //[Header("setting value")] 
     private float SpeedValue = 1.5f; //최소한 움직여야 하는 속도
-    //private float GrabValue = 0.7f;
+    private float GrabValue = 0.7f;
     
     [Header("setting(auto)")] 
     [SerializeField] private GameObject Controller;

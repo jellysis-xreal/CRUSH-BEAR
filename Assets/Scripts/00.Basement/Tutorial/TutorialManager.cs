@@ -13,6 +13,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private Animator aniPunch2;
     [SerializeField] private Animator aniSwing;
     [SerializeField] private Animator aniFighting;
+    [SerializeField] private GameObject nodePunchingRail;
+    [SerializeField] private GameObject nodeHittingRail;
 
 
     public void Init()
@@ -34,10 +36,9 @@ public class TutorialManager : MonoBehaviour
         aniSwing = FindAnimator("Tutorial-Ani03-swing");
         aniFighting = FindAnimator("Tutorial-Ani03-fighting");
 
-        if (aniPunch1 == null)
-        {
-            Debug.LogError("Animator object with name 'Tutorial-Ani01-punch1' not found or it doesn't have an Animator component.");
-        }
+        // "Node_Punching_Rail"과 "Node_Hitting_Rail" 오브젝트 찾기
+        nodePunchingRail = GameObject.Find("Node_Punching_Rail");
+        nodeHittingRail = FindInactiveObject("Node_Hitting_Rail");
 
         StartCoroutine(TutorialRoutine());
     }
@@ -50,6 +51,19 @@ public class TutorialManager : MonoBehaviour
             if (anim.name == name)
             {
                 return anim;
+            }
+        }
+        return null;
+    }
+
+    private GameObject FindInactiveObject(string name)
+    {
+        Transform[] objs = Resources.FindObjectsOfTypeAll<Transform>();
+        foreach (Transform obj in objs)
+        {
+            if (obj.name == name)
+            {
+                return obj.gameObject;
             }
         }
         return null;
@@ -242,6 +256,16 @@ public class TutorialManager : MonoBehaviour
         // Phase 10 동작을 구현합니다.
         // Dialogue: 이번엔 몸을 틀어 냉장고 쪽을 바라봐줘
         ShowDialogue("이번엔 몸을 오른쪽으로 틀어 냉장고 쪽을 바라봐줘", 10f);
+
+        // Node_Punching_Rail을 비활성화하고 Node_Hitting_Rail을 활성화
+        if (nodePunchingRail != null)
+        {
+            nodePunchingRail.SetActive(false);
+        }
+        if (nodeHittingRail != null)
+        {
+            nodeHittingRail.SetActive(true);
+        }
 
         yield return new WaitForSeconds(10f); 
         Debug.Log("Phase 10 완료!");

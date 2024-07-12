@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
         {           
             SetGameState(GameState.Lobby);
             InitLobby();
+            StartCoroutine(LoadWaveScene());
         }
         // Test();
     }
@@ -193,8 +194,9 @@ public class GameManager : MonoBehaviour
             //_score.Init();
             //_player.Init();
 
-            Save.LoadSaveData();
+
             _data.Init();
+            Save.LoadSaveData();
             //_wave.Init();
             _sound.Init();
             _ui.Init();
@@ -205,7 +207,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning("GameManager instance isn't null, Destroy GameManager");
-
+            _ui.Init();
             Destroy(this.gameObject);
         }
     }

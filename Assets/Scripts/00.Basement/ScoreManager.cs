@@ -235,13 +235,11 @@ public class ScoreManager : MonoBehaviour
                 motion == Motion.LeftLowerCut)
             {
                 score = ScoreByControllerSpeed(1); // Left hand
-                LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, LHand.ControllerSpeed);
                 Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + LHand.ControllerSpeed);
             }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
             {
                 score = ScoreByControllerSpeed(0); // Right hand
-                LogDataManager.Instance.AppendSpeedData((int)GameManager.Wave.currenWaveNum, RHand.ControllerSpeed);
                 Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + RHand.ControllerSpeed);
 
             }

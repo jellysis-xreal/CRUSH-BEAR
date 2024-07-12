@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1bba357843cd9fa4f84bbd8353c14aa5, type: 2}
+  - {fileID: 2100000, guid: 2574da34e9089fa47a9ac9cbfaf08f83, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,7 +110,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -572,11 +572,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52cd5bd8c8be2394e9c971c10e55e0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageUI: {fileID: 0}
-  buttons: []
-  tutorialObject: []
-  lobbyObject: []
-  playButton: {fileID: 0}
+  stageUI: {fileID: 3216863102784210297}
+  buttons:
+  - {fileID: 2992896635441701244}
+  - {fileID: 7432449044325035131}
+  - {fileID: 6001221967720946044}
+  tutorialObject:
+  - {fileID: 0}
+  lobbyObject:
+  - {fileID: 6840052084493647644}
+  playButton: {fileID: 9147004731760342012}
 --- !u!1 &4440753789761047493
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,7 +857,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1bba357843cd9fa4f84bbd8353c14aa5, type: 2}
+  - {fileID: 2100000, guid: 2574da34e9089fa47a9ac9cbfaf08f83, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -897,7 +902,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1385,7 +1390,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1bba357843cd9fa4f84bbd8353c14aa5, type: 2}
+  - {fileID: 2100000, guid: 2574da34e9089fa47a9ac9cbfaf08f83, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1430,7 +1435,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1563,7 +1568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d3edc9c2be532469871da8e72d6dfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brokenCookiePrefab: {fileID: 1089798815480329666, guid: 0fb113ffae802d5418d05d69d8fd8016,
+  brokenCookiePrefab: {fileID: 1089798815480329666, guid: 2fd974b799117244caa1d2ab24f65363,
     type: 3}
   isBlocked: 0
 --- !u!1 &6840052084493647644
@@ -1596,8 +1601,8 @@ RectTransform:
   m_Children:
   - {fileID: 3515470330794743136}
   - {fileID: 5274731661821168978}
-  - {fileID: 7264615609710275458}
   - {fileID: 7666234636415965473}
+  - {fileID: 7264615609710275458}
   m_Father: {fileID: 562942294397108824}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1696,7 +1701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 5459578152300556365}
   score: {fileID: 4423564409760917177}
-  stage: {fileID: 0}
+  stage: {fileID: 7251063126996902081}
   background: {fileID: 8272057144384922355}
   curtain: {fileID: 2286136379937052843}
   rank: {fileID: 3847886425133614227}

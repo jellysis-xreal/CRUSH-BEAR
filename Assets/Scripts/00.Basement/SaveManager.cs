@@ -34,14 +34,17 @@ public class SaveManager
         string path = Application.persistentDataPath + "/" + saveFileName;
         File.WriteAllText(path, saveData);
     }
-
+    public void ClearTutorial()
+    {
+        data.isFirst = false;
+        data.isUnlocked[0] = true;
+        SaveLoadData();
+    }
     public void SaveLoadData(int ID, int currentScore)
     {
         int unlockID = GameManager.Data.stageData[ID].unlockID;
         data.isUnlocked[unlockID] = true;
         data.currentScore[ID] = currentScore;
-        string saveData = JsonUtility.ToJson(data, true);
-        string path = Application.persistentDataPath + "/" + saveFileName;
-        File.WriteAllText(path, saveData);
+        SaveLoadData();
     }
 }

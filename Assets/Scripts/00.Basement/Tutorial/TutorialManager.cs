@@ -433,8 +433,9 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(2f); // 예시: 2초 대기
         Debug.Log("Phase 16 완료!");
 
+        GameManager.Instance.Save.ClearTutorial();
         // 로비 씬으로 이동
-        SceneManager.LoadScene("00.StartScene");
+        GameManager.Instance.WaveToLobby();
     }
 
     private void ShowDialogue(string message, float duration)

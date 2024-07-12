@@ -107,7 +107,7 @@ public class DiaryAniController : MonoBehaviour
                 break;
             case 0:
                 GameManager.UI.SetRayOn(false);
-                GameManager.Instance.LobbyToWave();
+                GameManager.Instance.LobbyToTutorial();
                 break;
         }
     }

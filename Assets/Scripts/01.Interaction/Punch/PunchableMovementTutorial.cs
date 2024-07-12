@@ -101,9 +101,8 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
     IEnumerator TriggerArrivalAreaEndInteraction()
     {
         Debug.Log("TriggerArrivalAreaEndInteraction called");
-
+        yield return new WaitForSeconds(2f);
         _breakable.MotionFailed(); //
-        yield return new WaitForSeconds(1f);
         Debug.Log("trigger arrival");
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
@@ -130,12 +129,6 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
             Debug.Log("Triggered " + other.gameObject.name);
-            _isArrivalAreaHit = true;
-            StartCoroutine(TriggerArrivalAreaEndInteraction()); //
-        }
-        if (other.CompareTag("TriggerPad"))
-        {
-            Debug.Log("Triggered TriggerPad " + other.gameObject.name);
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
         }

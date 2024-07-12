@@ -154,6 +154,8 @@ public class HittableMovementTutorial : MonoBehaviour
 
     public IEnumerator MoveToPlayer()
     {
+        curState = toppingState.interacable;
+        
         //float timeElapsed = arriveTime - _moveToppingTime;
         Vector3 firstPos = transform.position;
 
@@ -278,13 +280,13 @@ public class HittableMovementTutorial : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         if (_isHitted) return;
-        CanInteractTopping();
-        Debug.Log("[DEBUGGING]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
-                  "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
+
+        // Debug.Log("[DEBUGGING]" + this.transform.name + "이 " + other.transform.name + "와 충돌함. " +
+        //           "\n현재 상태는 " + curState + ", bool: " + IsInteractable());
 
         if (other.gameObject.CompareTag("Plane")) return;
 
-        if (IsInteractable() || curState == toppingState.interacable)
+        if (curState == toppingState.interacable)
         {
             Debug.Log("[DEBUG] " + this.transform.name + "의 충돌 감지 시간은 ");
             bool IsRight = false;

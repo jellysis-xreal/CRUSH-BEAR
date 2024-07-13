@@ -61,8 +61,12 @@ public class ComboManager : MonoBehaviour
     }
     public void InitComboUI()
     {
-        // comboValueFever = 0f;
-        // comboSlider.value = comboValueFever;
+        comboValueFever = 0f;
+        comboValue = 0;
+        maxCombo = 0;
+        comboPercent = 0;
+
+        //comboSlider.value = comboValueFever;
         comboMultiflierPunch = comboMultiflierTransform[0].GetComponent<ComboText>();
         comboMultiflierHitting = comboMultiflierTransform[1].GetComponent<ComboText>();
         comboMultiflier = 1;

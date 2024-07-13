@@ -485,14 +485,16 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("HideDialogueAfterDelay 호출");
 
         yield return new WaitForSeconds(delay);
-        dialogueText.enabled = false; // 텍스트 비활성화
+        if(dialogueText != null)
+            dialogueText.enabled = false; // 텍스트 비활성화
     }
     private IEnumerator HideDialogue2AfterDelay(float delay)
     {
         Debug.Log("HideDialogueAfterDelay 호출");
 
         yield return new WaitForSeconds(delay);
-        dialogueText2.enabled = false; // 텍스트 비활성화
+        if (dialogueText2 != null)
+            dialogueText2.enabled = false; // 텍스트 비활성화
     }
 
     // 애니메이션 재생 메서드
@@ -515,6 +517,7 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator StopAnimationAfterDelay(Animator animator, float delay)
     {
         yield return new WaitForSeconds(delay);
-        animator.gameObject.SetActive(false); // 일정 시간 후 모델을 비활성화
+        if (animator != null)
+            animator.gameObject.SetActive(false); // 일정 시간 후 모델을 비활성화
     }
 }

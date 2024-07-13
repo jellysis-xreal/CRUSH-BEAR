@@ -70,6 +70,7 @@ public class ScoreManager : MonoBehaviour
     public void Init()
     {
         Debug.Log("Initialize ScoreManager");
+        TotalScore = 0;
         PerfectNum = 0;
         player = GameObject.FindWithTag("Player");
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;

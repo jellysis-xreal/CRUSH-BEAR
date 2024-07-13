@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     public void Init()
     {
         lobbyUI.InitSettings();
+        _scoreFloatingTextPool.Clear(); 
     }
 
     public void Start()

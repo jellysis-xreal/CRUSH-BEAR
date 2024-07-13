@@ -158,9 +158,10 @@ public class GameManager : MonoBehaviour
     {
         SetGameState(GameState.Ending);
     }
-
+    [ContextMenu("DEBUG/Lobby")]
     public void WaveToLobby()
     {
+        tutorialManager.StopAllCoroutines();
         SetGameState(GameState.Lobby);
     }
 
@@ -207,6 +208,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("GameManager instance isn't null, Destroy GameManager");
             _ui.Init();
+            
             Destroy(this.gameObject);
         }
     }

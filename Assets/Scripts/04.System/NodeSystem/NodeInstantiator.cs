@@ -45,7 +45,8 @@ public class NodeInstantiator : MonoBehaviour
     [SerializeField] private GameObject[] hitBluePool;       // InteractionSide(enum) : Blue
     
     [SerializeField] public uint _musicDataIndex = 0; //1~ NodeData
-    private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>();
+    private const int MAX_QUEUE_SIZE = 100;
+    private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>(MAX_QUEUE_SIZE);
 
     private Coroutine _curWaveCoroutine;
     private bool isPunchInitialized, isHitInitialized;
@@ -286,7 +287,8 @@ public class NodeInstantiator : MonoBehaviour
             if (wave == WaveType.Shooting)
             {
                 //tempPool = shootToppingPool;
-                tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
+                if (_nodeQueue.Count > 0)
+                    tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
                 //[XMC]Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
             }
             else if (wave == WaveType.Punching)
@@ -318,7 +320,8 @@ public class NodeInstantiator : MonoBehaviour
                 }
                     
                 // nodeInfo 노드 하나에 해당하는 값
-                tempNodeInfo = _nodeQueue.Dequeue();   
+                if (_nodeQueue.Count > 0)
+                    tempNodeInfo = _nodeQueue.Dequeue();   
 
                 if(punchToppingPool[i].activeSelf == true) 
                 {
@@ -346,7 +349,8 @@ public class NodeInstantiator : MonoBehaviour
                 if (_nodeQueue.Peek().sideType == InteractionSide.Red && i > 9) continue;   // 0~9 만 Red Object. 아니면 넘어감
                 if (_nodeQueue.Peek().sideType == InteractionSide.Blue && i < 10) continue;  // 10~19만 Blue Object. 아니면 넘어감
                 
-                tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
+                if (_nodeQueue.Count > 0)
+                    tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
                 //[XMC]Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
                 
                 hitToppingPool[i].transform.position = tempNodeInfo.spawnPosition;

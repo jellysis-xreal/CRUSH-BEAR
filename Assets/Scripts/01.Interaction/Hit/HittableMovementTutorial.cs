@@ -194,6 +194,7 @@ public class HittableMovementTutorial : MonoBehaviour
     }
     public void GoToRefrigerator()
     {
+        if (!_isHitted) GameManager.TutorialTennis.processedNumber++;
         Vector3 firstPos = transform.position;
         Vector3 thirdPos = refrigerator.transform.position;
         Vector3 secondPos = firstPos + (thirdPos - firstPos) / 2;
@@ -299,10 +300,6 @@ public class HittableMovementTutorial : MonoBehaviour
             if (colSide == sideType)
             {
                 IsRight = true;
-            }
-            else
-            {
-                IsRight = IsRightJudgment(other, colSide);
             }
 
             _isHitted = true;

@@ -230,7 +230,7 @@ public class HittableMovement : MonoBehaviour
         InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
 
         // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
-        // IsRight = IsRightJudgment(other, colSide);
+        IsRight = IsRightJudgment(other, colSide);
 
         // Controller / Hand_R/L의 HandData에서 속도 값 받아와서 Hit force로 사용함
         var parent = other.transform.parent.parent.parent;
@@ -259,49 +259,13 @@ public class HittableMovement : MonoBehaviour
 
     private bool IsRightJudgment(Collision _col, InteractionSide type)
     {
-        Transform thisSide = _col.transform;
-        Transform otherSide = _col.transform;
-
-        switch (type)
-        {
-            case InteractionSide.Red:
-                otherSide = _col.transform.parent.GetChild(1); // Blue
-                break;
-
-            case InteractionSide.Blue:
-                otherSide = _col.transform.parent.GetChild(0); // Red
-                break;
-        }
-
-        if (!thisSide.GetChild(0).TryGetComponent(out HitTrigger thisHit)) return false;
-        if (!otherSide.GetChild(0).TryGetComponent(out HitTrigger otherHit)) return false;
-
         if (type == sideType)
         {
-            if (thisHit.isTriggered)
-            {
-                Debug.Log("[SWING] 옳은 면에 맞았음");
-                return true;
-            }
+            //Debug.Log("[SWING] 옳은 면에 맞았음");
+            return true;
         }
         else
-        {
-            if (otherHit.isTriggered && UpOrDown(otherSide, type))
-            {
-                Debug.Log("[SWING] 판정이 잘못되었었다. 옳음!");
-                return true;
-            }
-
-            // Trigger되었다고 인식된 면과
-            // 반대 면에서 Triggered라고 판단되어지면, return True 
-            if (thisHit.isTriggered && !otherHit.isTriggered)
-            {
-                Debug.Log("[SWING] 틀린 면으로 침");
-                return false;
-            }
-        }
-
-        return false;
+            return false;
     }
 
     private bool UpOrDown(Transform _col, InteractionSide type)

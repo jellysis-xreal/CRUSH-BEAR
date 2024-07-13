@@ -301,10 +301,6 @@ public class HittableMovementTutorial : MonoBehaviour
             {
                 IsRight = true;
             }
-            else
-            {
-                IsRight = IsRightJudgment(other, colSide);
-            }
 
             _isHitted = true;
             if (SceneManager.GetActiveScene().name == "03.TutorialScene")

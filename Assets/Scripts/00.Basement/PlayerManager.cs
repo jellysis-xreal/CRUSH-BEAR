@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
     public ParticleSystem minusPrefab;
 
     [Header("New Heart Sprite")]
-    [SerializeField]
+    public Sprite defaultHeartSprite;
     public Sprite newHeartSprite; // 목숨 감소 하트 이미지
 
 
@@ -81,6 +81,11 @@ public class PlayerManager : MonoBehaviour
             HeartGameObjects[i].hearts[2] = score_G[i].transform.GetChild(2).GetComponent<Image>();
             HeartGameObjects[i].hearts[3] = score_G[i].transform.GetChild(3).GetComponent<Image>();
             HeartGameObjects[i].hearts[4] = score_G[i].transform.GetChild(4).GetComponent<Image>();
+            for(int j = 0; j < 5; ++j)
+            {
+                HeartGameObjects[i].hearts[j] = score_G[i].transform.GetChild(j).GetComponent<Image>();
+                HeartGameObjects[i].hearts[j].sprite = defaultHeartSprite;
+            }
             Debug.Log("[TEST] hearts init " + i.ToString());
         }
     }

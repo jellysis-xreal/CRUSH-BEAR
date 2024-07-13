@@ -96,7 +96,9 @@ public class ScoreManager : MonoBehaviour
             comboText[i] = comboText_Transform[i].GetComponent<TextToImage>();
         }
         circleGaugeController = circleGaugeControllerObject.GetComponent<CircleGaugeController>();
-
+        circleGaugeController.InitSettings();
+        effectPool = new List<GameObject>();
+        vfxPool = new List<GameObject>();
     }
 
     public uint GetPerfectNum()
@@ -501,6 +503,7 @@ public class ScoreManager : MonoBehaviour
     private IEnumerator DisableAfterSeconds(GameObject obj, float delay)
     {
         yield return new WaitForSeconds(delay);
-        obj.SetActive(false);
+        if(obj != null)
+            obj.SetActive(false);
     }
 }

@@ -20,13 +20,17 @@ public class CircleGaugeController : MonoBehaviour
 
     void Start()
     {
+        InitSettings();
+    }
+    public void InitSettings()
+    {
         if (circleRectTransform != null)
         {
             circleRectTransform.sizeDelta = new Vector2(minScaleAmount, minScaleAmount); // 시작 크기 설정
             //circleTransform.localScale = new Vector3(minScaleAmount, minScaleAmount, 1f); // 시작 스케일 설정
             //UpdateSliderText(minScaleAmount);
         }
-        if(sliderText != null)
+        if (sliderText != null)
             sliderText.ChangeTextToImage(0f);
     }
 

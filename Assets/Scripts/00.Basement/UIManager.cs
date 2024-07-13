@@ -5,6 +5,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private LobbyUI lobbyUI;
+    [SerializeField] private CircleGaugeController circleGaugeController;
     public GameObject floatingUIPrefab;
     
     // Score Floating Text UI Pool
@@ -18,10 +19,18 @@ public class UIManager : MonoBehaviour
     UI_Scene _sceneUI;
     GameObject player;
 
-    public void Init()
+    public void Init(EnumTypes.GameState state)
     {
-        lobbyUI.InitSettings();
-        _scoreFloatingTextPool.Clear(); 
+        Debug.Log("호출됨");
+        switch (state)
+        {
+            case EnumTypes.GameState.Lobby:
+                lobbyUI.InitSettings();
+                break;
+            case EnumTypes.GameState.Waving:
+                _scoreFloatingTextPool.Clear();
+                break;
+        }
     }
 
     public void Start()

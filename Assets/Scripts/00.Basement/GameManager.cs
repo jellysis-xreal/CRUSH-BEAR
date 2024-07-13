@@ -199,7 +199,7 @@ public class GameManager : MonoBehaviour
             Save.LoadSaveData();
             //_wave.Init();
             _sound.Init();
-            _ui.Init();
+            _ui.Init(currentGameState);
             _resource.Init();
             // Effect & Sound
             Sound.PlayMusic_Lobby(true);
@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning("GameManager instance isn't null, Destroy GameManager");
-            _ui.Init();
+            _ui.Init(currentGameState);
             
             Destroy(this.gameObject);
         }
@@ -241,7 +241,7 @@ public class GameManager : MonoBehaviour
             _combo.Init();
             //_player.PlaySceneUIInit();
             //_sound.Init();
-            //_ui.Init();
+            _ui.Init(currentGameState);
             //_resource.Init();
         }
         else

@@ -36,7 +36,7 @@ public class TutorialTennisManager : MonoBehaviour
     {
         return processedNumber >= 4 && succeedNumber >= 2; // 총 4번의 처리 중 2번 이상 성공
     }
-    public bool Check4FruitsInteractionSucceed()
+    /*public bool Check4FruitsInteractionSucceed()
     {
         // TODO :(왼손) 라이트 훅 → (왼손) 잽 → (오른손) 어퍼컷 → (오른손) 잽
         // 최근 4개의 점수가 Bad, Miss가 아닌 경우에 true 반환
@@ -47,7 +47,7 @@ public class TutorialTennisManager : MonoBehaviour
             if (scores[i] == scoreType.Miss || scores[i] == scoreType.Bad) return false;
         }
         return true;
-    }
+    }*/
     /*private void Start()
     {
         Init();
@@ -109,13 +109,44 @@ public class TutorialTennisManager : MonoBehaviour
         return TutorialTennisType.Clear;
     }
 
-    public void StartTennisTutorialRoutine()
+    void ResetVariable()
     {
-        StartCoroutine(TennisTutorialRoutine());
+        processedNumber = 0;
+        succeedNumber = 0;
+    }
+    public IEnumerator Phase14Routine()
+    {
+        // TODO : 우상단 -> 좌하단 -> 좌상단 -> 우하단
+        ResetVariable();
+        
+        rightHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
+            InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 1);
+        leftHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
+            InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 2);
+        leftHandGameObjects[1].GetComponentInChildren<HittableMovementTutorial>().
+            InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 3);
+        rightHandGameObjects[1].GetComponentInChildren<HittableMovementTutorial>().
+            InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 4);
+        
+        yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(4));
+    }
+
+    public IEnumerator TennisPhase12Routine()
+    {
+        ResetVariable();
+        leftHandGameObjects[0].SetActive(true);
+        rightHandGameObjects[0].SetActive(true);
+        
+        leftHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
+            InitializeTopping(tutorialTennisType, 3 + 2f * 1);
+        rightHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
+            InitializeTopping(tutorialTennisType, 3 + 2f * 2);
+
+        yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(2));
     }
     public IEnumerator TennisTutorialRoutine()
     {
-        Debug.Log("Start Tutorial Routine - TennisTutorialRoutine() 함수 호출");
+        //Debug.Log("Start Tutorial Routine - TennisTutorialRoutine() 함수 호출");
         tutorialTennisType = GetNonClearTutorialType();
 
         while (tutorialTennisType != TutorialTennisType.Clear)
@@ -133,7 +164,7 @@ public class TutorialTennisManager : MonoBehaviour
     IEnumerator RoutineByTennisType(TutorialTennisType tutorialTennisType)
     {
         // HittableMovementTutorial Init        
-        Debug.Log("Routine Start - RoutineByTennisType() 함수 호출");
+        //Debug.Log("Routine Start - RoutineByTennisType() 함수 호출");
 
         ResetGameObjectActive();
         processedNumber = 0; // processedNumber 초기화
@@ -153,7 +184,7 @@ public class TutorialTennisManager : MonoBehaviour
                 break;
         }
 
-        yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(4));// 총 4개의 토핑을 처리
+        // yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(4));// 총 4개의 토핑을 처리
         Debug.Log($"[Tutorial] Tennis Type {tutorialTennisType} End! You succeed {succeedNumber} Times.");
 
         //// 성공 개수 체크, 실패하면 성공 개수 초기화
@@ -197,7 +228,7 @@ public class TutorialTennisManager : MonoBehaviour
         {
             Debug.Log($"[Tutorial] You Failed In {tutorialTennisType}! Try Again!!");
         }
-        //yield return null;
+        yield return null;
     }
 
     private void ResetGameObjectActive()
@@ -226,6 +257,20 @@ public class TutorialTennisManager : MonoBehaviour
         yield return null;
     }
 
+    public bool Check4FruitInteractionPerfect()
+    {
+        // TODO : 최근 4개의 점수 중 2개 이상이 perfect인 경우에 true 반환
+
+        int startIndex = scores.Count - 1;
+        int perfectNum = 0;
+        for (int i = startIndex; i > startIndex - 4; i--)
+        {
+            if (scores[i] == scoreType.Perfect) perfectNum++;
+        }
+
+        if (perfectNum >= 2) return true;
+        else return false;
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q)) succeedNumber++;

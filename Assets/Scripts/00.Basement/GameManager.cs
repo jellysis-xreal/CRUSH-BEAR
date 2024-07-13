@@ -284,7 +284,7 @@ public class GameManager : MonoBehaviour
     void OnTutorialSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log(scene.buildIndex);
-        if (scene.buildIndex == 3)
+        if (currentGameState == GameState.Tutorial)
         {
             /*// Tennis
             Wave.SetWaveType(WaveType.Hitting);

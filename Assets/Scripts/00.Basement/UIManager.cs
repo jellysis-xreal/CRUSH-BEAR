@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour
     
     public void RequestFloatingUI(float value)
     {
-        Transform setTransform = GameManager.Wave.GetWaveScoreUI();
+        Transform setTransform = GameManager.Wave.GetWaveScoreUI().GetChild(0);
         
         if (_scoreFloatingTextPool.Count < 7)
         {

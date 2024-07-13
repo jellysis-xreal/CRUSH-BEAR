@@ -34,6 +34,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     public SpriteRenderer spriteRenderer; 
     private Breakable _breakable;
     private CookieControl _cookieControl;
+    private bool isMoveStart;
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -53,11 +54,11 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
         transform.rotation = Quaternion.identity;
-        
+        isMoveStart = false;
+
         // Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
         // Debug.Log($"[Punch] Init {transform.name} ");
         //cookieControl.Init(targetPosition);
-        GameManager.Instance.Metronome.BindEvent(CheckBeat);
         _meshRenderer.enabled = true;
         if (spriteRenderer != null) spriteRenderer.enabled = true;
 
@@ -67,15 +68,10 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 
         dir = transform.position - targetPosition;
         shootStandard = GameManager.Instance.Metronome.shootStandard;
-        if (beatNum < shootStandard)
-        {
-            transform.position = dir * beatNum / shootStandard;
-            yield return new WaitUntil(() => GameManager.Instance.Metronome.IsBeated());
-            transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
-            // _cookieControl.Init();
-        }
-        else
-            transform.position = dir;
+        GameManager.Instance.Metronome.BindEvent(CheckBeat);
+        yield return new WaitUntil(() => GameManager.Instance.Metronome.IsBeated());
+        CheckBeat(GameManager.Instance.Metronome.currentBeat);
+        // _cookieControl.Init();
         yield break;
     }
 
@@ -138,14 +134,17 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 
     public void CheckBeat(int currentBeat)
     {
-        if (beatNum < shootStandard)
+        if (isMoveStart)
             return;
-        if(beatNum  == currentBeat + shootStandard)
+        if(beatNum  <= currentBeat + shootStandard)
         {
-            // Debug.Log($"{currentBeat}번째 노드 생성됨");
-            Debug.Log(beatNum + "번 노드 생성위치 : " + transform.position);
-            transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * Mathf.Min(shootStandard, beatNum)).SetEase(Ease.Linear);
+            transform.position = dir * ((beatNum - currentBeat)/ (float)shootStandard);
+            Debug.LogWarning((beatNum - currentBeat) / (float)shootStandard * 100 + " 퍼센트 거리에서 생성 : ");
+            Debug.LogWarning(beatNum + "번 노드 생성위치 : " + transform.position);
+            Debug.LogWarning("현재 비트 : " + currentBeat);
+            transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * (beatNum - currentBeat)).SetEase(Ease.Linear);
             _cookieControl.Init();
+            isMoveStart = true;
         }
     }
 

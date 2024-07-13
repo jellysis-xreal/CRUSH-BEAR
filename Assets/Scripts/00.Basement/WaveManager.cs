@@ -118,7 +118,14 @@ public class WaveManager : MonoBehaviour
                 waveMusicGUID = 2;
                 break;
         }
-    }
+        currentState = WaveState.Init;
+        beforeState = WaveState.Init;
+
+        _isPause = false;
+        _IsManagerInit = false;
+        _curSettingTime = 0.0f;
+        _settingTime = 5.0f;
+}
     
     public WaveType GetWaveType()
     {
@@ -153,7 +160,7 @@ public class WaveManager : MonoBehaviour
     public Transform GetWaveScoreUI()
     {
         int TypeNum = (int)currentWave;
-        return nodeArrivalUI.transform.GetChild(TypeNum).GetChild(0);
+        return nodeArrivalUI.transform.GetChild(TypeNum);
     }
     
     public void SetWavePlayer()
@@ -314,9 +321,11 @@ public class WaveManager : MonoBehaviour
         GameManager.Instance.Metronome.secondsPerBeat = _oneBeat;
         _beat = _oneBeat;
 
+
         beforeWave = currentWave;
         currentWave = (WaveType)CurMusicData.WaveType;
-        
+        Debug.Log(beforeWave);
+        Debug.Log(currentWave);
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅
         
@@ -494,6 +503,7 @@ public class WaveManager : MonoBehaviour
         // 모든 웨이브가 종료되었을 때 호출.
         currentState = WaveState.End;
         Debug.Log("[WAVE] 게임 종료!");
+        GetWaveScoreUI().gameObject.SetActive(false);
         nodeInstantiator.FinishAllWaveNode();
         GameManager.Instance.Save.SaveLoadData(stageID, (int)GameManager.Score.TotalScore);
         SetResultUI();
@@ -510,7 +520,7 @@ public class WaveManager : MonoBehaviour
         result.ShowResults();
         //DontDestroyOnLoad(result);
     }
-    
+
     public void SetIsPause(bool pause)
     {
         if (pause) {

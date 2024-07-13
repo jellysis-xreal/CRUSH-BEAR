@@ -48,12 +48,15 @@ public class NodeInstantiator : MonoBehaviour
     private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>();
 
     private Coroutine _curWaveCoroutine;
+    private bool isPunchInitialized, isHitInitialized;
 
     private void Start()
     {
         GunSpawnTransform = transform.GetChild(0).gameObject;
         PunchSpawnTransform = transform.GetChild(1).gameObject;
         HitSpawnTransform = transform.GetChild(2).gameObject;
+        isPunchInitialized = false;
+        isHitInitialized = false;
     }
 
     public void InitToppingPool(WaveType wave)
@@ -87,7 +90,7 @@ public class NodeInstantiator : MonoBehaviour
 
     void InitHittingToppingPool()
     {
-        if (hitToppingPool.Length == 0)
+        if (!isHitInitialized)
         {
             hitToppingPool = new GameObject[_poolSize];
             for (int i = 0; i < _poolSize/2; ++i)
@@ -110,6 +113,7 @@ public class NodeInstantiator : MonoBehaviour
                 hitToppingPool[i].name = "Hit_B_" + i;
             }
             //[XMC]Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
+            isHitInitialized = true;
         }
     }
 
@@ -162,8 +166,9 @@ public class NodeInstantiator : MonoBehaviour
         
         foreach (var hit in hitToppingPool) Destroy(hit);
         _nodeQueue.Clear();
-        
         StopCoroutine(_curWaveCoroutine);
+        isPunchInitialized = false;
+        isHitInitialized = false;
     }
     
     private void InitializeNodeAndPool()
@@ -176,9 +181,9 @@ public class NodeInstantiator : MonoBehaviour
         foreach (var punch in punchRightZapPool) punch.SetActive(false);
         foreach (var punch in punchRightHookPool) punch.SetActive(false);
         foreach (var punch in punchRightUpperCutPool) punch.SetActive(false);
-        
-        foreach (var hit in hitToppingPool) hit.SetActive(false);
-        
+        if (isHitInitialized)
+            foreach (var hit in hitToppingPool) hit.SetActive(false);
+
         _nodeQueue.Clear();
     }
     
@@ -526,9 +531,9 @@ public class NodeInstantiator : MonoBehaviour
     private void InitPunchToppingPool()
     {
         Debug.Log("Init Punch Topping Pool");
-        int poolSize = 20;
+        int poolSize = 40;
 
-        if (punchToppingPool.Length == 0)
+        if (!isPunchInitialized)
         {
             punchToppingPool = new GameObject[poolSize];
             for (int i = 0; i < poolSize; i++)
@@ -544,6 +549,7 @@ public class NodeInstantiator : MonoBehaviour
                 punchToppingPool[i] = node;
                 punchToppingPool[i].name = "Punch_" + i;
             }
+            isPunchInitialized = true;
         }
     }
 }

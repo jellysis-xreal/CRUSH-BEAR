@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour
         {           
             SetGameState(GameState.Lobby);
             InitLobby();
-            StartCoroutine(LoadWaveScene());
         }
         // Test();
     }
@@ -111,7 +110,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Lobby:
                 SceneManager.LoadScene("00.StartScene");
-                InitLobby();
+
                 //StartCoroutine(LoadWaveScene());
                 break;
 
@@ -120,7 +119,7 @@ public class GameManager : MonoBehaviour
                 lobbyPlayer.SetActive(false);
                 
                 LoadWave = true; //비동기로 Load하던 01 Scene Active!
-                StopCoroutine(LoadWaveScene());
+                StartCoroutine(LoadWaveScene());
                 
                 Sound.PlayMusic_Lobby(false); //Effect & Sound
                 Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()

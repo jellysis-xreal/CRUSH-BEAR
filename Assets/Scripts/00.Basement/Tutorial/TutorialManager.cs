@@ -99,7 +99,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 1 시작!");
         // Phase 1 동작을 구현합니다.
         // Dialogue: 토핑을 부수고 야수성을 키워서 멋진 곰이 되어보자!
-        ShowDialogue("토핑을 부수고 야수성을 키워서 멋진 곰이 되어보자!", 10f);
+        ShowDialogue("Let’s become a savage bear \nby crushing the jelly topping!", 10f);
         // TODO : 텍스트 시각화, 안내 음성 추가
         yield return new WaitForSeconds(10f); // 예시: 2초 대기
         Debug.Log("Phase 1 완료!");
@@ -110,7 +110,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 2 시작!");
         // Phase 2 동작을 구현합니다.
         // Dialogue: 눈 앞의 쿠키를 부수면 시작할게
-        ShowDialogue("눈 앞의 쿠키를 부수면 시작할게", 5f);
+        ShowDialogue("Let's get started by smashing the cookie in front of us!", 5f);
         // TODO : 눈 앞의 쿠키가 부숴지는지 감지하는 기능
 
         GameManager.TutorialPunch.Init();
@@ -123,7 +123,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 3 시작!");
         // Phase 3 동작을 구현합니다.
         // Dialogue: 좋았어!
-        ShowDialogue("좋았어!", 5f);
+        ShowDialogue("Great job!", 5f);
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); 
         Debug.Log("Phase 3 완료!");
@@ -138,7 +138,7 @@ public class TutorialManager : MonoBehaviour
         while (true)
         {
             // Dialogue: 눈 앞의 쿠키를 부수면 시작할게
-            ShowDialogue("날아오는 쿠키를 향해 펀치를 날려보자", 10f);
+            ShowDialogue("Let’s punch those cookies \nflying through the air", 10f);
             PlayAnimation(aniPunch1, 10f); // 애니메이션
 
             // 두 개의 쿠키를 날리기
@@ -162,7 +162,7 @@ public class TutorialManager : MonoBehaviour
     {
         // TODO : 텍스트 시각화
         // Dialogue : 다시 한 번 해볼까? 
-        ShowDialogue("다시 한 번 해볼까?", 5f);
+        ShowDialogue("Let's try one more time", 5f);
         yield return new WaitForSeconds(5f);
     }
     private IEnumerator Phase5()
@@ -170,7 +170,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 5 시작!");
         // Phase 5 동작을 구현합니다.
         // Dialogue : 잘했어!
-        ShowDialogue("잘했어!", 5f);
+        ShowDialogue("Well done!", 5f);
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
         Debug.Log("Phase 5 완료!");
@@ -184,7 +184,7 @@ public class TutorialManager : MonoBehaviour
         while (true)
         {
             // Dialogue : 쿠키를 세게 칠 수록 좋은 점수를 받을 수 있어! 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!
-            ShowDialogue("쿠키를 세게 칠 수록\n 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!", 10f);
+            ShowDialogue("The harder you hit the cookie, \nthe higher your score will be! \nSwing your arms like a savage bear \nand punch with all your might!", 10f);
             PlayAnimation(aniPunch1, 10f); // 애니메이션
 
             // 두 개의 쿠키를 날리기
@@ -208,7 +208,7 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Phase 7 시작!");
         // Phase 7 동작을 구현합니다.
-        ShowDialogue("좋아!", 5f);
+        ShowDialogue("Good!", 5f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
@@ -222,7 +222,7 @@ public class TutorialManager : MonoBehaviour
         // 예: 쿠키를 두 번 이상 perfect로 치기
         while (true)
         {
-            ShowDialogue("이번엔 날아오는 쿠키 옆에 보이는 \n 화살표 방향대로 쿠키를 쳐보자! \n 화살표가 없는 쿠키는 정면을 향해 펀치하면 돼!", 5f);
+            ShowDialogue("This time, hit the cookie \nin the direction of the arrow sign! \nFor cookies without the sign, \npunch straight forward!", 5f);
             PlayAnimation(aniPunch2, 10f); // 애니메이션
 
             yield return StartCoroutine(GameManager.TutorialPunch.Phase8Routine());
@@ -242,7 +242,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 9 시작!");
         // Phase 9 동작을 구현합니다.
         // Dialogue: 좋은데! 
-        ShowDialogue("좋은데! ", 5f);
+        ShowDialogue("Nice!", 5f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); 
@@ -253,7 +253,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 10 시작!");
         // Phase 10 동작을 구현합니다.
         // Dialogue: 이번엔 몸을 틀어 냉장고 쪽을 바라봐줘
-        ShowDialogue2("이번엔 몸을 오른쪽으로 틀어 냉장고 쪽을 바라봐줘", 10f);
+        ShowDialogue2("Now, turn right and face the refrigerator", 10f);
 
         // Node_Punching_Rail을 비활성화하고 Node_Hitting_Rail을 활성화
         if (nodePunchingRail != null)
@@ -273,7 +273,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 11 시작!");
         // Phase 11 동작을 구현합니다.
         // Dialogue: 좋은데! 
-        ShowDialogue2("좋은데!", 2f);
+        ShowDialogue2("Great!", 2f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
@@ -288,7 +288,7 @@ public class TutorialManager : MonoBehaviour
         GameManager.TutorialTennis.InitializeTennis();
         while (true)
         {
-            ShowDialogue2("날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!", 10f);
+            ShowDialogue2("Swing the correct colored jam knife to match the flying fruits", 10f);
             PlayAnimation(aniSwing, 10f); // 애니메이션
 
             yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
@@ -343,7 +343,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 13 시작!");
         // Phase 13 동작을 구현합니다.
         // 예: 잘했어!
-        ShowDialogue2("잘했어!", 5f);
+        ShowDialogue2("Well done!", 5f);
 
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
         Debug.Log("Phase 13 완료!");
@@ -355,7 +355,7 @@ public class TutorialManager : MonoBehaviour
         // Phase 14 동작을 구현합니다.
         // 예: perfect 이상의 가속도로 스윙 2회 이상 → 15로 이동
         // perfect 이상의 가속도로 스윙 2회 미만 → 14-1로 이동
-        ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙!", 8f);
+        ShowDialogue2("The harder you hit the fruit, \nthe higher your score will be! \nSwing your arms like a savage bear \nand punch with all your might!", 8f);
         PlayAnimation(aniSwing, 8f); // 애니메이션
         yield return new WaitForSeconds(8f); // 예시: 2초 대기
 
@@ -415,7 +415,7 @@ public class TutorialManager : MonoBehaviour
     {
         Debug.Log("Phase 15 시작!");
         // Phase 13 동작을 구현합니다.
-        ShowDialogue("좋아!", 5f);
+        ShowDialogue("Good!", 5f);
 
         // 예: 좋아!!
         yield return new WaitForSeconds(2f); // 예시: 2초 대기
@@ -426,7 +426,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Phase 16 시작!");
         // Phase 13 동작을 구현합니다.
         // 예: 이제 야수성을 키울 준비가 다 됐어! 열심히 훈련해서 멋진 곰이 되는 거야!
-        ShowDialogue2("이제 야수성을 키울 준비가 다 됐어! \n 열심히 훈련해서 멋진 곰이 되는 거야!", 10f);
+        ShowDialogue2("Now you’re ready to be a savage bear! \nLet’s train to become the savagest bear \nin “Jellysis”", 10f);
 
         PlayAnimation(aniFighting, 10f); // 애니메이션
 

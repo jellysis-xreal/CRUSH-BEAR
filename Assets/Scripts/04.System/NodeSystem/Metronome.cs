@@ -57,7 +57,7 @@ public class Metronome : MonoBehaviour
         onBeat -= someAction;
         onBeat += someAction;
     }
-
+    public void UnBindEvent(Action<int> someAction) => onBeat -= someAction;
     public bool IsBeated() => isBeated;
     public bool SetGameEnd() => isPlaying = false;
 }

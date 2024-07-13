@@ -531,7 +531,7 @@ public class NodeInstantiator : MonoBehaviour
     private void InitPunchToppingPool()
     {
         Debug.Log("Init Punch Topping Pool");
-        int poolSize = 40;
+        int poolSize = 20;
 
         if (!isPunchInitialized)
         {

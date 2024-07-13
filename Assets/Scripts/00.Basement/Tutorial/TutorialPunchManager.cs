@@ -13,9 +13,14 @@ public class TutorialPunchManager : MonoBehaviour
     public IEnumerator SpawnAndHandleCookie()
     {
         // TODO : 생성 코드
-        zapGameObjects[0].transform.position = new Vector3(0, 1f, 1f); // SYJ
+        bool isCookieBroken = false;
+        GameObject temp = Instantiate(tutorialStartCookiePrefab);
+        BreakableButton tempButton = temp.GetComponent<BreakableButton>();
+        tempButton.InitSettings();
+        tempButton.AddEvent(() => { isCookieBroken = true; temp.SetActive(false); });
+        temp.transform.position = new Vector3(0, 1f, 1f); // SYJ
         // 부숴질 때 까지 대기
-        yield return new WaitUntil((() => (zapGameObjects[0].activeSelf == false)));
+        yield return new WaitUntil((() => (isCookieBroken)));
     }
 
     public IEnumerator SpawnAndHandle2CookiesZap()
@@ -106,6 +111,7 @@ public class TutorialPunchManager : MonoBehaviour
     public GameObject[] hookGameObjects;
     public GameObject[] upperCutGameObjects;
     public GameObject[] lowerCutGameObjects;
+    public GameObject tutorialStartCookiePrefab;
 
     public GameObject zapRootGameObject;
     public GameObject hookRootGameObject;

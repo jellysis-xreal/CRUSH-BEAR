@@ -19,6 +19,8 @@ public class SoundManager : MonoBehaviour
     AudioSource[] musicSource = new AudioSource[6]; // 사용할 배경음악
     AudioSource[] effectSource = new AudioSource[20]; // 사용할 효과음
 
+    private List<AudioSource> pausedSources = new List<AudioSource>();
+
     public void Init()
     {
         for (int i = 0; i < musicSource.Length; i++)
@@ -221,5 +223,49 @@ public class SoundManager : MonoBehaviour
     public void SetMusic(StageData stage)
     {
         musicClips = stage.musicClips;
+    }
+    
+    private List<AudioSource> GetActiveSources(AudioSource[] sources)
+    {
+        List<AudioSource> activeSources = new List<AudioSource>();
+        foreach (var source in sources)
+        {
+            if (source.isPlaying)
+            {
+                activeSources.Add(source);
+            }
+        }
+        return activeSources;
+    }
+    
+    public void PauseAllSound()
+    {
+        pausedSources.Clear();
+
+        foreach (var source in musicSource)
+        {
+            if (source.isPlaying)
+            {
+                source.Pause();
+                pausedSources.Add(source);
+            }
+        }
+
+        foreach (var source in effectSource)
+        {
+            if (source.isPlaying)
+            {
+                source.Pause();
+                pausedSources.Add(source);
+            }
+        }
+    }
+
+    public void ResumeAllSound()
+    {
+        foreach (var source in pausedSources)
+        {
+            source.Play();
+        }
     }
 }

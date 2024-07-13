@@ -35,6 +35,7 @@ public class DataManager
         foreach (var audioClip in GameManager.Sound.musicClips)
         {
             string music = audioClip.name;
+            Debug.Log("Data/" + $"{stageData[stageID].stageName}/{music}");
             if (!csvWave.OpenFile("Data/" + $"{stageData[stageID].stageName}/{music}"))
             {
                 Debug.Log("Read File Error");
@@ -101,7 +102,6 @@ public class DataManager
     }
     public MusicData GetMusicData(uint id)
     {
-        Debug.Log(waveMusicData);
         Debug.Log("DataManager : [Done] Load music data " + "GUID : "+id+" Music Name :" +waveMusicData[id].MusicName);
         return waveMusicData[id];
     }

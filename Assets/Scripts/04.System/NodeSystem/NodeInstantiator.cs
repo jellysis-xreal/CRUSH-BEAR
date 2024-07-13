@@ -124,7 +124,7 @@ public class NodeInstantiator : MonoBehaviour
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
             //TODO: XMC 임시
             float _time = 0.0f;
-            if (GameManager.Wave.currentWave == WaveType.Punching) _time = 0.2f;
+            if (GameManager.Wave.currentWave == WaveType.Punching) _time = 0.1f;
             else if (GameManager.Wave.currentWave == WaveType.Hitting) _time = 0.05f;
             
             yield return new WaitForSecondsRealtime(_time);
@@ -531,7 +531,7 @@ public class NodeInstantiator : MonoBehaviour
     private void InitPunchToppingPool()
     {
         Debug.Log("Init Punch Topping Pool");
-        int poolSize = 40;
+        int poolSize = 20;
 
         if (!isPunchInitialized)
         {

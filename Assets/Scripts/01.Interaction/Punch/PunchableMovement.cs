@@ -34,7 +34,6 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     public SpriteRenderer spriteRenderer; 
     private Breakable _breakable;
     private CookieControl _cookieControl;
-    private bool isMoveStart;
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -54,7 +53,6 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
         transform.rotation = Quaternion.identity;
-        isMoveStart = false;
 
         // Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
         // Debug.Log($"[Punch] Init {transform.name} ");
@@ -69,8 +67,6 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         dir = transform.position - targetPosition;
         shootStandard = GameManager.Instance.Metronome.shootStandard;
         GameManager.Instance.Metronome.BindEvent(CheckBeat);
-        yield return new WaitUntil(() => GameManager.Instance.Metronome.IsBeated());
-        CheckBeat(GameManager.Instance.Metronome.currentBeat);
         // _cookieControl.Init();
         yield break;
     }
@@ -134,20 +130,15 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 
     public void CheckBeat(int currentBeat)
     {
-        if (isMoveStart)
-            return;
         if(beatNum  <= currentBeat + shootStandard)
         {
             transform.position = dir * ((beatNum - currentBeat)/ (float)shootStandard);
-            Debug.LogWarning((beatNum - currentBeat) / (float)shootStandard * 100 + " 퍼센트 거리에서 생성 : ");
-            Debug.LogWarning(beatNum + "번 노드 생성위치 : " + transform.position);
-            Debug.LogWarning("현재 비트 : " + currentBeat);
+            Debug.LogWarning(beatNum + "번째 현재 모양 :" + _breakable._childTriggerChecker.handMotion);
             transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * (beatNum - currentBeat)).SetEase(Ease.Linear);
             _cookieControl.Init();
-            isMoveStart = true;
+            GameManager.Instance.Metronome.UnBindEvent(CheckBeat);
         }
     }
-
     #region Legacy Code
     /*private void InitiateVariableEarly()
     {

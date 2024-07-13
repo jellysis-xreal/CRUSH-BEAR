@@ -36,8 +36,7 @@ public class StageUI : MonoBehaviour
             bearImage.color = Color.white;
 
             stage.text = $"Stage {ID + 1}";
-            title.text = "Fiery Kitchen"; // 화끈한 주방 [임시] 영어 규정
-            //title.text = stageData[ID].stageName; // 화끈한 주방 : Fiery Kitchen?
+            title.text = stageData[ID].stageName; // 화끈한 주방 : Fiery Kitchen?
             score.text = string.Format("{0:D6}",temp.currentScore[ID]);
             // 현재 점수 비교해서 랭크 산정
 

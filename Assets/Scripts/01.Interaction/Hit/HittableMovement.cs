@@ -125,47 +125,6 @@ public class HittableMovement : MonoBehaviour
         _rigidbody.angularVelocity = new Vector3(0f, 0f, 0f);
     }
 
-    public void MoveToPlayer()
-    {
-        //float timeElapsed = arriveTime - _moveToppingTime;
-        Vector3 firstPos = transform.position;
-
-        this.transform.LookAt(_player.transform);
-
-        Sequence sequence = DOTween.Sequence();
-        
-        //Debug.Log(timeElapsed);
-        //Tween tweenJump = transform.DOJump(firstPos + new Vector3(0, 1.0f, 0), 2f, 1, popTime);
-
-        Tween tweenJump = transform.DOPath(new[]
-            {
-                new Vector3(firstPos.x, firstPos.y, firstPos.z),
-                new Vector3(firstPos.x, firstPos.y + 1.0f, firstPos.z),
-                new Vector3(firstPos.x, firstPos.y + 2.0f, firstPos.z)
-            },
-            popTime,
-            PathType.CatmullRom, PathMode.Full3D);
-        
-        firstPos = transform.position;
-        Vector3 upVector = transform.up.normalized * 4.0f;
-        Vector3 forwardVector = transform.forward.normalized * 5.0f;
-        Tween tweenMove = transform.DOPath(new[]
-            {
-                new Vector3(firstPos.x, firstPos.y, firstPos.z),
-                new Vector3(firstPos.x, firstPos.y, firstPos.z) + upVector + forwardVector,
-                new Vector3(_arrivalBoxPos.x, _arrivalBoxPos.y, _arrivalBoxPos.z)
-            },
-            moveTime,
-            PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint);
-        tweenMove.onComplete = () =>
-        {
-            IsToppingArrived(firstPos);
-        };
-        
-        sequence.Append(tweenJump).Append(tweenMove);
-        sequence.Play();
-    }
-
     private void IsToppingArrived(Vector3 firstPos)
     {
         // Debug.Log("[JMH][DEBUG] " + this.transform.name + "이 도착함.");
@@ -182,7 +141,7 @@ public class HittableMovement : MonoBehaviour
         
     }
 
-    public void MoveToPlayerAtMiddle()
+    public void MoveToPlayer()
     {
         Vector3 firstPos = transform.position;
 
@@ -213,9 +172,14 @@ public class HittableMovement : MonoBehaviour
             },
             moveTime,
             PathType.CatmullRom, PathMode.Full3D).SetEase(Ease.InQuint).Pause();
-
+        tweenMove.onComplete = () =>
+        {
+            IsToppingArrived(firstPos);
+        };
         sequence.Append(tweenJump).Append(tweenMove);
-        sequence.Goto(popTime * (shootStandard - beatNum));
+
+        //popTime = secondsPerBeat이다
+        sequence.Goto(popTime * (shootStandard - (beatNum - GameManager.Instance.Metronome.currentBeat)));
         sequence.Play();
     }
     public void GoToRefrigerator()
@@ -266,7 +230,7 @@ public class HittableMovement : MonoBehaviour
         InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
 
         // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
-        IsRight = IsRightJudgment(other, colSide);
+        // IsRight = IsRightJudgment(other, colSide);
 
         // Controller / Hand_R/L의 HandData에서 속도 값 받아와서 Hit force로 사용함
         var parent = other.transform.parent.parent.parent;
@@ -425,17 +389,10 @@ public class HittableMovement : MonoBehaviour
         switch (curState)
         {
             case toppingState.idle:
-                if (beatNum == beat + shootStandard)
+                if (beatNum <= beat + shootStandard)
                 {
-                    //Debug.Log(beatNum + "번 노드 날아감");
                     curState = toppingState.uninteracable;
                     MoveToPlayer();
-                    _isMoved = true;
-                }
-                else if (beatNum < beat + shootStandard)
-                {
-                    curState = toppingState.uninteracable;
-                    MoveToPlayerAtMiddle();
                     _isMoved = true;
                     // 혹시 중간 지점에서 시작할 때 이미 interactable이 되는 구간을 지나왔다면 보정함.
                     CanInteractTopping();

@@ -102,7 +102,6 @@ public class DataManager
     }
     public MusicData GetMusicData(uint id)
     {
-        Debug.Log(waveMusicData);
         Debug.Log("DataManager : [Done] Load music data " + "GUID : "+id+" Music Name :" +waveMusicData[id].MusicName);
         return waveMusicData[id];
     }

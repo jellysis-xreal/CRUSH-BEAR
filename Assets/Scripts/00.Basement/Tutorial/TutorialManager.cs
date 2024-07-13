@@ -305,7 +305,7 @@ public class TutorialManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Phase128 조건 미충족 - 다시 시도");
+                Debug.Log("Phase12 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }

@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class Hitter : MonoBehaviour
 {
-    public string triggerObj;
-    public InteractionSide triggerColor;
+    //public string triggerObj;
+    //public InteractionSide triggerColor;
     
-    public void OnTriggerEnter(Collider other)
-    {
-        triggerObj = other.name;
-
-        if (other.TryGetComponent(out HittableMovement hit))
-        {
-            triggerColor = hit.sideType;
-        }
-    }
+    // public void OnTriggerEnter(Collider other)
+    // {
+    //     triggerObj = other.name;
+    //
+    //     if (other.TryGetComponent(out HittableMovement hit))
+    //     {
+    //         triggerColor = hit.sideType;
+    //     }
+    // }
 
 
     private void OnTriggerStay(Collider other)

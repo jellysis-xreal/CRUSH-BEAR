@@ -230,7 +230,7 @@ public class HittableMovement : MonoBehaviour
         InteractionSide colSide = (InteractionSide)Enum.Parse(typeof(InteractionSide), body.name);
 
         // Collider 감지가 잘못된 경우, 예외 처리를 위해서 추가함
-        IsRight = IsRightJudgment(other, colSide);
+        // IsRight = IsRightJudgment(other, colSide);
 
         // Controller / Hand_R/L의 HandData에서 속도 값 받아와서 Hit force로 사용함
         var parent = other.transform.parent.parent.parent;

@@ -498,6 +498,12 @@ public class WaveManager : MonoBehaviour
         currentState = WaveState.Init;
     }
 
+    public void GameOver()
+    {
+        currentState = WaveState.End;
+        GetWaveScoreUI().gameObject.SetActive(false);
+        nodeInstantiator.FinishAllWaveNode();
+    }
     private void EndGame()
     {
         // 모든 웨이브가 종료되었을 때 호출.
@@ -568,7 +574,7 @@ public class WaveManager : MonoBehaviour
     // Update에서 반복, 비트가 남았을 경우 계속 진행(beatNum, beat값 수정), 모든 비트가 마무리된 경우 currentState -> Waiting으로 전환 
     public void UpdateBeat()
     {
-        if (waveTime > _beat && currentState == WaveState.Playing) // 조건 : 1beat 시간이 흘렀을 경우 한 번 호출
+        if (waveTime > _beat && currentState == WaveState.Playing && CurMusicData.BeatNum == GameManager.Instance.Metronome.currentBeat) // 조건 : 1beat 시간이 흘렀을 경우 한 번 호출
         { 
             //Debug.Log("[WAVE BEAT] " + _beatNum + "beat");
             /*if (87 == nodeInstantiator._musicDataIndex)
@@ -578,14 +584,7 @@ public class WaveManager : MonoBehaviour
             }*/
 
             // 존재 비트 모두 플레이 했을 때 State : Playing -> Waiting으로 전환
-            if (CurMusicData.BeatNum == currentBeatNum)
-            {
-                //[XMC]Debug.Log($"[Wave] : Detected All Beat is Done");
                 currentState = WaveState.Waiting;
-            }
-            
-            currentBeatNum++;
-            _beat += _oneBeat;
         }
     }
 }

@@ -156,7 +156,7 @@ public class NodeInstantiator : MonoBehaviour
     public void FinishAllWaveNode()
     {
         foreach (var shoot in shootToppingPool) Destroy(shoot);
-        // foreach (var punch in punchToppingPool) Destroy(punch);
+        foreach (var punch in punchToppingPool) Destroy(punch);
         foreach (var punch in punchLeftZapPool) Destroy(punch);
         foreach (var punch in punchLeftHookPool) Destroy(punch);
         foreach (var punch in punchLeftUpperCutPool) Destroy(punch);

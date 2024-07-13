@@ -30,6 +30,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject[] parentUI = new GameObject[3];
     public GameObject[] score_G = new GameObject[3];
     public ParticleSystem minusPrefab;
+    [SerializeField] private GameObject gameOverUIPrefab;
 
     [Header("New Heart Sprite")]
     public Sprite defaultHeartSprite;
@@ -113,8 +114,12 @@ public class PlayerManager : MonoBehaviour
         // TODO: XMC용 테스트 코드
         if (playerLifeValue == 0)
         {
-            GameManager.UI.ShowPopupUI<UI_Popup>("PopupSettings"); 
+            Instantiate(gameOverUIPrefab).transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2.33f, player.transform.position.z + 10.48f);
+            GameManager.Instance.Metronome.SetGameEnd();
+            GameManager.Wave.GameOver();
             GameManager.Sound.PlayEffectMusic_GameOver();
+            StartCoroutine(GameOver());
+            return;
         }
 
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;
@@ -146,12 +151,12 @@ public class PlayerManager : MonoBehaviour
         //SetHearts(playerLifeValue);
 
         // [팝업스토어] SYJ 항상 목숨 1 이상 유지
-        if (playerLifeValue <= 1)
+        /*if (playerLifeValue <= 1)
         {
             return;
-        }
+        }*/
         SetHearts(playerLifeValue);
-        playerLifeValue--;
+        playerLifeValue = Mathf.Max(0, playerLifeValue - 1);
         Debug.Log($"After: playerLifeValue = {playerLifeValue}");
 
         //playerLifeValue--;
@@ -203,6 +208,11 @@ public class PlayerManager : MonoBehaviour
             L_XRController.SendHapticImpulse(amplitude, duration);
             yield return new WaitForSeconds(0.5f); // 0.5초 대기
         }
+    }
+    private IEnumerator GameOver()
+    {
+        yield return new WaitForSeconds(2f);
+        GameManager.Instance.WaveToLobby();
     }
 
     // 점차 약해지는 진동

@@ -52,6 +52,9 @@ public class NodeInstantiator : MonoBehaviour
 
     public void InitToppingPool(WaveType wave)
     {
+        // 이전 wave 코루틴 중지
+        if(_spawnCoroutine != null)
+            StopCoroutine(_spawnCoroutine);
         // topping pool 생성해줌.
         // Wave가 처음 실행될 때, 한번 초기화 진행하는 것임
         //Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]"); //[XMC]
@@ -152,7 +155,6 @@ public class NodeInstantiator : MonoBehaviour
     public void FinishAllWaveNode()
     {
         StopCoroutine(_spawnCoroutine);
-        
         foreach (var shoot in shootToppingPool) Destroy(shoot);
         foreach (var punch in punchToppingPool) Destroy(punch);
         foreach (var hit in hitToppingPool) Destroy(hit);

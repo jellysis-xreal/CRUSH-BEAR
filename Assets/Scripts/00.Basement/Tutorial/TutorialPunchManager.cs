@@ -147,7 +147,7 @@ public class TutorialPunchManager : MonoBehaviour
         upperCutGameObjects = new GameObject[6];
         for (int i = 0; i < prefabArrayLength; i++)
         {
-            GameObject gameObject = Instantiate(punchPrefab[i % 2]);
+            // GameObject gameObject = Instantiate(punchPrefab[i % 2]);
             //Debug.Log(gameObject.name);
             zapGameObjects[i] = Instantiate(punchPrefab[i % 2], zapRootGameObject.transform); // i에 따라 1, 2번 프리팹
             hookGameObjects[i] = Instantiate(punchPrefab[i % 2 + 2], hookRootGameObject.transform); // i에 따라 3, 4번 프리팹

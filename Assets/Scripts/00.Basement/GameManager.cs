@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
     public delegate void GameStateChangedHandler(GameState newGameState);
     public static event GameStateChangedHandler OnGameStateChanged;
     private bool LoadWave = false;
-    
+    private bool LoadTutorial = false;
     [SerializeField] public GameState currentGameState;
     
     void Start()
@@ -110,8 +110,6 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Lobby:
                 SceneManager.LoadScene("00.StartScene");
-
-                //StartCoroutine(LoadWaveScene());
                 break;
 
             case GameState.Waving:
@@ -212,6 +210,9 @@ public class GameManager : MonoBehaviour
             
             Destroy(this.gameObject);
         }
+        
+        if (_save.data.isFirst)
+            StartCoroutine(LoadTutorialScene());
     }
 
     public void InitTutorial()
@@ -221,7 +222,7 @@ public class GameManager : MonoBehaviour
             //Debug.Log("Init GameManager Tutorial Scene");
             //+-------- Managers Init() +--------//
             SceneManager.sceneLoaded += OnTutorialSceneLoaded;
-            SceneManager.LoadScene(2);
+            LoadTutorial = true;
         }
         else
         {
@@ -275,6 +276,28 @@ public class GameManager : MonoBehaviour
              //+ "\n async.allowSceneActivation = " + Loading.allowSceneActivation);
 
             if (LoadWave && Loading.progress >= 0.9f)
+            {
+                Loading.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+    }
+    
+    IEnumerator LoadTutorialScene()
+    {
+        yield return null;
+
+        AsyncOperation Loading = SceneManager.LoadSceneAsync("03.TutorialScene", LoadSceneMode.Single);
+        Loading.allowSceneActivation = false;
+
+        while (!Loading.isDone)
+        {
+            // [DEBUG]
+            //Debug.Log("Async progress :" + (Loading.progress) + "%"
+            //+ "\n async.allowSceneActivation = " + Loading.allowSceneActivation);
+
+            if (LoadTutorial && Loading.progress >= 0.9f)
             {
                 Loading.allowSceneActivation = true;
             }

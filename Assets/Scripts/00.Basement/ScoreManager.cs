@@ -251,7 +251,7 @@ public class ScoreManager : MonoBehaviour
         {
             score = scoreType.Bad; 
         }
-        Debug.Log("Scoring Punch " + score);
+        //Debug.Log("Scoring Punch " + score);
         AddScore(score);
         SetScoreEffect(score, target.transform.position);
         GameManager.Sound.PlayEffect_Punch();

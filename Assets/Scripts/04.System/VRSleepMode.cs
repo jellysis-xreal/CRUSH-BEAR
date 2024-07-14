@@ -8,22 +8,12 @@ public class VRSleepMode : MonoBehaviour
 {
     private bool isGamePaused = false;
     private UnityEngine.XR.InputDevice hmdDevice;
-    public InputActionAsset inputActions; // Input Action Asset을 에디터에서 할당
-    private InputAction menuButtonAction;
-
-    private bool isPausedByUser = false;
-    private List<InputAction> allActions;
 
     void Start()
     {
         DontDestroyOnLoad(this);
         StartCoroutine(GetHMDDevice());
         StartCoroutine(CheckHeadsetPresence());
-        allActions = new List<InputAction>();
-        foreach (var map in inputActions.actionMaps)
-        {
-            allActions.AddRange(map.actions);
-        }
     }
     void OnApplicationPause(bool pauseStatus)
     {
@@ -73,11 +63,11 @@ public class VRSleepMode : MonoBehaviour
                 bool userPresent;
                 if (hmdDevice.TryGetFeatureValue(UnityEngine.XR.CommonUsages.userPresence, out userPresent))
                 {
-                    if (!userPresent && !isGamePaused && !isPausedByUser)
+                    if (!userPresent && !isGamePaused)
                     {
                         PauseGame();
                     }
-                    else if (userPresent && isGamePaused && !isPausedByUser)
+                    else if (userPresent && isGamePaused)
                     {
                         ResumeGame();
                     }
@@ -93,23 +83,8 @@ public class VRSleepMode : MonoBehaviour
         isGamePaused = true;
         Time.timeScale = 0f;
         //Debug.Log("게임이 일시 정지되었습니다.");
-        if (GameManager.Instance != null)  
+        if (GameManager.Instance != null)
             GameManager.Sound.PauseAllSound();
-        // 여기에 게임 일시 정지에 필요한 추가 기능
-        if (allActions != null)
-        {
-            foreach (var action in allActions)
-            {
-                if (action != menuButtonAction)
-                {
-                    action.Disable();
-                }
-            }
-        }
-        if (isPausedByUser)
-        {
-            StartCoroutine(ResumeTimer());
-        }
     }
 
     void ResumeGame()
@@ -118,52 +93,7 @@ public class VRSleepMode : MonoBehaviour
         isGamePaused = false;
         Time.timeScale = 1f;
         //Debug.Log("게임이 재개되었습니다.");
-        if(GameManager.Instance != null)
+        if (GameManager.Instance != null)
             GameManager.Sound.ResumeAllSound();
-        // 여기에 게임 재개에 필요한 추가 기능
-        if(allActions != null)
-        {
-            foreach (var action in allActions)
-            {
-                if (action != menuButtonAction)
-                {
-                    action.Enable();
-                }
-            }
-        }
-    }
-
-    private IEnumerator ResumeTimer()
-    {
-        yield return new WaitForSecondsRealtime(0.1f);
-        ResumeGame();
-        isPausedByUser = false;
-    }
-
-    void OnEnable()
-    {
-        // RightHand Controller Action Map에서 menuButton 액션을 찾습니다.
-        var rightHandMap = inputActions.FindActionMap("XRI RightHand");
-        menuButtonAction = rightHandMap.FindAction("menuButton");
-
-        // 메뉴 버튼 액션에 이벤트 핸들러를 추가합니다.
-        menuButtonAction.performed += OnMenuButtonPressed;
-        menuButtonAction.Enable();
-    }
-
-    void OnDisable()
-    {
-        // 메뉴 버튼 액션에서 이벤트 핸들러를 제거합니다.
-        menuButtonAction.performed -= OnMenuButtonPressed;
-        menuButtonAction.Disable();
-    }
-
-    void OnMenuButtonPressed(InputAction.CallbackContext context)
-    {
-        if (!isPausedByUser)
-        {
-            isPausedByUser = true;
-            PauseGame();
-        }
     }
 }

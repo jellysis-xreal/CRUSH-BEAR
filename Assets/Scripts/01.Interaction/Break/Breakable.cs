@@ -79,6 +79,7 @@ namespace UnityEngine.XR.Content.Interaction
                 {
                     bc.transform.position = gameObject.transform.position;
                     bc.IsHit(motion);
+                    Debug.Log($"broken pool version {i} : Succeed");
                     break;
                 }
             }
@@ -86,7 +87,7 @@ namespace UnityEngine.XR.Content.Interaction
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 
-                GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion);
+                // GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion) ;
                 _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
@@ -114,13 +115,14 @@ namespace UnityEngine.XR.Content.Interaction
                 {
                     bc.transform.position = gameObject.transform.position;
                     bc.IsHit();
+                    Debug.Log($"broken pool version {i} : Fail");
                     break;
                 }
             }
             
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
-                GameManager.Score.ScoringPunch(this.gameObject, false);
+                // GameManager.Score.ScoringPunch(this.gameObject, false);
                 _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)

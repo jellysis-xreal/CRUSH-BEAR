@@ -211,7 +211,7 @@ public class PlayerManager : MonoBehaviour
     }
     private IEnumerator GameOver()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         GameManager.Instance.WaveToLobby();
     }
 

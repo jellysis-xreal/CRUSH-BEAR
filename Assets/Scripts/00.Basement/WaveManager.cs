@@ -125,7 +125,7 @@ public class WaveManager : MonoBehaviour
         _IsManagerInit = false;
         _curSettingTime = 0.0f;
         _settingTime = 5.0f;
-}
+    }
     
     public WaveType GetWaveType()
     {
@@ -267,6 +267,7 @@ public class WaveManager : MonoBehaviour
                 NextWaveSetting();
                 beforeState = WaveState.Init;
                 currentState = WaveState.Waiting;
+
                 // else if (beforeState == WaveState.Waiting)
                 // {
                 //     beforeState = WaveState.Init;

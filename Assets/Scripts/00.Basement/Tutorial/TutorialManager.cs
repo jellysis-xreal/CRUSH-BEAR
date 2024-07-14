@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using EnumTypes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private int phaseIndex;
+    
+    [SerializeField] private GameObject _tutorialItems;
+    
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI dialogueText2;
 
@@ -19,30 +24,31 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private GameObject nodePunchingRail;
     [SerializeField] private GameObject nodeHittingRail;
 
-
+    [SerializeField] private AudioSource _audioSource;
+    public List<AudioClip> tutorialAudioSources = new List<AudioClip>();
+    
+    
     public void Init()
     {
         //Debug.Log("Initialize Tutorial Manager");
         phaseIndex = 0;
 
-        // "dialogueTXT" 이름의 오브젝트를 찾기
-        dialogueText = GameObject.Find("dialogueTXT")?.GetComponent<TextMeshProUGUI>();
-        dialogueText2 = FindInactiveObject("dialogueTXT2")?.GetComponent<TextMeshProUGUI>();
-
-        if (dialogueText2 == null)
-        {
-            //Debug.LogError("Dialogue Text object with name 'dialogueTXT2' not found");
-        }
-
-        // "Tutorial-Ani01-punch1" 이름의 애니메이터를 찾기
-        aniPunch1 = FindAnimator("Tutorial-Ani01-punch1");
-        aniPunch2 = FindAnimator("Tutorial-Ani02-punch2");
-        aniSwing = FindAnimator("Tutorial-Ani03-swing");
-        aniFighting = FindAnimator("Tutorial-Ani04-fighting");
-
-        // "Node_Punching_Rail"과 "Node_Hitting_Rail" 오브젝트 찾기
-        nodePunchingRail = GameObject.Find("Node_Punching_Rail");
-        nodeHittingRail = FindInactiveObject("Node_Hitting_Rail");
+        // Sorry for hard coding...
+        _tutorialItems = GameObject.FindWithTag("TutorialItems");
+        _audioSource = GameObject.FindWithTag("TutorialAudio").GetComponent<AudioSource>();
+            
+        nodePunchingRail = _tutorialItems.transform.GetChild(0).GetChild(1).GetChild(0).gameObject;
+        dialogueText = nodePunchingRail.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        Transform animations = nodePunchingRail.transform.GetChild(0).GetChild(2);
+        aniPunch1 = animations.GetChild(0).GetComponent<Animator>(); //FindAnimator("Tutorial-Ani01-punch1");
+        aniPunch2 = animations.GetChild(1).GetComponent<Animator>(); //FindAnimator("Tutorial-Ani02-punch2");
+                
+        nodeHittingRail = _tutorialItems.transform.GetChild(0).GetChild(2).gameObject;
+        dialogueText2 = nodeHittingRail.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        animations = nodeHittingRail.transform.GetChild(0).GetChild(2);
+        
+        aniSwing = animations.GetChild(2).GetComponent<Animator>(); //FindAnimator("Tutorial-Ani03-swing");
+        aniFighting = animations.GetChild(3).GetComponent<Animator>();//FindAnimator("Tutorial-Ani04-fighting");
 
         StartCoroutine(TutorialRoutine());
     }
@@ -94,13 +100,19 @@ public class TutorialManager : MonoBehaviour
         yield return StartCoroutine(Phase16());
     }
     
+    private void PlayAudioSource(int index)
+    {
+        _audioSource.clip = tutorialAudioSources[index];
+        _audioSource.Play();
+    }
+    
     private IEnumerator Phase1()
     {
         //Debug.Log("Phase 1 시작!");
         // Phase 1 동작을 구현합니다.
         // Dialogue: 토핑을 부수고 야수성을 키워서 멋진 곰이 되어보자!
         ShowDialogue("Let’s become a savage bear \nby crushing the jelly topping!", 10f);
-        // TODO : 텍스트 시각화, 안내 음성 추가
+        PlayAudioSource(0);
         yield return new WaitForSeconds(10f); // 예시: 2초 대기
         //Debug.Log("Phase 1 완료!");
     }
@@ -112,7 +124,7 @@ public class TutorialManager : MonoBehaviour
         // Dialogue: 눈 앞의 쿠키를 부수면 시작할게
         ShowDialogue("Let's get started by smashing the cookie in front of us!", 5f);
         // TODO : 눈 앞의 쿠키가 부숴지는지 감지하는 기능
-
+        PlayAudioSource(1);
         GameManager.TutorialPunch.Init();
         yield return StartCoroutine(GameManager.TutorialPunch.SpawnAndHandleCookie());
         //Debug.Log("Phase 2 완료!");
@@ -124,6 +136,7 @@ public class TutorialManager : MonoBehaviour
         // Phase 3 동작을 구현합니다.
         // Dialogue: 좋았어!
         ShowDialogue("Great job!", 5f);
+        PlayAudioSource(2);
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); 
         //Debug.Log("Phase 3 완료!");
@@ -134,7 +147,7 @@ public class TutorialManager : MonoBehaviour
         //Debug.Log("Phase 4 시작!");
         // Phase 4 동작을 구현합니다.
         // 예: 쿠키를 향해 펀치를 날리기
-
+        PlayAudioSource(3);
         while (true)
         {
             // Dialogue: 눈 앞의 쿠키를 부수면 시작할게
@@ -162,6 +175,7 @@ public class TutorialManager : MonoBehaviour
     {
         // TODO : 텍스트 시각화
         // Dialogue : 다시 한 번 해볼까? 
+        PlayAudioSource(4);
         ShowDialogue("Let's try one more time", 5f);
         yield return new WaitForSeconds(5f);
     }
@@ -171,6 +185,7 @@ public class TutorialManager : MonoBehaviour
         // Phase 5 동작을 구현합니다.
         // Dialogue : 잘했어!
         ShowDialogue("Well done!", 5f);
+        PlayAudioSource(5);
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
         //Debug.Log("Phase 5 완료!");
@@ -180,7 +195,7 @@ public class TutorialManager : MonoBehaviour
     {
         //Debug.Log("Phase 6 시작!");
         // Phase 6 동작을 구현합니다.
-
+        PlayAudioSource(6);
         while (true)
         {
             // Dialogue : 쿠키를 세게 칠 수록 좋은 점수를 받을 수 있어! 야수곰처럼 팔을 쫙 펴고 힘껏 펀치해보자!
@@ -206,6 +221,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator Phase7()
     {
+        PlayAudioSource(7);
         //Debug.Log("Phase 7 시작!");
         // Phase 7 동작을 구현합니다.
         ShowDialogue("Good!", 5f);
@@ -217,6 +233,7 @@ public class TutorialManager : MonoBehaviour
     
     private IEnumerator Phase8()
     {
+        PlayAudioSource(8);
         //Debug.Log("Phase 8 시작!");
         // Phase 8 동작을 구현합니다.
         // 예: 쿠키를 두 번 이상 perfect로 치기
@@ -239,6 +256,7 @@ public class TutorialManager : MonoBehaviour
     }
     private IEnumerator Phase9()
     {
+        PlayAudioSource(9);
         //Debug.Log("Phase 9 시작!");
         // Phase 9 동작을 구현합니다.
         // Dialogue: 좋은데! 
@@ -250,6 +268,7 @@ public class TutorialManager : MonoBehaviour
     }
     private IEnumerator Phase10()
     {
+        PlayAudioSource(10);
         //Debug.Log("Phase 10 시작!");
         // Phase 10 동작을 구현합니다.
         // Dialogue: 이번엔 몸을 틀어 냉장고 쪽을 바라봐줘
@@ -258,7 +277,9 @@ public class TutorialManager : MonoBehaviour
         // Node_Punching_Rail을 비활성화하고 Node_Hitting_Rail을 활성화
         if (nodePunchingRail != null)
         {
-            nodePunchingRail.SetActive(false);
+            // nodePunchingRail의 rotation을 (0,81,0)으로 변경
+            nodePunchingRail.transform.parent.DORotate(new Vector3(0, 81f, 0), 2.0f)
+                .OnComplete(() => nodePunchingRail.SetActive(false)); // 애니메이션이 완료되면 nodePunchingRail을 비활성화
         }
         if (nodeHittingRail != null)
         {
@@ -270,6 +291,7 @@ public class TutorialManager : MonoBehaviour
     }
     private IEnumerator Phase11()
     {
+        PlayAudioSource(11);
         //Debug.Log("Phase 11 시작!");
         // Phase 11 동작을 구현합니다.
         // Dialogue: 좋은데! 
@@ -281,6 +303,7 @@ public class TutorialManager : MonoBehaviour
     }
     private IEnumerator Phase12()
     {
+        PlayAudioSource(12);
         //Debug.Log("Phase 12 시작!");
         // Phase 12 동작을 구현합니다.
         // Dialouge : 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
@@ -309,6 +332,7 @@ public class TutorialManager : MonoBehaviour
     
     private IEnumerator Phase13()
     {
+        PlayAudioSource(13);
         //Debug.Log("Phase 13 시작!");
         // Phase 13 동작을 구현합니다.
         // 예: 잘했어!
@@ -320,6 +344,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator Phase14()
     {
+        PlayAudioSource(14);
         //Debug.Log("Phase 14 시작!");
         // Phase 14 동작을 구현합니다.
         // 예: perfect 이상의 가속도로 스윙 2회 이상 → 15로 이동
@@ -346,6 +371,7 @@ public class TutorialManager : MonoBehaviour
     }
     private IEnumerator Phase15()
     {
+        PlayAudioSource(15);
         //Debug.Log("Phase 15 시작!");
         // Phase 13 동작을 구현합니다.
         ShowDialogue("Good!", 5f);
@@ -356,6 +382,7 @@ public class TutorialManager : MonoBehaviour
     }
     private IEnumerator Phase16()
     {
+        PlayAudioSource(16);
         //Debug.Log("Phase 16 시작!");
         // Phase 13 동작을 구현합니다.
         // 예: 이제 야수성을 키울 준비가 다 됐어! 열심히 훈련해서 멋진 곰이 되는 거야!

@@ -67,22 +67,31 @@ namespace UnityEngine.XR.Content.Interaction
             //Debug.Log("Motion Succeed!");
             
             m_Destroyed = true;
-            // var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
-
+            
+            
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
             
             // TODO : 컨트롤러 속도로 전달
-            for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
+            if (GameManager.Instance.currentGameState == GameState.Waving)
             {
-                BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
-                if (!bc.isHit)
+                for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
                 {
-                    bc.transform.position = gameObject.transform.position;
-                    bc.IsHit(motion);
-                    Debug.Log($"broken pool version {i} : Succeed");
-                    break;
-                }
+                    BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
+                    if (!bc.isHit)
+                    {
+                        bc.transform.position = gameObject.transform.position;
+                        bc.IsHit(motion);
+                        Debug.Log($"broken pool version {i} : Succeed");
+                        break;
+                    }
+                }    
             }
+            else if (GameManager.Instance.currentGameState == GameState.Tutorial)
+            {
+                var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+                brokenVersion.GetComponent<BreakController>().IsHit(motion);
+            }
+            
             
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
@@ -108,17 +117,26 @@ namespace UnityEngine.XR.Content.Interaction
 
             m_Destroyed = true;
 
-            for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
+            if (GameManager.Instance.currentGameState == GameState.Waving)
             {
-                BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
-                if (!bc.isHit)
+                for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
                 {
-                    bc.transform.position = gameObject.transform.position;
-                    bc.IsHit();
-                    Debug.Log($"broken pool version {i} : Fail");
-                    break;
-                }
+                    BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
+                    if (!bc.isHit)
+                    {
+                        bc.transform.position = gameObject.transform.position;
+                        bc.IsHit();
+                        Debug.Log($"broken pool version {i} : Fail");
+                        break;
+                    }
+                } 
+            }else if (GameManager.Instance.currentGameState == GameState.Tutorial)
+            {
+                var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+                brokenVersion.GetComponent<BreakController>().IsHit();
             }
+
+            
             
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {

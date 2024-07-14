@@ -186,7 +186,7 @@ public class NodeInstantiator : MonoBehaviour
         
         if (_musicDataIndex < data.NodeData.Count)
         {
-            Debug.LogWarning($"[Node Maker] MusicDataToNodeInfo! {wave} {_musicDataIndex}"); //[XMC]
+            //Debug.LogWarning($"[Node Maker] MusicDataToNodeInfo! {wave} {_musicDataIndex}"); //[XMC]
             nodes = data.NodeData[(int)_musicDataIndex];
         }
         else
@@ -536,7 +536,7 @@ public class NodeInstantiator : MonoBehaviour
 
     private void InitPunchToppingPool()
     {
-        Debug.Log("Init Punch Topping Pool");
+        //Debug.Log("Init Punch Topping Pool");
         if (!isPunchInitialized)
         {
             punchToppingPool = new GameObject[MAX_POOL_SIZE];

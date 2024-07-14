@@ -75,7 +75,7 @@ public class ComboManager : MonoBehaviour
     }
     IEnumerator ComboRoutine()
     {
-        Debug.Log("Combo Routine " + comboMultiflier);
+        //Debug.Log("Combo Routine " + comboMultiflier);
 
         float waitSecond = 0.5f;
         while (true)

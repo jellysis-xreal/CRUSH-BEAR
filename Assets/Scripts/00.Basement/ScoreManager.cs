@@ -69,7 +69,7 @@ public class ScoreManager : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("Initialize ScoreManager");
+        //Debug.Log("Initialize ScoreManager");
         TotalScore = 0;
         PerfectNum = 0;
         player = GameObject.FindWithTag("Player");
@@ -84,7 +84,7 @@ public class ScoreManager : MonoBehaviour
         GameObject circleGaugeControllerObject = GameObject.Find("CircleGaugeController"); //
         if (circleGaugeControllerObject == null)
         {
-            Debug.Log("circleGaugeControllerObject == null");
+            //Debug.Log("circleGaugeControllerObject == null");
             return;
         }
 
@@ -123,18 +123,18 @@ public class ScoreManager : MonoBehaviour
         // Perfect, Good, Weak 중
         // 컨트롤러의 속도에 따라서 결정됩니다.
         // targetHand : 0-Right, 1-Left, 2-both
-        Debug.Log("ScoreByControllerSpeed");
+        //Debug.Log("ScoreByControllerSpeed");
         scoreType resultScore = scoreType.Weak;
 
         float perfect_threshold = RHand.GetPerfectThreshold();
         float good_threshold = RHand.GetGoodThreshold();
 
-        Debug.Log($"Perfect Threshold: {perfect_threshold}, Good Threshold: {good_threshold}");
+        //Debug.Log($"Perfect Threshold: {perfect_threshold}, Good Threshold: {good_threshold}");
 
         switch (targetHand)
         {
             case 0:
-                Debug.Log($"Right Hand Speed: {RHand.ControllerSpeed}");
+                //Debug.Log($"Right Hand Speed: {RHand.ControllerSpeed}");
                 if (RHand.ControllerSpeed >= perfect_threshold)
                     resultScore = scoreType.Perfect;
                 else if (RHand.ControllerSpeed >= good_threshold)
@@ -142,7 +142,7 @@ public class ScoreManager : MonoBehaviour
                 break;
             
             case 1:
-                Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
+                //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
                 if (LHand.ControllerSpeed >= perfect_threshold)
                     resultScore = scoreType.Perfect;
                 else if (LHand.ControllerSpeed >= good_threshold)
@@ -150,14 +150,14 @@ public class ScoreManager : MonoBehaviour
                 break;
             
             case 2:
-                Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}, Right Hand Speed: {RHand.ControllerSpeed}");
+                //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}, Right Hand Speed: {RHand.ControllerSpeed}");
                 if ((LHand.ControllerSpeed >= perfect_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
                     resultScore = scoreType.Perfect;
                 else if ((LHand.ControllerSpeed >= good_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
                     resultScore = scoreType.Good;
                 break;
         }
-        Debug.Log($"Result Score: {resultScore}");
+        //Debug.Log($"Result Score: {resultScore}");
         return resultScore;
     }
 
@@ -238,12 +238,12 @@ public class ScoreManager : MonoBehaviour
                 motion == Motion.LeftLowerCut)
             {
                 score = ScoreByControllerSpeed(1); // Left hand
-                Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + LHand.ControllerSpeed);
+                //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + LHand.ControllerSpeed);
             }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
             {
                 score = ScoreByControllerSpeed(0); // Right hand
-                Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + RHand.ControllerSpeed);
+                //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + RHand.ControllerSpeed);
 
             }
         }

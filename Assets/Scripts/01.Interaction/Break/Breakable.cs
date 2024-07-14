@@ -139,7 +139,7 @@ namespace UnityEngine.XR.Content.Interaction
                 // Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
                 if (IsEndingCookie)
                 {
-                    Debug.Log("Ending Cookie Triggered!");
+                    //Debug.Log("Ending Cookie Triggered!");
                     // Ending Scene으로 간다
                     GameManager.Instance.WaveToEnding();
                 }
@@ -147,12 +147,12 @@ namespace UnityEngine.XR.Content.Interaction
                 if (_childTriggerChecker.isTriggered)
                 {
                     MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!)");
+                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
                 }
                 else
                 {
                     MotionFailed();
-                    Debug.Log("Motion Failed!");
+                    //Debug.Log("Motion Failed!");
                 }
                 /*else if(CheckAdditionalCondition())
                 {

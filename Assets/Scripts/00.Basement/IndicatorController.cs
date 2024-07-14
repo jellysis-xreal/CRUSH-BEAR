@@ -23,7 +23,7 @@ public class IndicatorController : MonoBehaviour
 
     public void SetWaveIndicator(uint currenWaveNum, WaveType beforeWave, WaveType currentWave)
     {
-        Debug.Log("[JMH] SetWaveIndicator");
+        //Debug.Log("[JMH] SetWaveIndicator");
 
         ShowStartWave(currentWave);
 

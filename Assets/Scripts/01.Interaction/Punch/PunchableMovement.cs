@@ -121,7 +121,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     {
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
-            Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
+            //Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
             // StartCoroutine(TriggeredMovement());

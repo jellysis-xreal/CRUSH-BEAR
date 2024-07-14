@@ -12,19 +12,19 @@ public class SaveManager
     public void LoadSaveData()
     {
         string path = Application.persistentDataPath + "/" + saveFileName;
-        Debug.Log(path);
+        //Debug.Log(path);
         if(File.Exists(path))
         {
             string jsonData = File.ReadAllText(path);
             data = JsonUtility.FromJson<SaveData>(jsonData);
-            Debug.Log("·Îµå¼º°ø");
+            //Debug.Log("ï¿½Îµå¼ºï¿½ï¿½");
         }
         else
         {
             int stageNumber = GameManager.Data.stageData.Length;
             data = new SaveData(stageNumber);
             SaveLoadData();
-            Debug.Log("ÆÄÀÏ »ý¼º");
+            //Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         }
     }
 

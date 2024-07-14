@@ -23,7 +23,7 @@ public class DataManager
     public void Init()
     {
         LoadStage();
-        Debug.Log("Initialize DataManager");
+        //Debug.Log("Initialize DataManager");
     }
 
     // csv 파일의 값들을 읽어 MusicData 구조체 내에 값을 저장한다. 추후 GameManager.Data.GetMusicData(uint index)로 노래에 대한 값들을 읽어온다.
@@ -35,10 +35,10 @@ public class DataManager
         foreach (var audioClip in GameManager.Sound.musicClips)
         {
             string music = audioClip.name;
-            Debug.Log("Data/" + $"{stageData[stageID].stageName}/{music}");
+            //Debug.Log("Data/" + $"{stageData[stageID].stageName}/{music}");
             if (!csvWave.OpenFile("Data/" + $"{stageData[stageID].stageName}/{music}"))
             {
-                Debug.Log("Read File Error");
+                //Debug.Log("Read File Error");
                 return;
             }
 
@@ -91,7 +91,7 @@ public class DataManager
             //     Debug.Log(node[0] + " | " + node[1] + " " + node[2] + " " + node[3]+ " " + node[4]);
             // }
             waveMusicData.Add(musicData.GUID, musicData);
-            Debug.Log($"DataManager : [Done] Load Wave Music Data {musicData.MusicName}");
+            //Debug.Log($"DataManager : [Done] Load Wave Music Data {musicData.MusicName}");
         }
     }
 
@@ -101,7 +101,7 @@ public class DataManager
     }
     public MusicData GetMusicData(uint id)
     {
-        Debug.Log("DataManager : [Done] Load music data " + "GUID : "+id+" Music Name :" +waveMusicData[id].MusicName);
+        //Debug.Log("DataManager : [Done] Load music data " + "GUID : "+id+" Music Name :" +waveMusicData[id].MusicName);
         return waveMusicData[id];
     }
 }

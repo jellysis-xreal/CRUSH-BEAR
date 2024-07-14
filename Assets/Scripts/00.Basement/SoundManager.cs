@@ -36,7 +36,7 @@ public class SoundManager : MonoBehaviour
     public void PlayWaveMusic(uint id)
     {
         id--;
-        Debug.Log($"[Sound] ID {id} " + musicClips[(int)id].name + " Play");
+        //Debug.Log($"[Sound] ID {id} " + musicClips[(int)id].name + " Play");
         
         musicSource[id].clip = musicClips[(int)id];
         musicSource[id].volume = MusicVolume / 100.0f;
@@ -179,7 +179,7 @@ public class SoundManager : MonoBehaviour
 
         if (s == null)
         {
-            Debug.Log("[Effect NOT FOUND] " + name);
+            //Debug.Log("[Effect NOT FOUND] " + name);
         }
 
         // 비어있는 AudioSource를 찾아서 효과음을 재생

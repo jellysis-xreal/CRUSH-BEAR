@@ -85,7 +85,7 @@ public class WaveManager : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("Initialize WaveManager");
+        //Debug.Log("Initialize WaveManager");
 
         // Wave Num
         waveTime = 0.0f;
@@ -316,7 +316,7 @@ public class WaveManager : MonoBehaviour
         // 음악 세팅
         // waveMusicGUID = 1; // TODO: 임시로 GUID 1번으로 세팅
         CurMusicData = GameManager.Data.GetMusicData(waveMusicGUID); //받아올 Music Data 세팅
-        Debug.Log($"[Wave] : received Music Data. Music GUID {CurMusicData.GUID}");
+        //Debug.Log($"[Wave] : received Music Data. Music GUID {CurMusicData.GUID}");
         _oneBeat = 60.0f / CurMusicData.BPM;
         GameManager.Instance.Metronome.secondsPerBeat = _oneBeat;
         _beat = _oneBeat;
@@ -324,8 +324,8 @@ public class WaveManager : MonoBehaviour
 
         beforeWave = currentWave;
         currentWave = (WaveType)CurMusicData.WaveType;
-        Debug.Log(beforeWave);
-        Debug.Log(currentWave);
+        //Debug.Log(beforeWave);
+        //Debug.Log(currentWave);
         // Wave 세팅
         SetWavePlayer(); // Player의 Interact 세팅
         
@@ -483,7 +483,7 @@ public class WaveManager : MonoBehaviour
     }
     private void NextWaveStart()
     {
-        Debug.Log("[WAVE] Wave Start");
+        //Debug.Log("[WAVE] Wave Start");
         currentState = WaveState.Playing;
         waveTime = 0.0f;
         // 음악 시작!
@@ -508,7 +508,7 @@ public class WaveManager : MonoBehaviour
     {
         // 모든 웨이브가 종료되었을 때 호출.
         currentState = WaveState.End;
-        Debug.Log("[WAVE] 게임 종료!");
+        //Debug.Log("[WAVE] 게임 종료!");
         GetWaveScoreUI().gameObject.SetActive(false);
         nodeInstantiator.FinishAllWaveNode();
         GameManager.Instance.Save.SaveLoadData(stageID, (int)GameManager.Score.TotalScore);

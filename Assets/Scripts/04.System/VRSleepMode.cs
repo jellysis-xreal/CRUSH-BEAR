@@ -54,7 +54,7 @@ public class VRSleepMode : MonoBehaviour
     {
         isGamePaused = true;
         Time.timeScale = 0f;
-        Debug.Log("게임이 일시 정지되었습니다.");
+        //Debug.Log("게임이 일시 정지되었습니다.");
         GameManager.Sound.PauseAllSound();
         // 여기에 게임 일시 정지에 필요한 추가 기능
     }
@@ -63,7 +63,7 @@ public class VRSleepMode : MonoBehaviour
     {
         isGamePaused = false;
         Time.timeScale = 1f;
-        Debug.Log("게임이 재개되었습니다.");
+        //Debug.Log("게임이 재개되었습니다.");
         GameManager.Sound.ResumeAllSound();
         // 여기에 게임 재개에 필요한 추가 기능
     }

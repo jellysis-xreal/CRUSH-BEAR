@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public static class Utils
 {
@@ -69,6 +70,21 @@ public static class Utils
         }
 
         return null;
+    }
+    
+    public static bool TryGetComponentInChild<T>(this Transform transform, out T component) where T : Component
+    {
+        foreach (Transform child in transform)
+        {
+            component = child.GetComponent<T>();
+            if (component != null)
+            {
+                return true;
+            }
+        }
+
+        component = null;
+        return false;
     }
 
 }

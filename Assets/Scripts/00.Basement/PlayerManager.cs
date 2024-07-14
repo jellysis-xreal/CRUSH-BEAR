@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("Initialize PlayerManager");
+        //Debug.Log("Initialize PlayerManager");
 
         // Game object setting
         player = GameObject.FindWithTag("Player");
@@ -67,7 +67,7 @@ public class PlayerManager : MonoBehaviour
     public void HeartsInit()
     {
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;
-        Debug.Log($"WaveTypeCount : {WaveTypeCount}");
+        //Debug.Log($"WaveTypeCount : {WaveTypeCount}");
         for (int i = 0; i < WaveTypeCount; i++)
         {
             /*
@@ -87,7 +87,7 @@ public class PlayerManager : MonoBehaviour
                 HeartGameObjects[i].hearts[j] = score_G[i].transform.GetChild(j).GetComponent<Image>();
                 HeartGameObjects[i].hearts[j].sprite = defaultHeartSprite;
             }
-            Debug.Log("[TEST] hearts init " + i.ToString());
+            //Debug.Log("[TEST] hearts init " + i.ToString());
         }
     }
 
@@ -130,7 +130,7 @@ public class PlayerManager : MonoBehaviour
 
             // 파티클 효과 위치 설정 및 재생
             ParticleSystem ps = Instantiate(minusPrefab);
-            Debug.Log($"ps exist? {ps != null} {(int)GameManager.Wave.currentWave}, {playerLifeValue - 1}");
+            //Debug.Log($"ps exist? {ps != null} {(int)GameManager.Wave.currentWave}, {playerLifeValue - 1}");
             ps.transform.position = HeartGameObjects[(int)GameManager.Wave.currentWave].hearts[playerLifeValue - 1].transform.position;
             ps.Play();
             /*
@@ -157,7 +157,7 @@ public class PlayerManager : MonoBehaviour
         }*/
         SetHearts(playerLifeValue);
         playerLifeValue = Mathf.Max(0, playerLifeValue - 1);
-        Debug.Log($"After: playerLifeValue = {playerLifeValue}");
+        //Debug.Log($"After: playerLifeValue = {playerLifeValue}");
 
         //playerLifeValue--;
         //Debug.Log("Attack Success player HP -1");

@@ -47,15 +47,18 @@ namespace UnityEngine.XR.Content.Interaction
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
         public void InitBreakable()
         {
-            if(_punchableMovement == null)
+            if (_punchableMovement == null)
                 _punchableMovement = GetComponent<IPunchableMovement>();
 
-            _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
-            correctMotion = _childTriggerChecker.handMotion;
-            
+            if (Utils.TryGetComponentInChild(this.transform, out ChildTriggerChecker childTrigger))
+            {
+                _childTriggerChecker = childTrigger;
+                correctMotion = _childTriggerChecker.handMotion;
+            }
+
             m_Destroyed = false;
         }
-        
+
         public void MotionSucceed(EnumTypes.Motion motion) // Breakable.IsHit의 파라미터 전달하기 위함.
         {
             if (m_Destroyed)
@@ -136,7 +139,7 @@ namespace UnityEngine.XR.Content.Interaction
                 // Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
                 if (IsEndingCookie)
                 {
-                    Debug.Log("Ending Cookie Triggered!");
+                    //Debug.Log("Ending Cookie Triggered!");
                     // Ending Scene으로 간다
                     GameManager.Instance.WaveToEnding();
                 }
@@ -144,12 +147,12 @@ namespace UnityEngine.XR.Content.Interaction
                 if (_childTriggerChecker.isTriggered)
                 {
                     MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!)");
+                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
                 }
                 else
                 {
                     MotionFailed();
-                    Debug.Log("Motion Failed!");
+                    //Debug.Log("Motion Failed!");
                 }
                 /*else if(CheckAdditionalCondition())
                 {

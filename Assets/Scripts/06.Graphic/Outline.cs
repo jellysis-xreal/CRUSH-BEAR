@@ -41,7 +41,7 @@ public class Outline : MonoBehaviour
 
         if (player == null || materials.Count == 0)
         {
-            Debug.LogError("Player나 Material이 설정되지 않았습니다.");
+            //Debug.LogError("Player나 Material이 설정되지 않았습니다.");
             return;
         }
 

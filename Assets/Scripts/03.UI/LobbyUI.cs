@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LobbyUI : MonoBehaviour
 {
     [SerializeField] private StageUI stageUI;
-    // 0¹øÀÌ ÇÃ·¹ÀÌ ¹öÆ°, 1¹øÀÌ ¿ŞÂÊ ¹öÆ°, 2¹øÀÌ ¿ìÃø¹öÆ°
+    // 0ë²ˆì´ í”Œë ˆì´ ë²„íŠ¼, 1ë²ˆì´ ì™¼ìª½ ë²„íŠ¼, 2ë²ˆì´ ìš°ì¸¡ë²„íŠ¼
     [SerializeField] private BreakableButton[] buttons;
     [SerializeField] private GameObject[] tutorialObject;
     [SerializeField] private GameObject[] lobbyObject;
@@ -46,7 +46,7 @@ public class LobbyUI : MonoBehaviour
 
     public void GoRight()
     {
-        //ÇöÀç 2½ºÅ×ÀÌÁö°¡ ´õ¹Ì¶ó Length·Î ÇØ³õÀ½ ÃßÈÄ Length - 1·Î º¯°æ
+        //í˜„ì¬ 2ìŠ¤í…Œì´ì§€ê°€ ë”ë¯¸ë¼ Lengthë¡œ í•´ë†“ìŒ ì¶”í›„ Length - 1ë¡œ ë³€ê²½
         CurrentIndex = Mathf.Min(CurrentIndex + 1, GameManager.Data.stageData.Length);
         stageUI.SetID(CurrentIndex);
     }

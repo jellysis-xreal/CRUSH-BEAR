@@ -18,7 +18,7 @@ public class TutorialPunchManager : MonoBehaviour
         BreakableButton tempButton = temp.GetComponent<BreakableButton>();
         tempButton.InitSettings();
         tempButton.AddEvent(() => { isCookieBroken = true; temp.SetActive(false); });
-        temp.transform.position = new Vector3(0, 1f, 1f); // SYJ
+        temp.transform.position = new Vector3(0, 1.1f, 0.6f); // JMH
         // 부숴질 때 까지 대기
         yield return new WaitUntil((() => (isCookieBroken)));
     }
@@ -26,13 +26,13 @@ public class TutorialPunchManager : MonoBehaviour
     public IEnumerator SpawnAndHandle2CookiesZap()
     {
         // TODO : 생성 코드, 캐싱
-        Debug.Log("쿠키(잽) 두 개 생성");
+        //Debug.Log("쿠키(잽) 두 개 생성");
         zapGameObjects[0].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(0, 3 + 2f * 1);        
         zapGameObjects[1].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(1, 3 + 2f * 2);
 
         yield return new WaitForSeconds(10f);
 
-        Debug.Log("쿠키 두 개 인터랙션 시간 종료");
+        //Debug.Log("쿠키 두 개 인터랙션 시간 종료");
     }
 
     public bool CheckCookiesDestroyed()
@@ -51,7 +51,7 @@ public class TutorialPunchManager : MonoBehaviour
         {
             if (scores[i] == scoreType.Perfect) num++;
         }
-        Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - zapGameObjects.Length}");
+        //Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - zapGameObjects.Length}");
         return num;
     }
     public bool Check4CookiesInteractionSucceed()
@@ -70,14 +70,14 @@ public class TutorialPunchManager : MonoBehaviour
     public IEnumerator ZapRoutine()
     {
         // PunchableMovementTutorial Init        
-        Debug.Log("Zap Routine Start");
+        //Debug.Log("Zap Routine Start");
         ResetVariable();
         
         for (int i = 0; i < zapGameObjects.Length; i++)
             zapGameObjects[i].GetComponentInChildren<PunchableMovementTutorial>().InitiateVariable(i % 2, 3 + 2f * i);
 
         yield return StartCoroutine(WaitUntilProcessedNumberMatchSix());
-        Debug.Log($"[Tutorial] Punch Type {tutorialPunchType} End! You succeed {succeedNumber} Times.");
+        //Debug.Log($"[Tutorial] Punch Type {tutorialPunchType} End! You succeed {succeedNumber} Times.");
         
         yield return null;
     }
@@ -86,7 +86,7 @@ public class TutorialPunchManager : MonoBehaviour
     {
         // TODO :(왼손) 훅 → (왼손) 잽 → (오른손) 어퍼컷 → (오른손) 잽 생성
 
-        Debug.Log("Zap Routine Start");
+        //Debug.Log("Zap Routine Start");
         ResetVariable();
         
         // 레프트 훅 : hookGameObjects[0]
@@ -122,7 +122,7 @@ public class TutorialPunchManager : MonoBehaviour
     public int processedNumber = 0;
     public void Init()
     {
-        Debug.Log("Tutorial Initialize");
+        //Debug.Log("Tutorial Initialize");
         InitPunchTutorialData();
         InitPunchGameObjectPool();
         // StartTutorialPunchRoutine();
@@ -148,7 +148,7 @@ public class TutorialPunchManager : MonoBehaviour
         for (int i = 0; i < prefabArrayLength; i++)
         {
             GameObject gameObject = Instantiate(punchPrefab[i % 2]);
-            Debug.Log(gameObject.name);
+            //Debug.Log(gameObject.name);
             zapGameObjects[i] = Instantiate(punchPrefab[i % 2], zapRootGameObject.transform); // i에 따라 1, 2번 프리팹
             hookGameObjects[i] = Instantiate(punchPrefab[i % 2 + 2], hookRootGameObject.transform); // i에 따라 3, 4번 프리팹
             upperCutGameObjects[i] = Instantiate(punchPrefab[i % 2 + 4], upperCutRootGameObject.transform); // i에 따라 5, 6번 프리팹
@@ -159,7 +159,7 @@ public class TutorialPunchManager : MonoBehaviour
     {
         foreach (KeyValuePair<TutorialPunchType,bool> keyValuePair in tutorialClearData)
         {
-            Debug.Log($"Type {keyValuePair.Key}, isClear : {keyValuePair.Value}");
+            //Debug.Log($"Type {keyValuePair.Key}, isClear : {keyValuePair.Value}");
             if (!keyValuePair.Value) return keyValuePair.Key;
         }
         return TutorialPunchType.Clear;
@@ -171,7 +171,7 @@ public class TutorialPunchManager : MonoBehaviour
     }
     IEnumerator TutorialPunchRoutine()
     {
-        Debug.Log("Start Tutorial Routine");
+        //Debug.Log("Start Tutorial Routine");
         tutorialPunchType = GetNonClearTutorialType();
         // 튜토리얼 타입에 따라
         // 레프트 잽, 라이트 잽 각 2번
@@ -185,14 +185,14 @@ public class TutorialPunchManager : MonoBehaviour
             tutorialPunchType = GetNonClearTutorialType();
         }
 
-        Debug.Log("[Tutorial] All Routine Clear~!");
+        //Debug.Log("[Tutorial] All Routine Clear~!");
         yield return null;
     }
 
     public IEnumerator RoutineByPunchType(TutorialPunchType tutorialPunchType)
     {
         // PunchableMovementTutorial Init        
-        Debug.Log("Routine Start");
+        //Debug.Log("Routine Start");
         switch (tutorialPunchType)
         {
             case TutorialPunchType.Zap:

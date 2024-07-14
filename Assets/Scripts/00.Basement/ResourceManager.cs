@@ -20,7 +20,7 @@ public class ResourceManager : MonoBehaviour
         GameObject prefab = Load<GameObject>($"Prefabs/{path}");
         if (prefab == null)
         {
-            Debug.Log($"Failed to load prefab : {path}");
+            //Debug.Log($"Failed to load prefab : {path}");
             return null;
         }
         return Object.Instantiate(prefab, parent);

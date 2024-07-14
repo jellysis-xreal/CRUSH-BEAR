@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
 
     public void Init(EnumTypes.GameState state)
     {
-        Debug.Log("호출됨");
+        //Debug.Log("호출됨");
         switch (state)
         {
             case EnumTypes.GameState.Lobby:
@@ -157,7 +157,7 @@ public class UIManager : MonoBehaviour
 
         if (_popupStack.Peek() != popup)
         {
-            Debug.Log("[ERROR] Close Popup Failed");
+            //Debug.Log("[ERROR] Close Popup Failed");
             return;
         }
 

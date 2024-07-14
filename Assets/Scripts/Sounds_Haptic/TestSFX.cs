@@ -10,7 +10,7 @@ public class TestSFX : MonoBehaviour
         // effect test
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("== Q : playEffect [sfx_btn_select] ");
+            //Debug.Log("== Q : playEffect [sfx_btn_select] ");
 
             GameManager.Sound.playEffect("sfx_btn_select");
             // AudioManager.instance.playEffect("sfx_btn_select");
@@ -18,7 +18,7 @@ public class TestSFX : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            Debug.Log("== W : playEffect [sfx_btn_close] ");
+            //Debug.Log("== W : playEffect [sfx_btn_close] ");
             GameManager.Sound.playEffect("sfx_btn_close");
             // AudioManager.instance.playEffect("sfx_btn_close");
         }

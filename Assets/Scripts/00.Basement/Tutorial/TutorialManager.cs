@@ -344,8 +344,6 @@ public class TutorialManager : MonoBehaviour
             }
         }
     }
-    
-
     private IEnumerator Phase15()
     {
         Debug.Log("Phase 15 시작!");

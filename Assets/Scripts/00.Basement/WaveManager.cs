@@ -574,7 +574,7 @@ public class WaveManager : MonoBehaviour
     // Update에서 반복, 비트가 남았을 경우 계속 진행(beatNum, beat값 수정), 모든 비트가 마무리된 경우 currentState -> Waiting으로 전환 
     public void UpdateBeat()
     {
-        if (waveTime > _beat && currentState == WaveState.Playing && CurMusicData.BeatNum == GameManager.Instance.Metronome.currentBeat) // 조건 : 1beat 시간이 흘렀을 경우 한 번 호출
+        if (currentState == WaveState.Playing && CurMusicData.NodeCount + GameManager.Instance.Metronome.shootStandard <= GameManager.Instance.Metronome.currentBeat) // 조건 : 1beat 시간이 흘렀을 경우 한 번 호출
         { 
             //Debug.Log("[WAVE BEAT] " + _beatNum + "beat");
             /*if (87 == nodeInstantiator._musicDataIndex)

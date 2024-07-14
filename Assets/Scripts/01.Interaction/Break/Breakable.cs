@@ -47,15 +47,18 @@ namespace UnityEngine.XR.Content.Interaction
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
         public void InitBreakable()
         {
-            if(_punchableMovement == null)
+            if (_punchableMovement == null)
                 _punchableMovement = GetComponent<IPunchableMovement>();
 
-            _childTriggerChecker = GetComponentInChildren<ChildTriggerChecker>();
-            correctMotion = _childTriggerChecker.handMotion;
-            
+            if (Utils.TryGetComponentInChild(this.transform, out ChildTriggerChecker childTrigger))
+            {
+                _childTriggerChecker = childTrigger;
+                correctMotion = _childTriggerChecker.handMotion;
+            }
+
             m_Destroyed = false;
         }
-        
+
         public void MotionSucceed(EnumTypes.Motion motion) // Breakable.IsHit의 파라미터 전달하기 위함.
         {
             if (m_Destroyed)

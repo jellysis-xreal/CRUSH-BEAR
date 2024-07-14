@@ -103,12 +103,12 @@ public class WaveManager : MonoBehaviour
         // Topping이 이동하는 Arrival UI 초기화. **Hierarchy 주의**
         nodeArrivalUI = transform.GetChild(2).gameObject;
 
-        // 난이도 설정
+        /*// 난이도 설정
         switch (waveDifficulty)
         {
             case WaveDifficulty.Easy:
                 currenWaveNum = 0;
-                endWaveNum = 2;
+                endWaveNum = 4;
                 waveMusicGUID = 0;
                 break;
             
@@ -117,7 +117,11 @@ public class WaveManager : MonoBehaviour
                 endWaveNum = 4;
                 waveMusicGUID = 2;
                 break;
-        }
+        }*/
+        currenWaveNum = 0;
+        endWaveNum = 4;
+        waveMusicGUID = 0;
+        
         currentState = WaveState.Init;
         beforeState = WaveState.Init;
 

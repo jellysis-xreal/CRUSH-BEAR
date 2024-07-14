@@ -77,8 +77,7 @@ public class HittableMovement : MonoBehaviour
         arrivalBoxNum = node.arrivalBoxNum;
         beatNum = node.beatNum;
         sideType = node.sideType;
-
-
+        
         shootStandard = GameManager.Instance.Metronome.shootStandard;
         popTime = (float)GameManager.Instance.Metronome.secondsPerBeat;
         moveTime = popTime * (shootStandard - 1);
@@ -138,7 +137,6 @@ public class HittableMovement : MonoBehaviour
         _averageSpeed = jumpDistance / moveTime;
         _rigidbody.useGravity = true;
         _rigidbody.AddForce(transform.forward * _averageSpeed * 10.0f, ForceMode.VelocityChange);
-        
     }
 
     public void MoveToPlayer()

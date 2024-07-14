@@ -269,7 +269,8 @@ public class SoundManager : MonoBehaviour
     {
         foreach (var source in pausedSources)
         {
-            source.Play();
+            if(!source.isPlaying)
+                source.Play();
         }
     }
 }

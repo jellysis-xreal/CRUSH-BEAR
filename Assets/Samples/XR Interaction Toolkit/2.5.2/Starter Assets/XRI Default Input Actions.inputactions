@@ -1325,6 +1325,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "menuButton",
+                    "type": "Button",
+                    "id": "3e0f7d8c-03ee-4477-bdff-74a321891a4d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1556,6 +1565,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Grip Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5049233b-0562-4a1d-a668-2eb0d8aafa57",
+                    "path": "<XRController>{RightHand}/{SystemButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "menuButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

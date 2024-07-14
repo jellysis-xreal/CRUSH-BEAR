@@ -5,19 +5,23 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using EnumTypes;
+using Unity.Mathematics;
 using UnityEngine.Serialization;
 using UnityEngine.XR.Content.Interaction;
 using Random = UnityEngine.Random;
 
 public class NodeInstantiator : MonoBehaviour
 {
+    [Header("Cookie GameObject")]
     // Refactoring Punch Topping
     public List<GameObject> cookiePrefabs;          // 방향에 따르지 않는 랜덤한 쿠키
     public List<GameObject> cookieDirectionPrefabs; // 쿠키의 타입에 따라 정해짐, 쿠키에 붙일 UI Image
     public List<GameObject> childCollider;          // 쿠키의 타입에 따라 정해짐, 동작을 인식하기 위한 콜라이더.
-    
+    public List<GameObject> brokenCookiePrefabs;
+    public List<BreakController> brokenCookiePool;
+
     // Topping Prefabs
-    public List<GameObject> ShootTopping;
+    // public List<GameObject> ShootTopping;
     public List<GameObject> PunchTopping;
     public List<GameObject> HitTopping;
 
@@ -25,12 +29,14 @@ public class NodeInstantiator : MonoBehaviour
     [FormerlySerializedAs("GunSpawn")] public static GameObject GunSpawnTransform;
     [FormerlySerializedAs("PunchSpawn")] public static GameObject PunchSpawnTransform;
     [FormerlySerializedAs("HitSpawn")] public static GameObject HitSpawnTransform;
-
+    [Space]
+    [Header("Object Pool")] 
     private const int MAX_POOL_SIZE = 20; // Object Pool Size
     [SerializeField] private GameObject[] shootToppingPool;
     [SerializeField] private GameObject[] punchToppingPool;
     [SerializeField] private GameObject[] hitToppingPool;
     
+    [Header("Music data")]
     [SerializeField] public uint _musicDataIndex = 0; //1~ NodeData
     private const int MAX_QUEUE_SIZE = 100;
     [SerializeField] private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>(MAX_QUEUE_SIZE);
@@ -337,10 +343,7 @@ public class NodeInstantiator : MonoBehaviour
                 movement.transform.position = tempNodeInfo.spawnPosition;
                 movement.beatNum = tempNodeInfo.beatNum;
                 StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
-
                 SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, movement);
-                // punchToppingPool[i].GetComponent<CookieControl>().Init();
-                // punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
 
                 break;
             }
@@ -386,10 +389,10 @@ public class NodeInstantiator : MonoBehaviour
                         punchGameObject.transform.rotation = Quaternion.Euler(0f, 330f, 90f);
                         break;
                     case 3: // 레프트 어퍼컷
-                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
                         break;
                     case 4: // 레프트 로우컷
-                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(-40f, 0f, 0f);
                         break;
                     case 5: // 라이트 잽
                         punchGameObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
@@ -398,10 +401,10 @@ public class NodeInstantiator : MonoBehaviour
                         punchGameObject.transform.rotation = Quaternion.Euler(0f, 30f, 270f);
                         break;
                     case 7: // 라이트 어퍼컷
-                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(30f, 0f, 0f);
                         break;
                     case 8: // 라이트 로우컷
-                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(-40f, 0f, 0f);
                         break;
                     default:
                         break;
@@ -443,7 +446,7 @@ public class NodeInstantiator : MonoBehaviour
                         break;
                     case 4: // 레프트 로우컷
                         Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
-                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(-40f, 0f, 0f);
                         Instantiate(cookieDirectionPrefabs[4], punchGameObject.transform);
                         break;
                     case 5: // 라이트 잽
@@ -462,7 +465,7 @@ public class NodeInstantiator : MonoBehaviour
                         break;
                     case 8: // 라이트 로우컷
                         Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;
-                        punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
+                        punchGameObject.transform.rotation = Quaternion.Euler(-40f, 0f, 0f);
                         Instantiate(cookieDirectionPrefabs[5], punchGameObject.transform);
                         break;
                     default:
@@ -540,11 +543,18 @@ public class NodeInstantiator : MonoBehaviour
         //Debug.Log("Init Punch Topping Pool");
         if (!isPunchInitialized)
         {
+            brokenCookiePool = new List<BreakController>();
+            for (int i = 0; i < 10; i++)
+            {
+                GameObject cookie = Instantiate(brokenCookiePrefabs[i % 2], Vector3.down, quaternion.identity);
+                brokenCookiePool.Add(cookie.GetComponent<BreakController>());
+            }
+
             punchToppingPool = new GameObject[MAX_POOL_SIZE];
             for (int i = 0; i < MAX_POOL_SIZE; i++)
             {
                 // 쿠키 프리팹 랜덤 생성 (타입 지정되지 않은 상태)
-                GameObject topping = cookiePrefabs[Random.Range(0, 2)];
+                GameObject topping = cookiePrefabs[i % 2];
                 GameObject node = Instantiate(topping);
                 node.SetActive(false);
 

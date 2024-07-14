@@ -59,7 +59,9 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         //cookieControl.Init(targetPosition);
         _meshRenderer.enabled = true;
         if (spriteRenderer != null) spriteRenderer.enabled = true;
-
+        
+        _rigidbody.velocity=Vector3.zero;
+        _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.WakeUp();
         this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);

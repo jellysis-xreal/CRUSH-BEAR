@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3949280250711000265}
   - component: {fileID: 1698402089908179860}
   - component: {fileID: 397608845738157398}
-  - component: {fileID: 7003714979811217579}
   - component: {fileID: 1632120492767223655}
-  m_Layer: 8
+  - component: {fileID: 1989249071679022452}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,28 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7003714979811217579
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465259368064057}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1404029896828086742, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &1632120492767223655
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -134,6 +112,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &1989249071679022452
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465259368064057}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.13994958, y: 0.10441707, z: 0.16756509}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &488203159067943779
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,9 +144,9 @@ GameObject:
   - component: {fileID: 690386176199106998}
   - component: {fileID: 8309814581073800615}
   - component: {fileID: 2454368101760045742}
-  - component: {fileID: 388913313387010375}
   - component: {fileID: 5430471430585283417}
-  m_Layer: 8
+  - component: {fileID: 1383687655335155456}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,28 +218,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &388913313387010375
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 488203159067943779}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -757078039535903924, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &5430471430585283417
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -268,6 +245,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &1383687655335155456
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488203159067943779}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.07870227, y: 0.103838995, z: 0.19533394}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &834224770911280925
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,9 +277,9 @@ GameObject:
   - component: {fileID: 998131141145355167}
   - component: {fileID: 2208798093204277655}
   - component: {fileID: 7174481981511914287}
-  - component: {fileID: 298437255214984952}
   - component: {fileID: 6677248984220665347}
-  m_Layer: 8
+  - component: {fileID: 4271669210599155452}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,28 +351,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &298437255214984952
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834224770911280925}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4107476652828441486, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &6677248984220665347
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -402,6 +378,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &4271669210599155452
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834224770911280925}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.13879098, y: 0.06920464, z: 0.13552855}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1089798815480329666
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2432668043178917071}
   - component: {fileID: 4036102632725109138}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cookie_round_shattered
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +458,28 @@ MonoBehaviour:
   isHit: 0
   setBreakTime: 0
   breakTime: 0
+  shatteredObjects:
+  - {fileID: 6879377810477167453}
+  - {fileID: 4829383639743962428}
+  - {fileID: 488203159067943779}
+  - {fileID: 834224770911280925}
+  - {fileID: 6179100043058822778}
+  - {fileID: 1465259368064057}
+  - {fileID: 3047066593811490950}
+  - {fileID: 9031206992493181744}
+  - {fileID: 3070001460084992424}
+  originLocalPositions: []
   shatteredVector: {x: 0, y: 0, z: 0}
+  rbs:
+  - {fileID: 2379144591110147562}
+  - {fileID: 2165319598798267484}
+  - {fileID: 5430471430585283417}
+  - {fileID: 6677248984220665347}
+  - {fileID: 8895715043204810533}
+  - {fileID: 1632120492767223655}
+  - {fileID: 1243484973552421464}
+  - {fileID: 8108841936599406240}
+  - {fileID: 4124651544778720272}
 --- !u!1 &3047066593811490950
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,9 +491,9 @@ GameObject:
   - component: {fileID: 7976742317319017462}
   - component: {fileID: 6944259480661618785}
   - component: {fileID: 7105380635965301324}
-  - component: {fileID: 8635104982782378712}
   - component: {fileID: 1243484973552421464}
-  m_Layer: 8
+  - component: {fileID: 4810040558564234755}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,28 +565,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8635104982782378712
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3047066593811490950}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3728901484191880419, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &1243484973552421464
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -596,6 +592,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &4810040558564234755
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047066593811490950}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.15863946, y: 0.10271834, z: 0.100725}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3070001460084992424
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,9 +624,9 @@ GameObject:
   - component: {fileID: 5464559848432546486}
   - component: {fileID: 3997418982139758220}
   - component: {fileID: 7733867454440182311}
-  - component: {fileID: 2532189305923222095}
   - component: {fileID: 4124651544778720272}
-  m_Layer: 8
+  - component: {fileID: 6622135878996007246}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -681,28 +698,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2532189305923222095
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3070001460084992424}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2530657863658239759, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &4124651544778720272
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -730,6 +725,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &6622135878996007246
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3070001460084992424}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05598924, y: 0.07312631, z: 0.18082994}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4829383639743962428
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,9 +757,9 @@ GameObject:
   - component: {fileID: 1628438549152183223}
   - component: {fileID: 7241563041512599286}
   - component: {fileID: 6787362295476508529}
-  - component: {fileID: 7690701493147487485}
   - component: {fileID: 2165319598798267484}
-  m_Layer: 8
+  - component: {fileID: 3382121500518888827}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,28 +831,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7690701493147487485
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4829383639743962428}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 36467056599938518, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &2165319598798267484
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -864,6 +858,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &3382121500518888827
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4829383639743962428}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.14882995, y: 0.13161336, z: 0.19230933}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6179100043058822778
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,9 +890,9 @@ GameObject:
   - component: {fileID: 6249063093380308633}
   - component: {fileID: 1362359463692407423}
   - component: {fileID: 5651927994953480914}
-  - component: {fileID: 2406747043647967510}
   - component: {fileID: 8895715043204810533}
-  m_Layer: 8
+  - component: {fileID: 5388251276503701491}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -949,28 +964,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2406747043647967510
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6179100043058822778}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6738776771345415530, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &8895715043204810533
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -998,6 +991,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &5388251276503701491
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6179100043058822778}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.19179238, y: 0.12301941, z: 0.16366164}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6879377810477167453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,9 +1023,9 @@ GameObject:
   - component: {fileID: 6955386825868617859}
   - component: {fileID: 1989818007876608026}
   - component: {fileID: 6090989094940516588}
-  - component: {fileID: 531016758995801580}
   - component: {fileID: 2379144591110147562}
-  m_Layer: 8
+  - component: {fileID: 1169893341227908460}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1083,28 +1097,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &531016758995801580
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6879377810477167453}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4549085240666371181, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &2379144591110147562
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1132,6 +1124,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &1169893341227908460
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879377810477167453}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.15538123, y: 0.076348916, z: 0.11030842}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9031206992493181744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,9 +1156,9 @@ GameObject:
   - component: {fileID: 6668996242103453368}
   - component: {fileID: 4983466139696654946}
   - component: {fileID: 6535373919296588316}
-  - component: {fileID: 2706015096782279117}
   - component: {fileID: 8108841936599406240}
-  m_Layer: 8
+  - component: {fileID: 176710910838200092}
+  m_Layer: 0
   m_Name: Cookie_round_S1_fracturepart19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1217,28 +1230,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2706015096782279117
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9031206992493181744}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5129128589516707640, guid: a70896aa6190ea64b84da87debe58fb0, type: 3}
 --- !u!54 &8108841936599406240
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1266,3 +1257,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &176710910838200092
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9031206992493181744}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.12542057, y: 0.12995616, z: 0.111116156}
+  m_Center: {x: 0, y: 0, z: 0}

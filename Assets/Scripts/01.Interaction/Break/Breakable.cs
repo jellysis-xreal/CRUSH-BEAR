@@ -67,16 +67,27 @@ namespace UnityEngine.XR.Content.Interaction
             //Debug.Log("Motion Succeed!");
             
             m_Destroyed = true;
-            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+            // var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
 
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
             
             // TODO : 컨트롤러 속도로 전달
-            brokenVersion.GetComponent<BreakController>().IsHit(motion);
+            for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
+            {
+                BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
+                if (!bc.isHit)
+                {
+                    bc.transform.position = gameObject.transform.position;
+                    bc.IsHit(motion);
+                    Debug.Log($"broken pool version {i} : Succeed");
+                    break;
+                }
+            }
+            
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 
-                GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion);
+                // GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion) ;
                 _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
@@ -94,19 +105,24 @@ namespace UnityEngine.XR.Content.Interaction
             // 인터랙션했지만 MotionChecker.correctMotion과 일치하지 않을 때 Fail 처리
             if (m_Destroyed)
                 return;
-            
-            
+
             m_Destroyed = true;
-            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
 
-            // m_OnBreak.Invoke(other.gameObject, brokenVersion);
+            for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
+            {
+                BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
+                if (!bc.isHit)
+                {
+                    bc.transform.position = gameObject.transform.position;
+                    bc.IsHit();
+                    Debug.Log($"broken pool version {i} : Fail");
+                    break;
+                }
+            }
             
-            // Trigger 했지만 모션 fail
-            brokenVersion.GetComponent<BreakController>().IsHit();
-
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
-                GameManager.Score.ScoringPunch(this.gameObject, false);
+                // GameManager.Score.ScoringPunch(this.gameObject, false);
                 _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)

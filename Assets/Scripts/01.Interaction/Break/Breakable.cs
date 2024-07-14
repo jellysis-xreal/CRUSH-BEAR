@@ -67,12 +67,22 @@ namespace UnityEngine.XR.Content.Interaction
             //Debug.Log("Motion Succeed!");
             
             m_Destroyed = true;
-            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
+            // var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
 
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
             
             // TODO : 컨트롤러 속도로 전달
-            brokenVersion.GetComponent<BreakController>().IsHit(motion);
+            for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
+            {
+                BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
+                if (!bc.isHit)
+                {
+                    bc.transform.position = gameObject.transform.position;
+                    bc.IsHit(motion);
+                    break;
+                }
+            }
+            
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 

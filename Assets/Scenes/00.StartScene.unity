@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21545127, g: 0.2735693, b: 0.1680281, a: 1}
+  m_IndirectSpecularColor: {r: 0.21579188, g: 0.27392733, b: 0.1682333, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -671,6 +671,23 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -30
       objectReference: {fileID: 0}
+    - target: {fileID: 496803953950109727, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: brokenCookiePrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 496803953950109727, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: brokenCookiePrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1089798815480329666, guid: 2fd974b799117244caa1d2ab24f65363,
+        type: 3}
+    - target: {fileID: 496803953950109727, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: brokenCookiePrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 7277000028655070643, guid: 1cb9ea1d110f45f48b91fb3908562da8,
+        type: 3}
     - target: {fileID: 702961159111227502, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
       propertyPath: m_IsActive

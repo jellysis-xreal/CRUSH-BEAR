@@ -18,14 +18,21 @@ public class BreakController : MonoBehaviour
     public bool setBreakTime = false;
     
     [SerializeField] private float breakTime = 0.0f;
-    private List<GameObject> shatteredObjects = new List<GameObject>();
+    public List<GameObject> shatteredObjects;
+    public List<Vector3> originLocalPositions;
 
     public Vector3 shatteredVector;
-    
 
-    private void OnEnable()
+    public Rigidbody[] rbs;
+    // public MeshRenderer[] meshRenderers;
+
+    private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        originLocalPositions = new List<Vector3>();
+        for (int i = 0; i < shatteredObjects.Count; i++)
+        {
+            originLocalPositions.Add(shatteredObjects[i].transform.localPosition);
+        }
     }
 
     private void Initialize()
@@ -33,9 +40,12 @@ public class BreakController : MonoBehaviour
         speed = Random.Range(minMovingSpeed, maxMovingSpeed);
         isHit = false;
         setBreakTime = false;
-
-        for (int i = 0; i < transform.childCount; i++)
-            shatteredObjects.Add(transform.GetChild(i).gameObject);
+        for (int i = 0; i < shatteredObjects.Count; i++)
+        {
+            rbs[i].WakeUp();
+            shatteredObjects[i].transform.localPosition = originLocalPositions[i];
+        }
+        if(!gameObject.activeSelf) gameObject.SetActive(true);
     }
     
     public void IsHit(Vector3 shatteredVec) // Failed
@@ -118,18 +128,14 @@ public class BreakController : MonoBehaviour
     }
     IEnumerator ShatteredMovement()
     {
-        Rigidbody[] rbs = new Rigidbody[shatteredObjects.Count];
-        
-        //color.a = 0.5f;
         for (int i = 0; i < shatteredObjects.Count; i++)
         {
-            rbs[i] = shatteredObjects[i].GetComponent<Rigidbody>();
-            Material mat = rbs[i].gameObject.GetComponent<MeshRenderer>().material;
+            // Material mat = meshRenderers[i].material;
             //mat.color.a = 0.5f;
-            mat.DOColor(Color.clear, 0.5f);
+            // mat.DOColor(Color.clear, 0.5f);
             // 주먹의 방향에 약간의 랜덤한 변화를 추가
             Vector3 forceDirection = shatteredVector + new Vector3(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
-            
+
             rbs[i].AddForce(forceDirection * 15f);
         }
         yield return new WaitForSeconds(0.3f);
@@ -138,11 +144,22 @@ public class BreakController : MonoBehaviour
         {
             rbs[i].useGravity = true;
         }
+        yield return new WaitForSeconds(0.3f);
 
-        yield return new WaitForSeconds(1f);
-        Destroy(this.gameObject);
+        StartCoroutine(ActiveTime(1));
     }
-
+    private IEnumerator ActiveTime(float coolTime)
+    {
+        yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
+        for (int i = 0; i < shatteredObjects.Count; i++)
+        {
+            rbs[i].velocity=Vector3.zero;
+            rbs[i].angularVelocity=Vector3.zero;
+            rbs[i].Sleep();
+        }
+        gameObject.SetActive(false);
+        isHit = false;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.black;

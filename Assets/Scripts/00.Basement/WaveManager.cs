@@ -44,7 +44,7 @@ public class WaveManager : MonoBehaviour
     [Header("----+ setting +----")]
     //[SerializeField] private GameObject RightInteraction;
     //[SerializeField] private GameObject LeftInteraction;
-    [SerializeField] private NodeInstantiator nodeInstantiator;
+    public NodeInstantiator nodeInstantiator;
     [SerializeField] private GameObject nodeArrivalArea;
     [SerializeField] private GameObject nodeArrivalUI;
     [SerializeField] public GameObject[] timerCanvas;

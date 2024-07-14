@@ -155,6 +155,8 @@ public class PlayerManager : MonoBehaviour
         {
             return;
         }*/
+        if (GameManager.Instance.currentGameState == GameState.Tutorial) return;
+        
         SetHearts(playerLifeValue);
         playerLifeValue = Mathf.Max(0, playerLifeValue - 1);
         //Debug.Log($"After: playerLifeValue = {playerLifeValue}");

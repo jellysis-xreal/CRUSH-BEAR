@@ -112,6 +112,7 @@ public class SoundManager : MonoBehaviour
                 {
                     source.clip = audioClip;
                     source.volume = MusicVolume / 100.0f;
+                    source.loop = true;
                     source.Play();
                     StartCoroutine(CheckEffectCompletion(source, audioClip.length));
                     break;
@@ -120,6 +121,7 @@ public class SoundManager : MonoBehaviour
             else if (source.clip == audioClip)
             {
                 StopCoroutine(CheckEffectCompletion(source, audioClip.length));
+                source.loop = false;
                 source.clip = null;
                 source.Stop();
             }

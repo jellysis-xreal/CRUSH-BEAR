@@ -47,6 +47,9 @@ public class Metronome : MonoBehaviour
                 lastbeat += secondsPerBeat;
                 isBeated = true;
             }
+
+            //else
+            //Debug.LogWarning("CheckBeat Error");
             yield return null;
         }
 

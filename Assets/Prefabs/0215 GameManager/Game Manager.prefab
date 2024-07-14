@@ -148,6 +148,7 @@ MonoBehaviour:
   _player: {fileID: 4516383287528989789}
   _wave: {fileID: 6725875270303160479}
   _sound: {fileID: 2602041222296081612}
+  tutorialManager: {fileID: 0}
   tutorialPunch: {fileID: 2034601234609042788}
   tutorialTennis: {fileID: 2147567610283992196}
   _metronome: {fileID: 2415495918242430100}
@@ -1022,6 +1023,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb34abb8eb23a5f40907b0ea2211b9e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scores: 
+  speeds: []
   tutorialTennisType: 0
   tennisPrefabs:
   - {fileID: 7316578390627877693, guid: e8df0f8cac06b0548b43ef117d197bf3, type: 3}
@@ -4319,10 +4322,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2b42414aa180a0c48a663e2242cd3cec, type: 3}
   - {fileID: 8300000, guid: 7cd6e159383e8994caf26566ef8c0301, type: 3}
   musicClips:
-  - {fileID: 8300000, guid: 91f76ea12dee6504ea513b7fe593af9c, type: 3}
-  - {fileID: 8300000, guid: 01fba4b48c899274da1808ccf094803d, type: 3}
-  - {fileID: 8300000, guid: 155bd856bc52e204bbf45ea4360a43c4, type: 3}
-  - {fileID: 8300000, guid: ed7f7489e2ced864a9996a562efc53c6, type: 3}
+  - {fileID: 8300000, guid: b5dddd8fdafd1e84e92f6c8a6905bfaf, type: 3}
+  - {fileID: 8300000, guid: 770d60bc450fcf842998f27f1be005bd, type: 3}
+  - {fileID: 8300000, guid: 0ba49deb54b77c14ea5a744b2249c069, type: 3}
+  - {fileID: 8300000, guid: 182d379c5d5d9fa4395f9e5c36cee8e0, type: 3}
 --- !u!1 &3497661126815890361
 GameObject:
   m_ObjectHideFlags: 0
@@ -4367,6 +4370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be4e6322ebff4ad8a089f76902962d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lobbyUI: {fileID: 0}
+  circleGaugeController: {fileID: 0}
   floatingUIPrefab: {fileID: 1836775423574466843, guid: f7b8dd40a0bacbf42899b25e22a0151e,
     type: 3}
 --- !u!1 &3531663707119556621
@@ -5118,7 +5123,8 @@ MonoBehaviour:
     GUID: 0
     MusicName: 
     BPM: 0
-    BeatNum: 0
+    NodeCount: 0
+  stageID: 0
   nodeInstantiator: {fileID: 496803953950109727}
   nodeArrivalArea: {fileID: 2606310811085291220}
   nodeArrivalUI: {fileID: 2443742045382284797}
@@ -6338,6 +6344,8 @@ MonoBehaviour:
   - {fileID: 1821116805269428885}
   minusPrefab: {fileID: 6403252182692130911, guid: 4e12b3c53c0f8ee4da83655d8d2770d5,
     type: 3}
+  gameOverUIPrefab: {fileID: 0}
+  defaultHeartSprite: {fileID: 0}
   newHeartSprite: {fileID: 21300000, guid: 9949f2ba3ae466440ae5794eaae747d6, type: 3}
   HeartGameObjects:
   - hearts:
@@ -7325,6 +7333,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955b46e3ca4768243bc523bf2cb543a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scores: 
+  speeds: []
   tutorialPunchType: 0
   punchPrefab:
   - {fileID: 1341543277012887744, guid: 9ceff275917cad34bafe90b614b8331b, type: 3}
@@ -7336,9 +7346,12 @@ MonoBehaviour:
   zapGameObjects: []
   hookGameObjects: []
   upperCutGameObjects: []
+  lowerCutGameObjects: []
+  tutorialStartCookiePrefab: {fileID: 0}
   zapRootGameObject: {fileID: 8321446442703786021}
   hookRootGameObject: {fileID: 3558278503200651331}
   upperCutRootGameObject: {fileID: 4745293972831907618}
+  lowerCutRootGameObject: {fileID: 0}
   succeedNumber: 0
   processedNumber: 0
 --- !u!1 &6249056326462144733
@@ -8411,19 +8424,12 @@ MonoBehaviour:
   - {fileID: 276081071955841170, guid: 08c2dcb359eb3b649998b2bb0d968a67, type: 3}
   - {fileID: 5050728513131139250, guid: 887e625275d2820499bedf8afea73b34, type: 3}
   - {fileID: 5050728513131139250, guid: 887e625275d2820499bedf8afea73b34, type: 3}
-  _poolSize: 20
   shootToppingPool: []
   punchToppingPool: []
   hitToppingPool: []
-  punchLeftZapPool: []
-  punchLeftHookPool: []
-  punchLeftUpperCutPool: []
-  punchRightZapPool: []
-  punchRightHookPool: []
-  punchRightUpperCutPool: []
-  hitRedPool: []
-  hitBluePool: []
   _musicDataIndex: 0
+  _checkNodeIndex: 
+  _checkTempList: 
 --- !u!1 &7377906120315274076
 GameObject:
   m_ObjectHideFlags: 0

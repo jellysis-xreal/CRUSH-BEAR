@@ -90,7 +90,7 @@ public class NodeInstantiator : MonoBehaviour
                 GameObject topping = HitTopping[(i % 2)];
                 GameObject node = Instantiate(topping);
                 node.SetActive(false);
-                DontDestroyOnLoad(node);
+
                 hitToppingPool[i] = node;
                 hitToppingPool[i].name = "Hit_R_" + i;
             }
@@ -100,7 +100,7 @@ public class NodeInstantiator : MonoBehaviour
                 GameObject topping = HitTopping[(2 + i % 2)];
                 GameObject node = Instantiate(topping);
                 node.SetActive(false);
-                DontDestroyOnLoad(node);
+
                 hitToppingPool[i] = node;
                 hitToppingPool[i].name = "Hit_B_" + i;
             }
@@ -151,13 +151,14 @@ public class NodeInstantiator : MonoBehaviour
 
     public void FinishAllWaveNode()
     {
+        StopCoroutine(_spawnCoroutine);
+        
         foreach (var shoot in shootToppingPool) Destroy(shoot);
         foreach (var punch in punchToppingPool) Destroy(punch);
         foreach (var hit in hitToppingPool) Destroy(hit);
         _nodeQueue.Clear();
         _checkNodeIndex.Clear();
         _checkTempList.Clear();
-        StopCoroutine(_spawnCoroutine);
         isPunchInitialized = false;
         isHitInitialized = false;
     }
@@ -166,8 +167,7 @@ public class NodeInstantiator : MonoBehaviour
     {
         foreach (var shoot in shootToppingPool) shoot.SetActive(false);
         foreach (var punch in punchToppingPool) punch.SetActive(false);
-        if (isHitInitialized)
-            foreach (var hit in hitToppingPool) hit.SetActive(false);
+        foreach (var hit in hitToppingPool) hit.SetActive(false);
 
         _nodeQueue.Clear();
         _checkNodeIndex.Clear();
@@ -212,10 +212,6 @@ public class NodeInstantiator : MonoBehaviour
                 {
                     // MusicData에 따른 속성 지정
                     // 하나의 beat에 다수의 node가 생성되는 경우를 처리하기 위함
-
-                    if (beatNumber == 100)
-                        Debug.LogWarning($"[Node Maker] {wave} {beatNumber} {nodes[i]}");
-                    
                     if (nodes[i] == 0) continue;
 
                     var temp = new NodeInfo();
@@ -315,7 +311,7 @@ public class NodeInstantiator : MonoBehaviour
                 if (_nodeQueue.Count <= 0) return;
                 if (!CanSetNewTopping(wave))
                 {
-                    Debug.LogWarning($"[Node Maker] Can't Set New Punch Topping! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                    //Debug.LogWarning($"[Node Maker] Can't Set New Punch Topping! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
                     return;
                 }
                 if (punchToppingPool[i].activeSelf == true)
@@ -539,12 +535,10 @@ public class NodeInstantiator : MonoBehaviour
     private void InitPunchToppingPool()
     {
         Debug.Log("Init Punch Topping Pool");
-        int poolSize = 20;
-
         if (!isPunchInitialized)
         {
-            punchToppingPool = new GameObject[poolSize];
-            for (int i = 0; i < poolSize; i++)
+            punchToppingPool = new GameObject[MAX_POOL_SIZE];
+            for (int i = 0; i < MAX_POOL_SIZE; i++)
             {
                 // 쿠키 프리팹 랜덤 생성 (타입 지정되지 않은 상태)
                 GameObject topping = cookiePrefabs[Random.Range(0, 2)];

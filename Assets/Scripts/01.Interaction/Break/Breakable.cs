@@ -104,16 +104,20 @@ namespace UnityEngine.XR.Content.Interaction
             // 인터랙션했지만 MotionChecker.correctMotion과 일치하지 않을 때 Fail 처리
             if (m_Destroyed)
                 return;
-            
-            
+
             m_Destroyed = true;
-            var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
 
-            // m_OnBreak.Invoke(other.gameObject, brokenVersion);
+            for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
+            {
+                BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
+                if (!bc.isHit)
+                {
+                    bc.transform.position = gameObject.transform.position;
+                    bc.IsHit();
+                    break;
+                }
+            }
             
-            // Trigger 했지만 모션 fail
-            brokenVersion.GetComponent<BreakController>().IsHit();
-
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 GameManager.Score.ScoringPunch(this.gameObject, false);

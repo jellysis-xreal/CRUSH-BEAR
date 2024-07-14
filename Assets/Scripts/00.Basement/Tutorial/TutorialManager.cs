@@ -22,7 +22,7 @@ public class TutorialManager : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log("Initialize Tutorial Manager");
+        //Debug.Log("Initialize Tutorial Manager");
         phaseIndex = 0;
 
         // "dialogueTXT" 이름의 오브젝트를 찾기
@@ -31,7 +31,7 @@ public class TutorialManager : MonoBehaviour
 
         if (dialogueText2 == null)
         {
-            Debug.LogError("Dialogue Text object with name 'dialogueTXT2' not found");
+            //Debug.LogError("Dialogue Text object with name 'dialogueTXT2' not found");
         }
 
         // "Tutorial-Ani01-punch1" 이름의 애니메이터를 찾기
@@ -96,18 +96,18 @@ public class TutorialManager : MonoBehaviour
     
     private IEnumerator Phase1()
     {
-        Debug.Log("Phase 1 시작!");
+        //Debug.Log("Phase 1 시작!");
         // Phase 1 동작을 구현합니다.
         // Dialogue: 토핑을 부수고 야수성을 키워서 멋진 곰이 되어보자!
         ShowDialogue("Let’s become a savage bear \nby crushing the jelly topping!", 10f);
         // TODO : 텍스트 시각화, 안내 음성 추가
         yield return new WaitForSeconds(10f); // 예시: 2초 대기
-        Debug.Log("Phase 1 완료!");
+        //Debug.Log("Phase 1 완료!");
     }
 
     private IEnumerator Phase2()
     {
-        Debug.Log("Phase 2 시작!");
+        //Debug.Log("Phase 2 시작!");
         // Phase 2 동작을 구현합니다.
         // Dialogue: 눈 앞의 쿠키를 부수면 시작할게
         ShowDialogue("Let's get started by smashing the cookie in front of us!", 5f);
@@ -115,23 +115,23 @@ public class TutorialManager : MonoBehaviour
 
         GameManager.TutorialPunch.Init();
         yield return StartCoroutine(GameManager.TutorialPunch.SpawnAndHandleCookie());
-        Debug.Log("Phase 2 완료!");
+        //Debug.Log("Phase 2 완료!");
     }
 
     private IEnumerator Phase3()
     {
-        Debug.Log("Phase 3 시작!");
+        //Debug.Log("Phase 3 시작!");
         // Phase 3 동작을 구현합니다.
         // Dialogue: 좋았어!
         ShowDialogue("Great job!", 5f);
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); 
-        Debug.Log("Phase 3 완료!");
+        //Debug.Log("Phase 3 완료!");
     }
 
     private IEnumerator Phase4()
     {
-        Debug.Log("Phase 4 시작!");
+        //Debug.Log("Phase 4 시작!");
         // Phase 4 동작을 구현합니다.
         // 예: 쿠키를 향해 펀치를 날리기
 
@@ -147,12 +147,12 @@ public class TutorialManager : MonoBehaviour
             // 두 개의 쿠키를 성공적으로 부셨는지 확인
             if (GameManager.TutorialPunch.CheckCookiesDestroyed())
             {
-                Debug.Log("Phase 4 완료!");
+                //Debug.Log("Phase 4 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase4를 탈출
             }
             else
             {
-                Debug.Log("Phase 4 조건 미충족 - 다시 시도");
+                //Debug.Log("Phase 4 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }
@@ -167,18 +167,18 @@ public class TutorialManager : MonoBehaviour
     }
     private IEnumerator Phase5()
     {
-        Debug.Log("Phase 5 시작!");
+        //Debug.Log("Phase 5 시작!");
         // Phase 5 동작을 구현합니다.
         // Dialogue : 잘했어!
         ShowDialogue("Well done!", 5f);
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
-        Debug.Log("Phase 5 완료!");
+        //Debug.Log("Phase 5 완료!");
     }
 
     private IEnumerator Phase6()
     {
-        Debug.Log("Phase 6 시작!");
+        //Debug.Log("Phase 6 시작!");
         // Phase 6 동작을 구현합니다.
 
         while (true)
@@ -193,12 +193,12 @@ public class TutorialManager : MonoBehaviour
             // 두 개의 쿠키를 성공적으로 부셨는지 확인
             if (GameManager.TutorialPunch.GetPerfectScoreNumberOfCookie() >= 3) // 임시로 원래 3개
             {
-                Debug.Log("Phase 6 완료!");
+                //Debug.Log("Phase 6 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase4를 탈출
             }
             else
             {
-                Debug.Log("Phase 6 조건 미충족 - 다시 시도");
+                //Debug.Log("Phase 6 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }
@@ -206,18 +206,18 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator Phase7()
     {
-        Debug.Log("Phase 7 시작!");
+        //Debug.Log("Phase 7 시작!");
         // Phase 7 동작을 구현합니다.
         ShowDialogue("Good!", 5f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
-        Debug.Log("Phase 7 완료!");
+        //Debug.Log("Phase 7 완료!");
     }
     
     private IEnumerator Phase8()
     {
-        Debug.Log("Phase 8 시작!");
+        //Debug.Log("Phase 8 시작!");
         // Phase 8 동작을 구현합니다.
         // 예: 쿠키를 두 번 이상 perfect로 치기
         while (true)
@@ -228,29 +228,29 @@ public class TutorialManager : MonoBehaviour
             yield return StartCoroutine(GameManager.TutorialPunch.Phase8Routine());
 
             if (GameManager.TutorialPunch.Check4CookiesInteractionSucceed()){
-                Debug.Log("Phase 8 완료!");
+                //Debug.Log("Phase 8 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase6를 탈출
             }else{
-                Debug.Log("Phase 8 조건 미충족 - 다시 시도");
+                //Debug.Log("Phase 8 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }
-        Debug.Log("Phase 8 완료!");
+        //Debug.Log("Phase 8 완료!");
     }
     private IEnumerator Phase9()
     {
-        Debug.Log("Phase 9 시작!");
+        //Debug.Log("Phase 9 시작!");
         // Phase 9 동작을 구현합니다.
         // Dialogue: 좋은데! 
         ShowDialogue("Nice!", 5f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); 
-        Debug.Log("Phase 9 완료!");
+        //Debug.Log("Phase 9 완료!");
     }
     private IEnumerator Phase10()
     {
-        Debug.Log("Phase 10 시작!");
+        //Debug.Log("Phase 10 시작!");
         // Phase 10 동작을 구현합니다.
         // Dialogue: 이번엔 몸을 틀어 냉장고 쪽을 바라봐줘
         ShowDialogue2("Now, turn right and face the refrigerator", 10f);
@@ -266,22 +266,22 @@ public class TutorialManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(10f); 
-        Debug.Log("Phase 10 완료!");
+        //Debug.Log("Phase 10 완료!");
     }
     private IEnumerator Phase11()
     {
-        Debug.Log("Phase 11 시작!");
+        //Debug.Log("Phase 11 시작!");
         // Phase 11 동작을 구현합니다.
         // Dialogue: 좋은데! 
         ShowDialogue2("Great!", 2f);
 
         // TODO : 텍스트 시각화
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
-        Debug.Log("Phase 11 완료!");
+        //Debug.Log("Phase 11 완료!");
     }
     private IEnumerator Phase12()
     {
-        Debug.Log("Phase 12 시작!");
+        //Debug.Log("Phase 12 시작!");
         // Phase 12 동작을 구현합니다.
         // Dialouge : 날아오는 과일을 향해 색깔에 맞춰 잼나이프를 휘둘러보자!
 
@@ -295,32 +295,32 @@ public class TutorialManager : MonoBehaviour
             
             if (GameManager.TutorialTennis.CheckPhase12Criteria())
             {
-                Debug.Log("Phase 12 완료!");
+                //Debug.Log("Phase 12 완료!");
                 break; // 조건이 충족되면 반복을 종료하고 Phase12를 탈출
             }
             else
             {
-                Debug.Log("Phase12 조건 미충족 - 다시 시도");
+                //Debug.Log("Phase12 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }
-        Debug.Log("Phase 12 완료!");
+        //Debug.Log("Phase 12 완료!");
     }
     
     private IEnumerator Phase13()
     {
-        Debug.Log("Phase 13 시작!");
+        //Debug.Log("Phase 13 시작!");
         // Phase 13 동작을 구현합니다.
         // 예: 잘했어!
         ShowDialogue2("Well done!", 5f);
 
         yield return new WaitForSeconds(5f); // 예시: 2초 대기
-        Debug.Log("Phase 13 완료!");
+        //Debug.Log("Phase 13 완료!");
     }
 
     private IEnumerator Phase14()
     {
-        Debug.Log("Phase 14 시작!");
+        //Debug.Log("Phase 14 시작!");
         // Phase 14 동작을 구현합니다.
         // 예: perfect 이상의 가속도로 스윙 2회 이상 → 15로 이동
         // perfect 이상의 가속도로 스윙 2회 미만 → 14-1로 이동
@@ -334,29 +334,29 @@ public class TutorialManager : MonoBehaviour
 
             if (GameManager.TutorialTennis.Check4FruitInteractionPerfect())
             {
-                Debug.Log("Phase 14 완료!");
+                //Debug.Log("Phase 14 완료!");
                 break;
             }
             else
             {
-                Debug.Log("Phase 14 조건 미충족 - 다시 시도");
+                //Debug.Log("Phase 14 조건 미충족 - 다시 시도");
                 yield return StartCoroutine(Phase4_1());
             }
         }
     }
     private IEnumerator Phase15()
     {
-        Debug.Log("Phase 15 시작!");
+        //Debug.Log("Phase 15 시작!");
         // Phase 13 동작을 구현합니다.
         ShowDialogue("Good!", 5f);
 
         // 예: 좋아!!
         yield return new WaitForSeconds(2f); // 예시: 2초 대기
-        Debug.Log("Phase 15 완료!");
+        //Debug.Log("Phase 15 완료!");
     }
     private IEnumerator Phase16()
     {
-        Debug.Log("Phase 16 시작!");
+        //Debug.Log("Phase 16 시작!");
         // Phase 13 동작을 구현합니다.
         // 예: 이제 야수성을 키울 준비가 다 됐어! 열심히 훈련해서 멋진 곰이 되는 거야!
         ShowDialogue2("Now you’re ready to be a savage bear! \nLet’s train to become the savagest bear \nin “Jellysis”", 10f);
@@ -364,7 +364,7 @@ public class TutorialManager : MonoBehaviour
         PlayAnimation(aniFighting, 10f); // 애니메이션
 
         yield return new WaitForSeconds(2f); // 예시: 2초 대기
-        Debug.Log("Phase 16 완료!");
+        //Debug.Log("Phase 16 완료!");
 
         GameManager.Instance.Save.ClearTutorial();
         // 로비 씬으로 이동
@@ -373,7 +373,7 @@ public class TutorialManager : MonoBehaviour
 
     private void ShowDialogue(string message, float duration)
     {
-        Debug.Log("ShowDialogue 호출");
+        //Debug.Log("ShowDialogue 호출");
 
         dialogueText.text = message;
 
@@ -394,7 +394,7 @@ public class TutorialManager : MonoBehaviour
 
     private void ShowDialogue2(string message, float duration)
     {
-        Debug.Log("ShowDialogue2호출");
+        //Debug.Log("ShowDialogue2호출");
 
         dialogueText2.text = message;
 
@@ -415,7 +415,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator HideDialogueAfterDelay(float delay)
     {
-        Debug.Log("HideDialogueAfterDelay 호출");
+        //Debug.Log("HideDialogueAfterDelay 호출");
 
         yield return new WaitForSeconds(delay);
         if(dialogueText != null)
@@ -423,7 +423,7 @@ public class TutorialManager : MonoBehaviour
     }
     private IEnumerator HideDialogue2AfterDelay(float delay)
     {
-        Debug.Log("HideDialogueAfterDelay 호출");
+        //Debug.Log("HideDialogueAfterDelay 호출");
 
         yield return new WaitForSeconds(delay);
         if (dialogueText2 != null)
@@ -433,7 +433,7 @@ public class TutorialManager : MonoBehaviour
     // 애니메이션 재생 메서드
     private void PlayAnimation(Animator animator, float duration)
     {
-        Debug.Log($"Play Animation");
+        //Debug.Log($"Play Animation");
 
         if (animator != null)
         {
@@ -443,7 +443,7 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Animator component is not assigned.");
+            //Debug.LogError("Animator component is not assigned.");
         }
     }
 

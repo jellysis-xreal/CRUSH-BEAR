@@ -123,7 +123,7 @@ public class HandData : MonoBehaviour
         perfectThresholdSpeed = maxSpeed * 0.6f;
         goodThresholdSpeed = maxSpeed * 0.2f;
             
-        Debug.Log($"[JMH][HandData] Set Max Speed: {maxSpeed:F5}");
+        //Debug.Log($"[JMH][HandData] Set Max Speed: {maxSpeed:F5}");
     }
     
 }

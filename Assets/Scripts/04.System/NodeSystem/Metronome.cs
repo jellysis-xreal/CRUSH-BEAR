@@ -23,7 +23,7 @@ public class Metronome : MonoBehaviour
         lastbeat = 0;
         secondsPerBeat = 60 / bpm;
         currentBeat = 0;
-        shootStandard = (int) bpm / 13;
+        shootStandard = (int)bpm / 13;
     }
 
     public void StartMusic()
@@ -47,6 +47,9 @@ public class Metronome : MonoBehaviour
                 lastbeat += secondsPerBeat;
                 isBeated = true;
             }
+
+            //else
+            //Debug.LogWarning("CheckBeat Error");
             yield return null;
         }
 
@@ -59,5 +62,10 @@ public class Metronome : MonoBehaviour
     }
     public void UnBindEvent(Action<int> someAction) => onBeat -= someAction;
     public bool IsBeated() => isBeated;
-    public bool SetGameEnd() => isPlaying = false;
+    public bool SetGameEnd()
+    {
+        isPlaying = false;
+        GameManager.Sound.StopWaveMusic(musicGUID);
+        return isPlaying;
+    }
 }

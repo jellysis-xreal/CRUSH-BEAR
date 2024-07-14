@@ -29,7 +29,7 @@ public class TutorialTennisManager : MonoBehaviour
         {
             if (scores[i] == scoreType.Perfect) num++;
         }
-        Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - 4}");
+        //Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - 4}");
         return num;
     }
     public bool CheckPhase12Criteria()
@@ -94,7 +94,7 @@ public class TutorialTennisManager : MonoBehaviour
     {
         foreach (KeyValuePair<TutorialTennisType, bool> keyValuePair in tutorialClearData)
         {
-            Debug.Log($"Type {keyValuePair.Key}, isClear : {keyValuePair.Value}");
+            //Debug.Log($"Type {keyValuePair.Key}, isClear : {keyValuePair.Value}");
             if (!keyValuePair.Value) return keyValuePair.Key;
         }
         return TutorialTennisType.Clear;
@@ -153,7 +153,7 @@ public class TutorialTennisManager : MonoBehaviour
             tutorialTennisType = GetNonClearTutorialType();
         }
 
-        Debug.Log("[Tutorial] All Routine Clear~!");
+        //Debug.Log("[Tutorial] All Routine Clear~!");
         yield return null;
     }
 

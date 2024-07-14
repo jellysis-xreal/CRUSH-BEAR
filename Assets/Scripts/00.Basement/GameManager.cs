@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("GameManager Start");                                     
+        //Debug.Log("GameManager Start");                                     
         if (currentGameState == GameState.Lobby)
         {           
             SetGameState(GameState.Lobby);
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
     
     private void HandleGameStateChanged(GameState newGameState)
     {
-        Debug.Log("Game state changed to: " + newGameState);
+        //Debug.Log("Game state changed to: " + newGameState);
         // 여기서 원하는 동작을 수행
         // 예를 들어, 게임 상태에 따라 UI 갱신, 게임 오브젝트 활성화/비활성화 등 수행 가능
         switch (newGameState)
@@ -163,6 +163,7 @@ public class GameManager : MonoBehaviour
     {
         tutorialManager.StopAllCoroutines();
         SetGameState(GameState.Lobby);
+        Sound.PlayMusic_Lobby(true);
     }
 
     [ContextMenu("DEBUG/Tutorial")]
@@ -206,7 +207,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("GameManager instance isn't null, Destroy GameManager");
+            //Debug.LogWarning("GameManager instance isn't null, Destroy GameManager");
             _ui.Init(currentGameState);
             
             Destroy(this.gameObject);
@@ -217,21 +218,21 @@ public class GameManager : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.Log("Init GameManager Tutorial Scene");
+            //Debug.Log("Init GameManager Tutorial Scene");
             //+-------- Managers Init() +--------//
             SceneManager.sceneLoaded += OnTutorialSceneLoaded;
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
         else
         {
-            Debug.Log("GameManager instance is null");
+            //Debug.Log("GameManager instance is null");
         }
     }
     public void InitPlay()
     {
         if (instance != null)
         {
-            Debug.Log("Init GameManager Wave Scene");
+            //Debug.Log("Init GameManager Wave Scene");
 
             //+-------- Managers Init() +--------//
             //_data.Init();
@@ -246,13 +247,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("GameManager instance is null");
+            //Debug.Log("GameManager instance is null");
         }
     }
     
     private void Test()
     {
-        Debug.Log("<<-------TEST------->>");
+        //Debug.Log("<<-------TEST------->>");
         
         // 이 밑으로 진행할 Test 코드를 입력한 후, Start 함수에 가서 Test의 주석 처리를 해제하면 됩니다.
         // Toast 치기 개발으로 잠시 테스트 - 240108 minha
@@ -284,7 +285,7 @@ public class GameManager : MonoBehaviour
 
     void OnTutorialSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.buildIndex);
+        //Debug.Log(scene.buildIndex);
         if (currentGameState == GameState.Tutorial)
         {
             /*// Tennis
@@ -295,7 +296,7 @@ public class GameManager : MonoBehaviour
             _score.Init();*/
             // Punch
 
-            Debug.Log("Tutorial Scene Loaded");
+            //Debug.Log("Tutorial Scene Loaded");
             GameManager.Wave.SetWaveType(WaveType.Punching);
             GameManager.Wave.SetWaveTutorial();
             _score.Init();

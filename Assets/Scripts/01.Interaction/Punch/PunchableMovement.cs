@@ -121,7 +121,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     {
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
-            Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
+            //Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
             // StartCoroutine(TriggeredMovement());
@@ -130,13 +130,18 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 
     public void CheckBeat(int currentBeat)
     {
-        if(beatNum  <= currentBeat + shootStandard)
+        if (beatNum  <= currentBeat + shootStandard)
         {
             transform.position = dir * ((beatNum - currentBeat)/ (float)shootStandard);
-            Debug.LogWarning(beatNum + "번째 현재 모양 :" + _breakable._childTriggerChecker.handMotion);
+            // Debug.LogWarning("[YES] "+beatNum +"번째 현재 모양 :" + _breakable._childTriggerChecker.handMotion);
             transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * (beatNum - currentBeat)).SetEase(Ease.Linear);
             _cookieControl.Init();
             GameManager.Instance.Metronome.UnBindEvent(CheckBeat);
+        }
+        else
+        {
+            return;
+            //Debug.LogWarning("[NO] "+beatNum +"번째 현재 모양 :" + _breakable._childTriggerChecker.handMotion);
         }
     }
     #region Legacy Code

@@ -59,9 +59,8 @@ public class NodeInstantiator : MonoBehaviour
         // Wave가 처음 실행될 때, 한번 초기화 진행하는 것임
         //Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]"); //[XMC]
         _musicDataIndex = 0;
-
         InitializeNodeAndPool();
-        
+
         switch (wave)
         {
             case WaveType.Shooting:
@@ -109,6 +108,10 @@ public class NodeInstantiator : MonoBehaviour
             }
             //[XMC]Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
             isHitInitialized = true;
+        }
+        else
+        {
+            foreach (var hit in hitToppingPool) hit.SetActive(false);
         }
     }
 
@@ -168,8 +171,6 @@ public class NodeInstantiator : MonoBehaviour
     private void InitializeNodeAndPool()
     {
         foreach (var shoot in shootToppingPool) shoot.SetActive(false);
-        foreach (var punch in punchToppingPool) punch.SetActive(false);
-        foreach (var hit in hitToppingPool) hit.SetActive(false);
 
         _nodeQueue.Clear();
         _checkNodeIndex.Clear();
@@ -554,6 +555,10 @@ public class NodeInstantiator : MonoBehaviour
                 punchToppingPool[i].name = "Punch_" + i;
             }
             isPunchInitialized = true;
+        }
+        else
+        {
+            foreach (var punch in punchToppingPool) punch.SetActive(false);
         }
     }
 }

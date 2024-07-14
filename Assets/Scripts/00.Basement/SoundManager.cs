@@ -47,7 +47,9 @@ public class SoundManager : MonoBehaviour
     {
         //musicSource[id].clip = musicClips[(int)id];
         //musicSource[id].volume = MusicVolume / 100.0f;
-        musicSource[id].Pause();
+        id--;
+        Debug.Log(id);
+        musicSource[id].Stop();
     }
 
     public void PlayEffect_UI_ButtonSelect()

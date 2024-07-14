@@ -25,7 +25,33 @@ public class VRSleepMode : MonoBehaviour
             allActions.AddRange(map.actions);
         }
     }
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            // 게임 일시 정지 로직
+            PauseGame();
+        }
+        else
+        {
+            // 게임 재개 로직
+            ResumeGame();
+        }
+    }
 
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+        {
+            // 게임 일시 정지 로직
+            PauseGame();
+        }
+        else
+        {
+            // 게임 재개 로직
+            ResumeGame();
+        }
+    }
     IEnumerator GetHMDDevice()
     {
         List<UnityEngine.XR.InputDevice> devices = new List<UnityEngine.XR.InputDevice>();

@@ -16,7 +16,6 @@ public class NodeInstantiator : MonoBehaviour
     public List<GameObject> cookieDirectionPrefabs; // 쿠키의 타입에 따라 정해짐, 쿠키에 붙일 UI Image
     public List<GameObject> childCollider;          // 쿠키의 타입에 따라 정해짐, 동작을 인식하기 위한 콜라이더.
     
-
     // Topping Prefabs
     public List<GameObject> ShootTopping;
     public List<GameObject> PunchTopping;
@@ -27,28 +26,19 @@ public class NodeInstantiator : MonoBehaviour
     [FormerlySerializedAs("PunchSpawn")] public static GameObject PunchSpawnTransform;
     [FormerlySerializedAs("HitSpawn")] public static GameObject HitSpawnTransform;
 
-    public int _poolSize = 20; // Object Pool Size
+    private const int MAX_POOL_SIZE = 20; // Object Pool Size
     [SerializeField] private GameObject[] shootToppingPool;
     [SerializeField] private GameObject[] punchToppingPool;
     [SerializeField] private GameObject[] hitToppingPool;
-
-    // Punch Topping Pools
-    [SerializeField] public GameObject[] punchLeftZapPool;       // punchType : 1
-    [SerializeField] public GameObject[] punchLeftHookPool;      // punchType : 2
-    [SerializeField] public GameObject[] punchLeftUpperCutPool;  // punchType : 3
-    [SerializeField] public GameObject[] punchRightZapPool;      // punchType : 4
-    [SerializeField] public GameObject[] punchRightHookPool;     // punchType : 5
-    [SerializeField] public GameObject[] punchRightUpperCutPool; // punchType : 6
-
-    // Hit Topping Pools
-    [SerializeField] private GameObject[] hitRedPool;        // InteractionSide(enum) : Red
-    [SerializeField] private GameObject[] hitBluePool;       // InteractionSide(enum) : Blue
     
     [SerializeField] public uint _musicDataIndex = 0; //1~ NodeData
     private const int MAX_QUEUE_SIZE = 100;
-    private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>(MAX_QUEUE_SIZE);
-
-    private Coroutine _curWaveCoroutine;
+    [SerializeField] private Queue<NodeInfo> _nodeQueue = new Queue<NodeInfo>(MAX_QUEUE_SIZE);
+    
+    public List<uint> _checkNodeIndex = new List<uint>();
+    public List<uint> _checkTempList = new List<uint>();
+    
+    private Coroutine _queueCoroutine, _spawnCoroutine;
     private bool isPunchInitialized, isHitInitialized;
 
     private void Start()
@@ -74,7 +64,7 @@ public class NodeInstantiator : MonoBehaviour
             case WaveType.Shooting:
                 if (shootToppingPool.Length == 0)
                 {
-                    shootToppingPool = new GameObject[_poolSize]; // 배열 생성
+                    shootToppingPool = new GameObject[MAX_POOL_SIZE]; // 배열 생성
                 }
                 break;
             case WaveType.Punching:
@@ -85,7 +75,8 @@ public class NodeInstantiator : MonoBehaviour
                 break;
         }
 
-        _curWaveCoroutine = StartCoroutine(SpawnManager(wave));
+        _queueCoroutine = StartCoroutine(NodeEnqueueManager(wave));
+        _spawnCoroutine = StartCoroutine(NodeSpawnManager(wave));
         //[XMC]Debug.Log("[Node Maker] Start Coroutine");
     }
 
@@ -93,8 +84,8 @@ public class NodeInstantiator : MonoBehaviour
     {
         if (!isHitInitialized)
         {
-            hitToppingPool = new GameObject[_poolSize];
-            for (int i = 0; i < _poolSize/2; ++i)
+            hitToppingPool = new GameObject[MAX_POOL_SIZE];
+            for (int i = 0; i < MAX_POOL_SIZE/2; ++i)
             {
                 GameObject topping = HitTopping[(i % 2)];
                 GameObject node = Instantiate(topping);
@@ -104,7 +95,7 @@ public class NodeInstantiator : MonoBehaviour
                 hitToppingPool[i].name = "Hit_R_" + i;
             }
 
-            for (int i = _poolSize / 2; i < _poolSize; ++i)
+            for (int i = MAX_POOL_SIZE / 2; i < MAX_POOL_SIZE; ++i)
             {
                 GameObject topping = HitTopping[(2 + i % 2)];
                 GameObject node = Instantiate(topping);
@@ -118,56 +109,55 @@ public class NodeInstantiator : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnManager(WaveType wave)
+    IEnumerator NodeEnqueueManager(WaveType wave)
     {
         while (true) // 지금은 10개 생성, 대기 Queue 10개까지 됨.
         {
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
             //TODO: XMC 임시
+            float _time = 0.02f;
+            // if (GameManager.Wave.currentWave == WaveType.Punching) _time = 0.02f;
+            // else if (GameManager.Wave.currentWave == WaveType.Hitting) _time = 0.02f;
+            
+            yield return new WaitForSecondsRealtime(_time);
+            
+            // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
+            if (_nodeQueue.Count < MAX_QUEUE_SIZE)
+            {
+                MusicDataToNodeInfo(wave);
+                _musicDataIndex++;
+            }
+        }
+    }
+
+    IEnumerator NodeSpawnManager(WaveType wave)
+    {
+        while (true)
+        {
             float _time = 0.0f;
             if (GameManager.Wave.currentWave == WaveType.Punching) _time = 0.1f;
             else if (GameManager.Wave.currentWave == WaveType.Hitting) _time = 0.05f;
             
             yield return new WaitForSecondsRealtime(_time);
             
-            // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
-            if (_nodeQueue.Count < 10)
-            {
-                MusicDataToNodeInfo(wave);
-                _musicDataIndex++;
-            }
-            else if (_nodeQueue.Count > 0)
+            if (_nodeQueue.Count > 0)
             {
                 // Dequeue하고 토핑 풀에 값 하나 넣고, 존재하는 것에 다 넣었으면(Dequeue) 반복문 종료.
                 // poolsize를 체크하다가 10개 미만일 경우에 Queue에 대해 다시 넣을 준비해야 함.
-                
                 NodeInfoToMusicData(wave);
             }
         }
-    }
-    
-    public void NotesExistButAreNLongerEnqueued()
-    {
-        // MusicDataToNodeInfo에서 60초 동안 존재하는 note만 있었다.
-        // 120비트까지 생김
-        // try catch에서 오류 발생 시 = 더이상 읽을 노트가 없을 시에 stop코루틴을 했음.
-        StopCoroutine(_curWaveCoroutine);
     }
 
     public void FinishAllWaveNode()
     {
         foreach (var shoot in shootToppingPool) Destroy(shoot);
         foreach (var punch in punchToppingPool) Destroy(punch);
-        foreach (var punch in punchLeftZapPool) Destroy(punch);
-        foreach (var punch in punchLeftHookPool) Destroy(punch);
-        foreach (var punch in punchLeftUpperCutPool) Destroy(punch);
-        foreach (var punch in punchRightZapPool) Destroy(punch);
-        foreach (var punch in punchRightHookPool) Destroy(punch);
-        foreach (var punch in punchRightUpperCutPool) Destroy(punch);
-        
         foreach (var hit in hitToppingPool) Destroy(hit);
         _nodeQueue.Clear();
-        StopCoroutine(_curWaveCoroutine);
+        _checkNodeIndex.Clear();
+        _checkTempList.Clear();
+        StopCoroutine(_spawnCoroutine);
         isPunchInitialized = false;
         isHitInitialized = false;
     }
@@ -175,17 +165,13 @@ public class NodeInstantiator : MonoBehaviour
     private void InitializeNodeAndPool()
     {
         foreach (var shoot in shootToppingPool) shoot.SetActive(false);
-        // foreach (var punch in punchToppingPool) punch.SetActive(false);
-        foreach (var punch in punchLeftZapPool) punch.SetActive(false);
-        foreach (var punch in punchLeftHookPool) punch.SetActive(false);
-        foreach (var punch in punchLeftUpperCutPool) punch.SetActive(false);
-        foreach (var punch in punchRightZapPool) punch.SetActive(false);
-        foreach (var punch in punchRightHookPool) punch.SetActive(false);
-        foreach (var punch in punchRightUpperCutPool) punch.SetActive(false);
+        foreach (var punch in punchToppingPool) punch.SetActive(false);
         if (isHitInitialized)
             foreach (var hit in hitToppingPool) hit.SetActive(false);
 
         _nodeQueue.Clear();
+        _checkNodeIndex.Clear();
+        _checkTempList.Clear();
     }
     
     // 각각의 노드에 세팅이 필요한 값들을 NodeInfo 타입으로 지정.
@@ -196,23 +182,19 @@ public class NodeInstantiator : MonoBehaviour
         uint[] nodes;
         float oneBeat = 60.0f / data.BPM;
         
-        // Dequeue할 노드가 poolsize 만큼 남았지만
-        // if (_nodeQueue.Count < 10) else if (_nodeQueue.Count > 0)
-        // _nodeQueue.Count가 10을 안 넘는 순간(더이상 EnQueue할 MusicData가 없는 순간) index error 발생
-        // 해당 index error를 처리하기 위한 try catch문. 다른 방법은 없을까..?
-        try
+        if (_musicDataIndex < data.NodeData.Count)
         {
+            Debug.LogWarning($"[Node Maker] MusicDataToNodeInfo! {wave} {_musicDataIndex}"); //[XMC]
             nodes = data.NodeData[(int)_musicDataIndex];
         }
-        catch (Exception e)
+        else
         {
             // NodeInfoToMusicData(wave); 
             // isWaveFinished = true;
             //Debug.Log("Error 더이상 Enqueue할 data없음."); //[XMC]
             //Debug.Log(e.ToString());
-            StopCoroutine(_curWaveCoroutine);
+            StopCoroutine(_queueCoroutine);
             return;
-            throw;
         }
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
         // var nodes = data.NodeData[(int)_musicDataIndex];
@@ -231,6 +213,9 @@ public class NodeInstantiator : MonoBehaviour
                     // MusicData에 따른 속성 지정
                     // 하나의 beat에 다수의 node가 생성되는 경우를 처리하기 위함
 
+                    if (beatNumber == 100)
+                        Debug.LogWarning($"[Node Maker] {wave} {beatNumber} {nodes[i]}");
+                    
                     if (nodes[i] == 0) continue;
 
                     var temp = new NodeInfo();
@@ -238,11 +223,12 @@ public class NodeInstantiator : MonoBehaviour
                     temp.arrivalBoxNum = (i - 1);
                     temp.timeToReachPlayer = beatNumber * oneBeat;
                     temp.beatNum = beatNumber;
-
+                    
                     // Punch Type 별 인덱스 입력, NodeInfo To MusicData에서 punch에 필요한 UI와 콜라이더 붙임.
                     temp.punchTypeIndex = nodes[i]; 
                     
                     _nodeQueue.Enqueue(temp);
+                    _checkNodeIndex.Add(beatNumber);
                     //Debug.Log($"[Node Maker] Enqueue! {wave} {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
                     // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
                 }
@@ -267,6 +253,7 @@ public class NodeInstantiator : MonoBehaviour
                         temp.sideType = InteractionSide.Blue;
                     
                     _nodeQueue.Enqueue(temp);
+                    _checkNodeIndex.Add(beatNumber);
                     //[XMC]Debug.Log($"[Node Maker] Enqueue! {wave} Beat {temp.beatNum}  nodeQueue.Count : {_nodeQueue.Count}");
                     // 4개의 box 중, 동시에 다가오는 node들이 queue에 쌓인다
                     //Debug.Log(beatNumber + "의 실행 시간은 " + temp.timeToReachPlayer);
@@ -276,13 +263,45 @@ public class NodeInstantiator : MonoBehaviour
         }
     }
 
+    private bool CanSetNewTopping(WaveType waveType)
+    {
+        switch (waveType)
+        {
+            case WaveType.Punching:
+                foreach (GameObject punchTopping in punchToppingPool)
+                {
+                    // If there is at least one inactive GameObject, return true
+                    if (!punchTopping.activeSelf)
+                    {
+                        return true;
+                    }
+                }
+                // If all GameObjects are active, return false
+                return false;
+            
+            case WaveType.Hitting:
+                foreach (GameObject hitTopping in hitToppingPool)
+                {
+                    // If there is at least one inactive GameObject, return true
+                    if (!hitTopping.activeSelf)
+                    {
+                        return true;
+                    }
+                }
+                // If all GameObjects are active, return false
+                return false;
+            default:
+                return false;
+        }
+
+    }
+    
     private void NodeInfoToMusicData(WaveType wave)
     {
-        if(_nodeQueue.Count == 0) return;
         // Dequeue하고 토핑 풀에 값 하나 넣고, 존재하는 것에 다 넣었으면(Dequeue) 반복문 종료.
-
         NodeInfo tempNodeInfo = new NodeInfo();
-        for (int i = 0; i < _poolSize; i++)
+        
+        for (int i = 0; i < MAX_POOL_SIZE; i++)
         {
             if (wave == WaveType.Shooting)
             {
@@ -293,44 +312,27 @@ public class NodeInstantiator : MonoBehaviour
             }
             else if (wave == WaveType.Punching)
             {
-                if (tempNodeInfo.beatNum != 0)
+                if (_nodeQueue.Count <= 0) return;
+                if (!CanSetNewTopping(wave))
                 {
-                    // Debug.Log("[Node Maker] Dequeue 저장하고 다시 시도"); //[XMC]
-
-                    if(punchToppingPool[i].activeSelf == true) 
-                    {
-                        // 이미 setactive(true)인 상태인 오브젝트면 = 이미 활성화돼서 초기화되면 안되는 상태일 경우는 다음 인덱스로 넘어감.
-                        continue; 
-                    }
-                    // Debug.Log($"[Node Maker] Dequeue {punchToppingPool[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
-                    
-                    punchToppingPool[i].SetActive(true);
-                    
-                    // PunchableMovement 초기화
-                    PunchableMovement punchableMovement = punchToppingPool[i].GetComponent<PunchableMovement>();
-                    punchableMovement.transform.position = tempNodeInfo.spawnPosition;
-                    punchableMovement.beatNum = tempNodeInfo.beatNum;
-                    StartCoroutine(punchableMovement.InitializeToppingRoutine(tempNodeInfo));
-
-                    // Breakable 초기화
-                    SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, punchableMovement);
-                    // punchToppingPool[i].GetComponent<CookieControl>().Init();
-                    // punchToppingPool[i].GetComponent<Breakable>().InitBreakable();
-                    break;
+                    Debug.LogWarning($"[Node Maker] Can't Set New Punch Topping! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
+                    return;
                 }
-                    
-                // nodeInfo 노드 하나에 해당하는 값
-                if (_nodeQueue.Count > 0)
-                    tempNodeInfo = _nodeQueue.Dequeue();   
-
-                if(punchToppingPool[i].activeSelf == true) 
+                if (punchToppingPool[i].activeSelf == true)
                 {
                     continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                 }
+                
+                // nodeInfo 노드 하나에 해당하는 값
+                ;
+
+                tempNodeInfo = _nodeQueue.Dequeue();
+                _checkTempList.Add(tempNodeInfo.beatNum);
+
                 // Debug.Log($"[Node Maker] Dequeue {punchToppingPool[i].name}! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}"); //[XMC]
 
                 punchToppingPool[i].SetActive(true);
-                
+
                 // PunchableMovement 초기화
                 PunchableMovement movement = punchToppingPool[i].GetComponent<PunchableMovement>();
                 movement.transform.position = tempNodeInfo.spawnPosition;
@@ -343,16 +345,18 @@ public class NodeInstantiator : MonoBehaviour
 
                 break;
             }
-            else if(wave == WaveType.Hitting)
-            { //템프노트인포가 남아있는지, 위치는 어디로 초기화되는지
+            else if (wave == WaveType.Hitting)
+            {
+                if (_nodeQueue.Count <= 0) return;
+                if (!CanSetNewTopping(wave)) return;
                 if (hitToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
-                if (_nodeQueue.Peek().sideType == InteractionSide.Red && i > 9) continue;   // 0~9 만 Red Object. 아니면 넘어감
-                if (_nodeQueue.Peek().sideType == InteractionSide.Blue && i < 10) continue;  // 10~19만 Blue Object. 아니면 넘어감
-                
-                if (_nodeQueue.Count > 0)
-                    tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
+                if (_nodeQueue.Peek().sideType == InteractionSide.Red && i > 9) continue; // 0~9 만 Red Object. 아니면 넘어감
+                if (_nodeQueue.Peek().sideType == InteractionSide.Blue && i < 10) continue; // 10~19만 Blue Object. 아니면 넘어감
+
+                tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
+                _checkTempList.Add(tempNodeInfo.beatNum);
                 //[XMC]Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
-                
+
                 hitToppingPool[i].transform.position = tempNodeInfo.spawnPosition;
                 hitToppingPool[i].GetComponent<HittableMovement>().InitializeTopping(tempNodeInfo);
                 hitToppingPool[i].SetActive(true);

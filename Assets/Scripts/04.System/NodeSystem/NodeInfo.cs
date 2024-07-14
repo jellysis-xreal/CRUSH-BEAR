@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using EnumTypes;
 
+[Serializable]
 public class NodeInfo
 {
     public float posX;

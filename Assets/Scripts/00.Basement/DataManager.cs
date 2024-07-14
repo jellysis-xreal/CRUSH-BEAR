@@ -16,8 +16,8 @@ public class DataManager
         public uint GUID; // Difficulty + WaveType + ID;
         public string MusicName;
         public float BPM;
-        public uint BeatNum;
         public List<uint[]> NodeData;
+        public uint NodeCount;
     }
 
     public void Init()
@@ -65,7 +65,6 @@ public class DataManager
                     musicData.GUID = uint.Parse(elems[3]);
                     musicData.MusicName = elems[4];
                     musicData.BPM = float.Parse(elems[5]);
-                    musicData.BeatNum = uint.Parse(elems[6]);
 
                     line = csvWave.Readline();
                     continue;
@@ -85,11 +84,11 @@ public class DataManager
             }
 
             musicData.NodeData = Node.ToList();
+            musicData.NodeCount = (uint) musicData.NodeData.Count;
             // Debug.Log("Data Count : "+ musicData.NodeData.Count);
-            // Debug
             // foreach (var node in musicData.NodeData)
             // {
-            //     Debug.Log(node[0] + " " + node[1] + " " + node[2] + " " + node[3]);
+            //     Debug.Log(node[0] + " | " + node[1] + " " + node[2] + " " + node[3]+ " " + node[4]);
             // }
             waveMusicData.Add(musicData.GUID, musicData);
             Debug.Log($"DataManager : [Done] Load Wave Music Data {musicData.MusicName}");

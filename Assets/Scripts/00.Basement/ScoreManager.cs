@@ -251,8 +251,9 @@ public class ScoreManager : MonoBehaviour
         {
             score = scoreType.Bad; 
         }
-        //Debug.Log("Scoring Punch " + score);
+        Debug.Log("Scoring Punch " + score);
         AddScore(score);
+        Vibrate(score);
         // SetScoreEffect(score, target.transform.position);
         // GameManager.Sound.PlayEffect_Punch();
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
@@ -365,7 +366,21 @@ public class ScoreManager : MonoBehaviour
             StartCoroutine(DisableAfterSeconds(obj, 2.0f));
         }
         
+        
+
+        if (score == scoreType.Perfect)
+        {
+            // 점수에 따른 효과
+            //GameObject obj = Instantiate(Perfect_VFX, effectPos.position, Quaternion.identity);
+            //Destroy(obj, 2.0f);
+        }
+        
+    }
+
+    private void Vibrate(scoreType score)
+    {
         // Haptic Effect
+        Debug.Log("Vi");
         switch (score)
         {
             case scoreType.Perfect:
@@ -393,16 +408,7 @@ public class ScoreManager : MonoBehaviour
                 GameManager.Player.IncreaseLeftHaptic(0.2f, 0.15f);
                 break;
         }
-
-        if (score == scoreType.Perfect)
-        {
-            // 점수에 따른 효과
-            //GameObject obj = Instantiate(Perfect_VFX, effectPos.position, Quaternion.identity);
-            //Destroy(obj, 2.0f);
-        }
-        
     }
-    
     private GameObject GetPooledEffect(scoreType score)
     {
         foreach (var effect in effectPool)

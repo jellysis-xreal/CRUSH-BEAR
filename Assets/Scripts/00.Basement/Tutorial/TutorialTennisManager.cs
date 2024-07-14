@@ -34,24 +34,15 @@ public class TutorialTennisManager : MonoBehaviour
     }
     public bool CheckPhase12Criteria()
     {
-        return processedNumber >= 4 && succeedNumber >= 2; // 총 4번의 처리 중 2번 이상 성공
-    }
-    /*public bool Check4FruitsInteractionSucceed()
-    {
-        // TODO :(왼손) 라이트 훅 → (왼손) 잽 → (오른손) 어퍼컷 → (오른손) 잽
-        // 최근 4개의 점수가 Bad, Miss가 아닌 경우에 true 반환
-
         int startIndex = scores.Count - 1;
-        for (int i = startIndex; i > startIndex - 4; i--)
+        for (int i = startIndex; i > startIndex - 2; i--)
         {
-            if (scores[i] == scoreType.Miss || scores[i] == scoreType.Bad) return false;
+            if (scores[i] == scoreType.Bad || scores[i] == scoreType.Miss) return false;
         }
+
         return true;
-    }*/
-    /*private void Start()
-    {
-        Init();
-    }*/
+    }
+    
 
     public void InitializeTennis()
     {
@@ -83,8 +74,8 @@ public class TutorialTennisManager : MonoBehaviour
     {
         int prefabArrayLength = 6; // 게임 오브젝트 사이즈 6, Red 3개 Blue 3개씩 들어감.
 
-        leftHandGameObjects = new GameObject[6];
-        rightHandGameObjects = new GameObject[6];
+        leftHandGameObjects = new GameObject[6]; // 파란색
+        rightHandGameObjects = new GameObject[6]; // 빨간색
         for (int i = 0; i < prefabArrayLength; i++)
         {
             leftHandGameObjects[i] = Instantiate(tennisPrefabs[i % 2], leftHandRootGameObject.transform); // i에 따라 1, 2번 프리팹
@@ -118,6 +109,11 @@ public class TutorialTennisManager : MonoBehaviour
     {
         // TODO : 우상단 -> 좌하단 -> 좌상단 -> 우하단
         ResetVariable();
+        rightHandGameObjects[0].SetActive(true);
+        rightHandGameObjects[1].SetActive(true);
+        leftHandGameObjects[0].SetActive(true);
+        leftHandGameObjects[1].SetActive(true);
+
         
         rightHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
             InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 1);
@@ -186,29 +182,6 @@ public class TutorialTennisManager : MonoBehaviour
 
         // yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(4));// 총 4개의 토핑을 처리
         Debug.Log($"[Tutorial] Tennis Type {tutorialTennisType} End! You succeed {succeedNumber} Times.");
-
-        //// 성공 개수 체크, 실패하면 성공 개수 초기화
-        //if (succeedNumber == 6)
-        //{
-        //    Debug.Log($"[Tutorial] You Succeed In {tutorialTennisType}!");
-        //    switch (tutorialTennisType)
-        //    {
-        //        case TutorialTennisType.LeftHand:
-        //            tutorialClearData[TutorialTennisType.LeftHand] = true;
-        //            break;
-        //        case TutorialTennisType.RightHand:
-        //            tutorialClearData[TutorialTennisType.RightHand] = true;
-        //            break;
-        //    }
-        //    succeedNumber = 0;
-        //    processedNumber = 0;
-        //}
-        //else
-        //{
-        //    Debug.Log($"[Tutorial] You Failed In {tutorialTennisType}! Try Again!!");
-        //    succeedNumber = 0;
-        //    processedNumber = 0;
-        //}
 
         // 성공 개수 체크, 실패하면 성공 개수 초기화
         if (CheckPhase12Criteria())

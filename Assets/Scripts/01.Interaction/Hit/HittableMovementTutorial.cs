@@ -305,16 +305,6 @@ public class HittableMovementTutorial : MonoBehaviour
             _isHitted = true;
             if (SceneManager.GetActiveScene().name == "03.TutorialScene")
             {
-                GameManager.TutorialTennis.processedNumber++;
-                if (IsRight)
-                {
-                    Debug.Log("[Tennis] Succeeded");
-                    GameManager.TutorialTennis.succeedNumber++;
-                }
-                else
-                {
-                    Debug.Log("[Tennis] Failed");
-                }
                 GameManager.Score.ScoringHit(this.gameObject, IsRight);
             }
             curState = toppingState.refrigerator;
@@ -433,7 +423,6 @@ public class HittableMovementTutorial : MonoBehaviour
 
     private void UnactiveObject()
     {
-        GameManager.TutorialTennis.processedNumber++;
         this.gameObject.SetActive(false);
         
         InitateBoolean();

@@ -76,7 +76,7 @@ public class TutorialManager : MonoBehaviour
     IEnumerator TutorialRoutine()
     {
         // 각 단계를 순차적으로 실행합니다.
-        /*yield return StartCoroutine(Phase1());
+        yield return StartCoroutine(Phase1());
         yield return StartCoroutine(Phase2());
         yield return StartCoroutine(Phase3());
         yield return StartCoroutine(Phase4());
@@ -84,7 +84,7 @@ public class TutorialManager : MonoBehaviour
         yield return StartCoroutine(Phase6());
         yield return StartCoroutine(Phase7());
         yield return StartCoroutine(Phase8());
-        yield return StartCoroutine(Phase9());*/
+        yield return StartCoroutine(Phase9());
         yield return StartCoroutine(Phase10());
         yield return StartCoroutine(Phase11());
         yield return StartCoroutine(Phase12());
@@ -343,26 +343,6 @@ public class TutorialManager : MonoBehaviour
                 yield return StartCoroutine(Phase4_1());
             }
         }
-        //GameManager.TutorialTennis.InitializeTennis();
-        //while (true)
-        //{
-        //    ShowDialogue2("과일을 세게 칠 수록 좋은 점수를 받을 수 있어! \n 야수곰처럼 팔을 쫙 펴고 힘껏 스윙!", 10f);
-        //    PlayAnimation(aniSwing, 10f); // 애니메이션
-
-        //    yield return StartCoroutine(GameManager.TutorialTennis.TennisTutorialRoutine());
-
-        //    if (GameManager.TutorialTennis.CheckPhase12Criteria())
-        //    {
-        //        Debug.Log("Phase 14 완료! Phase 15로 이동");
-        //        break; // 조건이 충족되면 반복을 종료하고 Phase 15로 이동
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("Phase 14 조건 미충족 - Phase 14-1로 이동");
-        //        yield return StartCoroutine(Phase4_1());
-        //    }
-        //}
-        //yield return StartCoroutine(Phase15());
     }
     
 

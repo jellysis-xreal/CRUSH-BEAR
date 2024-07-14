@@ -163,6 +163,7 @@ public class GameManager : MonoBehaviour
     {
         tutorialManager.StopAllCoroutines();
         SetGameState(GameState.Lobby);
+        Sound.PlayMusic_Lobby(true);
     }
 
     [ContextMenu("DEBUG/Tutorial")]

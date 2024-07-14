@@ -93,13 +93,17 @@ public class VRSleepMode : MonoBehaviour
         isGamePaused = true;
         Time.timeScale = 0f;
         //Debug.Log("게임이 일시 정지되었습니다.");
-        GameManager.Sound.PauseAllSound();
+        if (GameManager.Instance != null)  
+            GameManager.Sound.PauseAllSound();
         // 여기에 게임 일시 정지에 필요한 추가 기능
-        foreach (var action in allActions)
+        if (allActions != null)
         {
-            if (action != menuButtonAction)
+            foreach (var action in allActions)
             {
-                action.Disable();
+                if (action != menuButtonAction)
+                {
+                    action.Disable();
+                }
             }
         }
         if (isPausedByUser)
@@ -114,13 +118,17 @@ public class VRSleepMode : MonoBehaviour
         isGamePaused = false;
         Time.timeScale = 1f;
         //Debug.Log("게임이 재개되었습니다.");
-        GameManager.Sound.ResumeAllSound();
+        if(GameManager.Instance != null)
+            GameManager.Sound.ResumeAllSound();
         // 여기에 게임 재개에 필요한 추가 기능
-        foreach (var action in allActions)
+        if(allActions != null)
         {
-            if (action != menuButtonAction)
+            foreach (var action in allActions)
             {
-                action.Enable();
+                if (action != menuButtonAction)
+                {
+                    action.Enable();
+                }
             }
         }
     }

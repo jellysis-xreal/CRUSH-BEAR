@@ -11,6 +11,8 @@ public class VRSleepMode : MonoBehaviour
     {
         DontDestroyOnLoad(this);
     }
+
+#if !UNITY_EDITOR
     void OnApplicationPause(bool pauseStatus)
     {
         if (pauseStatus)
@@ -38,6 +40,7 @@ public class VRSleepMode : MonoBehaviour
             ResumeGame();
         }
     }
+#endif
     void PauseGame()
     {
         Debug.Log("퍼즈!");

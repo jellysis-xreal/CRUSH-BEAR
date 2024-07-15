@@ -114,12 +114,16 @@ public class PlayerManager : MonoBehaviour
         // TODO: XMC용 테스트 코드
         if (playerLifeValue == 0)
         {
+#if UNITY_EDITOR
+            Debug.Log("리듬감이 없으시군요!");    
+#else
             Instantiate(gameOverUIPrefab).transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2.33f, player.transform.position.z + 10.48f);
             GameManager.Instance.Metronome.SetGameEnd();
             GameManager.Wave.GameOver();
             GameManager.Sound.PlayEffectMusic_GameOver();
             StartCoroutine(GameOver());
             return;
+#endif
         }
 
         int WaveTypeCount = System.Enum.GetValues(typeof(WaveType)).Length;

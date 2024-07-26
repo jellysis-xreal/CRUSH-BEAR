@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5624855931867210813}
   - component: {fileID: 4091232884384131443}
   - component: {fileID: 7797433000123770756}
-  - component: {fileID: 8523605027453329238}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart17_2
   m_TagString: Untagged
@@ -51,7 +50,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2613526014974957065}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -112,27 +111,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8523605027453329238
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2613526014974957065}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.15460415, y: 0.1266553, z: 0.16282853}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3043644984709913371
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,7 +123,6 @@ GameObject:
   - component: {fileID: 2869371807115155926}
   - component: {fileID: 4622556861964810674}
   - component: {fileID: 8311408735980998789}
-  - component: {fileID: 4930112323247528083}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart6
   m_TagString: Untagged
@@ -184,7 +161,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3043644984709913371}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -245,27 +222,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &4930112323247528083
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3043644984709913371}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.16666536, y: 0.12754068, z: 0.11083854}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4472744837626045327
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +234,6 @@ GameObject:
   - component: {fileID: 6808046314311544726}
   - component: {fileID: 6715410170468740650}
   - component: {fileID: 5047364805982258585}
-  - component: {fileID: 753840740687654180}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart14_6
   m_TagString: Untagged
@@ -317,7 +272,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4472744837626045327}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -378,27 +333,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &753840740687654180
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4472744837626045327}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.17232825, y: 0.12893988, z: 0.19809274}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5255047000630686831
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +345,6 @@ GameObject:
   - component: {fileID: 3584514658776545987}
   - component: {fileID: 7995800955856792003}
   - component: {fileID: 5188963107805827590}
-  - component: {fileID: 4568260655828197607}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart7
   m_TagString: Untagged
@@ -450,7 +383,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5255047000630686831}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -511,27 +444,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &4568260655828197607
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5255047000630686831}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.14935061, y: 0.082804255, z: 0.1291887}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5315207239743181211
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +456,6 @@ GameObject:
   - component: {fileID: 2394218563664069228}
   - component: {fileID: 6559093098297543103}
   - component: {fileID: 6533330533884741466}
-  - component: {fileID: 4809706600193043754}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart4
   m_TagString: Untagged
@@ -583,7 +494,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5315207239743181211}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -644,27 +555,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &4809706600193043754
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5315207239743181211}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.08798611, y: 0.122730255, z: 0.09769473}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5885416978070793387
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,7 +567,6 @@ GameObject:
   - component: {fileID: 678806121081154592}
   - component: {fileID: 6139485441080174720}
   - component: {fileID: 4779499968736395524}
-  - component: {fileID: 7155849619306640518}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart11
   m_TagString: Untagged
@@ -716,7 +605,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5885416978070793387}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -777,27 +666,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &7155849619306640518
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5885416978070793387}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.13756995, y: 0.10186585, z: 0.14931707}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7148514396830706662
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,7 +678,6 @@ GameObject:
   - component: {fileID: 6612888745732026562}
   - component: {fileID: 3936776637321690559}
   - component: {fileID: 8036891220652785136}
-  - component: {fileID: 8040381517963800799}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart2
   m_TagString: Untagged
@@ -849,7 +716,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7148514396830706662}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -910,27 +777,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8040381517963800799
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7148514396830706662}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.14268939, y: 0.10528759, z: 0.06467725}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7277000028655070643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,7 +870,6 @@ GameObject:
   - component: {fileID: 146551191688208326}
   - component: {fileID: 2899167926593518047}
   - component: {fileID: 8329182877128408350}
-  - component: {fileID: 1690976702774392541}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart13_2
   m_TagString: Untagged
@@ -1063,7 +908,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7817211496844560200}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1124,27 +969,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &1690976702774392541
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7817211496844560200}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.18552612, y: 0.1292274, z: 0.16666538}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8935550697071178997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,7 +981,6 @@ GameObject:
   - component: {fileID: 5875867990438435926}
   - component: {fileID: 6661753460584591038}
   - component: {fileID: 4115457754143750342}
-  - component: {fileID: 9098714772668369659}
   m_Layer: 0
   m_Name: Cookie_withjam_S1_fracturepart9_5
   m_TagString: Untagged
@@ -1196,7 +1019,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8935550697071178997}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -1257,24 +1080,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &9098714772668369659
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935550697071178997}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.073539905, y: 0.09285886, z: 0.15761502}
-  m_Center: {x: 0, y: 0, z: 0}

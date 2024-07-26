@@ -890,7 +890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.16037738, g: 0.129361, b: 0.129361, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -922,6 +922,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 140331279568357687, guid: 477c42c76539947cab64384804ffcfef,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 140331279568357687, guid: 477c42c76539947cab64384804ffcfef,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1424,7 +1429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.3537736, b: 0.9087682, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4103,12 +4108,32 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.122641504
       objectReference: {fileID: 0}
+    - target: {fileID: 330896359727637649, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 445818596352292140, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570484170257356286, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1570072111305540908, guid: 17144b9285b65624b9196de653086ca8,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: aa77641d5ac31614280dd6b04c642820,
         type: 3}
+    - target: {fileID: 1570072111305540908, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1884917830574793638, guid: 17144b9285b65624b9196de653086ca8,
         type: 3}
       propertyPath: m_Name
@@ -4164,6 +4189,16 @@ PrefabInstance:
       propertyPath: playerObject
       value: 
       objectReference: {fileID: 3729978534754798588}
+    - target: {fileID: 2017897220612050635, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2452041854125959329, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2533965417030042369, guid: 17144b9285b65624b9196de653086ca8,
         type: 3}
       propertyPath: m_Pivot.x
@@ -4279,14 +4314,39 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2775682664667016924, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3352010013015895175, guid: 17144b9285b65624b9196de653086ca8,
         type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3930473761783665322, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799214530493376500, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6184381315348867013, guid: 17144b9285b65624b9196de653086ca8,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769546012594975180, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433075614161345886, guid: 17144b9285b65624b9196de653086ca8,
+        type: 3}
+      propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7963136251142864032, guid: 17144b9285b65624b9196de653086ca8,
@@ -4580,6 +4640,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 140331279568357687, guid: 477c42c76539947cab64384804ffcfef,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 140331279568357687, guid: 477c42c76539947cab64384804ffcfef,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -8607,6 +8672,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638555317329117151, guid: e2d876d86b59b0241b1eba0907084e2e,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1817109246639923345, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}

@@ -117,6 +117,7 @@ namespace UnityEngine.XR.Content.Interaction
 
             m_Destroyed = true;
 
+            /*
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
@@ -135,7 +136,7 @@ namespace UnityEngine.XR.Content.Interaction
                 var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
                 brokenVersion.GetComponent<BreakController>().IsHit();
             }
-
+            */
             
             
             if (GameManager.Instance.currentGameState == GameState.Waving)

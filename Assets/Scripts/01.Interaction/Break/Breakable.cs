@@ -72,6 +72,7 @@ namespace UnityEngine.XR.Content.Interaction
             // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
             
             // TODO : 컨트롤러 속도로 전달
+            /*
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
@@ -91,7 +92,7 @@ namespace UnityEngine.XR.Content.Interaction
                 var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
                 brokenVersion.GetComponent<BreakController>().IsHit(motion);
             }
-            
+            */
             
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {

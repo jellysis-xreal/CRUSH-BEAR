@@ -1122,7 +1122,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &599745270
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6346,22 +6346,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ec021e79f39f13747b0a4ebf098fe5d0,
+      objectReference: {fileID: 21300000, guid: eef7a0599315ecb47a620f4fea008777,
         type: 3}
     - target: {fileID: 1638555317329117151, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
       propertyPath: m_Color.a
-      value: 1
+      value: 0.92941177
       objectReference: {fileID: 0}
     - target: {fileID: 1638555317329117151, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.9327415
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1638555317329117151, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.5235849
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1638555317329117151, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
@@ -6485,23 +6485,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2629523930928279478, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629523930928279478, guid: e2d876d86b59b0241b1eba0907084e2e,
+        type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.7454946
+      value: 1.3353888
       objectReference: {fileID: 0}
     - target: {fileID: 2629523930928279478, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.7914647
+      value: 1.3353888
       objectReference: {fileID: 0}
     - target: {fileID: 2629523930928279478, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.3950565
+      value: 1.3353888
       objectReference: {fileID: 0}
     - target: {fileID: 2629523930928279478, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.29
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3365594534196087083, guid: e2d876d86b59b0241b1eba0907084e2e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5803859586568481282, guid: e2d876d86b59b0241b1eba0907084e2e,
         type: 3}

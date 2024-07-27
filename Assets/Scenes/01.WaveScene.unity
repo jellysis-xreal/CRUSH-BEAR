@@ -6576,15 +6576,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 220806987332867709, guid: c0f6a9f017a218040be1f8d5ca174c44,
+        type: 3}
+      propertyPath: m_Materials.Array.data[5]
+      value: 
+      objectReference: {fileID: -2813467912831258332, guid: 4730f5767d69475468ffea8638cd7d87,
+        type: 3}
     - target: {fileID: 1695096238837838132, guid: c0f6a9f017a218040be1f8d5ca174c44,
         type: 3}
       propertyPath: m_Radius
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 3562923422592884757, guid: c0f6a9f017a218040be1f8d5ca174c44,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3794899976310874774, guid: c0f6a9f017a218040be1f8d5ca174c44,
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4384559833874843812, guid: c0f6a9f017a218040be1f8d5ca174c44,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527339501076508913, guid: c0f6a9f017a218040be1f8d5ca174c44,
         type: 3}

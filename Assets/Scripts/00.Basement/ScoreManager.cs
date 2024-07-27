@@ -209,6 +209,7 @@ public class ScoreManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
             AddScore(score);
+            Vibrate(score);
             SetScoreEffect(score, target.transform.position);    
         }
         else

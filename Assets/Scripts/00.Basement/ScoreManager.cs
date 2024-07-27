@@ -255,7 +255,7 @@ public class ScoreManager : MonoBehaviour
         AddScore(score);
         Vibrate(score);
         // SetScoreEffect(score, target.transform.position);
-        // GameManager.Sound.PlayEffect_Punch();
+        GameManager.Sound.PlayEffect_Punch();
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
         float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed);

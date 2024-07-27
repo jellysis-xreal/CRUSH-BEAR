@@ -247,6 +247,7 @@ public class ScoreManager : MonoBehaviour
                 //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + RHand.ControllerSpeed);
 
             }
+
         }
         else
         {
@@ -256,7 +257,6 @@ public class ScoreManager : MonoBehaviour
         AddScore(score);
         Vibrate(score);
         // SetScoreEffect(score, target.transform.position);
-        GameManager.Sound.PlayEffect_Punch();
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
         float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed);
@@ -302,11 +302,13 @@ public class ScoreManager : MonoBehaviour
                 GameManager.Combo.ActionSucceed();
                 value = 150.0f * GameManager.Combo.comboMultiflier;
                 PerfectNum++;
+                GameManager.Sound.PlayEffect_Punch();
                 break;
             case scoreType.Good:
                 // 정확한 방식+속도 20% 이상 = 100점
                 GameManager.Combo.ActionSucceed();
                 value= 100.0f * GameManager.Combo.comboMultiflier;
+                GameManager.Sound.PlayEffect_Punch();
                 break;
             case scoreType.Weak:
                 // 정확한 방식+속도 20% 미만 = 20점, 목숨 유지

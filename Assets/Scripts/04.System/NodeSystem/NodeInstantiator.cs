@@ -497,7 +497,7 @@ public class NodeInstantiator : MonoBehaviour
                 case 4:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                     punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
-                    Instantiate(cookieDirectionPrefabs[4], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
                     break;
                 case 5:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
@@ -506,12 +506,12 @@ public class NodeInstantiator : MonoBehaviour
                 case 6:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                     punchGameObject.transform.rotation = Quaternion.Euler(0f, 30f, 270f);
-                    Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
                     break;
                 case 7:
                     Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;
                     punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
-                    Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[4], punchGameObject.transform);
                     break;
                 case 8:
                     Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;

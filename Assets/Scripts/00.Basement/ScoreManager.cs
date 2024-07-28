@@ -136,25 +136,43 @@ public class ScoreManager : MonoBehaviour
             case 0:
                 //Debug.Log($"Right Hand Speed: {RHand.ControllerSpeed}");
                 if (RHand.ControllerSpeed >= perfect_threshold)
+                {
                     resultScore = scoreType.Perfect;
+                    GameManager.Sound.PlayEffect_Punch();
+                }
                 else if (RHand.ControllerSpeed >= good_threshold)
+                {
                     resultScore = scoreType.Good;
+                    GameManager.Sound.PlayEffect_Punch();
+                }
                 break;
             
             case 1:
                 //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
                 if (LHand.ControllerSpeed >= perfect_threshold)
+                {
                     resultScore = scoreType.Perfect;
+                    GameManager.Sound.PlayEffect_Punch();
+                }
                 else if (LHand.ControllerSpeed >= good_threshold)
+                {
                     resultScore = scoreType.Good;
+                    GameManager.Sound.PlayEffect_Punch();
+                }
                 break;
             
             case 2:
                 //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}, Right Hand Speed: {RHand.ControllerSpeed}");
                 if ((LHand.ControllerSpeed >= perfect_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
+                {
                     resultScore = scoreType.Perfect;
+                    GameManager.Sound.PlayEffect_Punch();
+                }
                 else if ((LHand.ControllerSpeed >= good_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
+                {
                     resultScore = scoreType.Good;
+                    GameManager.Sound.PlayEffect_Punch();
+                }
                 break;
         }
         //Debug.Log($"Result Score: {resultScore}");
@@ -302,13 +320,11 @@ public class ScoreManager : MonoBehaviour
                 GameManager.Combo.ActionSucceed();
                 value = 150.0f * GameManager.Combo.comboMultiflier;
                 PerfectNum++;
-                GameManager.Sound.PlayEffect_Punch();
                 break;
             case scoreType.Good:
                 // 정확한 방식+속도 20% 이상 = 100점
                 GameManager.Combo.ActionSucceed();
                 value= 100.0f * GameManager.Combo.comboMultiflier;
-                GameManager.Sound.PlayEffect_Punch();
                 break;
             case scoreType.Weak:
                 // 정확한 방식+속도 20% 미만 = 20점, 목숨 유지

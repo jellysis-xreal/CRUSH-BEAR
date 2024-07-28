@@ -115,7 +115,8 @@ public class PlayerManager : MonoBehaviour
         if (playerLifeValue == 0)
         {
 #if UNITY_EDITOR
-            Debug.Log("리듬감이 없으시군요!");    
+            Debug.Log("리듬감이 없으시군요!");
+            return;
 #else
             Instantiate(gameOverUIPrefab).transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2.33f, player.transform.position.z + 10.48f);
             GameManager.Instance.Metronome.SetGameEnd();

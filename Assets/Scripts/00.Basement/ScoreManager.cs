@@ -253,6 +253,8 @@ public class ScoreManager : MonoBehaviour
         {
             score = scoreType.Bad; 
         }
+        if (score == scoreType.Perfect || score == scoreType.Good)
+            GameManager.Sound.PlayEffect_Punch();
         Debug.Log("Scoring Punch " + score);
         AddScore(score);
         Vibrate(score);

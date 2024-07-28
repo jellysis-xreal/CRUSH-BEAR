@@ -14,7 +14,7 @@ internal class ToolbarFPSSlider : BaseToolbarElement {
 	public override string NameInList => "[Slider] FPS";
 
 	public override void Init() {
-		selectedFramerate = 60;
+		selectedFramerate = 120;
 	}
 
 	public ToolbarFPSSlider(int minFPS = 1, int maxFPS = 120) : base(200) {

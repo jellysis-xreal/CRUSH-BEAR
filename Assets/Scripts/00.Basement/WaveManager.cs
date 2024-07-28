@@ -8,6 +8,7 @@ using UnityEngine.U2D;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
+using TMPro;
 
 public class WaveManager : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] public GameObject[] timerCanvas;
     [SerializeField] public GameObject[] waveUICanvas;
     private int countdownTime = 4;
-    private TextToImage timer;
+    private TextMeshProUGUI timer;
 
 
     // 기획에 따른 변수
@@ -402,7 +403,7 @@ public class WaveManager : MonoBehaviour
         timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         while(countdownTime > 0)
         {
@@ -414,7 +415,7 @@ public class WaveManager : MonoBehaviour
             }
             else
             {
-                timer.ChangeTextToImage(countdownTime - 1);
+                timer.text = (countdownTime - 1).ToString();
             }
             yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
@@ -451,7 +452,7 @@ public class WaveManager : MonoBehaviour
         timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         while(countdownTime > 0)
         {
@@ -462,7 +463,7 @@ public class WaveManager : MonoBehaviour
             {
                 //timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
             }
-            else timer.ChangeTextToImage(countdownTime - 1);
+            else timer.text = (countdownTime - 1).ToString();
             yield return new WaitForSecondsRealtime(0f); // TODO: 임시로... 240216 JMH
             countdownTime--;
         }
@@ -553,12 +554,12 @@ public class WaveManager : MonoBehaviour
         timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         while(countdownTime > 0)
         {   
             if (countdownTime == 1) { timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(false); timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);}
-            else timer.ChangeTextToImage(countdownTime - 1);
+            else timer.text = (countdownTime - 1).ToString();
             yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
         }

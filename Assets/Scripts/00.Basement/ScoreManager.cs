@@ -28,9 +28,9 @@ public class ScoreManager : MonoBehaviour
     public Transform effectSpawn;
     [SerializeField] private float maxSpeed = 3.0f;
     public Transform[] scoreText_Transform;
-    private TextToImage[] scoreText;
+    private TextMeshProUGUI[] scoreText;
     public Transform[] comboText_Transform;
-    private TextToImage[] comboText;
+    private TextMeshProUGUI[] comboText;
 
     [Space(20f)]
     
@@ -88,12 +88,12 @@ public class ScoreManager : MonoBehaviour
             return;
         }
 
-        scoreText = new TextToImage[scoreText_Transform.Length];
-        comboText = new TextToImage[comboText_Transform.Length];
+        scoreText = new TextMeshProUGUI[scoreText_Transform.Length];
+        comboText = new TextMeshProUGUI[comboText_Transform.Length];
         for(int i = 0; i < scoreText.Length; ++i)
         {
-            scoreText[i] = scoreText_Transform[i].GetComponent<TextToImage>();
-            comboText[i] = comboText_Transform[i].GetComponent<TextToImage>();
+            scoreText[i] = scoreText_Transform[i].GetComponent<TextMeshProUGUI>();
+            comboText[i] = comboText_Transform[i].GetComponent<TextMeshProUGUI>();
         }
         circleGaugeController = circleGaugeControllerObject.GetComponent<CircleGaugeController>();
         circleGaugeController.InitSettings();
@@ -283,12 +283,12 @@ public class ScoreManager : MonoBehaviour
         if(scoreText == null) return;
         foreach(var text in scoreText)
         {
-            text.ChangeTextToImage((int)TotalScore);
+            text.text = TotalScore.ToString();
         }
 
         foreach (var text in comboText)
         {
-            text.ChangeTextToImage(GameManager.Combo.comboValue);
+            text.text = GameManager.Combo.comboValue.ToString();
         }
     }
 

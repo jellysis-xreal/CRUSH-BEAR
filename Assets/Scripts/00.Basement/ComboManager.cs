@@ -17,7 +17,7 @@ public class ComboManager : MonoBehaviour
     public Slider comboSliderPunch;
     public Slider comboSliderHitting;
     public Transform[] comboMultiflierTransform;
-    private ComboText comboMultiflierPunch, comboMultiflierHitting;
+    private TextMeshProUGUI comboMultiflierPunch, comboMultiflierHitting;
 
     private uint maxCombo = 0;
     
@@ -67,11 +67,11 @@ public class ComboManager : MonoBehaviour
         comboPercent = 0;
 
         //comboSlider.value = comboValueFever;
-        comboMultiflierPunch = comboMultiflierTransform[0].GetComponent<ComboText>();
-        comboMultiflierHitting = comboMultiflierTransform[1].GetComponent<ComboText>();
+        comboMultiflierPunch = comboMultiflierTransform[0].GetComponent<TextMeshProUGUI>();
+        comboMultiflierHitting = comboMultiflierTransform[1].GetComponent<TextMeshProUGUI>();
         comboMultiflier = 1;
-        comboMultiflierPunch.ChangeTextToImage(comboMultiflier);
-        comboMultiflierHitting.ChangeTextToImage(comboMultiflier);
+        comboMultiflierPunch.text = "x" + $"{comboMultiflier}";
+        comboMultiflierHitting.text = "x" + $"{comboMultiflier}";
     }
     IEnumerator ComboRoutine()
     {
@@ -92,8 +92,8 @@ public class ComboManager : MonoBehaviour
                 comboPercent = comboValue % 10;
             }
 
-            comboMultiflierPunch.ChangeTextToImage(comboMultiflier);
-            comboMultiflierHitting.ChangeTextToImage(comboMultiflier);
+            comboMultiflierPunch.text = "x" + $"{comboMultiflier}";
+            comboMultiflierHitting.text = "x" + $"{comboMultiflier}";
 
             comboSliderPunch.value = comboPercent;
             comboSliderHitting.value = comboPercent;

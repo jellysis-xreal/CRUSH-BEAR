@@ -136,43 +136,25 @@ public class ScoreManager : MonoBehaviour
             case 0:
                 //Debug.Log($"Right Hand Speed: {RHand.ControllerSpeed}");
                 if (RHand.ControllerSpeed >= perfect_threshold)
-                {
                     resultScore = scoreType.Perfect;
-                    GameManager.Sound.PlayEffect_Punch();
-                }
                 else if (RHand.ControllerSpeed >= good_threshold)
-                {
                     resultScore = scoreType.Good;
-                    GameManager.Sound.PlayEffect_Punch();
-                }
                 break;
             
             case 1:
                 //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
                 if (LHand.ControllerSpeed >= perfect_threshold)
-                {
                     resultScore = scoreType.Perfect;
-                    GameManager.Sound.PlayEffect_Punch();
-                }
                 else if (LHand.ControllerSpeed >= good_threshold)
-                {
                     resultScore = scoreType.Good;
-                    GameManager.Sound.PlayEffect_Punch();
-                }
                 break;
             
             case 2:
                 //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}, Right Hand Speed: {RHand.ControllerSpeed}");
                 if ((LHand.ControllerSpeed >= perfect_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
-                {
                     resultScore = scoreType.Perfect;
-                    GameManager.Sound.PlayEffect_Punch();
-                }
                 else if ((LHand.ControllerSpeed >= good_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
-                {
                     resultScore = scoreType.Good;
-                    GameManager.Sound.PlayEffect_Punch();
-                }
                 break;
         }
         //Debug.Log($"Result Score: {resultScore}");

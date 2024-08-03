@@ -71,11 +71,11 @@ public class ScoreManager : MonoBehaviour
         TotalScore = 0;
         PerfectNum = 0;
         player = GameObject.FindWithTag("Player");
-        RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
-        LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
+        RightController = player.GetComponent<Player>().R_Controller;
+        LeftController = player.GetComponent<Player>().L_Controller;
 
-        RHand = RightController.transform.GetChild(0).GetComponent<HandData>();
-        LHand = LeftController.transform.GetChild(0).GetComponent<HandData>();
+        RHand = player.GetComponent<Player>().R_HandData;
+        LHand = player.GetComponent<Player>().L_HandData;
 
         standardSpeed = maxSpeed * 0.6f;
 

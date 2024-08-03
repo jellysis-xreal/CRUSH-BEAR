@@ -44,17 +44,15 @@ public class PlayerManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         //IK_player = GameObject.FindWithTag("IKPlayer");
         
-        RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
-        LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
+        RightController = player.GetComponent<Player>().R_Controller;
+        LeftController = player.GetComponent<Player>().L_Controller;
         
         // TODO
         //rightController = RightController.GetComponent<XRBaseController>();
         //leftController = LeftController.GetComponent<XRBaseController>();
-        
-        RightInteraction = Utils.FindChildByRecursion(RightController.transform, "Interaction")
-            .gameObject;
-        LeftInteraction = Utils.FindChildByRecursion(LeftController.transform, "Interaction")
-            .gameObject;
+
+        RightInteraction = player.GetComponent<Player>().R_Interaction;
+        LeftInteraction = player.GetComponent<Player>().L_Interaction;
         // Player Life
         playerLifeValue = 5;
 

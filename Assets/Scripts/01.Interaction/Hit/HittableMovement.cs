@@ -231,8 +231,8 @@ public class HittableMovement : MonoBehaviour
         IsRight = IsRightJudgment(other, colSide);
 
         // Controller / Hand_R/L의 HandData에서 속도 값 받아와서 Hit force로 사용함
-        var parent = other.transform.parent.parent.parent;
-        float forceMagnitude = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed;
+        var parent = other.transform.parent;
+        float forceMagnitude = parent.GetComponent<Hitter>().handData.ControllerSpeed;
         //Debug.Log(forceMagnitude);
         forceMagnitude = Mathf.Clamp(forceMagnitude, 6.0f, 10.0f);
         

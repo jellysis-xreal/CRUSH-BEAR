@@ -14413,7 +14413,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1309445969826670081}
   - component: {fileID: 5530297861893826121}
-  m_Layer: 0
+  - component: {fileID: 7050394739554271348}
+  m_Layer: 11
   m_Name: OVRControllerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14455,6 +14456,29 @@ MonoBehaviour:
   m_showState: 1
   showWhenHandsArePoweredByNaturalControllerPoses: 0
   RayHelper: {fileID: 0}
+--- !u!136 &7050394739554271348
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127286627575733400}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.06
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2136931138405422791
 GameObject:
   m_ObjectHideFlags: 0
@@ -18006,8 +18030,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: 0
-  handTransform: {fileID: 0}
-  handData: {fileID: 0}
+  handTransform: {fileID: 4915106394122095460}
+  handData: {fileID: 2899499701511296213}
   handVelocityMinimumThreshold: 0.25
   handVelocityMaximumThreshold: 5
   handVelocity: 0
@@ -24258,7 +24282,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4209395016321740048}
   - component: {fileID: 5161662448321039846}
-  m_Layer: 0
+  - component: {fileID: 5466747090660362381}
+  m_Layer: 11
   m_Name: OVRControllerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24300,6 +24325,29 @@ MonoBehaviour:
   m_showState: 1
   showWhenHandsArePoweredByNaturalControllerPoses: 0
   RayHelper: {fileID: 0}
+--- !u!136 &5466747090660362381
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3805279255472312227}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.06
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3807978022713812275
 GameObject:
   m_ObjectHideFlags: 0
@@ -31886,6 +31934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6b674cc32d59a4b956a0df0ce51f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handData: {fileID: 1049660015310150905}
 --- !u!65 &748082630143786698
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32693,6 +32742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6b674cc32d59a4b956a0df0ce51f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handData: {fileID: 2899499701511296213}
 --- !u!65 &3146420662110427323
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35132,8 +35182,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: 1
-  handTransform: {fileID: 0}
-  handData: {fileID: 0}
+  handTransform: {fileID: 2099748704075887520}
+  handData: {fileID: 1049660015310150905}
   handVelocityMinimumThreshold: 0.25
   handVelocityMaximumThreshold: 5
   handVelocity: 0
@@ -35935,7 +35985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7339544957718344716
 Transform:
   m_ObjectHideFlags: 0
@@ -41305,6 +41355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7124209245360615332}
   - component: {fileID: 3184756160038622126}
+  - component: {fileID: 1604186526363604532}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -41340,6 +41391,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24d3d840599cebf4fa4ca3f45221ff37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1604186526363604532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054904168311440611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60c1453bffa02614f8f6922fd2996555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  R_Controller: {fileID: 7575415052841602885}
+  L_Controller: {fileID: 5456022460140568696}
+  R_Interaction: {fileID: 3859898804946363477}
+  L_Interaction: {fileID: 3358220589836294539}
+  R_HandData: {fileID: 1049660015310150905}
+  L_HandData: {fileID: 2899499701511296213}
 --- !u!1 &6068405676710988002
 GameObject:
   m_ObjectHideFlags: 0
@@ -59440,7 +59509,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2620150946303495400
 Transform:
   m_ObjectHideFlags: 0

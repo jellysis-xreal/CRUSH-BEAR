@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 using UnityEngine.XR.Content.Interaction;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class EndingController : TimeLineController
 {
@@ -61,7 +60,7 @@ public class EndingController : TimeLineController
 
     private void StartEnding()
     {
-        playerObject.GetComponent<ActionBasedContinuousMoveProvider>().enabled = false;
+        //playerObject.GetComponent<ActionBasedContinuousMoveProvider>().enabled = false;
         fadeOutPanel.gameObject.SetActive(false);
         creditRoom.SetActive(true);
         endingCredit.SetActive(true);

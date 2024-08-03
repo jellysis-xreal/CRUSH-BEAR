@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.XR.Interaction.Toolkit;
-
 
 public class UI_Popup_Settings : UI_Popup
 {

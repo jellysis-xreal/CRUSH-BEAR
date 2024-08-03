@@ -3,7 +3,6 @@ using UnityEngine.XR;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
-using Unity.XR.CoreUtils;
 
 public class VRSleepMode : MonoBehaviour
 {

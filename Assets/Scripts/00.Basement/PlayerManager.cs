@@ -1,11 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
-using XRController = UnityEngine.InputSystem.XR.XRController;
-using System;
 using EnumTypes;
 using UnityEngine.UI;
+using Oculus.Interaction;
 
 [System.Serializable] // 반드시 필요
 public class HeartsArray // 행에 해당되는 이름
@@ -21,8 +18,8 @@ public class PlayerManager : MonoBehaviour
     //[SerializeField] public GameObject IK_player;
     public GameObject RightController;
     public GameObject LeftController;
-    private XRBaseController R_XRController;
-    private XRBaseController L_XRController;
+    private OVRInput.Controller rightController;
+    private OVRInput.Controller leftController;
     public GameObject RightInteraction;
     public GameObject LeftInteraction;
 
@@ -50,8 +47,9 @@ public class PlayerManager : MonoBehaviour
         RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
         LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
         
-        R_XRController = RightController.GetComponent<XRBaseController>();
-        L_XRController = LeftController.GetComponent<XRBaseController>();
+        // TODO
+        //rightController = RightController.GetComponent<XRBaseController>();
+        //leftController = LeftController.GetComponent<XRBaseController>();
         
         RightInteraction = Utils.FindChildByRecursion(RightController.transform, "Interaction")
             .gameObject;
@@ -182,40 +180,44 @@ public class PlayerManager : MonoBehaviour
     // 기본 진동
     public void ActiveRightHaptic(float amplitude, float duration)
     {
-        R_XRController.SendHapticImpulse(amplitude, duration);
+        OVRInput.SetControllerVibration(amplitude, amplitude, rightController);
+        StartCoroutine(StopHapticAfterDuration(rightController, duration));
     }
     
     public void ActiveLeftHaptic(float amplitude, float duration)
     {
-        L_XRController.SendHapticImpulse(amplitude, duration);
+        OVRInput.SetControllerVibration(amplitude, amplitude, leftController);
+        StartCoroutine(StopHapticAfterDuration(leftController, duration));
+    }
+    
+    private IEnumerator StopHapticAfterDuration(OVRInput.Controller controller, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        OVRInput.SetControllerVibration(0, 0, controller);
     }
 
     // 반복 진동
-    public void RepeatRightHaptic(float amplitude, float duration, int n) // 오른손 진동 n번 반복
+    public void RepeatRightHaptic(float amplitude, float duration, int n)
     {
-        StartCoroutine(RepeatRightHapticCoroutine(amplitude, duration, n));
-    }
-    private IEnumerator RepeatRightHapticCoroutine(float amplitude, float duration, int n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            R_XRController.SendHapticImpulse(amplitude, duration);
-            yield return new WaitForSeconds(0.5f); // 0.5초 대기
-        }
+        StartCoroutine(RepeatHapticCoroutine(rightController, amplitude, duration, n));
     }
 
-    public void RepeatLeftHaptic(float amplitude, float duration, int n) // 왼손 진동 n번 반복
+    public void RepeatLeftHaptic(float amplitude, float duration, int n)
     {
-        StartCoroutine(RepeatLeftHapticCoroutine(amplitude, duration, n));
+        StartCoroutine(RepeatHapticCoroutine(leftController, amplitude, duration, n));
     }
-    private IEnumerator RepeatLeftHapticCoroutine(float amplitude, float duration, int n)
+
+    private IEnumerator RepeatHapticCoroutine(OVRInput.Controller controller, float amplitude, float duration, int n)
     {
         for (int i = 0; i < n; i++)
         {
-            L_XRController.SendHapticImpulse(amplitude, duration);
-            yield return new WaitForSeconds(0.5f); // 0.5초 대기
+            OVRInput.SetControllerVibration(amplitude, amplitude, controller);
+            yield return new WaitForSeconds(duration);
+            OVRInput.SetControllerVibration(0, 0, controller);
+            yield return new WaitForSeconds(0.5f);
         }
     }
+    
     private IEnumerator GameOver()
     {
         yield return new WaitForSeconds(5f);
@@ -223,33 +225,17 @@ public class PlayerManager : MonoBehaviour
     }
 
     // 점차 약해지는 진동
-    public void DecreaseRightHaptic(float startAmplitude, float duration) // 오른손
+    public void DecreaseRightHaptic(float startAmplitude, float duration)
     {
-        StartCoroutine(DecreaseRightHapticCoroutine(startAmplitude, duration));
-    }
-    private IEnumerator DecreaseRightHapticCoroutine(float startAmplitude, float duration)
-    {
-        float startTime = Time.time;
-        float endTime = startTime + duration;
-
-        while (Time.time < endTime)
-        {
-            float elapsedTime = Time.time - startTime;
-            float t = elapsedTime / duration;
-            float currentAmplitude = Mathf.Lerp(startAmplitude, 0f, t);
-
-            R_XRController.SendHapticImpulse(currentAmplitude, 0.1f); // 0.1초 간격으로 진동
-
-            yield return null;
-        }
-        R_XRController.SendHapticImpulse(0f, 0.1f); // 완전 중지
+        StartCoroutine(DecreaseHapticCoroutine(rightController, startAmplitude, duration));
     }
 
     public void DecreaseLeftHaptic(float startAmplitude, float duration)
     {
-        StartCoroutine(DecreaseLeftHapticCoroutine(startAmplitude, duration));
+        StartCoroutine(DecreaseHapticCoroutine(leftController, startAmplitude, duration));
     }
-    private IEnumerator DecreaseLeftHapticCoroutine(float startAmplitude, float duration)
+
+    private IEnumerator DecreaseHapticCoroutine(OVRInput.Controller controller, float startAmplitude, float duration)
     {
         float startTime = Time.time;
         float endTime = startTime + duration;
@@ -260,19 +246,25 @@ public class PlayerManager : MonoBehaviour
             float t = elapsedTime / duration;
             float currentAmplitude = Mathf.Lerp(startAmplitude, 0f, t);
 
-            L_XRController.SendHapticImpulse(currentAmplitude, 0.1f); // 0.1초 간격으로 진동
+            OVRInput.SetControllerVibration(currentAmplitude, currentAmplitude, controller);
 
             yield return null;
         }
-        L_XRController.SendHapticImpulse(0f, 0.1f); // 완전 중지
+        OVRInput.SetControllerVibration(0, 0, controller);
     }
 
     // 점차 강해지는 진동
-    public void IncreaseRightHaptic(float startAmplitude, float duration) // 오른손
+    public void IncreaseRightHaptic(float startAmplitude, float duration)
     {
-        StartCoroutine(IncreaseRightHapticCoroutine(startAmplitude, duration));
+        StartCoroutine(IncreaseHapticCoroutine(rightController, startAmplitude, duration));
     }
-    private IEnumerator IncreaseRightHapticCoroutine(float startAmplitude, float duration)
+
+    public void IncreaseLeftHaptic(float startAmplitude, float duration)
+    {
+        StartCoroutine(IncreaseHapticCoroutine(leftController, startAmplitude, duration));
+    }
+
+    private IEnumerator IncreaseHapticCoroutine(OVRInput.Controller controller, float startAmplitude, float duration)
     {
         float startTime = Time.time;
         float endTime = startTime + duration;
@@ -283,33 +275,11 @@ public class PlayerManager : MonoBehaviour
             float t = elapsedTime / duration;
             float currentAmplitude = Mathf.Lerp(0f, startAmplitude, t);
 
-            R_XRController.SendHapticImpulse(currentAmplitude, 0.1f); // 0.1초 간격으로 진동
+            OVRInput.SetControllerVibration(currentAmplitude, currentAmplitude, controller);
 
             yield return null;
         }
-        R_XRController.SendHapticImpulse(0f, 0.1f); // 완전 중지
-    }
-
-    public void IncreaseLeftHaptic(float startAmplitude, float duration) // 왼손
-    {
-        StartCoroutine(IncreaseLeftHapticCoroutine(startAmplitude, duration));
-    }
-    private IEnumerator IncreaseLeftHapticCoroutine(float startAmplitude, float duration)
-    {
-        float startTime = Time.time;
-        float endTime = startTime + duration;
-
-        while (Time.time < endTime)
-        {
-            float elapsedTime = Time.time - startTime;
-            float t = elapsedTime / duration;
-            float currentAmplitude = Mathf.Lerp(0f, startAmplitude, t);
-
-            L_XRController.SendHapticImpulse(currentAmplitude, 0.1f); // 0.1초 간격으로 진동
-
-            yield return null;
-        }
-        L_XRController.SendHapticImpulse(0f, 0.1f); // 완전 중지
+        OVRInput.SetControllerVibration(0, 0, controller);
     }
 
 }

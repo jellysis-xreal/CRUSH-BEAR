@@ -18,7 +18,7 @@ public class HookMotionDetector : MonoBehaviour
     private Coroutine _chekingUpperCutCoroutine;
     public bool hookCoroutineExist = false;
     public bool upperCutCoroutineExist = false;
-    public InputActionProperty activateAction;
+    //public InputActionProperty activateAction;
      
     public Motion motion;
     public Motion hookMotion; // LeftHook, RightHook, None만 사용
@@ -52,7 +52,7 @@ public class HookMotionDetector : MonoBehaviour
     public bool GetControllerActivateAction()
     {
         // hand의 grab버튼 활성화 확인
-        return activateAction.action.IsInProgress();
+        return true;
     }
 
     private void CheckHookMotionCondition()

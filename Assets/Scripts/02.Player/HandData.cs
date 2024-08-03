@@ -18,7 +18,7 @@ public class HandData : MonoBehaviour
     //private float GrabValue = 0.7f;
     
     [Header("setting(auto)")] 
-    [SerializeField] private GameObject Controller;
+    //[SerializeField] private GameObject Controller;
     [SerializeField] private InputActionProperty ControllerInput;
     [SerializeField] private float maxSpeed = 0.0f;
     [SerializeField] private float perfectThresholdSpeed = 0.0f;
@@ -40,8 +40,8 @@ public class HandData : MonoBehaviour
     
     private void Awake()
     {
-        Controller = transform.parent.gameObject;
-        ControllerInput = GetComponent<AnimateHandOnInput>().grabAnimationAction;
+        //Controller = transform.parent.gameObject;
+        //ControllerInput = GetComponent<AnimateHandOnInput>().grabAnimationAction;
     }
     private void Update()
     {
@@ -65,7 +65,7 @@ public class HandData : MonoBehaviour
 
     private void updateControllerSpeed()
     {
-        currentPos = Controller.transform.position;
+        currentPos = this.transform.position;
         ControllerSpeed = (beforePos - currentPos).magnitude / Time.deltaTime;
         ControllerVector = (beforePos - currentPos).normalized;
         beforePos = currentPos;
@@ -93,7 +93,7 @@ public class HandData : MonoBehaviour
     
     private void QueueControllerSpeed()
     {
-        currentPos = Controller.transform.position;
+        currentPos = this.transform.position;
         ControllerSpeed = (beforePos - currentPos).magnitude / Time.deltaTime;
         
         // Add the current speed to the queue

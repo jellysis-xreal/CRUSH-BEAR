@@ -109,10 +109,12 @@ public class GameManager : MonoBehaviour
         switch (newGameState)
         {
             case GameState.Lobby:
+                OVRManager.SetSpaceWarp(true);
                 SceneManager.LoadScene("00.StartScene");
                 break;
 
             case GameState.Waving:
+                OVRManager.SetSpaceWarp(false);
                 GameObject lobbyPlayer = GameObject.FindWithTag("Player");
                 lobbyPlayer.SetActive(false);
                 
@@ -124,12 +126,14 @@ public class GameManager : MonoBehaviour
                 break;
             
             case GameState.Ending:
+                OVRManager.SetSpaceWarp(false);
                 _player.InActivePlayer();
                 Sound.PlayEffectMusic_GameWin();
                 SceneManager.LoadScene("02.EndingCutScene");
                 break;
             
             case GameState.Tutorial:
+                OVRManager.SetSpaceWarp(false);
                 InitTutorial();
                 break;
         }

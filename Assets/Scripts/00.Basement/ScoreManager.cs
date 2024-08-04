@@ -104,18 +104,6 @@ public class ScoreManager : MonoBehaviour
         return PerfectNum;
     }
     
-    // Collision 감지가 발생하면 점수를 산정하도록 했다.
-    public void Scoring(GameObject target, scoreType score)
-    {
-        if (target.GetComponent<BaseObject>().IsItScored()) return; // Object의 중복 scoring을 방지한다.
-        
-        target.GetComponent<BaseObject>().SetScoreBool();
-        AddScore(score);
-        SetScoreEffect(score, target.transform.position);
-        
-        //Debug.Log(target.name + "의 점수는 " + score);
-    }
-
     private scoreType ScoreByControllerSpeed(uint targetHand)
     {
         // Perfect, Good, Weak 중
@@ -162,7 +150,7 @@ public class ScoreManager : MonoBehaviour
     public void ScoringMiss(GameObject target)
     {
         scoreType score = scoreType.Miss;
-        AddScore(score);
+        //AddScore(score);
         
         // Swing은 뒤로 넘어간 오브젝트 miss 처리
         //if (GameManager.Wave.GetWaveType() == WaveType.Hitting)
@@ -206,8 +194,8 @@ public class ScoreManager : MonoBehaviour
         GameManager.Sound.PlayEffect_ToastHit();
         if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
-            AddScore(score);
-            Vibrate(score);
+            //AddScore(score);
+            //Vibrate(score);
             SetScoreEffect(score, target.transform.position);    
         }
         else
@@ -254,8 +242,10 @@ public class ScoreManager : MonoBehaviour
         if (score == scoreType.Perfect || score == scoreType.Good)
             GameManager.Sound.PlayEffect_Punch();
         Debug.Log("Scoring Punch " + score);
-        AddScore(score);
-        Vibrate(score);
+        
+        //AddScore(score);
+        //Vibrate(score);
+        
         // SetScoreEffect(score, target.transform.position);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);

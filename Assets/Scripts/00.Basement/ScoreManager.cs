@@ -261,10 +261,10 @@ public class ScoreManager : MonoBehaviour
         // 원형 슬라이더 값 설정
         if (score == scoreType.Perfect)
         {
-            circleGaugeController.SetPunchSliderSpeed(circleGaugeController.maxScaleAmount);
+            //circleGaugeController.SetPunchSliderSpeed(circleGaugeController.maxScaleAmount);
         } else
         {
-            circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
+           //circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
         }
     }
 

@@ -329,7 +329,8 @@ public class ScoreManager : MonoBehaviour
 
         TotalScore += value;
         setTXT();
-        GameManager.UI.RequestFloatingUI(value);
+        // TODO : Turn Off Floating UI
+        //GameManager.UI.RequestFloatingUI(value);
     }
 
     private void SetScoreEffect(scoreType score, Vector3 effectPos)

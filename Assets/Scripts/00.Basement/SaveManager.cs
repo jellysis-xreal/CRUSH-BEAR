@@ -6,27 +6,6 @@ using UnityEngine;
 
 public class SaveManager
 {
-    public void SetPlayerPrefsDataFirst()
-    {
-        PlayerPrefs.SetInt("TutorialDone" , -1);
-    }
-    public void SavePlayerPrefsData()
-    {
-        PlayerPrefs.SetInt("TutorialDone" , 1);
-    }
-
-    public int GetTutorialDonePlayerPrefsData()
-    {
-        return PlayerPrefs.GetInt("TutorialDone");
-    }
-
-    public void DeletePlayerPrefsData()
-    {
-        PlayerPrefs.DeleteKey("TutorialDone");
-        PlayerPrefs.DeleteAll();
-        
-    }
-    #region fileFormatJson
     public SaveData data;
     private string saveFileName = "crushBearSave.json";
     public bool isTutorialClear { get { return data.isUnlocked[0]; } }
@@ -48,6 +27,7 @@ public class SaveManager
             //Debug.Log("���� ����");
         }
     }
+
     public void SaveLoadData()
     {
         string saveData = JsonUtility.ToJson(data, true);
@@ -59,7 +39,6 @@ public class SaveManager
         data.isFirst = false;
         data.isUnlocked[0] = true;
         SaveLoadData();
-        SavePlayerPrefsData();
     }
     public void SaveLoadData(int ID, int currentScore)
     {
@@ -68,5 +47,4 @@ public class SaveManager
         data.currentScore[ID] = currentScore;
         SaveLoadData();
     }
-    #endregion
 }

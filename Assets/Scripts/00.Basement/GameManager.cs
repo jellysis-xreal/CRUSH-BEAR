@@ -79,17 +79,9 @@ public class GameManager : MonoBehaviour
     private bool LoadWave = false;
     private bool LoadTutorial = false;
     [SerializeField] public GameState currentGameState;
-
-    [ContextMenu("Reset PlayerPrefsData")]
-    public void ResetData()
-    {
-        _save.DeletePlayerPrefsData();
-        Debug.Log("Reset data");
-    }
+    
     void Start()
     {
-        Debug.Log(_save.GetTutorialDonePlayerPrefsData());
-        
         //Debug.Log("GameManager Start");                                     
         if (currentGameState == GameState.Lobby)
         {           
@@ -223,13 +215,8 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
         
-        // if (_save.data.isFirst)
-        if (_save.GetTutorialDonePlayerPrefsData() <= 0)
-        {
-            Debug.Log("First, Tutorial Load");
-            _save.SetPlayerPrefsDataFirst();
+        if (_save.data.isFirst)
             StartCoroutine(LoadTutorialScene());
-        }
     }
 
     public void InitTutorial()

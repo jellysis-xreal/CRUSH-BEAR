@@ -746,12 +746,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1601950900492741469}
-    - target: {fileID: 496803953950109727, guid: edd7cf9d19d624e43b5b202abab35608,
-        type: 3}
-      propertyPath: cookieDirectionPrefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 7665932931620380348, guid: 3fbcee43f3948564d990c3b742391a4e,
-        type: 3}
     - target: {fileID: 564852379039000822, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
       propertyPath: m_Camera
@@ -4145,18 +4139,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 843857928}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1769205664 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2899499701511296213, guid: e9f1280e304ae604498cffb63d445e6d,
-    type: 3}
-  m_PrefabInstance: {fileID: 8032459706205152044}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec1c391efb52480985542e4d139fe6ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1778788087
 GameObject:
   m_ObjectHideFlags: 0
@@ -8471,7 +8453,6 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  m_HasMigratedActions: 1
 --- !u!4 &3444580456443662905
 Transform:
   m_ObjectHideFlags: 0
@@ -13268,51 +13249,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 544434308713791879, guid: e9f1280e304ae604498cffb63d445e6d,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3978044085189152126, guid: e9f1280e304ae604498cffb63d445e6d,
-        type: 3}
-      propertyPath: handData
-      value: 
-      objectReference: {fileID: 4406544094987148106}
-    - target: {fileID: 3978044085189152126, guid: e9f1280e304ae604498cffb63d445e6d,
-        type: 3}
-      propertyPath: handTransform
-      value: 
-      objectReference: {fileID: 578222702843987309}
-    - target: {fileID: 5294880163139308318, guid: e9f1280e304ae604498cffb63d445e6d,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5353715151981569625, guid: e9f1280e304ae604498cffb63d445e6d,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 5416282937976092959, guid: e9f1280e304ae604498cffb63d445e6d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6054904168311440611, guid: e9f1280e304ae604498cffb63d445e6d,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6657467778089573503, guid: e9f1280e304ae604498cffb63d445e6d,
+    - target: {fileID: 7124209245360615332, guid: e9f1280e304ae604498cffb63d445e6d,
         type: 3}
-      propertyPath: handData
-      value: 
-      objectReference: {fileID: 1769205664}
-    - target: {fileID: 6657467778089573503, guid: e9f1280e304ae604498cffb63d445e6d,
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124209245360615332, guid: e9f1280e304ae604498cffb63d445e6d,
         type: 3}
-      propertyPath: handTransform
-      value: 
-      objectReference: {fileID: 8433768628584294561}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7124209245360615332, guid: e9f1280e304ae604498cffb63d445e6d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7124209245360615332, guid: e9f1280e304ae604498cffb63d445e6d,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -13347,16 +13303,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8517012838805390619, guid: e9f1280e304ae604498cffb63d445e6d,
-        type: 3}
-      propertyPath: requestBodyTrackingPermissionOnStartup
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9027618754364764783, guid: e9f1280e304ae604498cffb63d445e6d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

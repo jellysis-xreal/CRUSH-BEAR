@@ -53,17 +53,15 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
         transform.rotation = Quaternion.identity;
-
-        // Debug.Log($"[Punch] time diff {arriveTime - GameManager.Wave.waveTime} -> {transform.name}  ");
-        // Debug.Log($"[Punch] Init {transform.name} ");
-        //cookieControl.Init(targetPosition);
+        
         _meshRenderer.enabled = true;
         if (spriteRenderer != null) spriteRenderer.enabled = true;
         
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.WakeUp();
-        this.transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
+        
+        transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
         targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
 
         dir = transform.position - targetPosition;
@@ -123,10 +121,8 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     {
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
-            //Debug.Log($"[Punch] Arrive! {beatNum} Beat ");
             _isArrivalAreaHit = true;
             StartCoroutine(TriggerArrivalAreaEndInteraction());
-            // StartCoroutine(TriggeredMovement());
         }
     }
 

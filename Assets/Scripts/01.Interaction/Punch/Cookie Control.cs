@@ -60,29 +60,5 @@ public class CookieControl : MonoBehaviour
             yield return null;
         }
     }
-    
-    /*void Update()
-    {
-        // 플레이어와의 거리 계산
-        float distanceToPlayer = Vector3.Distance(transform.position, playerPosition); //playerTransform.position);
-
-        // 만약 플레이어와의 거리가 stopDistance보다 작다면 회전을 멈춤
-        if (distanceToPlayer < stopDistance && isRotating)
-        {
-            // Tween을 멈추고 원래의 회전 값으로 자연스럽게 회전
-            rotationTween.Kill();
-            transform.DORotate(originalRotation.eulerAngles, rotationDuration).SetEase(Ease.InOutQuad);
-            isRotating = false;
-        }
-        // 거리가 다시 멀어졌을 때 다시 회전을 시작
-        else if (distanceToPlayer >= stopDistance && !isRotating)
-        {
-            // 원래의 회전 값에서 360도 회전까지의 Tween을 시작
-            rotationTween = transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z +  360), 10f, RotateMode.FastBeyond360)
-                .SetLoops(-1, LoopType.Incremental)
-                .SetEase(Ease.Linear);
-            isRotating = true;
-        }
-    }*/
 }
 

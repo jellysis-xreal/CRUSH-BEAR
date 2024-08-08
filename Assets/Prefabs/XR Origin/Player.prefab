@@ -966,7 +966,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5565085799787186382}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: LeftHandAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4953,7 +4953,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5443336241510614887}
   - component: {fileID: 7622716998972745709}
-  - component: {fileID: 6657467778089573503}
   m_Layer: 11
   m_Name: punch
   m_TagString: Destroyer
@@ -4998,29 +4997,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6657467778089573503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2746747507433723882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f18646010cbaf046b8300aa19cf846f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: 0
-  handTransform: {fileID: 4915106394122095460}
-  handData: {fileID: 2899499701511296213}
-  handVelocityMinimumThreshold: 0.25
-  handVelocityMaximumThreshold: 5
-  handVelocity: 0
-  hookCoroutineExist: 0
-  upperCutCoroutineExist: 0
-  motion: 0
-  hookMotion: 0
-  upperCutMotion: 0
 --- !u!1 &2751059806400308888
 GameObject:
   m_ObjectHideFlags: 0
@@ -11186,7 +11162,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5546103946721794721}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: RightHandAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11221,7 +11197,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3622754896897509251}
   - component: {fileID: 176469613487842776}
-  - component: {fileID: 3978044085189152126}
   m_Layer: 11
   m_Name: punch
   m_TagString: Destroyer
@@ -11266,29 +11241,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3978044085189152126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5307290445567070714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f18646010cbaf046b8300aa19cf846f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: 1
-  handTransform: {fileID: 2099748704075887520}
-  handData: {fileID: 1049660015310150905}
-  handVelocityMinimumThreshold: 0.25
-  handVelocityMaximumThreshold: 5
-  handVelocity: 0
-  hookCoroutineExist: 0
-  upperCutCoroutineExist: 0
-  motion: 0
-  hookMotion: 0
-  upperCutMotion: 0
 --- !u!1 &5310337613639231025
 GameObject:
   m_ObjectHideFlags: 0
@@ -11485,7 +11437,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.1
+  m_Radius: 0.08
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3234008014348658868
 Rigidbody:
@@ -11625,7 +11577,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7339544957718344716
 Transform:
   m_ObjectHideFlags: 0
@@ -17206,7 +17158,7 @@ MonoBehaviour:
   launchSimultaneousHandsControllersOnStartup: 0
   isInsightPassthroughEnabled: 0
   shouldBoundaryVisibilityBeSuppressed: 0
-  requestBodyTrackingPermissionOnStartup: 1
+  requestBodyTrackingPermissionOnStartup: 0
   requestFaceTrackingPermissionOnStartup: 0
   requestEyeTrackingPermissionOnStartup: 0
   requestScenePermissionOnStartup: 0
@@ -18545,7 +18497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2620150946303495400
 Transform:
   m_ObjectHideFlags: 0
@@ -18677,6 +18629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5563235189192757058}
   - component: {fileID: 5467876499160787862}
+  - component: {fileID: 4135728188970559774}
   m_Layer: 0
   m_Name: RightEyeAnchor
   m_TagString: Untagged
@@ -18750,6 +18703,50 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &4135728188970559774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9064173296976919501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &9115083094288949660
 GameObject:
   m_ObjectHideFlags: 0

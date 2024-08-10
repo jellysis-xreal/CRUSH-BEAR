@@ -10,7 +10,6 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
 {
     // TODO : Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")]
-    public int arrivalBoxNum = 0; // 목표인 Box index number
     public float arriveTime; // Node Instantiate
 
     [Header("other Variable (AUTO)")] 
@@ -18,7 +17,7 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
     
     // 토핑이 움직이기 위한 변수 
     public Transform parentTransform;
-    private Rigidbody _rigidbody;
+    public Rigidbody _rigidbody;
     public float _constantSpeed = 0f;
     private Vector3 dir = new Vector3();
     private float moveDistance = 0f;
@@ -26,23 +25,18 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
     // 토핑이 맞은, 맞지 않은 후에 활용할 변수
     //private bool _isHit = false;
     private bool _isArrivalAreaHit = false; // 박스 트리거된 이후, 바로 직전의 움직임을 유지할 때 사용하는 변수
-    private MeshRenderer _meshRenderer;
+    public MeshRenderer _meshRenderer;
     public SpriteRenderer spriteRenderer; 
-    private Breakable _breakable;
+    public Breakable _breakable;
 
     void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _breakable = GetComponent<Breakable>();
-        _meshRenderer = GetComponent<MeshRenderer>();
-        
         parentTransform.gameObject.SetActive(false);
     }
 
     public void InitiateVariable(int _arrivalBoxNum, float timeToReachPlayer) // 
     {
         parentTransform.transform.position = new Vector3(0, 3, 25);
-        arrivalBoxNum = _arrivalBoxNum;
         arriveTime = timeToReachPlayer;
 
         if(!parentTransform.gameObject.activeSelf) parentTransform.gameObject.SetActive(true);
@@ -50,7 +44,7 @@ public class PunchableMovementTutorial : MonoBehaviour, IPunchableMovement
         if(spriteRenderer != null) spriteRenderer.enabled = true;
 
         _rigidbody.WakeUp();
-        targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+        targetPosition = GameManager.Wave.GetArrivalPosition(_arrivalBoxNum);
         _breakable.InitBreakable();
 
         StartMovement();

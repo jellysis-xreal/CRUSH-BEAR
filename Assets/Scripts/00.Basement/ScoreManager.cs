@@ -38,8 +38,8 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private GameObject LeftController;
     [SerializeField] private HandData RHand;
     [SerializeField] private HandData LHand;
-    
-    
+    [SerializeField] private GameObject mainCam;
+
     [Space(20f)]
 
     [Header("Prefab Setting")] 
@@ -64,19 +64,23 @@ public class ScoreManager : MonoBehaviour
 
     private CircleGaugeController circleGaugeController;
 
+    private float _RHandSpeed, _LHandSpeed;
 
     public void Init()
     {
         //Debug.Log("Initialize ScoreManager");
         TotalScore = 0;
         PerfectNum = 0;
-        player = GameObject.FindWithTag("Player");
-        RightController = player.GetComponent<Player>().R_Controller;
-        LeftController = player.GetComponent<Player>().L_Controller;
 
-        RHand = player.GetComponent<Player>().R_HandData;
-        LHand = player.GetComponent<Player>().L_HandData;
+        player = GameManager.Player.player.gameObject; // GameObject.FindWithTag("Player");
+        mainCam = GameManager.Player.mainCamera;  // GameObject.FindWithTag("MainCamera");
 
+        RightController = GameManager.Player.RightController; //  player.GetComponent<Player>().R_Controller;
+        LeftController = GameManager.Player.LeftController; // player.GetComponent<Player>().L_Controller;
+
+        RHand = GameManager.Player.R_HandData; // player.GetComponent<Player>().R_HandData;
+        LHand = GameManager.Player.L_HandData; // player.GetComponent<Player>().L_HandData;
+        
         standardSpeed = maxSpeed * 0.6f;
 
         GameObject circleGaugeControllerObject = GameObject.Find("CircleGaugeController"); //
@@ -116,30 +120,34 @@ public class ScoreManager : MonoBehaviour
         float good_threshold = RHand.GetGoodThreshold();
 
         //Debug.Log($"Perfect Threshold: {perfect_threshold}, Good Threshold: {good_threshold}");
-
+        _RHandSpeed = RHand.GetControllerSpeed();
+        _LHandSpeed = LHand.GetControllerSpeed();
+    
         switch (targetHand)
         {
+                
             case 0:
                 //Debug.Log($"Right Hand Speed: {RHand.ControllerSpeed}");
-                if (RHand.ControllerSpeed >= perfect_threshold)
+                if (_RHandSpeed >= perfect_threshold)
                     resultScore = scoreType.Perfect;
-                else if (RHand.ControllerSpeed >= good_threshold)
+                else if (_RHandSpeed >= good_threshold)
                     resultScore = scoreType.Good;
                 break;
             
             case 1:
+                
                 //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
-                if (LHand.ControllerSpeed >= perfect_threshold)
+                if (_LHandSpeed >= perfect_threshold)
                     resultScore = scoreType.Perfect;
-                else if (LHand.ControllerSpeed >= good_threshold)
+                else if (_LHandSpeed >= good_threshold)
                     resultScore = scoreType.Good;
                 break;
             
             case 2:
                 //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}, Right Hand Speed: {RHand.ControllerSpeed}");
-                if ((LHand.ControllerSpeed >= perfect_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
+                if ((_LHandSpeed >= perfect_threshold) || (_RHandSpeed >= perfect_threshold))
                     resultScore = scoreType.Perfect;
-                else if ((LHand.ControllerSpeed >= good_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
+                else if ((_LHandSpeed >= good_threshold) || (_RHandSpeed >= perfect_threshold))
                     resultScore = scoreType.Good;
                 break;
         }
@@ -175,9 +183,12 @@ public class ScoreManager : MonoBehaviour
     
     public void ScoringHit(GameObject target, bool IsRightSide)
     {
+        _RHandSpeed = RHand.GetControllerSpeed();
+        _LHandSpeed = LHand.GetControllerSpeed();
+        
         if (target.GetComponent<BaseObject>().IsItScored())
             return; // Object의 중복 scoring을 방지한다.
-        
+
         scoreType score;
 
         if (!IsRightSide)
@@ -201,7 +212,7 @@ public class ScoreManager : MonoBehaviour
         else
         {
             GameManager.TutorialTennis.scores.Add(score);
-            GameManager.TutorialTennis.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
+            GameManager.TutorialTennis.speeds.Add(Math.Max(_RHandSpeed, _LHandSpeed));
             // 튜토리얼
             if (score == scoreType.Perfect)
             {
@@ -214,7 +225,16 @@ public class ScoreManager : MonoBehaviour
 
     public void ScoringPunch(GameObject target, bool isPerpect, EnumTypes.Motion motion = Motion.None) // SYJ
     {
-        scoreType score = scoreType.Bad;
+        scoreType resultScore = scoreType.Weak;
+
+        float perfect_threshold = RHand.GetPerfectThreshold();
+        float good_threshold = RHand.GetGoodThreshold();
+
+        //Debug.Log($"Perfect Threshold: {perfect_threshold}, Good Threshold: {good_threshold}");
+        _RHandSpeed = RHand.GetControllerSpeed();
+        _LHandSpeed = LHand.GetControllerSpeed();
+    
+        // coreType score = scoreType.Bad;
         
         // 0 ~ 1 : Weak
         // 1 ~ 2 : Good
@@ -224,12 +244,20 @@ public class ScoreManager : MonoBehaviour
             if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut ||
                 motion == Motion.LeftLowerCut)
             {
-                score = ScoreByControllerSpeed(1); // Left hand
+                //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
+                if (_LHandSpeed >= perfect_threshold)
+                    resultScore = scoreType.Perfect;
+                else if (_LHandSpeed >= good_threshold)
+                    resultScore = scoreType.Good;
+                
                 //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + LHand.ControllerSpeed);
             }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
             {
-                score = ScoreByControllerSpeed(0); // Right hand
+                if (_RHandSpeed >= perfect_threshold)
+                    resultScore = scoreType.Perfect;
+                else if (_RHandSpeed >= good_threshold)
+                    resultScore = scoreType.Good;
                 //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + RHand.ControllerSpeed);
 
             }
@@ -237,11 +265,12 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-            score = scoreType.Bad; 
+            resultScore = scoreType.Bad; 
         }
-        if (score == scoreType.Perfect || score == scoreType.Good)
+        if (resultScore == scoreType.Perfect || resultScore == scoreType.Good)
             GameManager.Sound.PlayEffect_Punch();
-        Debug.Log("Scoring Punch " + score);
+        
+        Debug.Log("Scoring Punch " + resultScore);
         
         //AddScore(score);
         //Vibrate(score);
@@ -249,22 +278,24 @@ public class ScoreManager : MonoBehaviour
         // SetScoreEffect(score, target.transform.position);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
-        float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed);
+        float mPunchSpeed = Math.Max(_RHandSpeed, _LHandSpeed);
         if (SceneManager.GetActiveScene().name == "03.TutorialScene")
         {
-            GameManager.TutorialPunch.scores.Add(score);
-            GameManager.TutorialPunch.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
+            GameManager.TutorialPunch.scores.Add(resultScore);
+            // GameManager.TutorialPunch.speeds.Add(Math.Max(_RHandSpeed, _LHandSpeed));
         }
         // Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);
 
         // 원형 슬라이더 값 설정
-        if (score == scoreType.Perfect)
+        if (resultScore == scoreType.Perfect)
         {
+            circleGaugeController.SetGaugeHeight(circleGaugeController.maxHeight);
             //circleGaugeController.SetPunchSliderSpeed(circleGaugeController.maxScaleAmount);
         } else
         {
-           //circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
+            circleGaugeController.SetGaugeHeight(mPunchSpeed);
+            //circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
         }
     }
 

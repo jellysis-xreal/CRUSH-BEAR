@@ -32,8 +32,6 @@ public class UI_Lobby : UI_Base
         
         Bind<Button>(typeof(Buttons));
         Bind<TMP_Text>(typeof(Texts));
-        GetButton((int)Buttons.PlayButton).gameObject.AddUIEvent(OnButtonClicked_Play, Define.UIEvent.Click);
-        GetButton((int)Buttons.ExitButton).gameObject.AddUIEvent(OnButtonClicked_Exit, Define.UIEvent.Click);
     }
     
     public void OnButtonClicked_Play(PointerEventData data)

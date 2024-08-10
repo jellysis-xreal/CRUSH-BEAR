@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using EnumTypes;
 using UnityEngine;
@@ -10,8 +12,8 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 {
     // TODO : Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")]
-    public int arrivalBoxNum = 0; // 목표인 Box index number
-    public float arriveTime; // Node Instantiate
+    // public int arrivalBoxNum = 0; // 목표인 Box index number
+    // public float arriveTime; // Node Instantiate
     public uint beatNum;
     public uint typeIndex;
 
@@ -20,8 +22,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     
     // 토핑이 움직이기 위한 변수 
     //public Transform parentTransform;
-    private Rigidbody _rigidbody;
-    public float _constantSpeed = 0f;
+    public Rigidbody _rigidbody;
     private Vector3 dir = new Vector3();
     //public CookieControl cookieControl;
     //private float moveDistance = 0f;
@@ -30,28 +31,22 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     // 토핑이 맞은, 맞지 않은 후에 활용할 변수
     //private bool _isHit = false;
     private bool _isArrivalAreaHit = false; // 박스 트리거된 이후, 바로 직전의 움직임을 유지할 때 사용하는 변수
-    private MeshRenderer _meshRenderer;
+    public MeshRenderer _meshRenderer;
     public SpriteRenderer spriteRenderer; 
-    private Breakable _breakable;
-    private CookieControl _cookieControl;
-    void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody>();
-        _breakable = GetComponent<Breakable>();
-        _meshRenderer = GetComponent<MeshRenderer>();
-        _cookieControl = GetComponent<CookieControl>();
-    }
-
+    public Breakable _breakable;
+    public CookieControl _cookieControl;
+    private CancellationTokenSource breakCancel;
     public void StartMovement()
     {
         
     }
   
-    public IEnumerator InitializeToppingRoutine(NodeInfo node)
+    public void InitializeToppingRoutine(NodeInfo node)
     {
+        breakCancel = new CancellationTokenSource();
         _isArrivalAreaHit = false;
-        arrivalBoxNum = node.arrivalBoxNum;
-        arriveTime = node.timeToReachPlayer;
+        // arrivalBoxNum = node.arrivalBoxNum;
+        // arriveTime = node.timeToReachPlayer;
         transform.rotation = Quaternion.identity;
         
         _meshRenderer.enabled = true;
@@ -61,14 +56,13 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.WakeUp();
         
-        transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
-        targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
+        transform.position = GameManager.Wave.GetSpawnPosition(node.arrivalBoxNum);
+        targetPosition = GameManager.Wave.GetArrivalPosition(node.arrivalBoxNum);
 
         dir = transform.position - targetPosition;
         shootStandard = GameManager.Instance.Metronome.shootStandard;
         GameManager.Instance.Metronome.BindEvent(CheckBeat);
         // _cookieControl.Init();
-        yield break;
     }
 
     
@@ -87,12 +81,14 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
 
-        StartCoroutine(ActiveTime(1f));
+        ActiveTime(1f).Forget();
     }
 
-    IEnumerator TriggerArrivalAreaEndInteraction()
+    async UniTask TriggerArrivalAreaEndInteraction(CancellationToken token)
     {
-        yield return new WaitForSeconds(1f);
+        if (token.IsCancellationRequested)
+            return;
+        await UniTask.WaitForSeconds(1, cancellationToken: token);
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
         else if(transform.childCount == 2)
@@ -108,11 +104,14 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 
         // _breakable.m_Destroyed = false;
         
-        StartCoroutine(ActiveTime(1f));
+        ActiveTime(1f).Forget();
     }
-    private IEnumerator ActiveTime(float coolTime)
+    async UniTask ActiveTime(float coolTime)
     {
-        yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
+        breakCancel.Cancel();
+        breakCancel.Dispose();
+        breakCancel = null;
+        await UniTask.WaitForSeconds(coolTime);
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
         _breakable.m_Destroyed = false;
         _meshRenderer.enabled = true;
@@ -122,7 +121,8 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
             _isArrivalAreaHit = true;
-            StartCoroutine(TriggerArrivalAreaEndInteraction());
+            if(breakCancel != null)
+                TriggerArrivalAreaEndInteraction(breakCancel.Token).Forget();
         }
     }
 

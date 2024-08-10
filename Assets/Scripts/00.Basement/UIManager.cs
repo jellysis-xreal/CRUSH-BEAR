@@ -37,8 +37,6 @@ public class UIManager : MonoBehaviour
 
     public void Start()
     {
-        //InitializeFloatingTextPool();
-        player = GameObject.FindWithTag("MainCamera");
         _popupStack = new Stack<UI_Popup>();
     }
     

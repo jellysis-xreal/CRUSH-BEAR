@@ -3941,7 +3941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1309445969826670081}
   - component: {fileID: 5530297861893826121}
-  - component: {fileID: 7050394739554271348}
+  - component: {fileID: 3046915922341325548}
   m_Layer: 11
   m_Name: OVRControllerPrefab
   m_TagString: Untagged
@@ -3984,8 +3984,8 @@ MonoBehaviour:
   m_showState: 1
   showWhenHandsArePoweredByNaturalControllerPoses: 0
   RayHelper: {fileID: 0}
---- !u!136 &7050394739554271348
-CapsuleCollider:
+--- !u!135 &3046915922341325548
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4002,10 +4002,8 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2139423590909168817
 GameObject:
@@ -7162,7 +7160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4209395016321740048}
   - component: {fileID: 5161662448321039846}
-  - component: {fileID: 5466747090660362381}
+  - component: {fileID: 2564316118096284942}
   m_Layer: 11
   m_Name: OVRControllerPrefab
   m_TagString: Untagged
@@ -7205,8 +7203,8 @@ MonoBehaviour:
   m_showState: 1
   showWhenHandsArePoweredByNaturalControllerPoses: 0
   RayHelper: {fileID: 0}
---- !u!136 &5466747090660362381
-CapsuleCollider:
+--- !u!135 &2564316118096284942
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -7223,10 +7221,8 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Radius: 0.06
-  m_Height: 1
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3807978022713812275
 GameObject:
@@ -8138,8 +8134,6 @@ MonoBehaviour:
   perfectThresholdSpeed: 0
   goodThresholdSpeed: 0
   ControllerType: 0
-  ControllerSpeed: 0
-  ControllerVector: {x: 0, y: 0, z: 0}
 --- !u!114 &541601910420402914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10562,8 +10556,6 @@ MonoBehaviour:
   perfectThresholdSpeed: 0
   goodThresholdSpeed: 0
   ControllerType: 0
-  ControllerSpeed: 0
-  ControllerVector: {x: 0, y: 0, z: 0}
 --- !u!114 &8884385755529524080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13616,8 +13608,6 @@ MonoBehaviour:
   perfectThresholdSpeed: 0
   goodThresholdSpeed: 0
   ControllerType: 0
-  ControllerSpeed: 0
-  ControllerVector: {x: 0, y: 0, z: 0}
 --- !u!114 &8052266195800595213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15115,8 +15105,6 @@ MonoBehaviour:
   perfectThresholdSpeed: 0
   goodThresholdSpeed: 0
   ControllerType: 0
-  ControllerSpeed: 0
-  ControllerVector: {x: 0, y: 0, z: 0}
 --- !u!114 &5866298616618549369
 MonoBehaviour:
   m_ObjectHideFlags: 0

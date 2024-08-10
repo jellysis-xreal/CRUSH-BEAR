@@ -225,10 +225,16 @@ public class ScoreManager : MonoBehaviour
 
     public void ScoringPunch(GameObject target, bool isPerpect, EnumTypes.Motion motion = Motion.None) // SYJ
     {
+        scoreType resultScore = scoreType.Weak;
+
+        float perfect_threshold = RHand.GetPerfectThreshold();
+        float good_threshold = RHand.GetGoodThreshold();
+
+        //Debug.Log($"Perfect Threshold: {perfect_threshold}, Good Threshold: {good_threshold}");
         _RHandSpeed = RHand.GetControllerSpeed();
         _LHandSpeed = LHand.GetControllerSpeed();
-        
-        scoreType score = scoreType.Bad;
+    
+        // coreType score = scoreType.Bad;
         
         // 0 ~ 1 : Weak
         // 1 ~ 2 : Good
@@ -238,12 +244,20 @@ public class ScoreManager : MonoBehaviour
             if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut ||
                 motion == Motion.LeftLowerCut)
             {
-                score = ScoreByControllerSpeed(1); // Left hand
+                //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
+                if (_LHandSpeed >= perfect_threshold)
+                    resultScore = scoreType.Perfect;
+                else if (_LHandSpeed >= good_threshold)
+                    resultScore = scoreType.Good;
+                
                 //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + LHand.ControllerSpeed);
             }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
             {
-                score = ScoreByControllerSpeed(0); // Right hand
+                if (_RHandSpeed >= perfect_threshold)
+                    resultScore = scoreType.Perfect;
+                else if (_RHandSpeed >= good_threshold)
+                    resultScore = scoreType.Good;
                 //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + RHand.ControllerSpeed);
 
             }
@@ -251,11 +265,12 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-            score = scoreType.Bad; 
+            resultScore = scoreType.Bad; 
         }
-        if (score == scoreType.Perfect || score == scoreType.Good)
+        if (resultScore == scoreType.Perfect || resultScore == scoreType.Good)
             GameManager.Sound.PlayEffect_Punch();
-        Debug.Log("Scoring Punch " + score);
+        
+        Debug.Log("Scoring Punch " + resultScore);
         
         //AddScore(score);
         //Vibrate(score);
@@ -266,14 +281,14 @@ public class ScoreManager : MonoBehaviour
         float mPunchSpeed = Math.Max(_RHandSpeed, _LHandSpeed);
         if (SceneManager.GetActiveScene().name == "03.TutorialScene")
         {
-            GameManager.TutorialPunch.scores.Add(score);
-            GameManager.TutorialPunch.speeds.Add(Math.Max(_RHandSpeed, _LHandSpeed));
+            GameManager.TutorialPunch.scores.Add(resultScore);
+            // GameManager.TutorialPunch.speeds.Add(Math.Max(_RHandSpeed, _LHandSpeed));
         }
         // Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);
 
         // 원형 슬라이더 값 설정
-        if (score == scoreType.Perfect)
+        if (resultScore == scoreType.Perfect)
         {
             circleGaugeController.SetGaugeHeight(circleGaugeController.maxHeight);
             //circleGaugeController.SetPunchSliderSpeed(circleGaugeController.maxScaleAmount);

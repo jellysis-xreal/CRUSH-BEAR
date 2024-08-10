@@ -133,8 +133,11 @@ public class GameManager : MonoBehaviour
                 break;
             
             case GameState.Tutorial:
+                Debug.Log("State Changed to Tutorial");
                 OVRManager.SetSpaceWarp(false);
                 InitTutorial();
+                // StartCoroutine(LoadWaveScene());
+
                 break;
         }
     }
@@ -217,6 +220,7 @@ public class GameManager : MonoBehaviour
         
         if (_save.data.isFirst)
             StartCoroutine(LoadTutorialScene());
+        
     }
 
     public void InitTutorial()
@@ -324,13 +328,16 @@ public class GameManager : MonoBehaviour
             // Punch
 
             //Debug.Log("Tutorial Scene Loaded");
-            GameManager.Wave.SetWaveType(WaveType.Punching);
-            GameManager.Wave.SetWaveTutorial();
+            _player.Init();
+            
+            _wave.Init();
+            _wave.SetWaveType(WaveType.Punching);
+            _wave.SetWaveTutorial();
             _score.Init();
-            Player.Init();
             // tutorialPunch.Init();
             tutorialManager.Init();
         }
+
         SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
     }
 }

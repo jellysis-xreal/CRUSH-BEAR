@@ -38,8 +38,8 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private GameObject LeftController;
     [SerializeField] private HandData RHand;
     [SerializeField] private HandData LHand;
-    
-    
+    [SerializeField] private GameObject mainCam;
+
     [Space(20f)]
 
     [Header("Prefab Setting")] 
@@ -71,13 +71,16 @@ public class ScoreManager : MonoBehaviour
         //Debug.Log("Initialize ScoreManager");
         TotalScore = 0;
         PerfectNum = 0;
-        player = GameObject.FindWithTag("Player");
-        RightController = player.GetComponent<Player>().R_Controller;
-        LeftController = player.GetComponent<Player>().L_Controller;
 
-        RHand = player.GetComponent<Player>().R_HandData;
-        LHand = player.GetComponent<Player>().L_HandData;
+        player = GameManager.Player.player.gameObject; // GameObject.FindWithTag("Player");
+        mainCam = GameManager.Player.mainCamera;  // GameObject.FindWithTag("MainCamera");
 
+        RightController = GameManager.Player.RightController; //  player.GetComponent<Player>().R_Controller;
+        LeftController = GameManager.Player.LeftController; // player.GetComponent<Player>().L_Controller;
+
+        RHand = GameManager.Player.R_HandData; // player.GetComponent<Player>().R_HandData;
+        LHand = GameManager.Player.L_HandData; // player.GetComponent<Player>().L_HandData;
+        
         standardSpeed = maxSpeed * 0.6f;
 
         GameObject circleGaugeControllerObject = GameObject.Find("CircleGaugeController"); //

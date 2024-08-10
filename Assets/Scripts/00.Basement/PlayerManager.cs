@@ -14,7 +14,8 @@ public class HeartsArray // 행에 해당되는 이름
 public class PlayerManager : MonoBehaviour
 {
     [Header("setting(auto)")]
-    [SerializeField] public GameObject player;
+    [SerializeField] public Player player;
+    [SerializeField] public GameObject mainCamera;
     //[SerializeField] public GameObject IK_player;
     public GameObject RightController;
     public GameObject LeftController;
@@ -22,7 +23,10 @@ public class PlayerManager : MonoBehaviour
     private OVRInput.Controller leftController;
     public GameObject RightInteraction;
     public GameObject LeftInteraction;
-
+    public HandData R_HandData;
+    public HandData L_HandData;
+    
+    
     [Header("player Life")] public int playerLifeValue = 0;
     public GameObject[] parentUI = new GameObject[3];
     public GameObject[] score_G = new GameObject[3];
@@ -41,18 +45,21 @@ public class PlayerManager : MonoBehaviour
         //Debug.Log("Initialize PlayerManager");
 
         // Game object setting
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        mainCamera = GameObject.FindWithTag("MainCamera");
         //IK_player = GameObject.FindWithTag("IKPlayer");
         
-        RightController = player.GetComponent<Player>().R_Controller;
-        LeftController = player.GetComponent<Player>().L_Controller;
+        RightController = player.R_Controller;
+        LeftController = player.L_Controller;
         
         // TODO
+        R_HandData = player.R_HandData;
+        L_HandData = player.L_HandData;
         //rightController = RightController.GetComponent<XRBaseController>();
         //leftController = LeftController.GetComponent<XRBaseController>();
 
-        RightInteraction = player.GetComponent<Player>().R_Interaction;
-        LeftInteraction = player.GetComponent<Player>().L_Interaction;
+        RightInteraction = player.R_Interaction;
+        LeftInteraction = player.L_Interaction;
         // Player Life
         playerLifeValue = 5;
 
@@ -66,13 +73,6 @@ public class PlayerManager : MonoBehaviour
         //Debug.Log($"WaveTypeCount : {WaveTypeCount}");
         for (int i = 0; i < WaveTypeCount; i++)
         {
-            /*
-            HeartGameObjects[i].hearts[0] = score_G[i].transform.GetChild(0).gameObject;
-            HeartGameObjects[i].hearts[1] = score_G[i].transform.GetChild(1).gameObject;
-            HeartGameObjects[i].hearts[2] = score_G[i].transform.GetChild(2).gameObject;
-            HeartGameObjects[i].hearts[3] = score_G[i].transform.GetChild(3).gameObject;
-            HeartGameObjects[i].hearts[4] = score_G[i].transform.GetChild(4).gameObject;
-            */
             HeartGameObjects[i].hearts[0] = score_G[i].transform.GetChild(0).GetComponent<Image>();
             HeartGameObjects[i].hearts[1] = score_G[i].transform.GetChild(1).GetComponent<Image>();
             HeartGameObjects[i].hearts[2] = score_G[i].transform.GetChild(2).GetComponent<Image>();
@@ -169,7 +169,7 @@ public class PlayerManager : MonoBehaviour
     // Ending Scene에서 main play 캐릭터 필요 없음
     public void InActivePlayer()
     {
-        player.SetActive(false);
+        player.gameObject.SetActive(false);
         //IK_player.SetActive(false);
     }
     // ===================================

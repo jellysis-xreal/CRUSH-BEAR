@@ -358,7 +358,7 @@ public class NodeInstantiator : MonoBehaviour
                 PunchableMovement movement = punchToppingPool[i].GetComponent<PunchableMovement>();
                 movement.transform.position = tempNodeInfo.spawnPosition;
                 movement.beatNum = tempNodeInfo.beatNum;
-                movement.InitializeToppingRoutine(tempNodeInfo);
+                movement.InitializeTopping(tempNodeInfo);
                 SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, movement);
 
                 break;

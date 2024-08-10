@@ -27,6 +27,7 @@ public class CookieControl : MonoBehaviour
         originalRotation = transform.rotation;
 
         // 객체를 360도 회전시키는 Tween을 시작
+        Debug.Log($"{gameObject.name} rotation Start");
         rotationTween = transform.DORotate(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 360), 2f, RotateMode.FastBeyond360)
             .SetEase(Ease.Linear);
     }

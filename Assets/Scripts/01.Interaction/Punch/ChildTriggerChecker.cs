@@ -16,9 +16,12 @@ public class ChildTriggerChecker : MonoBehaviour
         isTriggered = false; // 1초 뒤 false로 초기화
         yield break;
     }
-    private void OnTriggerEnter(Collider other)
+    private async void OnTriggerEnter(Collider other)
     {
-        if(isTriggered) return;
-        if (other.CompareTag("Destroyer")) StartCoroutine(ChangeIsTriggeredField());
+        if(isTriggered || !other.CompareTag("Destroyer")) return;
+
+        isTriggered = true;
+        await UniTask
+        if () StartCoroutine(ChangeIsTriggeredField());
     }
 }

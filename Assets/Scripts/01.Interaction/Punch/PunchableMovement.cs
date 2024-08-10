@@ -11,8 +11,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 {
     // TODO : Topping 생성 시 지정해줘야 하는 변수들
     [Header("Setting Variable")]
-    public int arrivalBoxNum = 0; // 목표인 Box index number
-    public float arriveTime; // Node Instantiate
+    // public float arriveTime; // Node Instantiate
     public uint beatNum;
     public uint typeIndex;
 
@@ -21,8 +20,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     
     // 토핑이 움직이기 위한 변수 
     //public Transform parentTransform;
-    private Rigidbody _rigidbody;
-    public float _constantSpeed = 0f;
+    public Rigidbody _rigidbody;
     private Vector3 dir = new Vector3();
     //public CookieControl cookieControl;
     //private float moveDistance = 0f;
@@ -39,27 +37,26 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     {
         
     }
-    public void InitializeToppingRoutine(NodeInfo node)
+    public void InitializeTopping(NodeInfo node)
     {
         _isArrivalAreaHit = false;
-        arrivalBoxNum = node.arrivalBoxNum;
-        arriveTime = node.timeToReachPlayer;
         transform.rotation = Quaternion.identity;
         
-        meshRenderer.enabled = true;
+        // arriveTime = node.timeToReachPlayer;
+        
+        if(!meshRenderer.enabled) meshRenderer.enabled = true;
         if (_spriteRenderer != null) _spriteRenderer.enabled = true;
         
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.WakeUp();
         
-        transform.position = GameManager.Wave.GetSpawnPosition(arrivalBoxNum);
-        targetPosition = GameManager.Wave.GetArrivalPosition(arrivalBoxNum);
-
+        transform.position = GameManager.Wave.GetSpawnPosition(node.arrivalBoxNum);
+        targetPosition = GameManager.Wave.GetArrivalPosition(node.arrivalBoxNum);
         dir = transform.position - targetPosition;
+        
         shootStandard = GameManager.Instance.Metronome.shootStandard;
         GameManager.Instance.Metronome.BindEvent(CheckBeat);
-        // _cookieControl.Init();
     }
 
     
@@ -96,8 +93,6 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         _rigidbody.velocity=Vector3.zero;
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
-
-        // _breakable.m_Destroyed = false;
         
         ActiveTime(1f).Forget();
     }
@@ -106,7 +101,6 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         await UniTask.WaitForSeconds(coolTime);
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
         breakable.m_Destroyed = false;
-        meshRenderer.enabled = true;
     }
     private void OnTriggerEnter(Collider other)
     {

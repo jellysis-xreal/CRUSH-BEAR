@@ -58,45 +58,16 @@ namespace UnityEngine.XR.Content.Interaction
 
             m_Destroyed = false;
         }
-
+    
         public void MotionSucceed(EnumTypes.Motion motion) // Breakable.IsHit의 파라미터 전달하기 위함.
         {
             if (m_Destroyed)
                 return;
-
-            //Debug.Log("Motion Succeed!");
             
             m_Destroyed = true;
             
-            
-            // m_OnBreak.Invoke(other.gameObject, brokenVersion); // 현재 구현된 이벤트 없음. 이벤트 수정해서 사용
-            
-            // TODO : 컨트롤러 속도로 전달
-            /*
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
-                for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
-                {
-                    BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
-                    if (!bc.isHit)
-                    {
-                        bc.transform.position = gameObject.transform.position;
-                        bc.IsHit(motion);
-                        Debug.Log($"broken pool version {i} : Succeed");
-                        break;
-                    }
-                }    
-            }
-            else if (GameManager.Instance.currentGameState == GameState.Tutorial)
-            {
-                var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
-                brokenVersion.GetComponent<BreakController>().IsHit(motion);
-            }
-            */
-            
-            if (GameManager.Instance.currentGameState == GameState.Waving)
-            {
-                
                 GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion) ;
                 _punchableMovement.EndInteraction();
             }
@@ -117,28 +88,6 @@ namespace UnityEngine.XR.Content.Interaction
                 return;
 
             m_Destroyed = true;
-
-            /*
-            if (GameManager.Instance.currentGameState == GameState.Waving)
-            {
-                for (int i = 0; i < GameManager.Wave.nodeInstantiator.brokenCookiePool.Count; i++)
-                {
-                    BreakController bc = GameManager.Wave.nodeInstantiator.brokenCookiePool[i]; 
-                    if (!bc.isHit)
-                    {
-                        bc.transform.position = gameObject.transform.position;
-                        bc.IsHit();
-                        Debug.Log($"broken pool version {i} : Fail");
-                        break;
-                    }
-                } 
-            }else if (GameManager.Instance.currentGameState == GameState.Tutorial)
-            {
-                var brokenVersion = Instantiate(m_BrokenVersion, transform.position, transform.rotation);
-                brokenVersion.GetComponent<BreakController>().IsHit();
-            }
-            */
-            
             
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
@@ -156,14 +105,6 @@ namespace UnityEngine.XR.Content.Interaction
         
         public virtual void OnTriggerEnter(Collider other)
         {
-            
-            //Debug.Log($"Motion Trigger 1 {other.transform.name}");
-#if UNITY_EDITOR
-            /*if (GameManager.Instance != null)
-            {
-                if(GameManager.Instance.currentGameState == GameState.Waving) return;
-            }*/
-#endif
             if (m_Destroyed)
                 return;
             // Motion Checker OnTriggerEnter와 연결해야 함.
@@ -172,34 +113,28 @@ namespace UnityEngine.XR.Content.Interaction
 
             if (other.CompareTag(m_ColliderTag))
             {
-                // Debug.Log($"[Motion] {Time.time} Triggered ? {_childTriggerChecker.transform.name} {_childTriggerChecker.isTriggered}");
-                if (IsEndingCookie)
+                if (_childTriggerChecker.isTriggered)
+                {
+                    MotionSucceed(correctMotion);
+                    return;
+                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
+                }
+                else if (IsEndingCookie)
                 {
                     //Debug.Log("Ending Cookie Triggered!");
                     // Ending Scene으로 간다
                     GameManager.Instance.WaveToEnding();
                 }
-                
-                if (_childTriggerChecker.isTriggered)
-                {
-                    MotionSucceed(correctMotion);
-                    //Debug.Log("Motion succeed! (child.isTriggered True!)");
-                }
                 else
                 {
                     MotionFailed();
-                    //Debug.Log("Motion Failed!");
+                    return;
                 }
-                /*else if(CheckAdditionalCondition())
-                {
-                    MotionSucceed(correctMotion);
-                    Debug.Log("Motion succeed! (child.isTriggered True!, Additional Condition True)");
-                }*/
-                
+                // TODO : Trigger 방식으로 감지되지 않는 성공의 경우 대응\
+                // CheckAdditionalCondition
             }
         }
         
-
         private bool CheckAdditionalCondition()
         {
             // 추가 조건 검사. 프레임 사이에 콜라이더를 지나 자식의 콜라이더에 트리거되지 않았을 경우를 대비한 메서드

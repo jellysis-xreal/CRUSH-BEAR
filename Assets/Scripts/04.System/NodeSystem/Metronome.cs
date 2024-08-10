@@ -9,7 +9,6 @@ public class Metronome : MonoBehaviour
     double songStartTime;
     double songPosition;
     public double secondsPerBeat;
-    bool isBeated;
     bool isPlaying;
     public int currentBeat;
     public int shootStandard; // ????? ?? BPM ???? ?????? ??, ?? ????.
@@ -37,14 +36,12 @@ public class Metronome : MonoBehaviour
     {
         while (isPlaying)
         {
-            isBeated = false;
             songPosition = AudioSettings.dspTime - songStartTime;
             if (songPosition > lastbeat + secondsPerBeat)
             {
                 currentBeat++;
                 onBeat?.Invoke(currentBeat); // ??????? ????? ????
                 lastbeat += secondsPerBeat;
-                isBeated = true;
             }
 
             //else
@@ -60,7 +57,6 @@ public class Metronome : MonoBehaviour
         onBeat += someAction;
     }
     public void UnBindEvent(Action<int> someAction) => onBeat -= someAction;
-    public bool IsBeated() => isBeated;
     public bool SetGameEnd()
     {
         isPlaying = false;

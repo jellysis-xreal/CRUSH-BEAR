@@ -21,7 +21,7 @@ public class ChildTriggerChecker : MonoBehaviour
         if(isTriggered || !other.CompareTag("Destroyer")) return;
 
         isTriggered = true;
-        await UniTask
-        if () StartCoroutine(ChangeIsTriggeredField());
+        /*await Unitask
+        if () StartCoroutine(ChangeIsTriggeredField());*/
     }
 }

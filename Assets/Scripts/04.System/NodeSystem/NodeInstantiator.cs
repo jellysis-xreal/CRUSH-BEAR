@@ -179,12 +179,12 @@ public class NodeInstantiator : MonoBehaviour
     {
         spawnCancel.Cancel();
         spawnCancel.Dispose();
-        foreach (var shoot in shootToppingPool) Destroy(shoot);
-        foreach (var punch in punchToppingPool) Destroy(punch);
-        foreach (var hit in hitToppingPool) Destroy(hit);
-        _nodeQueue.Clear();
-        _checkNodeIndex.Clear();
-        _checkTempList.Clear();
+        foreach (var shoot in shootToppingPool) shoot.SetActive(false);
+        foreach (var punch in punchToppingPool) punch.SetActive(false);
+        foreach (var hit in hitToppingPool) hit.SetActive(false);
+        //_nodeQueue.Clear();
+        //_checkNodeIndex.Clear();
+        //_checkTempList.Clear();
         isPunchInitialized = false;
         isHitInitialized = false;
     }

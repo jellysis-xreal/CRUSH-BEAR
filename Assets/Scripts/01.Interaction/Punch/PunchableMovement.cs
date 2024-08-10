@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using EnumTypes;
 using UnityEngine;
@@ -47,7 +48,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         
     }
   
-    public IEnumerator InitializeToppingRoutine(NodeInfo node)
+    public void InitializeToppingRoutine(NodeInfo node)
     {
         _isArrivalAreaHit = false;
         arrivalBoxNum = node.arrivalBoxNum;
@@ -68,7 +69,6 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         shootStandard = GameManager.Instance.Metronome.shootStandard;
         GameManager.Instance.Metronome.BindEvent(CheckBeat);
         // _cookieControl.Init();
-        yield break;
     }
 
     
@@ -87,12 +87,12 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         _rigidbody.angularVelocity=Vector3.zero;
         _rigidbody.Sleep();
 
-        StartCoroutine(ActiveTime(1f));
+        ActiveTime(1f).Forget();
     }
 
-    IEnumerator TriggerArrivalAreaEndInteraction()
+    async UniTask TriggerArrivalAreaEndInteraction()
     {
-        yield return new WaitForSeconds(1f);
+        await UniTask.WaitForSeconds(1);
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
         else if(transform.childCount == 2)
@@ -108,11 +108,11 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
 
         // _breakable.m_Destroyed = false;
         
-        StartCoroutine(ActiveTime(1f));
+        ActiveTime(1f).Forget();
     }
-    private IEnumerator ActiveTime(float coolTime)
+    async UniTask ActiveTime(float coolTime)
     {
-        yield return new WaitForSecondsRealtime(coolTime); // coolTime만큼 활성화
+        await UniTask.WaitForSeconds(coolTime);
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
         _breakable.m_Destroyed = false;
         _meshRenderer.enabled = true;
@@ -122,7 +122,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
             _isArrivalAreaHit = true;
-            StartCoroutine(TriggerArrivalAreaEndInteraction());
+            TriggerArrivalAreaEndInteraction().Forget();
         }
     }
 

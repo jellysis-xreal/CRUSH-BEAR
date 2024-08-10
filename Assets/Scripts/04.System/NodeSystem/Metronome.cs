@@ -1,6 +1,5 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Metronome : MonoBehaviour
@@ -31,10 +30,10 @@ public class Metronome : MonoBehaviour
         GameManager.Sound.PlayWaveMusic(musicGUID); //음악 start
         songStartTime = AudioSettings.dspTime;
         isPlaying = true;
-        StartCoroutine(CheckBeat());
+        CheckBeat().Forget();
     }
 
-    IEnumerator CheckBeat()
+    async UniTask CheckBeat()
     {
         while (isPlaying)
         {
@@ -50,7 +49,7 @@ public class Metronome : MonoBehaviour
 
             //else
             //Debug.LogWarning("CheckBeat Error");
-            yield return null;
+            await UniTask.Yield();
         }
 
         onBeat = null; // 이벤트 초기화!

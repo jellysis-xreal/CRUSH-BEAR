@@ -262,9 +262,12 @@ public class ScoreManager : MonoBehaviour
         if (score == scoreType.Perfect)
         {
             //circleGaugeController.SetPunchSliderSpeed(circleGaugeController.maxScaleAmount);
-        } else
+            circleGaugeController.SetGaugeHeight(circleGaugeController.maxHeight);
+        }
+        else
         {
            //circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
+            circleGaugeController.SetGaugeHeight(mPunchSpeed);
         }
     }
 

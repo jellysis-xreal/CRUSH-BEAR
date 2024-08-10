@@ -73,14 +73,14 @@ public class PlayerManager : MonoBehaviour
         //Debug.Log($"WaveTypeCount : {WaveTypeCount}");
         for (int i = 0; i < WaveTypeCount; i++)
         {
-            HeartGameObjects[i].hearts[0] = score_G[i].transform.GetChild(0).GetComponent<Image>();
+            /*HeartGameObjects[i].hearts[0] = score_G[i].transform.GetChild(0).GetComponent<Image>();
             HeartGameObjects[i].hearts[1] = score_G[i].transform.GetChild(1).GetComponent<Image>();
             HeartGameObjects[i].hearts[2] = score_G[i].transform.GetChild(2).GetComponent<Image>();
             HeartGameObjects[i].hearts[3] = score_G[i].transform.GetChild(3).GetComponent<Image>();
-            HeartGameObjects[i].hearts[4] = score_G[i].transform.GetChild(4).GetComponent<Image>();
+            HeartGameObjects[i].hearts[4] = score_G[i].transform.GetChild(4).GetComponent<Image>();*/
             for(int j = 0; j < 5; ++j)
             {
-                HeartGameObjects[i].hearts[j] = score_G[i].transform.GetChild(j).GetComponent<Image>();
+                // HeartGameObjects[i].hearts[j] = score_G[i].transform.GetChild(j).GetComponent<Image>();
                 HeartGameObjects[i].hearts[j].sprite = defaultHeartSprite;
             }
             //Debug.Log("[TEST] hearts init " + i.ToString());

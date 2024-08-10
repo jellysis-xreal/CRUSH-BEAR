@@ -52,7 +52,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] public GameObject[] waveUICanvas;
     private int countdownTime = 4;
     private TextMeshProUGUI timer;
-
+    private GameObject _settingUI; // 캐싱을 위한 변수
 
     // 기획에 따른 변수
     private int waveTypeNum = 3; // Wave Type 종류의 갯수
@@ -67,6 +67,9 @@ public class WaveManager : MonoBehaviour
     private float _curSettingTime = 0.0f;
     private float _settingTime = 5.0f;
 
+    private Transform _rightInteraction, _rightType1, _rightType2, _rightType3;
+    private Transform _leftInteraction, _leftType1, _leftType2, _leftType3;
+    
     // wave 전환을 위한 변수
     public enum WaveState
     {
@@ -103,6 +106,18 @@ public class WaveManager : MonoBehaviour
         
         // Topping이 이동하는 Arrival UI 초기화. **Hierarchy 주의**
         nodeArrivalUI = transform.GetChild(2).gameObject;
+
+        _settingUI = GameObject.FindWithTag("SettingUI");
+        
+        _rightInteraction = GameManager.Player.RightInteraction.transform;
+        _rightType1 = _rightInteraction.GetChild(0);
+        _rightType2 = _rightInteraction.GetChild(1);
+        _rightType3 = _rightInteraction.GetChild(2);
+        
+        _leftInteraction = GameManager.Player.LeftInteraction.transform;
+        _leftType1 = _leftInteraction.GetChild(0);
+        _leftType2 = _leftInteraction.GetChild(1);
+        _leftType3 = _leftInteraction.GetChild(2);
 
         /*// 난이도 설정
         switch (waveDifficulty)
@@ -170,32 +185,32 @@ public class WaveManager : MonoBehaviour
     
     public void SetWavePlayer()
     {
-        GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.Player.RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        GameManager.Player.RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        _rightType1.gameObject.SetActive(false);
+        _rightType2.gameObject.SetActive(false);
+        _rightType3.gameObject.SetActive(false);
 
-        GameManager.Player.LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.Player.LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        GameManager.Player.LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        _leftType1.gameObject.SetActive(false);
+        _leftType2.gameObject.SetActive(false);
+        _leftType3.gameObject.SetActive(false);
 
         int TypeNum = (int)currentWave;
-        //[XMC]Debug.Log($"TypeNum : {TypeNum}");
-        GameManager.Player.RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
-        GameManager.Player.LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
+        
+        _rightInteraction.GetChild(TypeNum).gameObject.SetActive(true);
+        _leftInteraction.GetChild(TypeNum).gameObject.SetActive(true);
     }
 
     public void SetWavePlayer(WaveType type)
     {
-        GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.Player.RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        GameManager.Player.RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        _rightType1.gameObject.SetActive(false);
+        _rightType2.gameObject.SetActive(false);
+        _rightType3.gameObject.SetActive(false);
 
-        GameManager.Player.LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.Player.LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        GameManager.Player.LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        _leftType1.gameObject.SetActive(false);
+        _leftType2.gameObject.SetActive(false);
+        _leftType3.gameObject.SetActive(false);
         
-        GameManager.Player.RightInteraction.transform.GetChild((int)type).gameObject.SetActive(true);
-        GameManager.Player.LeftInteraction.transform.GetChild((int)type).gameObject.SetActive(true);
+        _rightInteraction.GetChild((int)type).gameObject.SetActive(true);
+        _leftInteraction.GetChild((int)type).gameObject.SetActive(true);
     }
 
     private void SetWavePlay()
@@ -250,7 +265,9 @@ public class WaveManager : MonoBehaviour
         }
         else if (!_IsManagerInit)
         {
-            GameObject.FindWithTag("SettingUI").SetActive(false);
+            if (_settingUI == null)
+                _settingUI = GameObject.FindWithTag("SettingUI");
+            _settingUI.SetActive(false);
             _IsManagerInit = true;
         }
 

@@ -38,7 +38,7 @@ public class HookMotionDetector : MonoBehaviour
         if(_chekingHookCoroutine == null && GetControllerActivateAction()) CheckHookMotionCondition(); 
         if(_chekingUpperCutCoroutine == null && GetControllerActivateAction()) CheckUpperCutMotionCondition(); 
         
-        handVelocity = handData.ControllerSpeed;
+        handVelocity = handData.GetControllerSpeed();
         
         //[XMC]if(_chekingHookCoroutine != null) Debug.Log("hook Coroutine exist!");
         //[XMC]if(_chekingUpperCutCoroutine != null) Debug.Log("upper Coroutine exist!");

@@ -9,6 +9,8 @@ using Unity.Mathematics;
 using UnityEngine.Serialization;
 using UnityEngine.XR.Content.Interaction;
 using Random = UnityEngine.Random;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class NodeInstantiator : MonoBehaviour
 {
@@ -44,7 +46,8 @@ public class NodeInstantiator : MonoBehaviour
     public List<uint> _checkNodeIndex = new List<uint>();
     public List<uint> _checkTempList = new List<uint>();
     
-    private Coroutine _queueCoroutine, _spawnCoroutine;
+    private UniTask _queueCoroutine, _spawnCoroutine;
+    private CancellationTokenSource queueCancel, spawnCancel;
     private bool isPunchInitialized, isHitInitialized;
 
     private void Start()
@@ -59,8 +62,13 @@ public class NodeInstantiator : MonoBehaviour
     public void InitToppingPool(WaveType wave)
     {
         // 이전 wave 코루틴 중지
-        if(_spawnCoroutine != null)
-            StopCoroutine(_spawnCoroutine);
+        if(spawnCancel != null)
+        {
+            spawnCancel.Cancel();
+            spawnCancel.Dispose();
+        }
+        spawnCancel = new CancellationTokenSource();
+        queueCancel = new CancellationTokenSource();
         // topping pool 생성해줌.
         // Wave가 처음 실행될 때, 한번 초기화 진행하는 것임
         //Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]"); //[XMC]
@@ -83,8 +91,10 @@ public class NodeInstantiator : MonoBehaviour
                 break;
         }
 
-        _queueCoroutine = StartCoroutine(NodeEnqueueManager(wave));
-        _spawnCoroutine = StartCoroutine(NodeSpawnManager(wave));
+        _queueCoroutine = NodeEnqueueManager(wave, queueCancel.Token);
+        _spawnCoroutine = NodeSpawnManager(wave, spawnCancel.Token);
+        _queueCoroutine.Forget();
+        _spawnCoroutine.Forget();
         //[XMC]Debug.Log("[Node Maker] Start Coroutine");
     }
 
@@ -121,18 +131,21 @@ public class NodeInstantiator : MonoBehaviour
         }
     }
 
-    IEnumerator NodeEnqueueManager(WaveType wave)
+    async UniTask NodeEnqueueManager(WaveType wave, CancellationToken token)
     {
         while (true) // 지금은 10개 생성, 대기 Queue 10개까지 됨.
         {
+
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
             //TODO: XMC 임시
             float _time = 0.02f;
             // if (GameManager.Wave.currentWave == WaveType.Punching) _time = 0.02f;
             // else if (GameManager.Wave.currentWave == WaveType.Hitting) _time = 0.02f;
             
-            yield return new WaitForSecondsRealtime(_time);
-            
+            await UniTask.WaitForSeconds(_time, cancellationToken : token);
+
+            if (token.IsCancellationRequested)
+                break;
             // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
             if (_nodeQueue.Count < MAX_QUEUE_SIZE)
             {
@@ -142,7 +155,7 @@ public class NodeInstantiator : MonoBehaviour
         }
     }
 
-    IEnumerator NodeSpawnManager(WaveType wave)
+    async UniTask NodeSpawnManager(WaveType wave, CancellationToken token)
     {
         while (true)
         {
@@ -150,8 +163,9 @@ public class NodeInstantiator : MonoBehaviour
             if (GameManager.Wave.currentWave == WaveType.Punching) _time = 0.1f;
             else if (GameManager.Wave.currentWave == WaveType.Hitting) _time = 0.05f;
             
-            yield return new WaitForSecondsRealtime(_time);
-            
+            await UniTask.WaitForSeconds(_time, cancellationToken: token);
+            if (token.IsCancellationRequested)
+                break;
             if (_nodeQueue.Count > 0)
             {
                 // Dequeue하고 토핑 풀에 값 하나 넣고, 존재하는 것에 다 넣었으면(Dequeue) 반복문 종료.
@@ -163,7 +177,8 @@ public class NodeInstantiator : MonoBehaviour
 
     public void FinishAllWaveNode()
     {
-        StopCoroutine(_spawnCoroutine);
+        spawnCancel.Cancel();
+        spawnCancel.Dispose();
         foreach (var shoot in shootToppingPool) Destroy(shoot);
         foreach (var punch in punchToppingPool) Destroy(punch);
         foreach (var hit in hitToppingPool) Destroy(hit);
@@ -202,7 +217,8 @@ public class NodeInstantiator : MonoBehaviour
             // isWaveFinished = true;
             //Debug.Log("Error 더이상 Enqueue할 data없음."); //[XMC]
             //Debug.Log(e.ToString());
-            StopCoroutine(_queueCoroutine);
+            queueCancel.Cancel();
+            queueCancel.Dispose();
             return;
         }
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");

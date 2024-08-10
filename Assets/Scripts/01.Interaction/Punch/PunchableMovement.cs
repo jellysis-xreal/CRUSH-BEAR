@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using EnumTypes;
@@ -35,6 +36,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     public SpriteRenderer spriteRenderer; 
     private Breakable _breakable;
     private CookieControl _cookieControl;
+    private CancellationTokenSource breakCancel;
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -50,6 +52,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
   
     public void InitializeToppingRoutine(NodeInfo node)
     {
+        breakCancel = new CancellationTokenSource();
         _isArrivalAreaHit = false;
         arrivalBoxNum = node.arrivalBoxNum;
         arriveTime = node.timeToReachPlayer;
@@ -90,9 +93,11 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         ActiveTime(1f).Forget();
     }
 
-    async UniTask TriggerArrivalAreaEndInteraction()
+    async UniTask TriggerArrivalAreaEndInteraction(CancellationToken token)
     {
-        await UniTask.WaitForSeconds(1);
+        if (token.IsCancellationRequested)
+            return;
+        await UniTask.WaitForSeconds(1, cancellationToken: token);
         _meshRenderer.enabled = false;
         if(spriteRenderer != null) spriteRenderer.enabled = false; 
         else if(transform.childCount == 2)
@@ -112,6 +117,8 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     }
     async UniTask ActiveTime(float coolTime)
     {
+        breakCancel.Cancel();
+        breakCancel.Dispose();
         await UniTask.WaitForSeconds(coolTime);
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
         _breakable.m_Destroyed = false;
@@ -122,7 +129,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
             _isArrivalAreaHit = true;
-            TriggerArrivalAreaEndInteraction().Forget();
+            TriggerArrivalAreaEndInteraction(breakCancel.Token).Forget();
         }
     }
 

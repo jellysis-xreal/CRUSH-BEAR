@@ -119,6 +119,7 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     {
         breakCancel.Cancel();
         breakCancel.Dispose();
+        breakCancel = null;
         await UniTask.WaitForSeconds(coolTime);
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
         _breakable.m_Destroyed = false;
@@ -129,7 +130,8 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         if (other.CompareTag("ArrivalArea") && !_isArrivalAreaHit)
         {
             _isArrivalAreaHit = true;
-            TriggerArrivalAreaEndInteraction(breakCancel.Token).Forget();
+            if(breakCancel != null)
+                TriggerArrivalAreaEndInteraction(breakCancel.Token).Forget();
         }
     }
 

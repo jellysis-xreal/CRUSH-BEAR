@@ -119,8 +119,7 @@ public class GameManager : MonoBehaviour
                 lobbyPlayer.SetActive(false);
                 
                 LoadWave = true; //비동기로 Load하던 01 Scene Active!
-                StartCoroutine(LoadWaveScene());
-                
+
                 Sound.PlayMusic_Lobby(false); //Effect & Sound
                 Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()
                 break;
@@ -220,6 +219,8 @@ public class GameManager : MonoBehaviour
         
         if (_save.data.isFirst)
             StartCoroutine(LoadTutorialScene());
+        else
+            StartCoroutine(LoadWaveScene());
         
     }
 

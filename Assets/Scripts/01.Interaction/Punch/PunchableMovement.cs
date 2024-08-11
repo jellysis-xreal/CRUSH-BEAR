@@ -132,7 +132,8 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
         {
             transform.position = dir * ((beatNum - currentBeat)/ (float)shootStandard);
             // Debug.LogWarning("[YES] "+beatNum +"번째 현재 모양 :" + _breakable._childTriggerChecker.handMotion);
-            transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * (beatNum - currentBeat)).SetEase(Ease.Linear);
+            transform.DOMove(targetPosition, (float)GameManager.Instance.Metronome.secondsPerBeat * (beatNum - currentBeat)).SetEase(Ease.Linear)
+                .OnComplete(() => transform.DOMoveZ(-0.3f,0.5f));
             _cookieControl.Init();
             GameManager.Instance.Metronome.UnBindEvent(CheckBeat);
         }

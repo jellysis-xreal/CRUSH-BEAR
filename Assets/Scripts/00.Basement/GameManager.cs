@@ -168,6 +168,8 @@ public class GameManager : MonoBehaviour
         tutorialManager.StopAllCoroutines();
         SetGameState(GameState.Lobby);
         Sound.PlayMusic_Lobby(true);
+        
+        LoadSceneAsync();
     }
 
     [ContextMenu("DEBUG/Tutorial")]
@@ -213,17 +215,21 @@ public class GameManager : MonoBehaviour
         {
             //Debug.LogWarning("GameManager instance isn't null, Destroy GameManager");
             _ui.Init(currentGameState);
-            
             Destroy(this.gameObject);
         }
-        
-        if (_save.data.isFirst)
+
+        LoadSceneAsync();
+
+    }
+
+    public void LoadSceneAsync()
+    {
+        Save.LoadSaveData();    
+        if (Save.data.isFirst)
             StartCoroutine(LoadTutorialScene());
         else
             StartCoroutine(LoadWaveScene());
-        
     }
-
     public void InitTutorial()
     {
         if (instance != null)

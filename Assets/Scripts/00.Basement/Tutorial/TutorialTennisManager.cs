@@ -20,6 +20,8 @@ public class TutorialTennisManager : MonoBehaviour
 
     public int succeedNumber = 0;
     public int processedNumber = 0;
+
+    public GameObject refrigerator;
     public int GetPerfectScoreNumberOfTennis()
     {
         // TODO : 인터랙션한 쿠키 중 퍼펙트 개수를 반환하는 코드;
@@ -46,6 +48,7 @@ public class TutorialTennisManager : MonoBehaviour
 
     public void InitializeTennis()
     {
+        refrigerator = GameObject.FindWithTag("Refrigerator");
         InitTennisTutorialData();
         InitTennisGameObjectPool();
         // InitTennisGameObject();
@@ -115,10 +118,10 @@ public class TutorialTennisManager : MonoBehaviour
         leftHandGameObjectsTutorial[1].gameObject.SetActive(true);
 
         
-        rightHandGameObjectsTutorial[0].InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 1);
-        leftHandGameObjectsTutorial[0].InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 2);
-        leftHandGameObjectsTutorial[1].InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 3);
-        rightHandGameObjectsTutorial[1].InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 4);
+        rightHandGameObjectsTutorial[0].InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 1, refrigerator);
+        leftHandGameObjectsTutorial[0].InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 2, refrigerator);
+        leftHandGameObjectsTutorial[1].InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 3, refrigerator);
+        rightHandGameObjectsTutorial[1].InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 4, refrigerator);
         
         yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(4));
     }
@@ -129,8 +132,8 @@ public class TutorialTennisManager : MonoBehaviour
         leftHandGameObjectsTutorial[0].gameObject.SetActive(true);
         rightHandGameObjectsTutorial[0].gameObject.SetActive(true);
         
-        leftHandGameObjectsTutorial[0].InitializeTopping(tutorialTennisType, 3 + 2f * 1);
-        rightHandGameObjectsTutorial[0].InitializeTopping(tutorialTennisType, 3 + 2f * 2);
+        leftHandGameObjectsTutorial[0].InitializeTopping(tutorialTennisType, 3 + 2f * 1, refrigerator);
+        rightHandGameObjectsTutorial[0].InitializeTopping(tutorialTennisType, 3 + 2f * 2, refrigerator);
 
         yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(2));
     }
@@ -164,11 +167,11 @@ public class TutorialTennisManager : MonoBehaviour
         {
             case TutorialTennisType.LeftHand:
                 for (int i = 0; i < 2; i++)
-                    leftHandGameObjectsTutorial[i].InitializeTopping(tutorialTennisType, 3 + 2f * i);
+                    leftHandGameObjectsTutorial[i].InitializeTopping(tutorialTennisType, 3 + 2f * i, refrigerator);
                 break;
             case TutorialTennisType.RightHand:
                 for (int i = 0; i < 2; i++)
-                    rightHandGameObjectsTutorial[i].InitializeTopping(tutorialTennisType, 3 + 2f * i);
+                    rightHandGameObjectsTutorial[i].InitializeTopping(tutorialTennisType, 3 + 2f * i, refrigerator);
                 break;
         }
 

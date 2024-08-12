@@ -72,13 +72,13 @@ public class HittableMovementTutorial : MonoBehaviour
     /// <param name="arriveTime">arrival time</param>
     
     [ContextMenu("Tennis")]
-    public void InitializeTopping(TutorialTennisType hand, float startTime)
+    public void InitializeTopping(TutorialTennisType hand, float startTime, GameObject refrigerator)
     {
         // 왼쪽부터 도착 위치 1, 3, 4, 2
         // 빨 파 파 빨
         // 왼손이고 빨간색이면 1번, 파란색이면 3번 (인덱스는 - 1 하기 :))
         // 왼손이고 빨간색이면 2번, 파란색이면 4번
-
+        this.refrigerator = refrigerator;
         popTime = 1f;
         moveTime = 5f;
         InitiateVariable();
@@ -115,7 +115,7 @@ public class HittableMovementTutorial : MonoBehaviour
     }
     private void InitiateVariable()
     {
-        refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
+        // refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
         curState = toppingState.idle;
         
         // 생성된 이후, 가만히 있는 시간을 결정합니다.

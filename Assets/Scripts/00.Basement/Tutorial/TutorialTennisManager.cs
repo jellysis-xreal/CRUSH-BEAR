@@ -12,8 +12,8 @@ public class TutorialTennisManager : MonoBehaviour
     private Dictionary<TutorialTennisType, bool> tutorialClearData = new Dictionary<TutorialTennisType, bool>();
 
     public GameObject[] tennisPrefabs; // 완성된 형태의 테니스 프리팹
-    public GameObject[] leftHandGameObjects;
-    public GameObject[] rightHandGameObjects;
+    public HittableMovementTutorial[] leftHandGameObjectsTutorial;
+    public HittableMovementTutorial[] rightHandGameObjectsTutorial;
 
     public GameObject leftHandRootGameObject;
     public GameObject rightHandRootGameObject;
@@ -74,22 +74,22 @@ public class TutorialTennisManager : MonoBehaviour
     {
         int prefabArrayLength = 6; // 게임 오브젝트 사이즈 6, Red 3개 Blue 3개씩 들어감.
 
-        leftHandGameObjects = new GameObject[6]; // 파란색
-        rightHandGameObjects = new GameObject[6]; // 빨간색
+        leftHandGameObjectsTutorial = new HittableMovementTutorial[prefabArrayLength]; // 파란색
+        rightHandGameObjectsTutorial = new HittableMovementTutorial[prefabArrayLength]; // 빨간색
         for (int i = 0; i < prefabArrayLength; i++)
         {
-            leftHandGameObjects[i] = Instantiate(tennisPrefabs[i % 2], leftHandRootGameObject.transform); // i에 따라 1, 2번 프리팹
-            rightHandGameObjects[i] = Instantiate(tennisPrefabs[i % 2 + 2], rightHandRootGameObject.transform); // i에 따라 3, 4번 프리팹
+            leftHandGameObjectsTutorial[i] = Instantiate(tennisPrefabs[i % 2], leftHandRootGameObject.transform).GetComponent<HittableMovementTutorial>(); // i에 따라 1, 2번 프리팹
+            rightHandGameObjectsTutorial[i] = Instantiate(tennisPrefabs[i % 2 + 2], rightHandRootGameObject.transform).GetComponent<HittableMovementTutorial>(); // i에 따라 3, 4번 프리팹
         }
     }
 
-    private void InitTennisGameObject()
+    /*private void InitTennisGameObject()
     {
-        leftHandGameObjects = new GameObject[1];
-        rightHandGameObjects = new GameObject[1];
-        leftHandGameObjects[0] = Instantiate(tennisPrefabs[0], leftHandRootGameObject.transform); // i에 따라 1, 2번 프리팹
-        rightHandGameObjects[0] = Instantiate(tennisPrefabs[2], rightHandRootGameObject.transform); // i에 따라 3, 4번 프리팹 
-    }
+        leftHandGameObjectsTutorial = new GameObject[1];
+        rightHandGameObjectsTutorial = new GameObject[1];
+        leftHandGameObjectsTutorial[0] = Instantiate(tennisPrefabs[0], leftHandRootGameObject.transform); // i에 따라 1, 2번 프리팹
+        rightHandGameObjectsTutorial[0] = Instantiate(tennisPrefabs[2], rightHandRootGameObject.transform); // i에 따라 3, 4번 프리팹 
+    }*/
     public TutorialTennisType GetNonClearTutorialType()
     {
         foreach (KeyValuePair<TutorialTennisType, bool> keyValuePair in tutorialClearData)
@@ -109,20 +109,16 @@ public class TutorialTennisManager : MonoBehaviour
     {
         // TODO : 우상단 -> 좌하단 -> 좌상단 -> 우하단
         ResetVariable();
-        rightHandGameObjects[0].SetActive(true);
-        rightHandGameObjects[1].SetActive(true);
-        leftHandGameObjects[0].SetActive(true);
-        leftHandGameObjects[1].SetActive(true);
+        rightHandGameObjectsTutorial[0].gameObject.SetActive(true);
+        rightHandGameObjectsTutorial[1].gameObject.SetActive(true);
+        leftHandGameObjectsTutorial[0].gameObject.SetActive(true);
+        leftHandGameObjectsTutorial[1].gameObject.SetActive(true);
 
         
-        rightHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
-            InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 1);
-        leftHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
-            InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 2);
-        leftHandGameObjects[1].GetComponentInChildren<HittableMovementTutorial>().
-            InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 3);
-        rightHandGameObjects[1].GetComponentInChildren<HittableMovementTutorial>().
-            InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 4);
+        rightHandGameObjectsTutorial[0].InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 1);
+        leftHandGameObjectsTutorial[0].InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 2);
+        leftHandGameObjectsTutorial[1].InitializeTopping(TutorialTennisType.LeftHand, 3 + 2f * 3);
+        rightHandGameObjectsTutorial[1].InitializeTopping(TutorialTennisType.RightHand, 3 + 2f * 4);
         
         yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(4));
     }
@@ -130,13 +126,11 @@ public class TutorialTennisManager : MonoBehaviour
     public IEnumerator TennisPhase12Routine()
     {
         ResetVariable();
-        leftHandGameObjects[0].SetActive(true);
-        rightHandGameObjects[0].SetActive(true);
+        leftHandGameObjectsTutorial[0].gameObject.SetActive(true);
+        rightHandGameObjectsTutorial[0].gameObject.SetActive(true);
         
-        leftHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
-            InitializeTopping(tutorialTennisType, 3 + 2f * 1);
-        rightHandGameObjects[0].GetComponentInChildren<HittableMovementTutorial>().
-            InitializeTopping(tutorialTennisType, 3 + 2f * 2);
+        leftHandGameObjectsTutorial[0].InitializeTopping(tutorialTennisType, 3 + 2f * 1);
+        rightHandGameObjectsTutorial[0].InitializeTopping(tutorialTennisType, 3 + 2f * 2);
 
         yield return StartCoroutine(WaitUntilProcessedMatchTotalNumber(2));
     }
@@ -170,13 +164,11 @@ public class TutorialTennisManager : MonoBehaviour
         {
             case TutorialTennisType.LeftHand:
                 for (int i = 0; i < 2; i++)
-                    leftHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
-                        InitializeTopping(tutorialTennisType, 3 + 2f * i);
+                    leftHandGameObjectsTutorial[i].InitializeTopping(tutorialTennisType, 3 + 2f * i);
                 break;
             case TutorialTennisType.RightHand:
                 for (int i = 0; i < 2; i++)
-                    rightHandGameObjects[i].GetComponentInChildren<HittableMovementTutorial>().
-                        InitializeTopping(tutorialTennisType, 3 + 2f * i);
+                    rightHandGameObjectsTutorial[i].InitializeTopping(tutorialTennisType, 3 + 2f * i);
                 break;
         }
 

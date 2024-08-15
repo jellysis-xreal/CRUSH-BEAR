@@ -49,7 +49,7 @@ public class TutorialPunchManager : MonoBehaviour
         int startIndex = scores.Count - 1; 
         for (int i = startIndex; i > startIndex - zapGameObjects.Length; i--)
         {
-            if (scores[i] == scoreType.Perfect) num++;
+            if (scores[i] != scoreType.Miss) num++;
         }
         //Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - zapGameObjects.Length}");
         return num;
@@ -62,7 +62,7 @@ public class TutorialPunchManager : MonoBehaviour
         int startIndex = scores.Count - 1; 
         for (int i = startIndex; i > startIndex - 4; i--)
         {
-            if (scores[i] == scoreType.Miss || scores[i] == scoreType.Bad) return false;
+            if (scores[i] == scoreType.Miss) return false;
         }
         return true;
     }

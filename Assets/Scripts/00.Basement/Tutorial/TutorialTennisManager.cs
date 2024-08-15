@@ -39,7 +39,7 @@ public class TutorialTennisManager : MonoBehaviour
         int startIndex = scores.Count - 1;
         for (int i = startIndex; i > startIndex - 2; i--)
         {
-            if (scores[i] == scoreType.Bad || scores[i] == scoreType.Miss) return false;
+            if (scores[i] == scoreType.Miss) return false;
         }
 
         return true;
@@ -233,7 +233,7 @@ public class TutorialTennisManager : MonoBehaviour
         int perfectNum = 0;
         for (int i = startIndex; i > startIndex - 4; i--)
         {
-            if (scores[i] == scoreType.Perfect) perfectNum++;
+            if (scores[i] != scoreType.Miss) perfectNum++;
         }
 
         if (perfectNum >= 2) return true;

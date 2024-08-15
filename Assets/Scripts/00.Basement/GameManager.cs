@@ -117,11 +117,12 @@ public class GameManager : MonoBehaviour
                 OVRManager.SetSpaceWarp(false);
                 GameObject lobbyPlayer = GameObject.FindWithTag("Player");
                 lobbyPlayer.SetActive(false);
-                
-                LoadWave = true; //비동기로 Load하던 01 Scene Active!
-
                 Sound.PlayMusic_Lobby(false); //Effect & Sound
-                Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()
+                InitPlay();
+                // Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()
+                
+                // LoadWave = true; //비동기로 Load하던 01 Scene Active!
+
                 break;
             
             case GameState.Ending:
@@ -241,12 +242,21 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //Debug.Log("GameManager instance is null");
+            Debug.Log("GameManager instance is null");
         }
     }
     public void InitPlay()
     {
         if (instance != null)
+        {
+            SceneManager.sceneLoaded += OnWaveSceneLoaded;
+            LoadWave = true;
+        }
+        else
+        {
+            Debug.Log("GameManager instance is null");
+        }
+        /*if (instance != null)
         {
             //Debug.Log("Init GameManager Wave Scene");
 
@@ -264,17 +274,7 @@ public class GameManager : MonoBehaviour
         else
         {
             //Debug.Log("GameManager instance is null");
-        }
-    }
-    
-    private void Test()
-    {
-        //Debug.Log("<<-------TEST------->>");
-        
-        // 이 밑으로 진행할 Test 코드를 입력한 후, Start 함수에 가서 Test의 주석 처리를 해제하면 됩니다.
-        // Toast 치기 개발으로 잠시 테스트 - 240108 minha
-        // _wave.Test();
-        
+        }*/ 
     }
 
     IEnumerator LoadWaveScene()
@@ -298,7 +298,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
-    
     IEnumerator LoadTutorialScene()
     {
         yield return null;
@@ -320,7 +319,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
-
     void OnTutorialSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         //Debug.Log(scene.buildIndex);
@@ -344,7 +342,24 @@ public class GameManager : MonoBehaviour
             // tutorialPunch.Init();
             tutorialManager.Init();
         }
-
         SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
+    }
+
+    void OnWaveSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (currentGameState == GameState.Waving)
+        {
+            _player.Init();
+            _wave.Init();
+            _score.Init();
+            _combo.Init();
+            //_player.PlaySceneUIInit();
+            //_sound.Init();
+            _ui.Init(currentGameState);
+            //_resource.Init();
+        }
+
+        LoadWave = false;
+        SceneManager.sceneLoaded -= OnWaveSceneLoaded;
     }
 }

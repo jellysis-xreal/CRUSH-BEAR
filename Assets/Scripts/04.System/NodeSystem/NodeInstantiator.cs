@@ -110,7 +110,7 @@ public class NodeInstantiator : MonoBehaviour
                 node.SetActive(false);
 
                 hitToppingPool[i] = node;
-                hitToppingPool[i].name = "Hit_R_" + i;
+                // hitToppingPool[i].name = "Hit_R_" + i;
             }
 
             for (int i = MAX_POOL_SIZE / 2; i < MAX_POOL_SIZE; ++i)
@@ -120,7 +120,7 @@ public class NodeInstantiator : MonoBehaviour
                 node.SetActive(false);
 
                 hitToppingPool[i] = node;
-                hitToppingPool[i].name = "Hit_B_" + i;
+                // hitToppingPool[i].name = "Hit_B_" + i;
             }
             //[XMC]Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
             isHitInitialized = true;
@@ -578,7 +578,7 @@ public class NodeInstantiator : MonoBehaviour
                 // DontDestroyOnLoad(node);
                 
                 punchToppingPool[i] = node;
-                punchToppingPool[i].name = "Punch_" + i;
+                // punchToppingPool[i].name = "Punch_" + i;
             }
             isPunchInitialized = true;
         }

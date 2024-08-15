@@ -206,7 +206,7 @@ public class ScoreManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
             //AddScore(score);
-            //Vibrate(score);
+            Vibrate(score);
             SetScoreEffect(score, target.transform.position);    
         }
         else
@@ -271,9 +271,10 @@ public class ScoreManager : MonoBehaviour
             GameManager.Sound.PlayEffect_Punch();
         
         Debug.Log("Scoring Punch " + resultScore);
-        
+
         //AddScore(score);
         //Vibrate(score);
+        Vibrate(resultScore);
         
         // SetScoreEffect(score, target.transform.position);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);

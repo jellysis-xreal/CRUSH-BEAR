@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using EnumTypes;
 using UnityEngine.Serialization;
@@ -9,6 +10,8 @@ using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
 using TMPro;
+using System.Threading;
+using Unity.VisualScripting;
 
 public class WaveManager : MonoBehaviour
 {
@@ -34,8 +37,9 @@ public class WaveManager : MonoBehaviour
     private float _oneBeat;
     private float _beat;
    
-    private Coroutine _waitBeforePlayingCoroutine;
-    private Coroutine _waitAfterPlayingCoroutine;
+    private UniTask _waitBeforePlayingCoroutine;
+    private UniTask _waitAfterPlayingCoroutine;
+    private CancellationTokenSource _waitBeforePlayingCTS, _waitAfterPlayingCTS;
     
     [Header("----+ Music Information +----")] 
     public uint waveMusicGUID; // 현재 세팅된 Music의 GUID
@@ -95,6 +99,7 @@ public class WaveManager : MonoBehaviour
         waveUIImages[0] = waveUICanvas[0].GetComponent<Image>();
         waveUIImages[1] = waveUICanvas[1].GetComponent<Image>();
         waveUIImages[2] = waveUICanvas[2].GetComponent<Image>();
+        
         // Wave Num
         waveTime = 0.0f;
         
@@ -232,8 +237,8 @@ public class WaveManager : MonoBehaviour
         GameManager.Player.PlaySceneUIInit(TypeNum);
         
         // Wave indicator 세팅
-        waveUIImages[TypeNum].sprite = waveSpriteAtlas.GetSprite("Wave_"+currenWaveNum.ToString());
-
+        waveUIImages[TypeNum].sprite = waveSpriteAtlas.GetSprite("wave_"+currenWaveNum.ToString());
+        
         indicatorController.SetWaveIndicator(currenWaveNum, beforeWave, currentWave);
     }
 
@@ -386,13 +391,18 @@ public class WaveManager : MonoBehaviour
             // Debug.Log("[WAVE] Wave Continue");
             // __초 뒤에 Wave 일시정지를 해제합니다.
 
-            if (beforeState == WaveState.Init && _waitBeforePlayingCoroutine == null)
-                _waitBeforePlayingCoroutine = StartCoroutine(WaitBeforePlaying(5, waveState));
-
-            else if (beforeState == WaveState.Playing && _waitAfterPlayingCoroutine == null)
+            if (beforeState == WaveState.Init)
+            {
+                _waitBeforePlayingCTS = new CancellationTokenSource();
+                _waitBeforePlayingCoroutine = WaitBeforePlaying(5, waveState, _waitBeforePlayingCTS.Token);
+                _waitBeforePlayingCoroutine.Forget();
+            }
+            else if (beforeState == WaveState.Playing)
             {
                 countdownTime = 2;
-                _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3, waveState));
+                _waitAfterPlayingCTS = new CancellationTokenSource();
+                _waitAfterPlayingCoroutine = WaitAfterPlaying(3, waveState, _waitAfterPlayingCTS.Token);
+                _waitAfterPlayingCoroutine.Forget();
             }
 
             // currentState = WaveState.Playing; 
@@ -409,7 +419,7 @@ public class WaveManager : MonoBehaviour
     
     // Init -> Waiting -> Playing(노래(wave) 재생 중..) -> Waiting(노래(wave) 종료) -> Init -> 반복하다 비트 끝나면 End
     // Waiting -> Playing
-    IEnumerator WaitBeforePlaying(int sec, WaveState waveState)
+    async UniTask WaitBeforePlaying(int sec, WaveState waveState, CancellationToken token)
     {
         //[XMC]Debug.Log($"[Wave] State : Waiting -> Playing Wait {sec}s. (이제 Wave 시작한다? 세팅 후에 게임 시작 전 대기 시간을 가짐. 플레이어 준비 시간.) ");
 
@@ -431,24 +441,30 @@ public class WaveManager : MonoBehaviour
             if (countdownTime == 1)
             {
                 timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(false) ; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
-                
             }
             else
             {
                 timer.text = (countdownTime - 1).ToString();
             }
-            yield return new WaitForSecondsRealtime(1f);
+            await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: true, cancellationToken: token);
+            //yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
         }
         timerCanvas[idx].SetActive(false);
         // CMS: Count down ends
 
         CallContinueSetting(waveState);
-        _waitBeforePlayingCoroutine = null;
+        
+        if (_waitBeforePlayingCTS != null)
+        {
+            _waitBeforePlayingCTS.Cancel();
+            _waitBeforePlayingCTS.Dispose();
+        }
+        
         countdownTime = 4;
     }
     // Waiting -> Init -> Playing 
-    IEnumerator WaitAfterPlaying(int sec, WaveState waveState)
+    async UniTask WaitAfterPlaying(int sec, WaveState waveState, CancellationToken token)
     {
         //[XMC]Debug.Log($"[Wave] State : Playing -> Waiting Wait {sec}s. (이제 Wave 끝났다? 다음 Wave 시작 전 혹은 게임 종료 전 대기 시간) ");
 
@@ -460,7 +476,7 @@ public class WaveManager : MonoBehaviour
             _isPause = false;
             Time.timeScale = 1;
             EndGame();
-            yield break;
+            return;
         }
 
         // CMS: Count down starts
@@ -484,14 +500,21 @@ public class WaveManager : MonoBehaviour
                 //timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
             }
             else timer.text = (countdownTime - 1).ToString();
-            yield return new WaitForSecondsRealtime(0f); // TODO: 임시로... 240216 JMH
+            //yield return new WaitForSecondsRealtime(0f); // TODO: 임시로... 240216 JMH
+            await UniTask.Delay(TimeSpan.FromSeconds(0), ignoreTimeScale: true, cancellationToken: token);
             countdownTime--;
         }
         timerCanvas[idx].SetActive(false);
         // CMS: Count down ends
 
         CallContinueSetting(waveState);
-        _waitAfterPlayingCoroutine = null;
+        
+        if (_waitAfterPlayingCTS != null)
+        {
+            _waitAfterPlayingCTS.Cancel();
+            _waitAfterPlayingCTS.Dispose();
+        }
+        
         countdownTime = 4;
     }
 

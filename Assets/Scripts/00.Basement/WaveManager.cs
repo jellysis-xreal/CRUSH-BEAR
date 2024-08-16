@@ -49,7 +49,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject nodeArrivalArea;
     [SerializeField] private GameObject nodeArrivalUI;
     [SerializeField] public GameObject[] timerCanvas;
-    [SerializeField] public GameObject[] waveUICanvas;
+    [SerializeField] public Image[] waveUICanvas;
     private int countdownTime = 4;
     private TextMeshProUGUI timer;
     private GameObject _settingUI; // 캐싱을 위한 변수
@@ -108,6 +108,7 @@ public class WaveManager : MonoBehaviour
         nodeArrivalUI = transform.GetChild(2).gameObject;
 
         _settingUI = GameObject.FindWithTag("SettingUI");
+        indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
         
         _rightInteraction = GameManager.Player.RightInteraction.transform;
         _rightType1 = _rightInteraction.GetChild(0);
@@ -227,10 +228,8 @@ public class WaveManager : MonoBehaviour
         GameManager.Player.PlaySceneUIInit(TypeNum);
         
         // Wave indicator 세팅
-        waveUICanvas[TypeNum].GetComponent<Image>().sprite = waveSpriteAtlas.GetSprite("Wave_"+currenWaveNum.ToString());
-        
-        if (indicatorController == null)
-            indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
+        waveUICanvas[TypeNum].sprite = waveSpriteAtlas.GetSprite("Wave_"+currenWaveNum.ToString());
+
         indicatorController.SetWaveIndicator(currenWaveNum, beforeWave, currentWave);
     }
 

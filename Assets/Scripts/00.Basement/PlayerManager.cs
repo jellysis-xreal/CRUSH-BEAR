@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     [Header("setting(auto)")]
     [SerializeField] public Player player;
     [SerializeField] public GameObject mainCamera;
+    [SerializeField] public Transform refrigerator;
     //[SerializeField] public GameObject IK_player;
     public GameObject RightController;
     public GameObject LeftController;
@@ -47,6 +48,7 @@ public class PlayerManager : MonoBehaviour
         // Game object setting
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         mainCamera = GameObject.FindWithTag("MainCamera");
+        refrigerator = GameObject.FindWithTag("Refrigerator").transform;
         //IK_player = GameObject.FindWithTag("IKPlayer");
         
         RightController = player.R_Controller;

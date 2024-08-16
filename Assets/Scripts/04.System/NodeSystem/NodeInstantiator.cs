@@ -324,14 +324,15 @@ public class NodeInstantiator : MonoBehaviour
         
         for (int i = 0; i < MAX_POOL_SIZE; i++)
         {
-            if (wave == WaveType.Shooting)
+            /*if (wave == WaveType.Shooting)
             {
                 //tempPool = shootToppingPool;
                 if (_nodeQueue.Count > 0)
                     tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
                 //[XMC]Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
             }
-            else if (wave == WaveType.Punching)
+            else */
+            if (wave == WaveType.Punching)
             {
                 if (_nodeQueue.Count <= 0) return;
                 if (!CanSetNewTopping(wave))
@@ -367,7 +368,7 @@ public class NodeInstantiator : MonoBehaviour
             {
                 if (_nodeQueue.Count <= 0) return;
                 if (!CanSetNewTopping(wave)) return;
-                if (hitToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
+                if (hitToppingPool[i].activeSelf) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                 if (_nodeQueue.Peek().sideType == InteractionSide.Red && i > 9) continue; // 0~9 만 Red Object. 아니면 넘어감
                 if (_nodeQueue.Peek().sideType == InteractionSide.Blue && i < 10) continue; // 10~19만 Blue Object. 아니면 넘어감
 
@@ -538,7 +539,7 @@ public class NodeInstantiator : MonoBehaviour
                     break;
             }    
         }
-        punchGameObject.GetComponent<Breakable>().InitBreakable();
+        movement._breakable.InitBreakable();
         
         // typeIndex에 해당하는 콜라이더와 방향 UI가 이미 존재하면 생성하지 않는다.
         // 타입에 맞는 UI와 콜라이더를 자식으로 붙임. 

@@ -18,7 +18,7 @@ public class HittableMovement : MonoBehaviour
     private bool Debugging = false;
     
     [Header("other Variable (AUTO)")] 
-    [SerializeField] private GameObject refrigerator;
+    [SerializeField] private Transform refrigerator;
     [SerializeField] private toppingState curState = toppingState.idle;
     private float distancePlayer = 3.5f;
     private GameObject _player;
@@ -93,7 +93,7 @@ public class HittableMovement : MonoBehaviour
 
     private void InitiateVariable()
     {
-        refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
+        refrigerator = GameManager.Player.refrigerator; // GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
         curState = toppingState.idle;
         
         // 생성된 이후, 가만히 있는 시간을 결정합니다.

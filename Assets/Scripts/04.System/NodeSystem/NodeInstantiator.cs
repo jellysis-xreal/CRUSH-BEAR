@@ -559,12 +559,12 @@ public class NodeInstantiator : MonoBehaviour
         //Debug.Log("Init Punch Topping Pool");
         if (!isPunchInitialized)
         {
-            brokenCookiePool = new List<BreakController>();
+            /*brokenCookiePool = new List<BreakController>();
             for (int i = 0; i < 10; i++)
             {
                 GameObject cookie = Instantiate(brokenCookiePrefabs[i % 2], Vector3.down, quaternion.identity);
                 brokenCookiePool.Add(cookie.GetComponent<BreakController>());
-            }
+            }*/
 
             punchToppingPool = new GameObject[MAX_POOL_SIZE];
             for (int i = 0; i < MAX_POOL_SIZE; i++)

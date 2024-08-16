@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -18,13 +20,12 @@ public class ComboManager : MonoBehaviour
     public Slider comboSliderHitting;
     public Transform[] comboMultiflierTransform;
     private TextMeshProUGUI comboMultiflierPunch, comboMultiflierHitting;
-
     private uint maxCombo = 0;
     
     public void Init()
     {
         InitComboUI();
-        comboCoroutine = StartCoroutine(ComboRoutine());
+        ComboRoutine().Forget();
     }
     public void GamePause()
     {
@@ -73,7 +74,7 @@ public class ComboManager : MonoBehaviour
         comboMultiflierPunch.text = "x" + $"{comboMultiflier}";
         comboMultiflierHitting.text = "x" + $"{comboMultiflier}";
     }
-    IEnumerator ComboRoutine()
+    async UniTask ComboRoutine()
     {
         //Debug.Log("Combo Routine " + comboMultiflier);
 
@@ -98,7 +99,7 @@ public class ComboManager : MonoBehaviour
             comboSliderPunch.value = comboPercent;
             comboSliderHitting.value = comboPercent;
 
-            yield return new WaitForSeconds(waitSecond);
+            await UniTask.WaitForSeconds(waitSecond);
         }
     }
     public uint GetMaxCombo()

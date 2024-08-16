@@ -9,5 +9,4 @@ public class SpriteData : ScriptableObject
     [SerializeField] public Sprite x;
     [SerializeField] public Sprite[] rank;
     [SerializeField] public Sprite lockedCurtain;
-    [SerializeField] public Sprite unlockedCurtain;
 }

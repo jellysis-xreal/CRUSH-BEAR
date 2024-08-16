@@ -163,16 +163,11 @@ public class ScoreManager : MonoBehaviour
         // Swing은 뒤로 넘어간 오브젝트 miss 처리
         //if (GameManager.Wave.GetWaveType() == WaveType.Hitting)
         //    target.GetComponent<BaseObject>().SetScoreBool();
-
-        if (player == null)
-            player = GameObject.FindWithTag("Player");
-        
-        GameObject camera = GameObject.FindWithTag("MainCamera");
         
         // 플레이어의 위치와 방향을 가져옵니다.
         Vector3 playerPosition = player.transform.position;
-        Vector3 playerDirection = camera.transform.forward;
-        
+        Vector3 playerDirection = mainCam.transform.forward;
+
         Vector3 rightDirection = Quaternion.Euler(0, 30, 0) * playerDirection;
         
         float distance = 2.0f; 
@@ -205,7 +200,7 @@ public class ScoreManager : MonoBehaviour
         GameManager.Sound.PlayEffect_ToastHit();
         if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
-            //AddScore(score);
+            AddScore(score);
             //Vibrate(score);
             SetScoreEffect(score, target.transform.position);    
         }
@@ -272,10 +267,10 @@ public class ScoreManager : MonoBehaviour
         
         // Debug.Log("Scoring Punch " + resultScore);
         
-        //AddScore(score);
+        AddScore(resultScore);
         //Vibrate(score);
         
-        // SetScoreEffect(score, target.transform.position);
+        SetScoreEffect(resultScore, target.transform.position);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
         float mPunchSpeed = Math.Max(_RHandSpeed, _LHandSpeed);
@@ -432,7 +427,7 @@ public class ScoreManager : MonoBehaviour
                 break;
         }
     }
-    private GameObject GetPooledEffect(scoreType score)
+    private GameObject GetPooledEffect(scoreType score) // 
     {
         foreach (var effect in effectPool)
         {

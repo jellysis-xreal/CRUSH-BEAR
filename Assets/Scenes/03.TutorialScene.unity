@@ -3450,6 +3450,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4075544998659321521, guid: e9f1280e304ae604498cffb63d445e6d,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6054904168311440611, guid: e9f1280e304ae604498cffb63d445e6d,
         type: 3}
       propertyPath: m_Name
@@ -6842,7 +6847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2095010789
 Transform:
   m_ObjectHideFlags: 0

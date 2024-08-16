@@ -1093,7 +1093,7 @@ PrefabInstance:
         type: 3}
       propertyPath: waveSpriteAtlas
       value: 
-      objectReference: {fileID: 4343727234628468602, guid: f88c7710dbf0b5247b4364d331c97d56,
+      objectReference: {fileID: 4343727234628468602, guid: a8e4d4f023d2d1844beb3f1b5abc36d9,
         type: 2}
     - target: {fileID: 6838406662887864883, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
@@ -1191,6 +1191,11 @@ PrefabInstance:
       objectReference: {fileID: 8032459706205152045}
     - target: {fileID: 8169668044072682492, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8169668044072682492, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.97960687
       objectReference: {fileID: 0}
@@ -1208,6 +1213,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8169668044072682492, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8169668044072682492, guid: edd7cf9d19d624e43b5b202abab35608,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 8169668044072682492, guid: edd7cf9d19d624e43b5b202abab35608,
         type: 3}
@@ -12839,7 +12854,7 @@ PrefabInstance:
     - target: {fileID: 8795129533222997872, guid: c178b768fda3aab4b9bf40e8cecbf23f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8795129533222997872, guid: c178b768fda3aab4b9bf40e8cecbf23f,
         type: 3}
@@ -13884,6 +13899,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4075544998659321521, guid: e9f1280e304ae604498cffb63d445e6d,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6054904168311440611, guid: e9f1280e304ae604498cffb63d445e6d,
         type: 3}
       propertyPath: m_Name

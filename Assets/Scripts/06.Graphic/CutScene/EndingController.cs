@@ -14,14 +14,13 @@ public class EndingController : TimeLineController
     [SerializeField]
     private GameObject startCookie, particle, creditRoom, endingCredit; // startCookie
     [SerializeField]
-    private Renderer fadeOutPanel;
+    private Image fadeOutPanel;
+    [SerializeField]
+    private PlayableDirector director;
     [SerializeField]
     private Transform cameraPoints;
     private int currentPosition;
     private GameObject playerObject;
-
-    private const float CAMERA_OFFSET = 1.1176f;
-
     public void InitSetting()
     {
         playerObject = GameObject.FindWithTag("Player");
@@ -29,7 +28,8 @@ public class EndingController : TimeLineController
         SetObjectPosition(startCookie.transform, new Vector3(0, -0.1f, -0.4f), new Vector3(-60, 180, 0));
         CutsceneCookie breakable = startCookie.GetComponent<CutsceneCookie>();
         breakable.InitBreakable(this);
-        fadeOutPanel.material.color = new Color(0, 0, 0, 0);
+        fadeOutPanel.gameObject.SetActive(true);
+        fadeOutPanel.color = new Color(0, 0, 0, 0);
         creditRoom.SetActive(false);
     }
 
@@ -47,17 +47,28 @@ public class EndingController : TimeLineController
 
     public void StartEndingCredit()
     {
-        DOTween.Sequence().Append(fadeOutPanel.material.DOFade(1f, 1f))
+        DOTween.Sequence().Append(fadeOutPanel.DOFade(1f, 1f))
             .AppendCallback(ResetCameraPosition).
-            OnComplete(StartEnding);
+            AppendCallback(StartEnding);
     }
 
     private void ResetCameraPosition()
     {
-        playerObject.transform.position = cameraPoints.GetChild(currentPosition).position - new Vector3(0, CAMERA_OFFSET, 0);
+        playerObject.transform.position = cameraPoints.GetChild(currentPosition).position;
         playerObject.transform.rotation = cameraPoints.GetChild(currentPosition++).rotation;
     }
+    public void CutsceneStart()
+    {
+        playerObject = GameObject.FindWithTag("Player");
+        fadeOutPanel.gameObject.SetActive(true);
+        fadeOutPanel.color = new Color(0, 0, 0, 0);
+        DOTween.Sequence().Append(fadeOutPanel.DOFade(1f, 1f))
+            .AppendCallback(ResetCameraPosition).
+             AppendCallback(director.Play).
+             Join(fadeOutPanel.DOFade(0f, 1f));
 
+
+    }
     private void StartEnding()
     {
         //playerObject.GetComponent<ActionBasedContinuousMoveProvider>().enabled = false;

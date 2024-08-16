@@ -32,10 +32,9 @@ public class CutsceneCookie : MonoBehaviour
             tryBreak++;
         }
 
-        if (tryBreak >= 1)
+        if (tryBreak >= 15)
         {
-            //cutscene.StartEndingCredit();
-            GameManager.Instance.WaveToLobby();
+            cutscene.CutsceneStart();
         }
     }
 

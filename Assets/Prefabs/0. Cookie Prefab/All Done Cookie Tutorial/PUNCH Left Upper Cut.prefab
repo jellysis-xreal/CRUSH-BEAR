@@ -157,7 +157,9 @@ MonoBehaviour:
       m_Calls: []
   m_Destroyed: 0
   IsEndingCookie: 0
-  _childTriggerChecker: {fileID: 0}
+  punchableMovement: {fileID: 0}
+  punchableMovementTutorial: {fileID: 143499202297343431}
+  _childTriggerChecker: {fileID: 3967516588163689190}
   correctMotion: 4
 --- !u!114 &6196830984065385765
 MonoBehaviour:
@@ -186,13 +188,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc6c2e4e5207214a874cc0671d2c0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrivalBoxNum: 0
   arriveTime: 0
   parentTransform: {fileID: 5217339730748528734}
   _rigidbody: {fileID: 8225728334201856597}
   _constantSpeed: 0
   _meshRenderer: {fileID: 2291692683213909107}
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 6839587520354919742}
   _breakable: {fileID: 7444904783927537345}
 --- !u!1 &4876119472789788453
 GameObject:
@@ -310,6 +311,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d960a1e25283fa94f83a98ed3723350a, type: 3}
+--- !u!212 &6839587520354919742 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3493107853310978269, guid: d960a1e25283fa94f83a98ed3723350a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7967179492735667683}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8689852260213712769 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1587964301432367714, guid: d960a1e25283fa94f83a98ed3723350a,
@@ -395,3 +402,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8035970106975750932}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3967516588163689190 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6380179469688496626, guid: 3520449653266db45b9ff6965cb90ca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8035970106975750932}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b3aa0390ecb6e44b584fbae0820f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

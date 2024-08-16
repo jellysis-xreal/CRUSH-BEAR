@@ -157,7 +157,9 @@ MonoBehaviour:
       m_Calls: []
   m_Destroyed: 0
   IsEndingCookie: 0
-  _childTriggerChecker: {fileID: 0}
+  punchableMovement: {fileID: 0}
+  punchableMovementTutorial: {fileID: 1584704517815403632}
+  _childTriggerChecker: {fileID: 9093512868584081730}
   correctMotion: 2
 --- !u!114 &6932913413870825073
 MonoBehaviour:
@@ -191,7 +193,7 @@ MonoBehaviour:
   _rigidbody: {fileID: 1799086430646457080}
   _constantSpeed: 0
   _meshRenderer: {fileID: 473757149145094066}
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 5539330588873230402}
   _breakable: {fileID: 865326812529098732}
 --- !u!1 &8257662787426361321
 GameObject:
@@ -332,6 +334,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 188389450042693676}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9093512868584081730 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8984662507685417326, guid: 6fca985eb781c52418c5a5554fd5669f,
+    type: 3}
+  m_PrefabInstance: {fileID: 188389450042693676}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b3aa0390ecb6e44b584fbae0820f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5782283082451977123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -418,6 +432,12 @@ PrefabInstance:
 --- !u!4 &1583511073952498556 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5027997668536418527, guid: 645da4b147399544e9e130e66094e636,
+    type: 3}
+  m_PrefabInstance: {fileID: 5782283082451977123}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5539330588873230402 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2081063256712252385, guid: 645da4b147399544e9e130e66094e636,
     type: 3}
   m_PrefabInstance: {fileID: 5782283082451977123}
   m_PrefabAsset: {fileID: 0}

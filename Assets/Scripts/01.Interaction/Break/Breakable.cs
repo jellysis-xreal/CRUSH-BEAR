@@ -39,16 +39,18 @@ namespace UnityEngine.XR.Content.Interaction
         /// </summary>
         public BreakEvent onBreak => m_OnBreak;
         
-        [SerializeField] public IPunchableMovement _punchableMovement;
+        // [SerializeField] public IPunchableMovement _punchableMovement;
+        public PunchableMovement punchableMovement;
+        public PunchableMovementTutorial punchableMovementTutorial;
         
         public ChildTriggerChecker _childTriggerChecker;
         public EnumTypes.Motion correctMotion = EnumTypes.Motion.None;
-
+        
         // 다시 풀링에 넣을 때 변수 초기화, VFX 초기화 
         public void InitBreakable()
         {
-            if (_punchableMovement == null)
-                _punchableMovement = GetComponent<IPunchableMovement>();
+            /*if (_punchableMovement == null)
+                _punchableMovement = GetComponent<IPunchableMovement>();*/
 
             if (Utils.TryGetComponentInChild(this.transform, out ChildTriggerChecker childTrigger))
             {
@@ -69,14 +71,16 @@ namespace UnityEngine.XR.Content.Interaction
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion) ;
-                _punchableMovement.EndInteraction();
+                punchableMovement.EndInteraction();
+                // _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
                 GameManager.TutorialPunch.processedNumber++; 
                 GameManager.TutorialPunch.succeedNumber++;
                 GameManager.Score.ScoringPunch(this.gameObject, true, correctMotion);
-                _punchableMovement.EndInteraction();
+                punchableMovementTutorial.EndInteraction();
+                // _punchableMovement.EndInteraction();
             }
             
 
@@ -92,14 +96,18 @@ namespace UnityEngine.XR.Content.Interaction
             if (GameManager.Instance.currentGameState == GameState.Waving)
             {
                 GameManager.Score.ScoringPunch(this.gameObject, false);
-                _punchableMovement.EndInteraction();
+                punchableMovement.EndInteraction();
+
+                // _punchableMovement.EndInteraction();
             }
             else if (GameManager.Instance.currentGameState == GameState.Tutorial)
             {
                 //Debug.Log("[Tutorial Punch] Fail");
                 GameManager.TutorialPunch.processedNumber++;
                 GameManager.Score.ScoringPunch(this.gameObject, true);
-                _punchableMovement.EndInteraction();
+                punchableMovementTutorial.EndInteraction();
+
+                // _punchableMovement.EndInteraction();
             }
         }
         

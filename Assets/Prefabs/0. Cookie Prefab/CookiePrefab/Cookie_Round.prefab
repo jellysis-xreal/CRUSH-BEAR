@@ -148,12 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a11f24daca7f429c47d98e8dbc976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrivalBoxNum: 0
-  arriveTime: 0
   beatNum: 0
   typeIndex: 0
   _rigidbody: {fileID: 8193191871380599605}
-  _constantSpeed: 0
   _meshRenderer: {fileID: 7284893147149080758}
   spriteRenderer: {fileID: 0}
   _breakable: {fileID: 6651014688377730079}
@@ -178,6 +175,8 @@ MonoBehaviour:
       m_Calls: []
   m_Destroyed: 0
   IsEndingCookie: 0
+  punchableMovement: {fileID: -1907796620976237942}
+  punchableMovementTutorial: {fileID: 0}
   _childTriggerChecker: {fileID: 0}
   correctMotion: 6
 --- !u!114 &7207592894370903160

@@ -157,6 +157,8 @@ MonoBehaviour:
       m_Calls: []
   m_Destroyed: 0
   IsEndingCookie: 0
+  punchableMovement: {fileID: 0}
+  punchableMovementTutorial: {fileID: 7554578937000182857}
   _childTriggerChecker: {fileID: 1052597868769827392}
   correctMotion: 1
 --- !u!114 &366712034925401827
@@ -186,7 +188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc6c2e4e5207214a874cc0671d2c0e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrivalBoxNum: 0
   arriveTime: 0
   parentTransform: {fileID: 4137369767866628552}
   _rigidbody: {fileID: 4036367542367450808}

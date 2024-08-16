@@ -58,7 +58,7 @@ public class HittableMovement : MonoBehaviour
     {
         _baseObject = GetComponent<BaseObject>();
         _rigidbody = GetComponent<Rigidbody>();
-        _player = GameObject.FindWithTag("Player");
+        _player = GameManager.Player.gameObject;  //GameObject.FindWithTag("Player");
         _meshRenderer = transform.GetChild(0).GetComponent<MeshRenderer>();
         
         if (Debugging)

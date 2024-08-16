@@ -270,7 +270,7 @@ public class ScoreManager : MonoBehaviour
         if (resultScore == scoreType.Perfect || resultScore == scoreType.Good)
             GameManager.Sound.PlayEffect_Punch();
         
-        Debug.Log("Scoring Punch " + resultScore);
+        // Debug.Log("Scoring Punch " + resultScore);
         
         //AddScore(score);
         //Vibrate(score);

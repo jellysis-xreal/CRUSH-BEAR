@@ -62,7 +62,6 @@ public class UI_Results : MonoBehaviour
     {
         ResultRank(); // Set _rank
         RankImage.sprite = RankSprites[(int)_rank];
-        NoteImage.sprite = NoteSprites[(int)_rank];
         
         ScoreUI.text = $"{Score}";
         ComboUI.text = $"{GameManager.Combo.GetMaxCombo()}";

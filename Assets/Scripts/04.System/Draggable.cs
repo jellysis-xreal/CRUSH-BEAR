@@ -13,7 +13,6 @@ public class Draggable : MonoBehaviour
     private float maxZ = 0.07f;
 
     [SerializeField] public DiaryAniController diaryController_;
-    public Rigidbody rb;
     private GrabInteractable grab;
     private bool isWaiting;
     private Vector3 originalPos;

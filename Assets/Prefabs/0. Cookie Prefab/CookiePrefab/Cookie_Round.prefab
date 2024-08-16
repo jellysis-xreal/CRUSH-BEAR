@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8952612423226200737}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.5503929, w: -0.83490574}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 0.29999998}
   m_ConstrainProportionsScale: 1
@@ -148,12 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a11f24daca7f429c47d98e8dbc976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrivalBoxNum: 0
-  arriveTime: 0
   beatNum: 0
   typeIndex: 0
   _rigidbody: {fileID: 8193191871380599605}
-  _constantSpeed: 0
   _meshRenderer: {fileID: 7284893147149080758}
   spriteRenderer: {fileID: 0}
   _breakable: {fileID: 6651014688377730079}
@@ -193,5 +190,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPosition: {x: 0, y: 0, z: 0}
-  stopDistance: 6
+  stopDistance: 7
   rotationDuration: 1

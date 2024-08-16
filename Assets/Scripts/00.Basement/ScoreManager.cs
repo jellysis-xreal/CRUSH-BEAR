@@ -276,7 +276,7 @@ public class ScoreManager : MonoBehaviour
         //Vibrate(score);
         Vibrate(resultScore);
         
-        // SetScoreEffect(score, target.transform.position);
+        SetScoreEffect(resultScore, target.transform.position);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
         float mPunchSpeed = Math.Max(_RHandSpeed, _LHandSpeed);
@@ -489,7 +489,7 @@ public class ScoreManager : MonoBehaviour
         if (effect != null)
         {
             effect = Instantiate(effect);
-            effect.name = score.ToString();
+            // effect.name = score.ToString();
             effect.SetActive(false);
         }
 

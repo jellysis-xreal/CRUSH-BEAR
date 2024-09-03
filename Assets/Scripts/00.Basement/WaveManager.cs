@@ -339,7 +339,7 @@ public class WaveManager : MonoBehaviour
         waveTime = 0;
         currentBeatNum = 0;
         currenWaveNum++;
-
+        Debug.Log(currenWaveNum);
         if (currenWaveNum > endWaveNum)
             return;
         

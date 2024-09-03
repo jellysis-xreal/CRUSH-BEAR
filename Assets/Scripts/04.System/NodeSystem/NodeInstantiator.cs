@@ -65,7 +65,7 @@ public class NodeInstantiator : MonoBehaviour
         if(spawnCancel != null)
         {
             spawnCancel.Cancel();
-            spawnCancel.Dispose();
+            spawnCancel = null;
         }
         spawnCancel = new CancellationTokenSource();
         queueCancel = new CancellationTokenSource();
@@ -177,8 +177,11 @@ public class NodeInstantiator : MonoBehaviour
 
     public void FinishAllWaveNode()
     {
-        spawnCancel.Cancel();
-        spawnCancel.Dispose();
+        if(spawnCancel != null)
+        {
+            spawnCancel.Cancel();
+            spawnCancel = null;
+        }
         foreach (var shoot in shootToppingPool) shoot.SetActive(false);
         foreach (var punch in punchToppingPool) punch.SetActive(false);
         foreach (var hit in hitToppingPool) hit.SetActive(false);

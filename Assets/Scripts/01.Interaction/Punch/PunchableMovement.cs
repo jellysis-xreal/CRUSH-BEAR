@@ -108,9 +108,12 @@ public class PunchableMovement : MonoBehaviour, IPunchableMovement
     }
     async UniTask ActiveTime(float coolTime)
     {
-        breakCancel.Cancel();
-        breakCancel.Dispose();
-        breakCancel = null;
+        if(breakCancel != null)
+        {
+            breakCancel.Cancel();
+            breakCancel.Dispose();
+            breakCancel = null;
+        }
         await UniTask.WaitForSeconds(coolTime);
         transform.gameObject.SetActive(false); // coolTime 다 됐으니 비활성화
         _breakable.m_Destroyed = false;

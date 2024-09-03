@@ -60,6 +60,10 @@ public class PlayerManager : MonoBehaviour
         //rightController = RightController.GetComponent<XRBaseController>();
         //leftController = LeftController.GetComponent<XRBaseController>();
 
+        // 초기화 코드
+        rightController = OVRInput.Controller.RTouch;
+        leftController = OVRInput.Controller.LTouch;
+
         RightInteraction = player.R_Interaction;
         LeftInteraction = player.L_Interaction;
         // Player Life
@@ -178,17 +182,36 @@ public class PlayerManager : MonoBehaviour
     // =========== Haptic 진동 =========== 
     // ===================================
     // 기본 진동
+    public void TriggerHaptic(OVRInput.Controller controller, float amplitude, float duration)
+    {
+        OVRInput.SetControllerVibration(amplitude, amplitude, controller);
+        StartCoroutine(StopHapticAfterDuration(controller, duration));
+    }
+
     public void ActiveRightHaptic(float amplitude, float duration)
     {
-        OVRInput.SetControllerVibration(amplitude, amplitude, rightController);
-        StartCoroutine(StopHapticAfterDuration(rightController, duration));
+        //Debug.Log("[SYJ] ActiveRightHaptic");
+        TriggerHaptic(rightController, amplitude, duration);
     }
-    
+
     public void ActiveLeftHaptic(float amplitude, float duration)
     {
-        OVRInput.SetControllerVibration(amplitude, amplitude, leftController);
-        StartCoroutine(StopHapticAfterDuration(leftController, duration));
+        //Debug.Log("[SYJ] ActiveLeftHaptic");
+        TriggerHaptic(leftController, amplitude, duration);
     }
+
+    // 기본 진동
+    //public void ActiveRightHaptic(float amplitude, float duration)
+    //{
+    //    OVRInput.SetControllerVibration(amplitude, amplitude, rightController);
+    //    StartCoroutine(StopHapticAfterDuration(rightController, duration));
+    //}
+    
+    //public void ActiveLeftHaptic(float amplitude, float duration)
+    //{
+    //    OVRInput.SetControllerVibration(amplitude, amplitude, leftController);
+    //    StartCoroutine(StopHapticAfterDuration(leftController, duration));
+    //}
     
     private IEnumerator StopHapticAfterDuration(OVRInput.Controller controller, float duration)
     {

@@ -158,7 +158,7 @@ public class ScoreManager : MonoBehaviour
     public void ScoringMiss(GameObject target)
     {
         scoreType score = scoreType.Miss;
-        //AddScore(score);
+        AddScore(score);
         
         // Swing은 뒤로 넘어간 오브젝트 miss 처리
         //if (GameManager.Wave.GetWaveType() == WaveType.Hitting)
@@ -201,7 +201,7 @@ public class ScoreManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
             AddScore(score);
-            //Vibrate(score);
+            Vibrate(score);
             SetScoreEffect(score, target.transform.position);    
         }
         else
@@ -265,10 +265,10 @@ public class ScoreManager : MonoBehaviour
         if (resultScore == scoreType.Perfect || resultScore == scoreType.Good)
             GameManager.Sound.PlayEffect_Punch();
         
-        // Debug.Log("Scoring Punch " + resultScore);
-        
+        // Debug.Log("Scoring Punch " + resultScore);       
         AddScore(resultScore);
         //Vibrate(score);
+        Vibrate(resultScore);
         
         SetScoreEffect(resultScore, target.transform.position);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
@@ -483,7 +483,7 @@ public class ScoreManager : MonoBehaviour
         if (effect != null)
         {
             effect = Instantiate(effect);
-            effect.name = score.ToString();
+            // effect.name = score.ToString();
             effect.SetActive(false);
         }
 

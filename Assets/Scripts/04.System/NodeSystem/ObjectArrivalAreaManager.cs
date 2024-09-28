@@ -12,7 +12,7 @@ public class ObjectArrivalAreaManager : MonoBehaviour
 
     private void Start()
     {
-        playerTransform = GameManager.Player.player;
+        playerTransform = GameManager.Player.player.gameObject;
         //IKplayerTransform = GameManager.Player.IK_player;
     }
 

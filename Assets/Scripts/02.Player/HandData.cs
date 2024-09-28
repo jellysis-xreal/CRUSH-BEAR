@@ -18,7 +18,7 @@ public class HandData : MonoBehaviour
     //private float GrabValue = 0.7f;
     
     [Header("setting(auto)")] 
-    [SerializeField] private GameObject Controller;
+    //[SerializeField] private GameObject Controller;
     [SerializeField] private InputActionProperty ControllerInput;
     [SerializeField] private float maxSpeed = 0.0f;
     [SerializeField] private float perfectThresholdSpeed = 0.0f;
@@ -26,11 +26,9 @@ public class HandData : MonoBehaviour
     
     [Header("playing value")] 
     public InteractionType ControllerType;
-    public float ControllerSpeed;
-    public Vector3 ControllerVector;
-    
-    private Vector3 beforePos;
-    private Vector3 currentPos;
+    //public float ControllerSpeed;
+    // private Vector3 beforePos;
+    // private Vector3 currentPos;
 
     private List<float> controllerSpeedQueue = new List<float>();
     private float settingTime = 5.0f;
@@ -40,8 +38,8 @@ public class HandData : MonoBehaviour
     
     private void Awake()
     {
-        Controller = transform.parent.gameObject;
-        ControllerInput = GetComponent<AnimateHandOnInput>().grabAnimationAction;
+        //Controller = transform.parent.gameObject;
+        //ControllerInput = GetComponent<AnimateHandOnInput>().grabAnimationAction;
     }
     private void Update()
     {
@@ -60,20 +58,31 @@ public class HandData : MonoBehaviour
             }
         }
 
-        updateControllerSpeed();
+        //updateControllerSpeed();
     }
 
-    private void updateControllerSpeed()
+    public float GetControllerSpeed()
     {
-        currentPos = Controller.transform.position;
-        ControllerSpeed = (beforePos - currentPos).magnitude / Time.deltaTime;
-        ControllerVector = (beforePos - currentPos).normalized;
-        beforePos = currentPos;
+        float speed = 0.0f;
+        switch (handModelType)
+        {
+            case HandModelType.Left:
+                speed = OVRInput.GetLocalControllerVelocity(OVRInput.Controller.LTouch).magnitude;
+                break;
+            
+            case HandModelType.Right:
+                speed = OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch).magnitude;
+                break;
+        }
+
+        //Debug.Log($"[JMH][HandData] ControllerSpeed: {speed:F5}");
+
+        return speed;
     }
     
     public bool IsMoveQuickly()
     {
-        return ControllerSpeed > SpeedValue;
+        return GetControllerSpeed() > SpeedValue;
     }
 
     public float GetMaxSpeed()
@@ -93,13 +102,22 @@ public class HandData : MonoBehaviour
     
     private void QueueControllerSpeed()
     {
-        currentPos = Controller.transform.position;
-        ControllerSpeed = (beforePos - currentPos).magnitude / Time.deltaTime;
+        //currentPos = this.transform.position;
+        //ControllerSpeed = (beforePos - currentPos).magnitude / Time.deltaTime;
+        float ControllerSpeed = 0.0f;
+        switch (handModelType)
+        {
+            case HandModelType.Left:
+                ControllerSpeed = OVRInput.GetLocalControllerVelocity(OVRInput.Controller.LTouch).magnitude;
+                break;
+            
+            case HandModelType.Right:
+                ControllerSpeed = OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch).magnitude;
+                break;
+        }
         
         // Add the current speed to the queue
-        controllerSpeedQueue.Add(ControllerSpeed);
-        
-        beforePos = currentPos;
+        controllerSpeedQueue.Add(ControllerSpeed); 
     }
     
     private void SetControllerMaxSpeed()

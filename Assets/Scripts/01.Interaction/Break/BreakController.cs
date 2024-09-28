@@ -115,14 +115,6 @@ public class BreakController : MonoBehaviour
             if (breakTime < 0.2f)
             {   
                 objRigidboby.AddForce(shatteredVector * 10f);
-                // objRigidboby.AddForce(Vector3.up * 3.0f);
-                
-                /*objRigidboby.AddForce(local * 2.0f);
-                objRigidboby.AddForce(Vector3.up * 3.0f);
-                // TODO: 현재 토핑이 반대로 돌아감. 수정한 뒤에 Vector.back으로!
-                objRigidboby.AddForce(Vector3.forward * 2.0f);*/
-                //Vector3 moveDir = obj.transform.localPosition - Vector3.zero;
-                //obj.transform.localPosition += moveDir * Time.deltaTime;
             }
         }
     }

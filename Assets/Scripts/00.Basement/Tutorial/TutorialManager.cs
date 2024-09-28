@@ -38,14 +38,14 @@ public class TutorialManager : MonoBehaviour
         _audioSource = GameObject.FindWithTag("TutorialAudio").GetComponent<AudioSource>();
             
         nodePunchingRail = _tutorialItems.transform.GetChild(0).GetChild(1).GetChild(0).gameObject;
-        dialogueText = nodePunchingRail.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-        Transform animations = nodePunchingRail.transform.GetChild(0).GetChild(2);
+        dialogueText = nodePunchingRail.transform.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>();
+        Transform animations = nodePunchingRail.transform.GetChild(0).GetChild(3);
         aniPunch1 = animations.GetChild(0).GetComponent<Animator>(); //FindAnimator("Tutorial-Ani01-punch1");
         aniPunch2 = animations.GetChild(1).GetComponent<Animator>(); //FindAnimator("Tutorial-Ani02-punch2");
                 
         nodeHittingRail = _tutorialItems.transform.GetChild(0).GetChild(2).gameObject;
-        dialogueText2 = nodeHittingRail.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-        animations = nodeHittingRail.transform.GetChild(0).GetChild(2);
+        dialogueText2 = nodeHittingRail.transform.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>();
+        animations = nodeHittingRail.transform.GetChild(0).GetChild(3);
         
         aniSwing = animations.GetChild(2).GetComponent<Animator>(); //FindAnimator("Tutorial-Ani03-swing");
         aniFighting = animations.GetChild(3).GetComponent<Animator>();//FindAnimator("Tutorial-Ani04-fighting");
@@ -394,6 +394,7 @@ public class TutorialManager : MonoBehaviour
         //Debug.Log("Phase 16 완료!");
 
         GameManager.Instance.Save.ClearTutorial();
+        GameManager.Sound.PlayMusic_Lobby(false);
         // 로비 씬으로 이동
         GameManager.Instance.WaveToLobby();
     }

@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -17,14 +19,13 @@ public class ComboManager : MonoBehaviour
     public Slider comboSliderPunch;
     public Slider comboSliderHitting;
     public Transform[] comboMultiflierTransform;
-    private ComboText comboMultiflierPunch, comboMultiflierHitting;
-
+    private TextMeshProUGUI comboMultiflierPunch, comboMultiflierHitting;
     private uint maxCombo = 0;
     
     public void Init()
     {
         InitComboUI();
-        comboCoroutine = StartCoroutine(ComboRoutine());
+        ComboRoutine().Forget();
     }
     public void GamePause()
     {
@@ -67,13 +68,13 @@ public class ComboManager : MonoBehaviour
         comboPercent = 0;
 
         //comboSlider.value = comboValueFever;
-        comboMultiflierPunch = comboMultiflierTransform[0].GetComponent<ComboText>();
-        comboMultiflierHitting = comboMultiflierTransform[1].GetComponent<ComboText>();
+        comboMultiflierPunch = comboMultiflierTransform[0].GetComponent<TextMeshProUGUI>();
+        comboMultiflierHitting = comboMultiflierTransform[1].GetComponent<TextMeshProUGUI>();
         comboMultiflier = 1;
-        comboMultiflierPunch.ChangeTextToImage(comboMultiflier);
-        comboMultiflierHitting.ChangeTextToImage(comboMultiflier);
+        comboMultiflierPunch.text = "x" + $"{comboMultiflier}";
+        comboMultiflierHitting.text = "x" + $"{comboMultiflier}";
     }
-    IEnumerator ComboRoutine()
+    async UniTask ComboRoutine()
     {
         //Debug.Log("Combo Routine " + comboMultiflier);
 
@@ -92,13 +93,13 @@ public class ComboManager : MonoBehaviour
                 comboPercent = comboValue % 10;
             }
 
-            comboMultiflierPunch.ChangeTextToImage(comboMultiflier);
-            comboMultiflierHitting.ChangeTextToImage(comboMultiflier);
+            comboMultiflierPunch.text = "x" + $"{comboMultiflier}";
+            comboMultiflierHitting.text = "x" + $"{comboMultiflier}";
 
             comboSliderPunch.value = comboPercent;
             comboSliderHitting.value = comboPercent;
 
-            yield return new WaitForSeconds(waitSecond);
+            await UniTask.WaitForSeconds(waitSecond);
         }
     }
     public uint GetMaxCombo()

@@ -26,6 +26,8 @@ public class SaveManager
             SaveLoadData();
             //Debug.Log("���� ����");
         }
+
+        Debug.Log("Data Load! is First: " + data.isFirst + ", Path: " + path);
     }
 
     public void SaveLoadData()

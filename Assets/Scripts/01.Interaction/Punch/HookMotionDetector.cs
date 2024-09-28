@@ -18,7 +18,7 @@ public class HookMotionDetector : MonoBehaviour
     private Coroutine _chekingUpperCutCoroutine;
     public bool hookCoroutineExist = false;
     public bool upperCutCoroutineExist = false;
-    public InputActionProperty activateAction;
+    //public InputActionProperty activateAction;
      
     public Motion motion;
     public Motion hookMotion; // LeftHook, RightHook, None만 사용
@@ -38,7 +38,7 @@ public class HookMotionDetector : MonoBehaviour
         if(_chekingHookCoroutine == null && GetControllerActivateAction()) CheckHookMotionCondition(); 
         if(_chekingUpperCutCoroutine == null && GetControllerActivateAction()) CheckUpperCutMotionCondition(); 
         
-        handVelocity = handData.ControllerSpeed;
+        handVelocity = handData.GetControllerSpeed();
         
         //[XMC]if(_chekingHookCoroutine != null) Debug.Log("hook Coroutine exist!");
         //[XMC]if(_chekingUpperCutCoroutine != null) Debug.Log("upper Coroutine exist!");
@@ -52,7 +52,7 @@ public class HookMotionDetector : MonoBehaviour
     public bool GetControllerActivateAction()
     {
         // hand의 grab버튼 활성화 확인
-        return activateAction.action.IsInProgress();
+        return true;
     }
 
     private void CheckHookMotionCondition()

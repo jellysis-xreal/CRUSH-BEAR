@@ -1,40 +1,48 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using Oculus.Interaction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class Draggable : MonoBehaviour
 {
     // [SerializeField] 
     //private float minZ = 0.0f;
     // [SerializeField] 
-    private float maxZ = 0.04f;
+    private float maxZ = 0.07f;
 
     [SerializeField] public DiaryAniController diaryController_;
-    Vector3 transformOrigin;
+    private GrabInteractable grab;
+    private bool isWaiting;
+    private Vector3 originalPos;
 
     void Start() {
-        transformOrigin = transform.position;
+        grab = GetComponent<GrabInteractable>();
+        grab.WhenPointerEventRaised -= OnGrab;
+        grab.WhenPointerEventRaised += OnGrab;
+        originalPos = transform.position;   
+        isWaiting = false;
     }
 
-    void Update() {
-        transform.position = new Vector3(transformOrigin.x, transformOrigin.y, transform.position.z);
-
-        if ((transformOrigin.z - transform.position.z) < 0.0f)
+    async void OnGrab(PointerEvent pointerEvent)
+    {
+        if (!isWaiting && pointerEvent.Type == PointerEventType.Select)
         {
-            diaryController_.returned = true;
+            transform.DOLocalMoveZ(maxZ, 0.5f);
+            //transform.position = new Vector3(originalPos.x, originalPos.y, originalPos.z - 1);
+            isWaiting = true;   
         }
-
-        if ((transformOrigin.z - transform.position.z) > maxZ)
+        else if(isWaiting && pointerEvent.Type == PointerEventType.Unselect)
         {
-            if (diaryController_.returned)
+            if(diaryController_.gameObject.activeSelf)
             {
-                diaryController_.returned = false;
-                // Debug.Log("Global Position: " + transform.localPosition);
-                //Debug.Log("[TEST] bookPage: " + diaryController_.bookPage.ToString());
-                transform.position = new Vector3(transformOrigin.x, transformOrigin.y, transformOrigin.z - maxZ);
                 diaryController_.nextPage();
             }
+            transform.DOLocalMoveZ(0, 1f);
+            //transform.position = new Vector3(originalPos.x, originalPos.y, originalPos.z);
+            await UniTask.WaitForSeconds(2);
+            isWaiting = false;
         }
     }
 }

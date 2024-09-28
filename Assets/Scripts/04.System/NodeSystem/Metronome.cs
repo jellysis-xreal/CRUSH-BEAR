@@ -1,6 +1,5 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Metronome : MonoBehaviour
@@ -10,14 +9,13 @@ public class Metronome : MonoBehaviour
     double songStartTime;
     double songPosition;
     public double secondsPerBeat;
-    bool isBeated;
     bool isPlaying;
     public int currentBeat;
-    public int shootStandard; // 노트를 몇 BPM 전에 발사하는 지, 그 기준.
+    public int shootStandard; // ????? ?? BPM ???? ?????? ??, ?? ????.
 
     private event Action<int> onBeat;
 
-    public void Init(float bpm, uint musicGUID) // 웨이브 시작 시 해당 함수 호출!
+    public void Init(float bpm, uint musicGUID) // ????? ???? ?? ??? ??? ???!
     {
         this.musicGUID = musicGUID;
         lastbeat = 0;
@@ -28,32 +26,30 @@ public class Metronome : MonoBehaviour
 
     public void StartMusic()
     {
-        GameManager.Sound.PlayWaveMusic(musicGUID); //음악 start
+        GameManager.Sound.PlayWaveMusic(musicGUID); //???? start
         songStartTime = AudioSettings.dspTime;
         isPlaying = true;
-        StartCoroutine(CheckBeat());
+        CheckBeat().Forget();
     }
 
-    IEnumerator CheckBeat()
+    async UniTask CheckBeat()
     {
         while (isPlaying)
         {
-            isBeated = false;
             songPosition = AudioSettings.dspTime - songStartTime;
             if (songPosition > lastbeat + secondsPerBeat)
             {
                 currentBeat++;
-                onBeat?.Invoke(currentBeat); // 비트마다 호출되는 이벤트
+                onBeat?.Invoke(currentBeat); // ??????? ????? ????
                 lastbeat += secondsPerBeat;
-                isBeated = true;
             }
 
             //else
             //Debug.LogWarning("CheckBeat Error");
-            yield return null;
+            await UniTask.Yield();
         }
 
-        onBeat = null; // 이벤트 초기화!
+        onBeat = null; // ???? ????!
     }
     public void BindEvent(Action<int> someAction)
     {
@@ -61,7 +57,6 @@ public class Metronome : MonoBehaviour
         onBeat += someAction;
     }
     public void UnBindEvent(Action<int> someAction) => onBeat -= someAction;
-    public bool IsBeated() => isBeated;
     public bool SetGameEnd()
     {
         isPlaying = false;

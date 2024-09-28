@@ -9,6 +9,8 @@ using Unity.Mathematics;
 using UnityEngine.Serialization;
 using UnityEngine.XR.Content.Interaction;
 using Random = UnityEngine.Random;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class NodeInstantiator : MonoBehaviour
 {
@@ -44,7 +46,8 @@ public class NodeInstantiator : MonoBehaviour
     public List<uint> _checkNodeIndex = new List<uint>();
     public List<uint> _checkTempList = new List<uint>();
     
-    private Coroutine _queueCoroutine, _spawnCoroutine;
+    private UniTask _queueCoroutine, _spawnCoroutine;
+    private CancellationTokenSource queueCancel, spawnCancel;
     private bool isPunchInitialized, isHitInitialized;
 
     private void Start()
@@ -59,8 +62,13 @@ public class NodeInstantiator : MonoBehaviour
     public void InitToppingPool(WaveType wave)
     {
         // 이전 wave 코루틴 중지
-        if(_spawnCoroutine != null)
-            StopCoroutine(_spawnCoroutine);
+        if(spawnCancel != null)
+        {
+            spawnCancel.Cancel();
+            spawnCancel = null;
+        }
+        spawnCancel = new CancellationTokenSource();
+        queueCancel = new CancellationTokenSource();
         // topping pool 생성해줌.
         // Wave가 처음 실행될 때, 한번 초기화 진행하는 것임
         //Debug.Log($"[Node Maker] : Init Topping Pool! This wave is [{wave}]"); //[XMC]
@@ -83,8 +91,10 @@ public class NodeInstantiator : MonoBehaviour
                 break;
         }
 
-        _queueCoroutine = StartCoroutine(NodeEnqueueManager(wave));
-        _spawnCoroutine = StartCoroutine(NodeSpawnManager(wave));
+        _queueCoroutine = NodeEnqueueManager(wave, queueCancel.Token);
+        _spawnCoroutine = NodeSpawnManager(wave, spawnCancel.Token);
+        _queueCoroutine.Forget();
+        _spawnCoroutine.Forget();
         //[XMC]Debug.Log("[Node Maker] Start Coroutine");
     }
 
@@ -100,7 +110,7 @@ public class NodeInstantiator : MonoBehaviour
                 node.SetActive(false);
 
                 hitToppingPool[i] = node;
-                hitToppingPool[i].name = "Hit_R_" + i;
+                // hitToppingPool[i].name = "Hit_R_" + i;
             }
 
             for (int i = MAX_POOL_SIZE / 2; i < MAX_POOL_SIZE; ++i)
@@ -110,7 +120,7 @@ public class NodeInstantiator : MonoBehaviour
                 node.SetActive(false);
 
                 hitToppingPool[i] = node;
-                hitToppingPool[i].name = "Hit_B_" + i;
+                // hitToppingPool[i].name = "Hit_B_" + i;
             }
             //[XMC]Debug.Log($"[Node Maker] Generate {hitToppingPool.Length} hittable Object ");
             isHitInitialized = true;
@@ -121,18 +131,21 @@ public class NodeInstantiator : MonoBehaviour
         }
     }
 
-    IEnumerator NodeEnqueueManager(WaveType wave)
+    async UniTask NodeEnqueueManager(WaveType wave, CancellationToken token)
     {
         while (true) // 지금은 10개 생성, 대기 Queue 10개까지 됨.
         {
+
             // ?초 마다 배열 안에 있는 객체들이 차례대로 생성될 것
             //TODO: XMC 임시
             float _time = 0.02f;
             // if (GameManager.Wave.currentWave == WaveType.Punching) _time = 0.02f;
             // else if (GameManager.Wave.currentWave == WaveType.Hitting) _time = 0.02f;
             
-            yield return new WaitForSecondsRealtime(_time);
-            
+            await UniTask.WaitForSeconds(_time, cancellationToken : token);
+
+            if (token.IsCancellationRequested)
+                break;
             // Music data의 4개의 node data를 NodeInfo 형식으로 바꾸어, Enqueue.
             if (_nodeQueue.Count < MAX_QUEUE_SIZE)
             {
@@ -142,7 +155,7 @@ public class NodeInstantiator : MonoBehaviour
         }
     }
 
-    IEnumerator NodeSpawnManager(WaveType wave)
+    async UniTask NodeSpawnManager(WaveType wave, CancellationToken token)
     {
         while (true)
         {
@@ -150,8 +163,9 @@ public class NodeInstantiator : MonoBehaviour
             if (GameManager.Wave.currentWave == WaveType.Punching) _time = 0.1f;
             else if (GameManager.Wave.currentWave == WaveType.Hitting) _time = 0.05f;
             
-            yield return new WaitForSecondsRealtime(_time);
-            
+            await UniTask.WaitForSeconds(_time, cancellationToken: token);
+            if (token.IsCancellationRequested)
+                break;
             if (_nodeQueue.Count > 0)
             {
                 // Dequeue하고 토핑 풀에 값 하나 넣고, 존재하는 것에 다 넣었으면(Dequeue) 반복문 종료.
@@ -163,13 +177,17 @@ public class NodeInstantiator : MonoBehaviour
 
     public void FinishAllWaveNode()
     {
-        StopCoroutine(_spawnCoroutine);
-        foreach (var shoot in shootToppingPool) Destroy(shoot);
-        foreach (var punch in punchToppingPool) Destroy(punch);
-        foreach (var hit in hitToppingPool) Destroy(hit);
-        _nodeQueue.Clear();
-        _checkNodeIndex.Clear();
-        _checkTempList.Clear();
+        if(spawnCancel != null)
+        {
+            spawnCancel.Cancel();
+            spawnCancel = null;
+        }
+        foreach (var shoot in shootToppingPool) shoot.SetActive(false);
+        foreach (var punch in punchToppingPool) punch.SetActive(false);
+        foreach (var hit in hitToppingPool) hit.SetActive(false);
+        //_nodeQueue.Clear();
+        //_checkNodeIndex.Clear();
+        //_checkTempList.Clear();
         isPunchInitialized = false;
         isHitInitialized = false;
     }
@@ -202,7 +220,8 @@ public class NodeInstantiator : MonoBehaviour
             // isWaveFinished = true;
             //Debug.Log("Error 더이상 Enqueue할 data없음."); //[XMC]
             //Debug.Log(e.ToString());
-            StopCoroutine(_queueCoroutine);
+            queueCancel.Cancel();
+            queueCancel.Dispose();
             return;
         }
         // Debug.Log($"m to n {wave}, musicDataIndex : {_musicDataIndex}, {nodes}");
@@ -308,14 +327,15 @@ public class NodeInstantiator : MonoBehaviour
         
         for (int i = 0; i < MAX_POOL_SIZE; i++)
         {
-            if (wave == WaveType.Shooting)
+            /*if (wave == WaveType.Shooting)
             {
                 //tempPool = shootToppingPool;
                 if (_nodeQueue.Count > 0)
                     tempNodeInfo = _nodeQueue.Dequeue(); // nodeInfo 노드 하나에 해당하는 값  
                 //[XMC]Debug.Log($"[Node Maker] Dequeue! {wave} {tempNodeInfo.beatNum} nodeQueue.Count : {_nodeQueue.Count}");
             }
-            else if (wave == WaveType.Punching)
+            else */
+            if (wave == WaveType.Punching)
             {
                 if (_nodeQueue.Count <= 0) return;
                 if (!CanSetNewTopping(wave))
@@ -342,7 +362,7 @@ public class NodeInstantiator : MonoBehaviour
                 PunchableMovement movement = punchToppingPool[i].GetComponent<PunchableMovement>();
                 movement.transform.position = tempNodeInfo.spawnPosition;
                 movement.beatNum = tempNodeInfo.beatNum;
-                StartCoroutine(movement.InitializeToppingRoutine(tempNodeInfo));
+                movement.InitializeToppingRoutine(tempNodeInfo);
                 SetPunchType(punchToppingPool[i], tempNodeInfo.punchTypeIndex, movement);
 
                 break;
@@ -351,7 +371,7 @@ public class NodeInstantiator : MonoBehaviour
             {
                 if (_nodeQueue.Count <= 0) return;
                 if (!CanSetNewTopping(wave)) return;
-                if (hitToppingPool[i].activeSelf == true) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
+                if (hitToppingPool[i].activeSelf) continue; // 이미 setactive(true)인 상태인 오브젝트면 넘어감!!
                 if (_nodeQueue.Peek().sideType == InteractionSide.Red && i > 9) continue; // 0~9 만 Red Object. 아니면 넘어감
                 if (_nodeQueue.Peek().sideType == InteractionSide.Blue && i < 10) continue; // 10~19만 Blue Object. 아니면 넘어감
 
@@ -447,7 +467,7 @@ public class NodeInstantiator : MonoBehaviour
                     case 4: // 레프트 로우컷
                         Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                         punchGameObject.transform.rotation = Quaternion.Euler(-40f, 0f, 0f);
-                        Instantiate(cookieDirectionPrefabs[4], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
                         break;
                     case 5: // 라이트 잽
                         Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
@@ -456,12 +476,12 @@ public class NodeInstantiator : MonoBehaviour
                     case 6: // 라이트 훅
                         Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                         punchGameObject.transform.rotation = Quaternion.Euler(0f, 30f, 270f);
-                        Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
                         break;
                     case 7: // 라이트 어퍼컷
                         Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;
                         punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
-                        Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
+                        Instantiate(cookieDirectionPrefabs[4], punchGameObject.transform);
                         break;
                     case 8: // 라이트 로우컷
                         Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;
@@ -497,7 +517,7 @@ public class NodeInstantiator : MonoBehaviour
                 case 4:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                     punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
-                    Instantiate(cookieDirectionPrefabs[4], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
                     break;
                 case 5:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
@@ -506,12 +526,12 @@ public class NodeInstantiator : MonoBehaviour
                 case 6:
                     Instantiate(childCollider[(int)typeIndex- 1], punchGameObject.transform).transform.localScale = Vector3.one;
                     punchGameObject.transform.rotation = Quaternion.Euler(0f, 30f, 270f);
-                    Instantiate(cookieDirectionPrefabs[2], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
                     break;
                 case 7:
                     Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;
                     punchGameObject.transform.rotation = Quaternion.Euler(15f, 0f, 0f);
-                    Instantiate(cookieDirectionPrefabs[3], punchGameObject.transform);
+                    Instantiate(cookieDirectionPrefabs[4], punchGameObject.transform);
                     break;
                 case 8:
                     Instantiate(childCollider[(int)typeIndex - 1], punchGameObject.transform).transform.localScale = Vector3.one;
@@ -522,7 +542,7 @@ public class NodeInstantiator : MonoBehaviour
                     break;
             }    
         }
-        punchGameObject.GetComponent<Breakable>().InitBreakable();
+        movement._breakable.InitBreakable();
         
         // typeIndex에 해당하는 콜라이더와 방향 UI가 이미 존재하면 생성하지 않는다.
         // 타입에 맞는 UI와 콜라이더를 자식으로 붙임. 
@@ -543,12 +563,12 @@ public class NodeInstantiator : MonoBehaviour
         //Debug.Log("Init Punch Topping Pool");
         if (!isPunchInitialized)
         {
-            brokenCookiePool = new List<BreakController>();
+            /*brokenCookiePool = new List<BreakController>();
             for (int i = 0; i < 10; i++)
             {
                 GameObject cookie = Instantiate(brokenCookiePrefabs[i % 2], Vector3.down, quaternion.identity);
                 brokenCookiePool.Add(cookie.GetComponent<BreakController>());
-            }
+            }*/
 
             punchToppingPool = new GameObject[MAX_POOL_SIZE];
             for (int i = 0; i < MAX_POOL_SIZE; i++)
@@ -562,7 +582,7 @@ public class NodeInstantiator : MonoBehaviour
                 // DontDestroyOnLoad(node);
                 
                 punchToppingPool[i] = node;
-                punchToppingPool[i].name = "Punch_" + i;
+                // punchToppingPool[i].name = "Punch_" + i;
             }
             isPunchInitialized = true;
         }

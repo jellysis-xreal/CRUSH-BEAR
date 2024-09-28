@@ -49,7 +49,7 @@ public class TutorialPunchManager : MonoBehaviour
         int startIndex = scores.Count - 1; 
         for (int i = startIndex; i > startIndex - zapGameObjects.Length; i--)
         {
-            if (scores[i] == scoreType.Perfect) num++;
+            if (scores[i] != scoreType.Miss) num++;
         }
         //Debug.Log($"Perfect Score : num {num} \\ Index {startIndex} to {startIndex - zapGameObjects.Length}");
         return num;
@@ -62,7 +62,7 @@ public class TutorialPunchManager : MonoBehaviour
         int startIndex = scores.Count - 1; 
         for (int i = startIndex; i > startIndex - 4; i--)
         {
-            if (scores[i] == scoreType.Miss || scores[i] == scoreType.Bad) return false;
+            if (scores[i] == scoreType.Miss) return false;
         }
         return true;
     }
@@ -147,7 +147,7 @@ public class TutorialPunchManager : MonoBehaviour
         upperCutGameObjects = new GameObject[6];
         for (int i = 0; i < prefabArrayLength; i++)
         {
-            GameObject gameObject = Instantiate(punchPrefab[i % 2]);
+            // GameObject gameObject = Instantiate(punchPrefab[i % 2]);
             //Debug.Log(gameObject.name);
             zapGameObjects[i] = Instantiate(punchPrefab[i % 2], zapRootGameObject.transform); // i에 따라 1, 2번 프리팹
             hookGameObjects[i] = Instantiate(punchPrefab[i % 2 + 2], hookRootGameObject.transform); // i에 따라 3, 4번 프리팹

@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 using UnityEngine.XR.Content.Interaction;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class EndingController : TimeLineController
 {
@@ -15,22 +14,23 @@ public class EndingController : TimeLineController
     [SerializeField]
     private GameObject startCookie, particle, creditRoom, endingCredit; // startCookie
     [SerializeField]
-    private Renderer fadeOutPanel;
+    private Image fadeOutPanel;
+    [SerializeField]
+    private PlayableDirector director;
     [SerializeField]
     private Transform cameraPoints;
     private int currentPosition;
-    private GameObject playerObject;
-
-    private const float CAMERA_OFFSET = 1.1176f;
-
+    [SerializeField]
+    private GameObject playerObject, endingCookie;
     public void InitSetting()
     {
-        playerObject = GameObject.FindWithTag("Player");
+        currentPosition = 0;
         particle.SetActive(true);
         SetObjectPosition(startCookie.transform, new Vector3(0, -0.1f, -0.4f), new Vector3(-60, 180, 0));
         CutsceneCookie breakable = startCookie.GetComponent<CutsceneCookie>();
         breakable.InitBreakable(this);
-        fadeOutPanel.material.color = new Color(0, 0, 0, 0);
+        fadeOutPanel.gameObject.SetActive(true);
+        fadeOutPanel.color = new Color(0, 0, 0, 0);
         creditRoom.SetActive(false);
     }
 
@@ -48,20 +48,34 @@ public class EndingController : TimeLineController
 
     public void StartEndingCredit()
     {
-        DOTween.Sequence().Append(fadeOutPanel.material.DOFade(1f, 1f))
-            .AppendCallback(ResetCameraPosition).
-            OnComplete(StartEnding);
+        DOTween.Sequence().Append(fadeOutPanel.DOFade(1f, 1f))
+            .AppendCallback(EndingCameraPosition).
+            AppendCallback(StartEnding);
     }
 
-    private void ResetCameraPosition()
+    private void CutsceneCameraPosition()
     {
-        playerObject.transform.position = cameraPoints.GetChild(currentPosition).position - new Vector3(0, CAMERA_OFFSET, 0);
-        playerObject.transform.rotation = cameraPoints.GetChild(currentPosition++).rotation;
+        playerObject.transform.position = new Vector3(0,-1,-1);
+        playerObject.transform.rotation = Quaternion.identity;
     }
+    private void EndingCameraPosition()
+    {
+        playerObject.transform.position = new Vector3(0.85f, -0.5f, -11.5f);
+            playerObject.transform.rotation = Quaternion.identity;
+    }
+    public void CutsceneStart()
+    {
+        endingCookie.SetActive(false);
+        GetComponent<Canvas>().enabled = false;
+        DOTween.Sequence().Append(fadeOutPanel.DOFade(1f, 1f))
+            .AppendCallback(CutsceneCameraPosition).
+             AppendCallback(director.Play).
+             Append(fadeOutPanel.DOFade(0f, 1f));
 
+    }
     private void StartEnding()
     {
-        playerObject.GetComponent<ActionBasedContinuousMoveProvider>().enabled = false;
+        //playerObject.GetComponent<ActionBasedContinuousMoveProvider>().enabled = false;
         fadeOutPanel.gameObject.SetActive(false);
         creditRoom.SetActive(true);
         endingCredit.SetActive(true);

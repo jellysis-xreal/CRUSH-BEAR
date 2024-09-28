@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class StageUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI title, score, stage;
-    [SerializeField] private Image background, curtain, rank, bearImage;
+    [SerializeField] private Image background, rank, bearImage;
     [SerializeField] private SpriteData spriteData;
 
     public void SetID(int ID)
@@ -17,9 +17,8 @@ public class StageUI : MonoBehaviour
         StageData[] stageData = GameManager.Data.stageData;
         if (stageData.Length <= ID || !temp.isUnlocked[ID])
         {
-            curtain.sprite = spriteData.lockedCurtain;
             score.gameObject.SetActive(false);
-            rank.gameObject.SetActive(false);
+            rank.sprite = spriteData.lockedCurtain;
             stage.gameObject.SetActive(false);
             title.gameObject.SetActive(false);
             background.color = Color.gray;
@@ -27,7 +26,6 @@ public class StageUI : MonoBehaviour
         }
         else
         {
-            curtain.sprite = spriteData.unlockedCurtain;
             score.gameObject.SetActive(true);
             rank.gameObject.SetActive(true);
             title.gameObject.SetActive(true);
@@ -44,7 +42,7 @@ public class StageUI : MonoBehaviour
             {
                 score.text = "New!";
                 score.fontStyle = FontStyles.Bold;
-                rank.gameObject.SetActive(false);
+                rank.sprite = spriteData.rank[3];
             }
             else
             {

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using EnumTypes;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -35,8 +37,6 @@ public class UIManager : MonoBehaviour
 
     public void Start()
     {
-        //InitializeFloatingTextPool();
-        player = GameObject.FindWithTag("MainCamera");
         _popupStack = new Stack<UI_Popup>();
     }
     
@@ -90,7 +90,12 @@ public class UIManager : MonoBehaviour
                     player = GameObject.FindWithTag("MainCamera");
                 }
 
-                floatingUI.GetComponent<TextMesh>().text= value.ToString();
+                string scoreText = value.ToString();
+                EnumTypes.scoreType scoreType = (EnumTypes.scoreType)Enum.Parse(typeof(EnumTypes.scoreType), scoreText);
+                floatingUI.GetComponent<TextMesh>().text= scoreText;
+                floatingUI.GetComponent<FloatingText>().SetTextColor(scoreType);
+                
+                
                 floatingUI.SetActive(true);
                 return;
             }

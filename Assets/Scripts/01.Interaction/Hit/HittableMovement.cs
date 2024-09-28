@@ -18,7 +18,7 @@ public class HittableMovement : MonoBehaviour
     private bool Debugging = false;
     
     [Header("other Variable (AUTO)")] 
-    [SerializeField] private GameObject refrigerator;
+    [SerializeField] private Transform refrigerator;
     [SerializeField] private toppingState curState = toppingState.idle;
     private float distancePlayer = 3.5f;
     private GameObject _player;
@@ -58,7 +58,7 @@ public class HittableMovement : MonoBehaviour
     {
         _baseObject = GetComponent<BaseObject>();
         _rigidbody = GetComponent<Rigidbody>();
-        _player = GameObject.FindWithTag("Player");
+        _player = GameManager.Player.gameObject;  //GameObject.FindWithTag("Player");
         _meshRenderer = transform.GetChild(0).GetComponent<MeshRenderer>();
         
         if (Debugging)
@@ -93,7 +93,7 @@ public class HittableMovement : MonoBehaviour
 
     private void InitiateVariable()
     {
-        refrigerator = GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
+        refrigerator = GameManager.Player.refrigerator; // GameObject.FindWithTag("Refrigerator"); // TODO: Scene 내에 냉장고 오브젝트에 Refrigerator tag 설정
         curState = toppingState.idle;
         
         // 생성된 이후, 가만히 있는 시간을 결정합니다.
@@ -231,8 +231,8 @@ public class HittableMovement : MonoBehaviour
         IsRight = IsRightJudgment(other, colSide);
 
         // Controller / Hand_R/L의 HandData에서 속도 값 받아와서 Hit force로 사용함
-        var parent = other.transform.parent.parent.parent;
-        float forceMagnitude = parent.GetChild(0).GetComponent<HandData>().ControllerSpeed;
+        var parent = other.transform.parent;
+        float forceMagnitude = parent.GetComponent<Hitter>().handData.GetControllerSpeed();
         //Debug.Log(forceMagnitude);
         forceMagnitude = Mathf.Clamp(forceMagnitude, 6.0f, 10.0f);
         

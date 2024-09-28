@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using EnumTypes;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.PlayerLoop;
-using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
@@ -28,9 +26,9 @@ public class ScoreManager : MonoBehaviour
     public Transform effectSpawn;
     [SerializeField] private float maxSpeed = 3.0f;
     public Transform[] scoreText_Transform;
-    private TextToImage[] scoreText;
+    private TextMeshProUGUI[] scoreText;
     public Transform[] comboText_Transform;
-    private TextToImage[] comboText;
+    private TextMeshProUGUI[] comboText;
 
     [Space(20f)]
     
@@ -40,8 +38,8 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private GameObject LeftController;
     [SerializeField] private HandData RHand;
     [SerializeField] private HandData LHand;
-    
-    
+    [SerializeField] private GameObject mainCam;
+
     [Space(20f)]
 
     [Header("Prefab Setting")] 
@@ -66,19 +64,23 @@ public class ScoreManager : MonoBehaviour
 
     private CircleGaugeController circleGaugeController;
 
+    private float _RHandSpeed, _LHandSpeed;
 
     public void Init()
     {
         //Debug.Log("Initialize ScoreManager");
         TotalScore = 0;
         PerfectNum = 0;
-        player = GameObject.FindWithTag("Player");
-        RightController = Utils.FindChildByRecursion(player.transform, "Right Controller").gameObject;
-        LeftController = Utils.FindChildByRecursion(player.transform, "Left Controller").gameObject;
 
-        RHand = RightController.transform.GetChild(0).GetComponent<HandData>();
-        LHand = LeftController.transform.GetChild(0).GetComponent<HandData>();
+        player = GameManager.Player.player.gameObject; // GameObject.FindWithTag("Player");
+        mainCam = GameManager.Player.mainCamera;  // GameObject.FindWithTag("MainCamera");
 
+        RightController = GameManager.Player.RightController; //  player.GetComponent<Player>().R_Controller;
+        LeftController = GameManager.Player.LeftController; // player.GetComponent<Player>().L_Controller;
+
+        RHand = GameManager.Player.R_HandData; // player.GetComponent<Player>().R_HandData;
+        LHand = GameManager.Player.L_HandData; // player.GetComponent<Player>().L_HandData;
+        
         standardSpeed = maxSpeed * 0.6f;
 
         GameObject circleGaugeControllerObject = GameObject.Find("CircleGaugeController"); //
@@ -88,12 +90,12 @@ public class ScoreManager : MonoBehaviour
             return;
         }
 
-        scoreText = new TextToImage[scoreText_Transform.Length];
-        comboText = new TextToImage[comboText_Transform.Length];
+        scoreText = new TextMeshProUGUI[scoreText_Transform.Length];
+        comboText = new TextMeshProUGUI[comboText_Transform.Length];
         for(int i = 0; i < scoreText.Length; ++i)
         {
-            scoreText[i] = scoreText_Transform[i].GetComponent<TextToImage>();
-            comboText[i] = comboText_Transform[i].GetComponent<TextToImage>();
+            scoreText[i] = scoreText_Transform[i].GetComponent<TextMeshProUGUI>();
+            comboText[i] = comboText_Transform[i].GetComponent<TextMeshProUGUI>();
         }
         circleGaugeController = circleGaugeControllerObject.GetComponent<CircleGaugeController>();
         circleGaugeController.InitSettings();
@@ -106,18 +108,6 @@ public class ScoreManager : MonoBehaviour
         return PerfectNum;
     }
     
-    // Collision 감지가 발생하면 점수를 산정하도록 했다.
-    public void Scoring(GameObject target, scoreType score)
-    {
-        if (target.GetComponent<BaseObject>().IsItScored()) return; // Object의 중복 scoring을 방지한다.
-        
-        target.GetComponent<BaseObject>().SetScoreBool();
-        AddScore(score);
-        SetScoreEffect(score, target.transform.position);
-        
-        //Debug.Log(target.name + "의 점수는 " + score);
-    }
-
     private scoreType ScoreByControllerSpeed(uint targetHand)
     {
         // Perfect, Good, Weak 중
@@ -130,30 +120,34 @@ public class ScoreManager : MonoBehaviour
         float good_threshold = RHand.GetGoodThreshold();
 
         //Debug.Log($"Perfect Threshold: {perfect_threshold}, Good Threshold: {good_threshold}");
-
+        _RHandSpeed = RHand.GetControllerSpeed();
+        _LHandSpeed = LHand.GetControllerSpeed();
+    
         switch (targetHand)
         {
+                
             case 0:
                 //Debug.Log($"Right Hand Speed: {RHand.ControllerSpeed}");
-                if (RHand.ControllerSpeed >= perfect_threshold)
+                if (_RHandSpeed >= perfect_threshold)
                     resultScore = scoreType.Perfect;
-                else if (RHand.ControllerSpeed >= good_threshold)
+                else if (_RHandSpeed >= good_threshold)
                     resultScore = scoreType.Good;
                 break;
             
             case 1:
+                
                 //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
-                if (LHand.ControllerSpeed >= perfect_threshold)
+                if (_LHandSpeed >= perfect_threshold)
                     resultScore = scoreType.Perfect;
-                else if (LHand.ControllerSpeed >= good_threshold)
+                else if (_LHandSpeed >= good_threshold)
                     resultScore = scoreType.Good;
                 break;
             
             case 2:
                 //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}, Right Hand Speed: {RHand.ControllerSpeed}");
-                if ((LHand.ControllerSpeed >= perfect_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
+                if ((_LHandSpeed >= perfect_threshold) || (_RHandSpeed >= perfect_threshold))
                     resultScore = scoreType.Perfect;
-                else if ((LHand.ControllerSpeed >= good_threshold) || (RHand.ControllerSpeed >= perfect_threshold))
+                else if ((_LHandSpeed >= good_threshold) || (_RHandSpeed >= perfect_threshold))
                     resultScore = scoreType.Good;
                 break;
         }
@@ -169,16 +163,11 @@ public class ScoreManager : MonoBehaviour
         // Swing은 뒤로 넘어간 오브젝트 miss 처리
         //if (GameManager.Wave.GetWaveType() == WaveType.Hitting)
         //    target.GetComponent<BaseObject>().SetScoreBool();
-
-        if (player == null)
-            player = GameObject.FindWithTag("Player");
-        
-        GameObject camera = GameObject.FindWithTag("MainCamera");
         
         // 플레이어의 위치와 방향을 가져옵니다.
         Vector3 playerPosition = player.transform.position;
-        Vector3 playerDirection = camera.transform.forward;
-        
+        Vector3 playerDirection = mainCam.transform.forward;
+
         Vector3 rightDirection = Quaternion.Euler(0, 30, 0) * playerDirection;
         
         float distance = 2.0f; 
@@ -189,9 +178,12 @@ public class ScoreManager : MonoBehaviour
     
     public void ScoringHit(GameObject target, bool IsRightSide)
     {
+        _RHandSpeed = RHand.GetControllerSpeed();
+        _LHandSpeed = LHand.GetControllerSpeed();
+        
         if (target.GetComponent<BaseObject>().IsItScored())
             return; // Object의 중복 scoring을 방지한다.
-        
+
         scoreType score;
 
         if (!IsRightSide)
@@ -209,12 +201,13 @@ public class ScoreManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "03.TutorialScene")
         {
             AddScore(score);
+            Vibrate(score);
             SetScoreEffect(score, target.transform.position);    
         }
         else
         {
             GameManager.TutorialTennis.scores.Add(score);
-            GameManager.TutorialTennis.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
+            GameManager.TutorialTennis.speeds.Add(Math.Max(_RHandSpeed, _LHandSpeed));
             // 튜토리얼
             if (score == scoreType.Perfect)
             {
@@ -227,7 +220,16 @@ public class ScoreManager : MonoBehaviour
 
     public void ScoringPunch(GameObject target, bool isPerpect, EnumTypes.Motion motion = Motion.None) // SYJ
     {
-        scoreType score = scoreType.Bad;
+        scoreType resultScore = scoreType.Weak;
+
+        float perfect_threshold = RHand.GetPerfectThreshold();
+        float good_threshold = RHand.GetGoodThreshold();
+
+        //Debug.Log($"Perfect Threshold: {perfect_threshold}, Good Threshold: {good_threshold}");
+        _RHandSpeed = RHand.GetControllerSpeed();
+        _LHandSpeed = LHand.GetControllerSpeed();
+    
+        // coreType score = scoreType.Bad;
         
         // 0 ~ 1 : Weak
         // 1 ~ 2 : Good
@@ -237,42 +239,58 @@ public class ScoreManager : MonoBehaviour
             if (motion == Motion.LeftZap || motion == Motion.LeftHook || motion == Motion.LeftUpperCut ||
                 motion == Motion.LeftLowerCut)
             {
-                score = ScoreByControllerSpeed(1); // Left hand
+                //Debug.Log($"Left Hand Speed: {LHand.ControllerSpeed}");
+                if (_LHandSpeed >= perfect_threshold)
+                    resultScore = scoreType.Perfect;
+                else if (_LHandSpeed >= good_threshold)
+                    resultScore = scoreType.Good;
+                
                 //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + LHand.ControllerSpeed);
             }
             else if (motion == Motion.RightZap || motion == Motion.RightHook || motion == Motion.RightUpperCut || motion == Motion.RightLowerCut)
             {
-                score = ScoreByControllerSpeed(0); // Right hand
+                if (_RHandSpeed >= perfect_threshold)
+                    resultScore = scoreType.Perfect;
+                else if (_RHandSpeed >= good_threshold)
+                    resultScore = scoreType.Good;
                 //Debug.Log("[SYJ DEBUG]" + target.name + "의 점수는 " + score + " 속도 : " + RHand.ControllerSpeed);
 
             }
+
         }
         else
         {
-            score = scoreType.Bad; 
+            resultScore = scoreType.Bad; 
         }
-        //Debug.Log("Scoring Punch " + score);
-        AddScore(score);
-        SetScoreEffect(score, target.transform.position);
-        GameManager.Sound.PlayEffect_Punch();
+        if (resultScore == scoreType.Perfect || resultScore == scoreType.Good)
+            GameManager.Sound.PlayEffect_Punch();
+        
+        // Debug.Log("Scoring Punch " + resultScore);       
+        AddScore(resultScore);
+        //Vibrate(score);
+        Vibrate(resultScore);
+        
+        SetScoreEffect(resultScore, target.transform.position);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score);
         //Debug.Log("[DEBUG]" + target.name + "의 점수는 " + score + " 속도 : "+ RHand.ScoreByControllerSpeed + LHand.ScoreByControllerSpeed);
-        float mPunchSpeed = Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed);
+        float mPunchSpeed = Math.Max(_RHandSpeed, _LHandSpeed);
         if (SceneManager.GetActiveScene().name == "03.TutorialScene")
         {
-            GameManager.TutorialPunch.scores.Add(score);
-            GameManager.TutorialPunch.speeds.Add(Math.Max(RHand.ControllerSpeed, LHand.ControllerSpeed));
+            GameManager.TutorialPunch.scores.Add(resultScore);
+            // GameManager.TutorialPunch.speeds.Add(Math.Max(_RHandSpeed, _LHandSpeed));
         }
         // Debug.Log("[Debug]yujin sliderController.SetPunchSliderSpeed : " + mPunchSpeed);
         //sliderController.SetPunchSliderSpeed(mPunchSpeed);
 
         // 원형 슬라이더 값 설정
-        if (score == scoreType.Perfect)
+        if (resultScore == scoreType.Perfect)
         {
-            circleGaugeController.SetPunchSliderSpeed(circleGaugeController.maxScaleAmount);
+            circleGaugeController.SetGaugeHeight(circleGaugeController.maxHeight);
+            //circleGaugeController.SetPunchSliderSpeed(circleGaugeController.maxScaleAmount);
         } else
         {
-            circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
+            circleGaugeController.SetGaugeHeight(mPunchSpeed);
+            //circleGaugeController.SetPunchSliderSpeed(mPunchSpeed);
         }
     }
 
@@ -281,12 +299,12 @@ public class ScoreManager : MonoBehaviour
         if(scoreText == null) return;
         foreach(var text in scoreText)
         {
-            text.ChangeTextToImage((int)TotalScore);
+            text.text = TotalScore.ToString();
         }
 
         foreach (var text in comboText)
         {
-            text.ChangeTextToImage(GameManager.Combo.comboValue);
+            text.text = GameManager.Combo.comboValue.ToString();
         }
     }
 
@@ -327,7 +345,8 @@ public class ScoreManager : MonoBehaviour
 
         TotalScore += value;
         setTXT();
-        GameManager.UI.RequestFloatingUI(value);
+        // TODO : Turn Off Floating UI
+        //GameManager.UI.RequestFloatingUI(value);
     }
 
     private void SetScoreEffect(scoreType score, Vector3 effectPos)
@@ -365,7 +384,21 @@ public class ScoreManager : MonoBehaviour
             StartCoroutine(DisableAfterSeconds(obj, 2.0f));
         }
         
+        
+
+        if (score == scoreType.Perfect)
+        {
+            // 점수에 따른 효과
+            //GameObject obj = Instantiate(Perfect_VFX, effectPos.position, Quaternion.identity);
+            //Destroy(obj, 2.0f);
+        }
+        
+    }
+
+    private void Vibrate(scoreType score)
+    {
         // Haptic Effect
+        Debug.Log("Vi");
         switch (score)
         {
             case scoreType.Perfect:
@@ -393,17 +426,8 @@ public class ScoreManager : MonoBehaviour
                 GameManager.Player.IncreaseLeftHaptic(0.2f, 0.15f);
                 break;
         }
-
-        if (score == scoreType.Perfect)
-        {
-            // 점수에 따른 효과
-            //GameObject obj = Instantiate(Perfect_VFX, effectPos.position, Quaternion.identity);
-            //Destroy(obj, 2.0f);
-        }
-        
     }
-    
-    private GameObject GetPooledEffect(scoreType score)
+    private GameObject GetPooledEffect(scoreType score) // 
     {
         foreach (var effect in effectPool)
         {
@@ -459,7 +483,7 @@ public class ScoreManager : MonoBehaviour
         if (effect != null)
         {
             effect = Instantiate(effect);
-            effect.name = score.ToString();
+            // effect.name = score.ToString();
             effect.SetActive(false);
         }
 

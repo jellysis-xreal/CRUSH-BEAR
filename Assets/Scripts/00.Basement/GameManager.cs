@@ -109,28 +109,35 @@ public class GameManager : MonoBehaviour
         switch (newGameState)
         {
             case GameState.Lobby:
+                OVRManager.SetSpaceWarp(true);
                 SceneManager.LoadScene("00.StartScene");
                 break;
 
             case GameState.Waving:
+                OVRManager.SetSpaceWarp(false);
                 GameObject lobbyPlayer = GameObject.FindWithTag("Player");
                 lobbyPlayer.SetActive(false);
-                
-                LoadWave = true; //비동기로 Load하던 01 Scene Active!
-                StartCoroutine(LoadWaveScene());
-                
                 Sound.PlayMusic_Lobby(false); //Effect & Sound
-                Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()
+                InitPlay();
+                // Invoke("InitPlay", 1.0f); //Wave play를 위한 Manager들 Init()
+                
+                // LoadWave = true; //비동기로 Load하던 01 Scene Active!
+
                 break;
             
             case GameState.Ending:
+                OVRManager.SetSpaceWarp(false);
                 _player.InActivePlayer();
                 Sound.PlayEffectMusic_GameWin();
                 SceneManager.LoadScene("02.EndingCutScene");
                 break;
             
             case GameState.Tutorial:
+                Debug.Log("State Changed to Tutorial");
+                OVRManager.SetSpaceWarp(false);
                 InitTutorial();
+                // StartCoroutine(LoadWaveScene());
+
                 break;
         }
     }
@@ -162,6 +169,8 @@ public class GameManager : MonoBehaviour
         tutorialManager.StopAllCoroutines();
         SetGameState(GameState.Lobby);
         Sound.PlayMusic_Lobby(true);
+        
+        LoadSceneAsync();
     }
 
     [ContextMenu("DEBUG/Tutorial")]
@@ -207,14 +216,21 @@ public class GameManager : MonoBehaviour
         {
             //Debug.LogWarning("GameManager instance isn't null, Destroy GameManager");
             _ui.Init(currentGameState);
-            
             Destroy(this.gameObject);
         }
-        
-        if (_save.data.isFirst)
-            StartCoroutine(LoadTutorialScene());
+
+        LoadSceneAsync();
+
     }
 
+    public void LoadSceneAsync()
+    {
+        Save.LoadSaveData();    
+        if (Save.data.isFirst)
+            StartCoroutine(LoadTutorialScene());
+        else
+            StartCoroutine(LoadWaveScene());
+    }
     public void InitTutorial()
     {
         if (instance != null)
@@ -226,12 +242,21 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //Debug.Log("GameManager instance is null");
+            Debug.Log("GameManager instance is null");
         }
     }
     public void InitPlay()
     {
         if (instance != null)
+        {
+            SceneManager.sceneLoaded += OnWaveSceneLoaded;
+            LoadWave = true;
+        }
+        else
+        {
+            Debug.Log("GameManager instance is null");
+        }
+        /*if (instance != null)
         {
             //Debug.Log("Init GameManager Wave Scene");
 
@@ -249,17 +274,7 @@ public class GameManager : MonoBehaviour
         else
         {
             //Debug.Log("GameManager instance is null");
-        }
-    }
-    
-    private void Test()
-    {
-        //Debug.Log("<<-------TEST------->>");
-        
-        // 이 밑으로 진행할 Test 코드를 입력한 후, Start 함수에 가서 Test의 주석 처리를 해제하면 됩니다.
-        // Toast 치기 개발으로 잠시 테스트 - 240108 minha
-        // _wave.Test();
-        
+        }*/ 
     }
 
     IEnumerator LoadWaveScene()
@@ -283,7 +298,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
-    
     IEnumerator LoadTutorialScene()
     {
         yield return null;
@@ -305,7 +319,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
-
     void OnTutorialSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         //Debug.Log(scene.buildIndex);
@@ -320,13 +333,33 @@ public class GameManager : MonoBehaviour
             // Punch
 
             //Debug.Log("Tutorial Scene Loaded");
-            GameManager.Wave.SetWaveType(WaveType.Punching);
-            GameManager.Wave.SetWaveTutorial();
+            _player.Init();
+            
+            _wave.Init();
+            _wave.SetWaveType(WaveType.Punching);
+            _wave.SetWaveTutorial();
             _score.Init();
-            Player.Init();
             // tutorialPunch.Init();
             tutorialManager.Init();
         }
         SceneManager.sceneLoaded -= OnTutorialSceneLoaded;
+    }
+
+    void OnWaveSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (currentGameState == GameState.Waving)
+        {
+            _player.Init();
+            _wave.Init();
+            _score.Init();
+            _combo.Init();
+            //_player.PlaySceneUIInit();
+            //_sound.Init();
+            _ui.Init(currentGameState);
+            //_resource.Init();
+        }
+
+        LoadWave = false;
+        SceneManager.sceneLoaded -= OnWaveSceneLoaded;
     }
 }

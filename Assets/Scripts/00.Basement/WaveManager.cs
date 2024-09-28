@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using EnumTypes;
 using UnityEngine.Serialization;
@@ -8,6 +9,9 @@ using UnityEngine.U2D;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 using Random = UnityEngine.Random;
+using TMPro;
+using System.Threading;
+using Unity.VisualScripting;
 
 public class WaveManager : MonoBehaviour
 {
@@ -33,8 +37,9 @@ public class WaveManager : MonoBehaviour
     private float _oneBeat;
     private float _beat;
    
-    private Coroutine _waitBeforePlayingCoroutine;
-    private Coroutine _waitAfterPlayingCoroutine;
+    private UniTask _waitBeforePlayingCoroutine;
+    private UniTask _waitAfterPlayingCoroutine;
+    private CancellationTokenSource _waitBeforePlayingCTS, _waitAfterPlayingCTS;
     
     [Header("----+ Music Information +----")] 
     public uint waveMusicGUID; // 현재 세팅된 Music의 GUID
@@ -49,9 +54,10 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject nodeArrivalUI;
     [SerializeField] public GameObject[] timerCanvas;
     [SerializeField] public GameObject[] waveUICanvas;
+    public Image[] waveUIImages;
     private int countdownTime = 4;
-    private TextToImage timer;
-
+    private TextMeshProUGUI timer;
+    private GameObject _settingUI; // 캐싱을 위한 변수
 
     // 기획에 따른 변수
     private int waveTypeNum = 3; // Wave Type 종류의 갯수
@@ -66,6 +72,9 @@ public class WaveManager : MonoBehaviour
     private float _curSettingTime = 0.0f;
     private float _settingTime = 5.0f;
 
+    private Transform _rightInteraction, _rightType1, _rightType2, _rightType3;
+    private Transform _leftInteraction, _leftType1, _leftType2, _leftType3;
+    
     // wave 전환을 위한 변수
     public enum WaveState
     {
@@ -86,7 +95,11 @@ public class WaveManager : MonoBehaviour
     public void Init()
     {
         //Debug.Log("Initialize WaveManager");
-
+        waveUIImages = new Image[waveUICanvas.Length];
+        waveUIImages[0] = waveUICanvas[0].GetComponent<Image>();
+        waveUIImages[1] = waveUICanvas[1].GetComponent<Image>();
+        waveUIImages[2] = waveUICanvas[2].GetComponent<Image>();
+        
         // Wave Num
         waveTime = 0.0f;
         
@@ -103,12 +116,25 @@ public class WaveManager : MonoBehaviour
         // Topping이 이동하는 Arrival UI 초기화. **Hierarchy 주의**
         nodeArrivalUI = transform.GetChild(2).gameObject;
 
-        // 난이도 설정
+        _settingUI = GameObject.FindWithTag("SettingUI");
+        indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
+        
+        _rightInteraction = GameManager.Player.RightInteraction.transform;
+        _rightType1 = _rightInteraction.GetChild(0);
+        _rightType2 = _rightInteraction.GetChild(1);
+        _rightType3 = _rightInteraction.GetChild(2);
+        
+        _leftInteraction = GameManager.Player.LeftInteraction.transform;
+        _leftType1 = _leftInteraction.GetChild(0);
+        _leftType2 = _leftInteraction.GetChild(1);
+        _leftType3 = _leftInteraction.GetChild(2);
+
+        /*// 난이도 설정
         switch (waveDifficulty)
         {
             case WaveDifficulty.Easy:
                 currenWaveNum = 0;
-                endWaveNum = 2;
+                endWaveNum = 4;
                 waveMusicGUID = 0;
                 break;
             
@@ -117,7 +143,11 @@ public class WaveManager : MonoBehaviour
                 endWaveNum = 4;
                 waveMusicGUID = 2;
                 break;
-        }
+        }*/
+        currenWaveNum = 0;
+        endWaveNum = 4;
+        waveMusicGUID = 0;
+        
         currentState = WaveState.Init;
         beforeState = WaveState.Init;
 
@@ -165,32 +195,32 @@ public class WaveManager : MonoBehaviour
     
     public void SetWavePlayer()
     {
-        GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.Player.RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        GameManager.Player.RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        _rightType1.gameObject.SetActive(false);
+        _rightType2.gameObject.SetActive(false);
+        _rightType3.gameObject.SetActive(false);
 
-        GameManager.Player.LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.Player.LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        GameManager.Player.LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        _leftType1.gameObject.SetActive(false);
+        _leftType2.gameObject.SetActive(false);
+        _leftType3.gameObject.SetActive(false);
 
         int TypeNum = (int)currentWave;
-        //[XMC]Debug.Log($"TypeNum : {TypeNum}");
-        GameManager.Player.RightInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
-        GameManager.Player.LeftInteraction.transform.GetChild(TypeNum).gameObject.SetActive(true);
+        
+        _rightInteraction.GetChild(TypeNum).gameObject.SetActive(true);
+        _leftInteraction.GetChild(TypeNum).gameObject.SetActive(true);
     }
 
     public void SetWavePlayer(WaveType type)
     {
-        GameManager.Player.RightInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.Player.RightInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        GameManager.Player.RightInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        _rightType1.gameObject.SetActive(false);
+        _rightType2.gameObject.SetActive(false);
+        _rightType3.gameObject.SetActive(false);
 
-        GameManager.Player.LeftInteraction.transform.GetChild(0).gameObject.SetActive(false);
-        GameManager.Player.LeftInteraction.transform.GetChild(1).gameObject.SetActive(false);
-        GameManager.Player.LeftInteraction.transform.GetChild(2).gameObject.SetActive(false);
+        _leftType1.gameObject.SetActive(false);
+        _leftType2.gameObject.SetActive(false);
+        _leftType3.gameObject.SetActive(false);
         
-        GameManager.Player.RightInteraction.transform.GetChild((int)type).gameObject.SetActive(true);
-        GameManager.Player.LeftInteraction.transform.GetChild((int)type).gameObject.SetActive(true);
+        _rightInteraction.GetChild((int)type).gameObject.SetActive(true);
+        _leftInteraction.GetChild((int)type).gameObject.SetActive(true);
     }
 
     private void SetWavePlay()
@@ -207,10 +237,8 @@ public class WaveManager : MonoBehaviour
         GameManager.Player.PlaySceneUIInit(TypeNum);
         
         // Wave indicator 세팅
-        waveUICanvas[TypeNum].GetComponent<Image>().sprite = waveSpriteAtlas.GetSprite("Wave_"+currenWaveNum.ToString());
+        waveUIImages[TypeNum].sprite = waveSpriteAtlas.GetSprite("wave_"+currenWaveNum.ToString());
         
-        if (indicatorController == null)
-            indicatorController = GameObject.FindWithTag("Indicator").GetComponent<IndicatorController>();
         indicatorController.SetWaveIndicator(currenWaveNum, beforeWave, currentWave);
     }
 
@@ -245,7 +273,9 @@ public class WaveManager : MonoBehaviour
         }
         else if (!_IsManagerInit)
         {
-            GameObject.FindWithTag("SettingUI").SetActive(false);
+            if (_settingUI == null)
+                _settingUI = GameObject.FindWithTag("SettingUI");
+            _settingUI.SetActive(false);
             _IsManagerInit = true;
         }
 
@@ -309,7 +339,7 @@ public class WaveManager : MonoBehaviour
         waveTime = 0;
         currentBeatNum = 0;
         currenWaveNum++;
-
+        Debug.Log(currenWaveNum);
         if (currenWaveNum > endWaveNum)
             return;
         
@@ -361,13 +391,18 @@ public class WaveManager : MonoBehaviour
             // Debug.Log("[WAVE] Wave Continue");
             // __초 뒤에 Wave 일시정지를 해제합니다.
 
-            if (beforeState == WaveState.Init && _waitBeforePlayingCoroutine == null)
-                _waitBeforePlayingCoroutine = StartCoroutine(WaitBeforePlaying(5, waveState));
-
-            else if (beforeState == WaveState.Playing && _waitAfterPlayingCoroutine == null)
+            if (beforeState == WaveState.Init)
+            {
+                _waitBeforePlayingCTS = new CancellationTokenSource();
+                _waitBeforePlayingCoroutine = WaitBeforePlaying(5, waveState, _waitBeforePlayingCTS.Token);
+                _waitBeforePlayingCoroutine.Forget();
+            }
+            else if (beforeState == WaveState.Playing)
             {
                 countdownTime = 2;
-                _waitAfterPlayingCoroutine = StartCoroutine(WaitAfterPlaying(3, waveState));
+                _waitAfterPlayingCTS = new CancellationTokenSource();
+                _waitAfterPlayingCoroutine = WaitAfterPlaying(3, waveState, _waitAfterPlayingCTS.Token);
+                _waitAfterPlayingCoroutine.Forget();
             }
 
             // currentState = WaveState.Playing; 
@@ -384,7 +419,7 @@ public class WaveManager : MonoBehaviour
     
     // Init -> Waiting -> Playing(노래(wave) 재생 중..) -> Waiting(노래(wave) 종료) -> Init -> 반복하다 비트 끝나면 End
     // Waiting -> Playing
-    IEnumerator WaitBeforePlaying(int sec, WaveState waveState)
+    async UniTask WaitBeforePlaying(int sec, WaveState waveState, CancellationToken token)
     {
         //[XMC]Debug.Log($"[Wave] State : Waiting -> Playing Wait {sec}s. (이제 Wave 시작한다? 세팅 후에 게임 시작 전 대기 시간을 가짐. 플레이어 준비 시간.) ");
 
@@ -398,7 +433,7 @@ public class WaveManager : MonoBehaviour
         timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         while(countdownTime > 0)
         {
@@ -406,24 +441,30 @@ public class WaveManager : MonoBehaviour
             if (countdownTime == 1)
             {
                 timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(false) ; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
-                
             }
             else
             {
-                timer.ChangeTextToImage(countdownTime - 1);
+                timer.text = (countdownTime - 1).ToString();
             }
-            yield return new WaitForSecondsRealtime(1f);
+            await UniTask.Delay(TimeSpan.FromSeconds(1), ignoreTimeScale: true, cancellationToken: token);
+            //yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
         }
         timerCanvas[idx].SetActive(false);
         // CMS: Count down ends
 
         CallContinueSetting(waveState);
-        _waitBeforePlayingCoroutine = null;
+        
+        if (_waitBeforePlayingCTS != null)
+        {
+            _waitBeforePlayingCTS.Cancel();
+            _waitBeforePlayingCTS.Dispose();
+        }
+        
         countdownTime = 4;
     }
     // Waiting -> Init -> Playing 
-    IEnumerator WaitAfterPlaying(int sec, WaveState waveState)
+    async UniTask WaitAfterPlaying(int sec, WaveState waveState, CancellationToken token)
     {
         //[XMC]Debug.Log($"[Wave] State : Playing -> Waiting Wait {sec}s. (이제 Wave 끝났다? 다음 Wave 시작 전 혹은 게임 종료 전 대기 시간) ");
 
@@ -435,7 +476,7 @@ public class WaveManager : MonoBehaviour
             _isPause = false;
             Time.timeScale = 1;
             EndGame();
-            yield break;
+            return;
         }
 
         // CMS: Count down starts
@@ -447,7 +488,7 @@ public class WaveManager : MonoBehaviour
         timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         while(countdownTime > 0)
         {
@@ -458,15 +499,22 @@ public class WaveManager : MonoBehaviour
             {
                 //timer.text = ""; timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);
             }
-            else timer.ChangeTextToImage(countdownTime - 1);
-            yield return new WaitForSecondsRealtime(0f); // TODO: 임시로... 240216 JMH
+            else timer.text = (countdownTime - 1).ToString();
+            //yield return new WaitForSecondsRealtime(0f); // TODO: 임시로... 240216 JMH
+            await UniTask.Delay(TimeSpan.FromSeconds(0), ignoreTimeScale: true, cancellationToken: token);
             countdownTime--;
         }
         timerCanvas[idx].SetActive(false);
         // CMS: Count down ends
 
         CallContinueSetting(waveState);
-        _waitAfterPlayingCoroutine = null;
+        
+        if (_waitAfterPlayingCTS != null)
+        {
+            _waitAfterPlayingCTS.Cancel();
+            _waitAfterPlayingCTS.Dispose();
+        }
+        
         countdownTime = 4;
     }
 
@@ -549,12 +597,12 @@ public class WaveManager : MonoBehaviour
         timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(true);
         timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(false);
 
-        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextToImage>();
+        timer = timerCanvas[idx].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         while(countdownTime > 0)
         {   
             if (countdownTime == 1) { timerCanvas[idx].transform.GetChild(0).gameObject.SetActive(false); timerCanvas[idx].transform.GetChild(1).gameObject.SetActive(true);}
-            else timer.ChangeTextToImage(countdownTime - 1);
+            else timer.text = (countdownTime - 1).ToString();
             yield return new WaitForSecondsRealtime(1f);
             countdownTime--;
         }
